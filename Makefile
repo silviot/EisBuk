@@ -10,7 +10,7 @@ deploy-site:
 	cd firebase && firebase deploy --only hosting
 
 test-functions: firebase/functions/node_modules/mocha/bin/mocha
-	cd firebase && firebase emulators:exec --only database "functions/node_modules/mocha/bin/mocha functions/test/customers.js"
+	cd firebase && firebase emulators:exec --only database "functions/node_modules/mocha/bin/mocha functions/test/*.js"
 
 firebase/functions/node_modules/mocha/bin/mocha: firebase/functions/package.json firebase/functions/package-lock.json
 	# For some reason the mocha/bin/mocha file has a date in 1985
