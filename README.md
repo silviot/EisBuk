@@ -1,12 +1,8 @@
-EisBuk
-======
+# EisBuk
 
-Booking management for ice skating lessons
-------------------------------------------
+## Booking management for ice skating lessons
 
-
-Deploying
----------
+## Deploying
 
 make sure you have the firebase client installed:
 
@@ -15,7 +11,6 @@ make sure you have the firebase client installed:
 and login:
 
     firebase login
-
 
 To deploy assets you can run:
 
