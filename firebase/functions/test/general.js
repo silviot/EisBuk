@@ -12,7 +12,7 @@ after(async () => {
 });
 
 
-describe('customers.crud', () => {
+describe('general', () => {
     it('runs an empty test', () => {});
 
     it('checks rules on the database', async () => {
