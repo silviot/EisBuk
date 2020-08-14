@@ -64,3 +64,6 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# The root Makefile orchestrates the creation of the public directory
+public/
