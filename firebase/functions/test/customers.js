@@ -1,25 +1,14 @@
 const firebase = require("@firebase/testing");
+const test = require('firebase-functions-test')();
+const functions = require('firebase-functions');
 const assert = require("assert");
+
 const projectId = "test-project";
 const databaseName = "test-db";
 var app;
 
-test_customers = [
-  {
-    id: "foo",
-    name: "John",
-    surname: "Doe",
-    birthday: "21/07/1996",
-  },
-  {
-    id: "bar",
-    name: "Jane",
-    surname: "Doe",
-    birthday: "",
-  },
-];
 
-describe("customers.crud", () => {
+describe("test data creation", () => {
   before(async () => {
     app = firebase.initializeAdminApp({ projectId, databaseName, auth: null });
   });
@@ -28,11 +17,9 @@ describe("customers.crud", () => {
     await Promise.all(firebase.apps().map((app) => app.delete()));
   });
 
-  it("creates customers", async () => {
-    const db = app.database();
-    await test_customers.map(
-      async (customer) => await db.ref(`customers/${customer.id}`).set(customer)
-    );
+  it("creates customers via createTestData function", async () => {
+    const myfunctions = require("../index.js");
+    await test.wrap(myfunctions.createTestData)();
     const fromDbFoo = await db.ref("customers/foo").once("value");
     assert.equal(fromDbFoo.val().name, "John");
     const fromDbBar = await db.ref("customers/bar").once("value");
