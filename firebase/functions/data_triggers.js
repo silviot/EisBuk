@@ -9,7 +9,9 @@ exports.sync_writable_records = functions.region('europe-west6').database.ref('/
             // Create a record in /bookings with this secret key as id
             functions.logger.info(`Creating record in bookings/${after.secret_key}`, after);
             // TODO: maybe relocate a record, in case the id was in use already
-            return db.ref(`bookings/${after.secret_key}`).set({"user_id": context.params.customerId});
+            const updates = {}
+            updates[`bookings/${after.secret_key}/user_id`] = context.params.customerId;
+            return db.ref().update(updates);
         }
     } else if (change.before !== null && "secret_key" in change.before) {
         // The key was removed. Remove all bookings?
