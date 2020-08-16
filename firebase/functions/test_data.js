@@ -7,7 +7,7 @@ const uuidv4 = v4;
 
 exports.createTestData = functions.region('europe-west6').https.onCall(async (data, context) => {
   var howMany = data.howMany;
-  if (typeof howMany == 'undefined') {
+  if (typeof howMany === 'undefined') {
     howMany = 1;
   }
   functions.logger.info(`Creating ${howMany} test users`);

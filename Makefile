@@ -2,10 +2,10 @@
 
 build: eisbuk-admin/public/index.html ## Build the react admin app
 
-eisbuk-admin/public/index.html: $(wildcard eisbuk-admin/src/**/*)
-	cd eisbuk-admin/ && yarn build
+eisbuk-admin/public/index.html: $(wildcard eisbuk-admin/src/** eisbuk-admin/src/**/*)
+	cd eisbuk-admin/ && npm run build
 
-deploy-site:
+deploy-site: build eisbuk-admin/public/index.html
 	rm -rf firebase/public && cp -r eisbuk-admin/build firebase/public
 	cd firebase && firebase deploy --only hosting
 
