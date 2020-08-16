@@ -1,5 +1,6 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const timestamp = require("unix-timestamp");
 var _ = require('lodash');
 const { v4 } = require('uuid');
 const uuidv4 = v4;
@@ -19,10 +20,10 @@ exports.createTestData = functions.region('europe-west6').https.onCall(async (da
         surname: getRandomName(LAST_NAMES),
         birthday: "01/01/2000"
     }
-    await db.ref(`/customers/${customer.id}`).set(customer)
+    await db.ref(`/customers/${customer.id}`).set(customer)    
     const booking = {
       duration: 1,
-      start: 10,
+      start: timestamp.add(timestamp.now(), _.random(-60, 60) + "d"),
       category: getRandomName(CATEGORIES)
     }
     var newBookingId = db.ref().child(`/bookings/${customer.secret_key}/data`).push().key;
