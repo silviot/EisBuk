@@ -30,6 +30,9 @@ import setup_firebase from './firebase-conf'
 
 setup_firebase()
 
+// TODO: wire this to a button to generate test data
+// firebase.app().functions("europe-west6").httpsCallable("createTestData")({howMany: 10}).then(result => console.log(result))
+
 function App() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
