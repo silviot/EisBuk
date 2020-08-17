@@ -1,19 +1,22 @@
 const firebase = require("@firebase/testing");
-const functions = require('firebase-functions');
-const test = require('firebase-functions-test')();
+const functions = require("firebase-functions");
+const test = require("firebase-functions-test")();
 const assert = require("assert");
 
-const admin = require('firebase-admin');
+const admin = require("firebase-admin");
 
 const projectId = "test-project";
 const databaseName = "test-db";
 var app;
 
-
 describe("test data creation via function", () => {
   before(async () => {
-    app = firebase.initializeAdminApp({ projectId, databaseName, auth: {uid: "admin", email: "admin@example.com"} });
-    test.mockConfig({ }); 
+    app = firebase.initializeAdminApp({
+      projectId,
+      databaseName,
+      auth: { uid: "admin", email: "admin@example.com" },
+    });
+    test.mockConfig({});
     //admin.initializeApp(functions.config().firebase);
     admin.initializeApp = () => null;
   });
