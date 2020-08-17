@@ -1,3 +1,8 @@
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
 import firebase from "firebase";
 import React from "react";
 import Paper from "@material-ui/core/Paper";
@@ -28,6 +33,11 @@ window.create_users = async function (howMany) {
       .doc(customer.secret_key)
       .collection("data")
       .add(booking);
+    // XXX This should be moved to a db trigger
+    await db
+      .collection("bookings")
+      .doc(customer.secret_key)
+      .set({ customer_id: customer.id });
   });
 };
 
@@ -59,12 +69,21 @@ function CustomerList() {
   }, []);
 
   return (
-    <Paper>
-      <h3 key="header">Customers</h3>
+    <List>
+      <ListItem key="header">Customers</ListItem>
       {customers.map((customer) => (
-        <div key={customer.id}>{customer.name}</div>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              {(customer.name || " ")[0] + (customer.surname || " ")[0]}
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={customer.name + " " + customer.surname}
+          ></ListItemText>
+        </ListItem>
       ))}
-    </Paper>
+    </List>
   );
 }
 
