@@ -13,37 +13,38 @@ exports.createTestData = functions
       howMany = 1;
     }
     functions.logger.info(`Creating ${howMany} test users`);
-    const db = admin.database();
-    await _.range(howMany).map(async (i) => {
-      const customer = {
-        id: uuidv4(),
-        secret_key: uuidv4(),
-        name: getRandomName(FIRST_NAMES),
-        surname: getRandomName(LAST_NAMES),
-        birthday: "01/01/2000",
-      };
-      await db.ref(`/customers/${customer.id}`).set(customer);
-      const booking = {
-        duration: 1,
-        start: timestamp.add(timestamp.now(), _.random(-60, 60) + "d"),
-        category: getRandomName(CATEGORIES),
-      };
-      var newBookingId = db
-        .ref()
-        .child(`/bookings/${customer.secret_key}/data`)
-        .push().key;
-
-      const updates = {};
-      updates[
-        `/bookings/${customer.secret_key}/data/${newBookingId}`
-      ] = booking;
-      functions.logger.info(`Updating`, updates);
-      await db.ref().update(updates);
-      functions.logger.info(`done`, updates);
-    });
-
+    await create_users(howMany);
     return { success: true };
   });
+
+const create_users = async function (howMany) {
+  const db = admin.firestore();
+  await _.range(howMany).map(async (i) => {
+    const customer = {
+      id: uuidv4(),
+      secret_key: uuidv4(),
+      name: getRandomName(FIRST_NAMES),
+      surname: getRandomName(LAST_NAMES),
+      birthday: "01/01/2000",
+    };
+    await db.ref(`/customers/${customer.id}`).set(customer);
+    const booking = {
+      duration: 1,
+      start: timestamp.add(timestamp.now(), _.random(-60, 60) + "d"),
+      category: getRandomName(CATEGORIES),
+    };
+    var newBookingId = db
+      .ref()
+      .child(`/bookings/${customer.secret_key}/data`)
+      .push().key;
+
+    const updates = {};
+    updates[`/bookings/${customer.secret_key}/data/${newBookingId}`] = booking;
+    functions.logger.info(`Updating`, updates);
+    await db.ref().update(updates);
+    functions.logger.info(`done`, updates);
+  });
+};
 
 const CATEGORIES = ["ice", "fitness"];
 
