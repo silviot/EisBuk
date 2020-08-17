@@ -2,9 +2,13 @@ import firebase from "firebase";
 
 const setup_firebase = function () {
   firebase.initializeApp(firebaseConfig);
-  // For debug purposes, we expose the firebase interface in the window object
-  window.firebase = firebase;
-};
+  if (process.env.NODE_ENV === 'development') {
+    console.log("Using stubbed service")
+    firebase.app().functions("europe-west6").useFunctionsEmulator('http://localhost:5001');
+    // For debug purposes, we expose the firebase interface in the window object
+    window.firebase = firebase;
+  }
+  };
 
 const firebaseConfig = {
   apiKey: "AIzaSyA2dS3UiWq8ABNH9ROaQQlTsOkTq5QvCZw",
