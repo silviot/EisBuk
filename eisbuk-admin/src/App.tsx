@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import CustomerList from "./CustomerList";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
@@ -155,6 +156,12 @@ function App() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
+            {/* Customers */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <CustomerList />
+              </Paper>
+            </Grid>
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>Chart</Paper>
@@ -162,10 +169,6 @@ function App() {
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>Deposits</Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>Orders</Paper>
             </Grid>
           </Grid>
           <Box pt={4}>
