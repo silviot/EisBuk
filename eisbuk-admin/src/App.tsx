@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import CustomerList from "./CustomerList";
+import BookingList from "./BookingList";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
@@ -36,22 +37,20 @@ setup_firebase();
 
 function App() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
   const mainListItems = (
     <div>
       <ListItem button>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary="Dashboard" />
+        <ListItemText primary="Gestione" />
       </ListItem>
       <ListItem button>
         <ListItemIcon>
@@ -162,13 +161,11 @@ function App() {
                 <CustomerList />
               </Paper>
             </Grid>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>Chart</Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>Deposits</Paper>
+            {/* Bookings */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <BookingList />
+              </Paper>
             </Grid>
           </Grid>
           <Box pt={4}>
