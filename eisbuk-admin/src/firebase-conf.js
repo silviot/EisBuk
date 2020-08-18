@@ -7,19 +7,17 @@ const setup_firebase = function () {
 
   if (process.env.NODE_ENV === "development") {
     console.log("Using stubbed database");
-    firebaseConfig.databaseURL = "http://localhost:9000?ns=eisbuk";
-    firebaseConfig.authDomain = "eisbuk.firebaseapp.com";
     firebaseConfig.apiKey = "owner";
+    firebaseConfig.authDomain = "eisbuk.firebaseapp.com";
+    firebaseConfig.databaseURL = "http://localhost:9000?ns=eisbuk";
   } else {
-    firebaseConfig = {
-      apiKey: "AIzaSyA2dS3UiWq8ABNH9ROaQQlTsOkTq5QvCZw",
-      authDomain: "eisbuk.firebaseapp.com",
-      databaseURL: "https://eisbuk.firebaseio.com",
-      storageBucket: "eisbuk.appspot.com",
-      messagingSenderId: "1017581173375",
-      appId: "1:1017581173375:web:3c7959139f7d9e9aed1d4a",
-      measurementId: "G-39ZGH12ZRF",
-    };
+    firebaseConfig.apiKey = "AIzaSyA2dS3UiWq8ABNH9ROaQQlTsOkTq5QvCZw";
+    firebaseConfig.authDomain = "eisbuk.firebaseapp.com";
+    firebaseConfig.databaseURL = "https://eisbuk.firebaseio.com";
+    firebaseConfig.storageBucket = "eisbuk.appspot.com";
+    firebaseConfig.messagingSenderId = "1017581173375";
+    firebaseConfig.appId = "1:1017581173375:web:3c7959139f7d9e9aed1d4a";
+    firebaseConfig.measurementId = "G-39ZGH12ZRF";
   }
 
   firebase.initializeApp(firebaseConfig);
