@@ -3,22 +3,18 @@ const admin = require("firebase-admin");
 
 exports.sync_writable_records = functions
   .region("europe-west6")
-  .database.ref("/customers/{customerId}/secret_key")
+  .firestore.document("customers/{customerId}")
   .onWrite(async (change, context) => {
-    const db = admin.database();
-    if (change.after.exists()) {
-      const after = change.after.val();
+    const db = admin.firestore();
+    if (change.after.exists) {
+      const after = change.after.data();
       if (after.secret_key) {
         // Create a record in /bookings with this secret key as id
-        functions.logger.info(
-          `Creating record in bookings/${after.secret_key}`,
-          after
-        );
         // TODO: maybe relocate a record, in case the id was in use already
-        const updates = {};
-        updates[`bookings/${after.secret_key}/user_id`] =
-          context.params.customerId;
-        return db.ref().update(updates);
+        return db
+          .collection("bookings")
+          .doc(after.secret_key)
+          .set({ customer_id: context.params.customerId });
       }
     } else if (change.before !== null && "secret_key" in change.before) {
       // The key was removed. Remove all bookings?

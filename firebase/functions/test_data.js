@@ -38,11 +38,6 @@ const create_users = async function (howMany) {
       .doc(customer.secret_key)
       .collection("data")
       .add(booking);
-    // XXX This should be moved to a db trigger
-    await db
-      .collection("bookings")
-      .doc(customer.secret_key)
-      .set({ customer_id: customer.id });
   });
 };
 

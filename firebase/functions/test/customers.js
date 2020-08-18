@@ -1,33 +1,29 @@
-const firebase = require("@firebase/testing");
-const functions = require("firebase-functions");
-const test = require("firebase-functions-test")();
+const firebase = require("firebase");
 const assert = require("assert");
-
 const admin = require("firebase-admin");
-
-const projectId = "test-project";
-const databaseName = "test-db";
-var app;
 
 describe("test data creation via function", () => {
   before(async () => {
-    app = firebase.initializeAdminApp({
-      projectId,
-      databaseName,
-      auth: { uid: "admin", email: "admin@example.com" },
+    firebase.initializeApp({
+      projectId: "eisbuk",
+      apiKey: "owner",
+      authDomain: "eisbuk.firebaseapp.com",
+      databaseURL: "http://localhost:9000?ns=eisbuk",
     });
-    test.mockConfig({});
-    //admin.initializeApp(functions.config().firebase);
     admin.initializeApp = () => null;
   });
 
   after(async () => {
-    await Promise.all(firebase.apps().map((app) => app.delete()));
+    // await Promise.all(firebase.apps().map((app) => app.delete()));
   });
 
   it("creates customers via createTestData function", async () => {
     const myfunctions = require("../index.js");
-    // await test.wrap(myfunctions.createTestData)();
+    await firebase
+      .functions()
+      .httpsCallable("createTestData")({ howMany: 1 })
+      .then((result) => console.log(result));
+
     // const fromDbFoo = await db.ref("customers/foo").once("value");
     // assert.equal(fromDbFoo.val().name, "John");
     // const fromDbBar = await db.ref("customers/bar").once("value");
