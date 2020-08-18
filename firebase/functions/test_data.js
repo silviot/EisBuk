@@ -27,22 +27,22 @@ const create_users = async function (howMany) {
       surname: getRandomName(LAST_NAMES),
       birthday: "01/01/2000",
     };
-    await db.ref(`/customers/${customer.id}`).set(customer);
+    await db.collection("customers").doc(customer.id).set(customer);
     const booking = {
       duration: 1,
       start: timestamp.add(timestamp.now(), _.random(-60, 60) + "d"),
       category: getRandomName(CATEGORIES),
     };
-    var newBookingId = db
-      .ref()
-      .child(`/bookings/${customer.secret_key}/data`)
-      .push().key;
-
-    const updates = {};
-    updates[`/bookings/${customer.secret_key}/data/${newBookingId}`] = booking;
-    functions.logger.info(`Updating`, updates);
-    await db.ref().update(updates);
-    functions.logger.info(`done`, updates);
+    await db
+      .collection("bookings")
+      .doc(customer.secret_key)
+      .collection("data")
+      .add(booking);
+    // XXX This should be moved to a db trigger
+    await db
+      .collection("bookings")
+      .doc(customer.secret_key)
+      .set({ customer_id: customer.id });
   });
 };
 
