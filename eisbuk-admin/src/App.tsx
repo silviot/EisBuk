@@ -4,26 +4,27 @@ import CustomerList from "./CustomerList";
 import BookingList from "./BookingList";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PeopleIcon from "@material-ui/icons/People";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import LayersIcon from "@material-ui/icons/Layers";
-import AssignmentIcon from "@material-ui/icons/Assignment";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import firebase from "firebase";
 import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -31,9 +32,6 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import setup_firebase from "./firebase-conf";
 
 setup_firebase();
-
-// TODO: wire this to a button to generate test data
-// firebase.app().functions("europe-west6").httpsCallable("createTestData")({howMany: 10}).then(result => console.log(result))
 
 function App() {
   const classes = useStyles();
@@ -79,30 +77,22 @@ function App() {
     </div>
   );
 
-  const secondaryListItems = (
-    <div>
-      <ListSubheader inset>Saved reports</ListSubheader>
-      <ListItem button>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Current month" />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Last quarter" />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Year-end sale" />
-      </ListItem>
-    </div>
+  const howManyUsersField = (
+    <TextField
+      id="standard-number"
+      label="Number"
+      type="number"
+      defaultValue="1"
+    />
   );
-
+  const create_users_button = (event: any) => {
+    const howMany = 1; // How tf do you extract the value from a Material UI TextField?
+    firebase
+      .app()
+      .functions("europe-west6")
+      .httpsCallable("createTestData")({ howMany: howMany })
+      .then((result) => console.log(result));
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -148,13 +138,22 @@ function App() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
+            {/* Debug buttons */}
+            <Grid item xs={12}>
+              {howManyUsersField}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={create_users_button}
+              >
+                Create users
+              </Button>
+            </Grid>
             {/* Customers */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
