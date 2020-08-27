@@ -1,9 +1,11 @@
-import React from "react";
-import clsx from "clsx";
-import CustomerList from "./CustomerList";
-import BookingList from "./BookingList";
+import React from "react"
+import clsx from "clsx"
+
+import CustomerList from "../components/CustomerList";
+import BookingList from "../components/BookingList";
+import Copyright from "../components/Copyright"
 import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+
 import TextField from "@material-ui/core/TextField";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
@@ -26,14 +28,10 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import firebase from "firebase";
 import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import setup_firebase from "./firebase-conf";
 
-setup_firebase();
-
-function App() {
+function DashboardPage() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
@@ -85,7 +83,7 @@ function App() {
       defaultValue="1"
     />
   );
-  const create_users_button = (event: any) => {
+  const create_users_button = (event) => {
     const howMany = 1; // How tf do you extract the value from a Material UI TextField?
     firebase
       .app()
@@ -95,7 +93,6 @@ function App() {
   };
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
@@ -151,7 +148,7 @@ function App() {
                 color="primary"
                 onClick={create_users_button}
               >
-                Create users
+                Create one user
               </Button>
             </Grid>
             {/* Customers */}
@@ -173,19 +170,6 @@ function App() {
         </Container>
       </main>
     </div>
-  );
-}
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://www.igoriceteam.com/">
-        Igor Ice Team
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
   );
 }
 
@@ -269,4 +253,4 @@ const useStyles = makeStyles((theme) => ({
     height: 240,
   },
 }));
-export default App;
+export default DashboardPage;
