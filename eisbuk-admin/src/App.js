@@ -4,9 +4,11 @@ import { Provider } from 'react-redux'
 import {
   ReactReduxFirebaseProvider,
 } from 'react-redux-firebase'
+/* import { UserIsAuthenticated, UserIsNotAuthenticated } from './HOC' */
 
 import { rrfProps, store } from "./store/store"
 import PrivateRoute from './components/PrivateRoute'
+import LoginRoute from './components/LoginRoute'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -36,7 +38,7 @@ function App() {
             <BrowserRouter>
               <Switch>
                 <PrivateRoute path='/' component={DashboardPage} exact />
-                <Route path='/login' component={LoginPage} />
+                <LoginRoute path='/login' component={LoginPage} />
               </Switch>
             </BrowserRouter>
           </ReactReduxFirebaseProvider>

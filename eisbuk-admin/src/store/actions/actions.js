@@ -1,5 +1,4 @@
-import { LOGIN, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, GOOGLE_LOGIN_ERROR, GOOGLE_LOGIN_SUCCESS } from './action-types'
-import { useHistory } from 'react-router-dom'
+import { LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, GOOGLE_LOGIN_ERROR, GOOGLE_LOGIN_SUCCESS } from './action-types'
 
 export const signIn = (credentials) => {
     return(dispatch, getState, {getFirebase}) => {
