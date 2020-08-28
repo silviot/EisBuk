@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import {
   ReactReduxFirebaseProvider,
 } from 'react-redux-firebase'
-/* import { UserIsAuthenticated, UserIsNotAuthenticated } from './HOC' */
 
 import { rrfProps, store } from "./store/store"
 import PrivateRoute from './components/PrivateRoute'
@@ -14,8 +13,10 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { blue, lightBlue } from "@material-ui/core/colors"
 
-import DashboardPage from "./pages/Dashboard"
-import LoginPage from './pages/Login'
+import DashboardPage from "./pages/DashboardPage"
+import ClientsPage from "./pages/ClientsPage"
+import BookingsPage from "./pages/BookingsPage"
+import LoginPage from './pages/LoginPage'
 
 
 const igorice = createMuiTheme({
@@ -38,6 +39,8 @@ function App() {
             <BrowserRouter>
               <Switch>
                 <PrivateRoute path='/' component={DashboardPage} exact />
+                <PrivateRoute path='/clienti' component={ClientsPage} exact />
+                <PrivateRoute path='/prenotazioni' component={BookingsPage} exact />
                 <LoginRoute path='/login' component={LoginPage} />
               </Switch>
             </BrowserRouter>
