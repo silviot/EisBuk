@@ -1,4 +1,5 @@
 import { LOGIN, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, GOOGLE_LOGIN_ERROR, GOOGLE_LOGIN_SUCCESS } from './action-types'
+import { useHistory } from 'react-router-dom'
 
 export const signIn = (credentials) => {
     return(dispatch, getState, {getFirebase}) => {
@@ -17,7 +18,7 @@ export const signIn = (credentials) => {
 export const signOut = () => {
     return(dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase()
-        firebase.auth().logout()
+        firebase.auth().signOut()
         .then(() => {
             console.log('Logout success')
             dispatch({ type: LOGOUT_SUCCESS })

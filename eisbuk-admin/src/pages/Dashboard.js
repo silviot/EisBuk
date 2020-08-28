@@ -4,7 +4,6 @@ import firebase from "firebase";
 import { connect } from 'react-redux'
 
 import {signOut} from '../store/actions/actions'
-
 import CustomerList from "../components/CustomerList";
 import BookingList from "../components/BookingList";
 import Copyright from "../components/Copyright"
@@ -34,7 +33,7 @@ import Paper from "@material-ui/core/Paper";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
-function DashboardPage() {
+const DashboardPage = ({signOut}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {

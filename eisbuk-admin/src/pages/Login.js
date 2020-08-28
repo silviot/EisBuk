@@ -54,8 +54,8 @@ const useStyles = makeStyles((theme) => ({
 const SignInSide = ({signIn}) => {
   const classes = useStyles();
   const [credentials, setCredentials] = useState({
-    email : 'user',
-    password : 'pass'
+    email : 'test@eisbuk.it',
+    password : 'test00'
   })
   const handleInputChange = (e) => {
     const { name, value } = e.target

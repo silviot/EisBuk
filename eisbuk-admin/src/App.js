@@ -35,7 +35,7 @@ function App() {
             <CssBaseline />
             <BrowserRouter>
               <Switch>
-                <PrivateRoute path='/dashboard' component={DashboardPage} />
+                <PrivateRoute path='/' component={DashboardPage} exact />
                 <Route path='/login' component={LoginPage} />
               </Switch>
             </BrowserRouter>
