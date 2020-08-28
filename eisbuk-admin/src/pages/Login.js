@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-
+import { connect } from 'react-redux'
+import {signIn, signInWithGoogle} from '../store/actions/actions'
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -50,10 +51,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const SignInSide = (props) => {
+const SignInSide = ({signIn}) => {
   const classes = useStyles();
   const [credentials, setCredentials] = useState({
-    username : 'user',
+    email : 'user',
     password : 'pass'
   })
   const handleInputChange = (e) => {
@@ -63,7 +64,12 @@ const SignInSide = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(credentials)
+    signIn(credentials)
+  }
+
+  const loginWithGoogle = (e) => {
+    e.preventDefault()
+    signInWithGoogle()
   }
 
   return (
@@ -86,9 +92,9 @@ const SignInSide = (props) => {
               fullWidth
               id="email"
               label="Email"
-              name="username"
+              name="email"
               autoComplete="email"
-              value={credentials.username}
+              value={credentials.email}
               onChange={handleInputChange}
               autoFocus
             />
@@ -118,6 +124,7 @@ const SignInSide = (props) => {
             >
               Login
             </Button>
+            <Button onClick={loginWithGoogle}>Login With Google</Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -135,4 +142,10 @@ const SignInSide = (props) => {
   );
 }
 
-export default SignInSide
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (creds) => dispatch(signIn(creds))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SignInSide)

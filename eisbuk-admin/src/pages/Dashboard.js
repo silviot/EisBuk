@@ -1,5 +1,9 @@
 import React from "react"
 import clsx from "clsx"
+import firebase from "firebase";
+import { connect } from 'react-redux'
+
+import {signOut} from '../store/actions/actions'
 
 import CustomerList from "../components/CustomerList";
 import BookingList from "../components/BookingList";
@@ -26,7 +30,6 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import firebase from "firebase";
 import Paper from "@material-ui/core/Paper";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -91,6 +94,10 @@ function DashboardPage() {
       .httpsCallable("createTestData")({ howMany: howMany })
       .then((result) => console.log(result));
   };
+  const handleLogout = (e) => {
+    e.preventDefault()
+    signOut()
+  }
   return (
     <div className={classes.root}>
       <AppBar
@@ -119,6 +126,7 @@ function DashboardPage() {
           >
             Dashboard
           </Typography>
+          <Button color="inherit" onClick={handleLogout}>LOGOUT</Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -253,4 +261,11 @@ const useStyles = makeStyles((theme) => ({
     height: 240,
   },
 }));
-export default DashboardPage;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: () => dispatch(signOut())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(DashboardPage)

@@ -1,6 +1,12 @@
 import React from "react";
 import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom'
-import setup_firebase from "./config/firebase-conf";
+import { Provider } from 'react-redux'
+import {
+  ReactReduxFirebaseProvider,
+} from 'react-redux-firebase'
+
+import { rrfProps, store } from "./store/store"
+import PrivateRoute from './components/PrivateRoute'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,7 +15,6 @@ import { blue, lightBlue } from "@material-ui/core/colors"
 import DashboardPage from "./pages/Dashboard"
 import LoginPage from './pages/Login'
 
-setup_firebase();
 
 const igorice = createMuiTheme({
   palette: {
@@ -25,16 +30,17 @@ const igorice = createMuiTheme({
 function App() {
   return (
     <MuiThemeProvider theme={igorice}>
-      <CssBaseline />
-      <BrowserRouter>
-        <Switch>  
-          <Route path='/dashboard' component={DashboardPage} />
-          <Route path='/login' component={LoginPage} />
-          <Route path='/'>
-            <Redirect to="/dashboard" /> 
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      <Provider store={store}>
+        <ReactReduxFirebaseProvider {...rrfProps}>
+            <CssBaseline />
+            <BrowserRouter>
+              <Switch>
+                <PrivateRoute path='/dashboard' component={DashboardPage} />
+                <Route path='/login' component={LoginPage} />
+              </Switch>
+            </BrowserRouter>
+          </ReactReduxFirebaseProvider>
+      </Provider>
     </MuiThemeProvider>
   )
 }
