@@ -1,8 +1,8 @@
 import React from "react"
-import firebase from "firebase";
+import { useSelector } from 'react-redux'
+import { useFirestoreConnect, isLoaded, isEmpty  } from 'react-redux-firebase'
 
 import CustomerList from "../components/CustomerList";
-import BookingList from "../components/BookingList";
 import Copyright from "../components/Copyright"
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -16,8 +16,14 @@ import Paper from "@material-ui/core/Paper";
 import AppbarDrawer from '../components/AppbarDrawer'
 import { Typography } from "@material-ui/core";
 
+import AddClient from '../components/AddClient'
+
 const ClientsPage = () => {
   const classes = useStyles();
+  useFirestoreConnect([
+    { collection: 'customers' }
+  ])
+  const customers = useSelector((state) => state.firestore.ordered.customers)
 
   return (
     <div className={classes.root}>
@@ -28,6 +34,14 @@ const ClientsPage = () => {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Typography variant="h1">Clienti</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <AddClient />
+            </Grid>
+            <Grid item xs={12}>
+              { isLoaded(customers), !isEmpty(customers) &&
+              <CustomerList customers={customers.map(o => ({...o, tableData: {}})) } />
+              }
             </Grid>
           </Grid>
           <Box pt={4}>

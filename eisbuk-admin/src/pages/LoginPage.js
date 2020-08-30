@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/1600x900/?ice-skating)',
+    backgroundImage: 'url(https://source.unsplash.com/1600x900/?figure-skating)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
