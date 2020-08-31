@@ -9,8 +9,8 @@ import MomentUtils from '@date-io/moment';
 import 'moment/locale/it'
 
 import { rrfProps, store } from "./store/store"
-import PrivateRoute from './components/PrivateRoute'
-import LoginRoute from './components/LoginRoute'
+import PrivateRoute from './components/auth/PrivateRoute'
+import LoginRoute from './components/auth/LoginRoute'
 
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'

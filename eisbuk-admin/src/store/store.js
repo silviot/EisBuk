@@ -37,7 +37,7 @@ else {
 // react-redux-firebase Configuration
 const rrfConfig = {
   //userProfile: 'users'
-  // useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+  useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
   // enableClaims: true // Get custom claims along with the profile
 }
 

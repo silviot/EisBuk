@@ -1,5 +1,5 @@
 import React from 'react'
-import AppbarDrawer from '../components/AppbarDrawer'
+import AppbarDrawer from './AppbarDrawer'
 import { makeStyles } from "@material-ui/core/styles";
 import DashboardPage from '../pages/Dashboard';
 

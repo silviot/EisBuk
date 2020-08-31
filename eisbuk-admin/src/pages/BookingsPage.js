@@ -1,5 +1,5 @@
 import React from "react"
-import Copyright from "../components/Copyright"
+import Copyright from "../components/layout/Copyright"
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from 'react-redux'
 import { useFirestoreConnect } from 'react-redux-firebase'
@@ -7,11 +7,11 @@ import { useFirestoreConnect } from 'react-redux-firebase'
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import AppbarDrawer from '../components/AppbarDrawer'
+import AppbarDrawer from '../components/layout/AppbarDrawer'
 import { Typography } from "@material-ui/core";
 
-import AddBookingSlot from '../components/AddBookingSlot'
-import BookingCard from "../components/BookingCard";
+import CreateBookingSlot from '../components/bookings/CreateBookingSlot'
+import BookingCard from "../components/bookings/BookingCard";
 
 const BookingsPage = () => {
   const classes = useStyles();
@@ -28,15 +28,13 @@ const BookingsPage = () => {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Typography variant="h1">Prenotazioni</Typography>
-              <AddBookingSlot />
+              <CreateBookingSlot />
             </Grid>
               {
                 bookings && bookings.map((booking) => (
-                  <>
-                  <Grid item xs={12}>
-                    <BookingCard key={booking.id} {...booking} />
+                  <Grid item xs={12} key={booking.id} >
+                    <BookingCard {...booking} />
                   </Grid>
-                  </>
                   )
                 )
               }

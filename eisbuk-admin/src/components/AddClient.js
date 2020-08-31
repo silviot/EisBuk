@@ -18,7 +18,7 @@ const AddClient = () => {
     const inputProps = {
         step: 300,
     };
-    
+
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log('invia')

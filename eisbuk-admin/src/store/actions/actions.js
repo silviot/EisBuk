@@ -1,4 +1,6 @@
+import { useFirestore } from 'react-redux-firebase'
 import { LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, GOOGLE_LOGIN_ERROR, GOOGLE_LOGIN_SUCCESS } from './action-types'
+import { firestore } from 'firebase'
 
 export const signIn = (credentials) => {
     return(dispatch, getState, {getFirebase}) => {
@@ -37,5 +39,32 @@ export const signInWithGoogle = () => {
             console.log('Google login error')
             dispatch({ type: GOOGLE_LOGIN_ERROR, err})
         })
+    }
+}
+
+export const createBookingSlot = ({dateTime, duration}) => {
+    return(dispatch, getState, {getFirebase}) => {
+        const firebase = getFirebase()
+        firebase.firestore()
+            .collection('bookings')
+            .add({
+                date: dateTime,
+                duration: duration
+            })
+    }
+}
+
+export const deleteBookingSlot = (id) => {
+    return(dispatch, getState, {getFirebase}) => {
+        const firebase = getFirebase()
+        firebase.firestore()
+            .collection('bookings')
+            .doc(id)
+            .delete()
+            .then(() => {
+                console.log('Eliminato')
+            }).catch((err) => {
+                console.log('Error : ' + err)
+            })
     }
 }
