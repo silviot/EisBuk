@@ -1,6 +1,5 @@
 import React, {forwardRef} from "react";
-import { useSelector } from 'react-redux'
-import { useFirestoreConnect } from 'react-redux-firebase'
+import { connect } from 'react-redux'
 
 import MaterialTable from "material-table";
 import AddBox from '@material-ui/icons/AddBox';
@@ -20,8 +19,9 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import Grid from '@material-ui/core/Grid'
 
-export const CustomerList = ({customers}) => {
+import { deleteCustomer } from '../../store/actions/actions'
 
+export const CustomerList = ({customers, deleteCustomer}) => {
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -50,15 +50,36 @@ export const CustomerList = ({customers}) => {
           columns={[
             { title: "Nome", field: "name" },
             { title: "Cognome", field: "surname" },
-            { title: "ID", field: "id"},
+            { title: "Email", field: "email" },
+            { title: "Telefono", field: "phone" },
+            { title: "Abbonamento", field: "subscription" }, 
+            { title: "Livello", field:"level"}
           ]}
           data={ customers }
           icons={tableIcons}
           title="Clienti"
+          options={{
+            exportButton: true
+          }}
+          actions={[
+            {
+              icon: tableIcons.Delete,
+              tooltip: 'Rimuovi Utente',
+              onClick: (event, rowData) => {
+                deleteCustomer(rowData.id)
+              }
+            }
+          ]}
         />
       </Grid>
     </Grid>
   );
 }
 
-export default CustomerList;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteCustomer: (id) => dispatch(deleteCustomer(id))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(CustomerList)

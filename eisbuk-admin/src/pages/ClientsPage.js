@@ -2,7 +2,7 @@ import React from "react"
 import { useSelector } from 'react-redux'
 import { useFirestoreConnect, isLoaded, isEmpty  } from 'react-redux-firebase'
 
-import CustomerList from "../components/CustomerList";
+import CustomerList from "../components/customers/CustomerList";
 import Copyright from "../components/layout/Copyright"
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -16,7 +16,7 @@ import Paper from "@material-ui/core/Paper";
 import AppbarDrawer from '../components/layout/AppbarDrawer'
 import { Typography } from "@material-ui/core";
 
-import AddClient from '../components/AddClient'
+import AddClient from '../components/customers/AddClient'
 
 const ClientsPage = () => {
   const classes = useStyles();

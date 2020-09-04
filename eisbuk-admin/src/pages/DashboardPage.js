@@ -1,7 +1,7 @@
 import React from "react"
 import firebase from "firebase";
 
-import CustomerList from "../components/CustomerList";
+import CustomerList from "../components/customers/CustomerList";
 import BookingList from "../components/bookings/BookingList";
 import Copyright from "../components/layout/Copyright"
 import { makeStyles } from "@material-ui/core/styles";

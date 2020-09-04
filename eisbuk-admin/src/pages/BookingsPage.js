@@ -16,7 +16,7 @@ import BookingCard from "../components/bookings/BookingCard";
 const BookingsPage = () => {
   const classes = useStyles();
   useFirestoreConnect([
-    { collection: 'bookings' }
+    { collection: 'bookings', orderBy: 'date' }
   ])
   const bookings = useSelector((state) => state.firestore.ordered.bookings)
   return (

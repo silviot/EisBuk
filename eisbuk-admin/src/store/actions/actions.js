@@ -1,5 +1,5 @@
 import { useFirestore } from 'react-redux-firebase'
-import { LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, GOOGLE_LOGIN_ERROR, GOOGLE_LOGIN_SUCCESS } from './action-types'
+import { LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, GOOGLE_LOGIN_ERROR, GOOGLE_LOGIN_SUCCESS, IS_LOADING, HAS_LOADED } from './action-types'
 import { firestore } from 'firebase'
 
 export const signIn = (credentials) => {
@@ -45,11 +45,16 @@ export const signInWithGoogle = () => {
 export const createBookingSlot = ({dateTime, duration}) => {
     return(dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase()
+        dispatch(IS_LOADING)
         firebase.firestore()
             .collection('bookings')
             .add({
                 date: dateTime,
                 duration: duration
+            })
+            .then(() => {
+                
+                dispatch(HAS_LOADED)
             })
     }
 }
@@ -59,6 +64,39 @@ export const deleteBookingSlot = (id) => {
         const firebase = getFirebase()
         firebase.firestore()
             .collection('bookings')
+            .doc(id)
+            .delete()
+            .then(() => {
+                console.log('Eliminato')
+            }).catch((err) => {
+                console.log('Error : ' + err)
+            })
+    }
+}
+
+export const createCustomer = (customer) => {
+    return(dispatch, getState, {getFirebase}) => {
+        const { name, surname, email, phone, subscription, level} = customer
+        console.log(customer)
+        const firebase = getFirebase()
+        firebase.firestore()
+        .collection('customers')
+            .add({
+                name: name,
+                surname: surname,
+                email: email,
+                phone: phone,
+                subscription:subscription,
+                level: level
+            })
+    }
+}
+
+export const deleteCustomer = (id) => {
+    return(dispatch, getState, {getFirebase}) => {
+        const firebase = getFirebase()
+        firebase.firestore()
+            .collection('customers')
             .doc(id)
             .delete()
             .then(() => {
