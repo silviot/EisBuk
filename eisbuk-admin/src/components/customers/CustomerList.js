@@ -18,10 +18,11 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import Grid from '@material-ui/core/Grid'
+import LinearProgress from '@material-ui/core/LinearProgress'
 
-import { deleteCustomer } from '../../store/actions/actions'
+import { deleteCustomer, updateCustomer } from '../../store/actions/actions'
 
-export const CustomerList = ({customers, deleteCustomer}) => {
+export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -53,7 +54,11 @@ export const CustomerList = ({customers, deleteCustomer}) => {
             { title: "Email", field: "email" },
             { title: "Telefono", field: "phone" },
             { title: "Abbonamento", field: "subscription" }, 
-            { title: "Livello", field:"level"}
+            { 
+              title: "Livello", 
+              field:"level",
+              render: rowData => <LinearProgress variant="determinate" value={(rowData.level * 10)} />
+            }
           ]}
           data={ customers }
           icons={tableIcons}
@@ -68,8 +73,16 @@ export const CustomerList = ({customers, deleteCustomer}) => {
               onClick: (event, rowData) => {
                 deleteCustomer(rowData.id)
               }
-            }
+            },
           ]}
+          editable={{
+            onRowUpdate: (newData, oldData) =>
+            new Promise((resolve, reject) => {
+                console.log(newData)
+                updateCustomer(newData)
+                resolve();
+            }),
+          }}
         />
       </Grid>
     </Grid>
@@ -78,7 +91,8 @@ export const CustomerList = ({customers, deleteCustomer}) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteCustomer: (id) => dispatch(deleteCustomer(id))
+    deleteCustomer: (id) => dispatch(deleteCustomer(id)),
+    updateCustomer: (customer) => dispatch(updateCustomer(customer))
   }
 }
 

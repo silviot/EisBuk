@@ -106,3 +106,21 @@ export const deleteCustomer = (id) => {
             })
     }
 }
+
+export const updateCustomer = (customer) => {
+    return(dispatch, getState, {getFirebase}) => {
+        const updatedData = Object.assign({}, customer)
+        delete updatedData.id
+        const firebase = getFirebase()
+        firebase.firestore()
+            .collection('customers')
+            .doc(customer.id)
+            .update(updatedData)
+            .then(() => {
+                console.log('Aggiornato')
+            }).catch((err) => {
+                console.log('Error : ' + err)
+            })
+            console.log(updatedData)
+    }
+}
