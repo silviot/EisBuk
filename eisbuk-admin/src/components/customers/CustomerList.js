@@ -19,8 +19,10 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import Grid from '@material-ui/core/Grid'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import Avatar from '@material-ui/core/Avatar'
 
 import { deleteCustomer, updateCustomer } from '../../store/actions/actions'
+import { getInitials } from '../../utils/helpers'
 
 export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
   const tableIcons = {
@@ -49,6 +51,7 @@ export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
       <Grid item xs={12}>
         <MaterialTable
           columns={[
+            { title: "", field: "name", render: rowData => <Avatar>{getInitials(rowData.name, rowData.surname)}</Avatar> },
             { title: "Nome", field: "name" },
             { title: "Cognome", field: "surname" },
             { title: "Email", field: "email" },
@@ -62,26 +65,48 @@ export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
           ]}
           data={ customers }
           icons={tableIcons}
-          title="Clienti"
+          title=""
           options={{
-            exportButton: true
+            exportButton: true,
+            pageSize: 10,
+            actionsColumnIndex: -1,
+            searchFieldAlignment: 'left'
           }}
-          actions={[
-            {
-              icon: tableIcons.Delete,
-              tooltip: 'Rimuovi Utente',
-              onClick: (event, rowData) => {
-                deleteCustomer(rowData.id)
-              }
-            },
-          ]}
           editable={{
             onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
-                console.log(newData)
-                updateCustomer(newData)
-                resolve();
+              console.log(newData)
+              updateCustomer(newData)
+              resolve();
             }),
+            onRowDelete: oldData =>
+            new Promise((resolve, reject) => {
+              deleteCustomer(oldData.id)
+              resolve();
+            })
+          }}
+          localization={{
+            body: {
+              editTooltip: 'Modifica',
+              deleteTooltip: 'Elimina',
+              editRow: {
+                deleteText: 'Sei sicuro che vuoi eliminare questo utente?',
+                saveTooltip: 'Salva',
+                cancelTooltip: 'Annulla'
+              },
+            },
+            header: {
+              actions: ''
+            },
+            pagination: {
+              labelRowsSelect: 'Utenti',
+              labelDisplayedRows: '{from}-{to} di {count}'
+            },
+            toolbar: {
+              exportTitle: 'Esporta',
+              searchPlaceholder: 'Cerca',
+              searchTooltip: 'Cerca'
+            }
           }}
         />
       </Grid>

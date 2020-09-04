@@ -1,6 +1,4 @@
-import { useFirestore } from 'react-redux-firebase'
 import { LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, GOOGLE_LOGIN_ERROR, GOOGLE_LOGIN_SUCCESS, IS_LOADING, HAS_LOADED } from './action-types'
-import { firestore } from 'firebase'
 
 export const signIn = (credentials) => {
     return(dispatch, getState, {getFirebase}) => {
