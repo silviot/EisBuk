@@ -40,7 +40,6 @@ export const BookingCard = (props) => {
   const theme = useTheme();
   const formattedDate = moment.unix(props.date.seconds).format('D MMMM YYYY HH:mm:ss')
   const formattedHour = moment.unix(props.date.seconds).locale('it').format('HH:mm')
-  console.log()
   const handleDelete = (e) => {
     e.preventDefault()
     props.deleteBookingSlot(props.id.toString())
@@ -49,13 +48,9 @@ export const BookingCard = (props) => {
     <Card className={classes.root}>
         <div className={classes.time}>
         { formattedHour }
-
         </div>
         <div className={classes.details}>
             <CardContent className={classes.content}>
-                <Typography component="h5" variant="h5">
-                    { formattedDate }
-                </Typography>
                 <Typography variant="subtitle1" color="textSecondary">
                     <strong>Durata</strong> : {props.duration} minuti
                 </Typography>

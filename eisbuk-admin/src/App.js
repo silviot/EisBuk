@@ -11,46 +11,28 @@ import LoginRoute from './components/auth/LoginRoute'
 
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { blue, lightBlue } from "@material-ui/core/colors"
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { blue, lightBlue, blueGrey } from "@material-ui/core/colors"
+
 
 import DashboardPage from "./pages/DashboardPage"
-import ClientsPage from "./pages/CustomersPage"
+import CustomersPage from "./pages/CustomersPage"
 import BookingsPage from "./pages/BookingsPage"
 import LoginPage from './pages/LoginPage'
-
+import moment from "moment";
 import MomentUtils from '@date-io/moment';
-import moment from 'moment/min/moment-with-locales';
-import Moment from 'react-moment';
- 
-Moment.globalMoment = moment;
-Moment.globalLocale = 'it';
- 
-// Set the output format for every react-moment instance.
-Moment.globalFormat = 'D MMM YYYY';
- 
-// Set the timezone for every instance.
-Moment.globalTimezone = 'Europe/Rome';
- 
-// Set the output timezone for local for every instance.
-Moment.globalLocal = true;
- 
-// Use a <span> tag for every react-moment instance.
-Moment.globalElement = 'span';
- 
-// Upper case all rendered dates.
-Moment.globalFilter = (d) => {
-    return d.toUpperCase();
-};
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import "moment/locale/it";
 
 const igorice = createMuiTheme({
   palette: {
     primary: {
       main: blue[500],
+      constrastText: '#fff'
     },
     secondary: {
-      main: lightBlue[500],
+      main: lightBlue[900],
     },
+    grey: blueGrey
   },
   typography: {
     // Tell Material-UI what's the font-size on the html element is.
@@ -70,7 +52,7 @@ function App() {
                   <BrowserRouter>
                     <Switch>
                       <PrivateRoute path='/' component={DashboardPage} exact />
-                      <PrivateRoute path='/clienti' component={ClientsPage} exact />
+                      <PrivateRoute path='/clienti' component={CustomersPage} exact />
                       <PrivateRoute path='/prenotazioni' component={BookingsPage} exact />
                       <LoginRoute path='/login' component={LoginPage} />
                     </Switch>

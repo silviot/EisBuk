@@ -3,24 +3,25 @@ import clsx from "clsx"
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
 import {signOut} from '../../store/actions/actions'
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles"
 
-import IconButton from "@material-ui/core/IconButton";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import PeopleIcon from "@material-ui/icons/People";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import MenuIcon from "@material-ui/icons/Menu";
-import Typography from "@material-ui/core/Typography";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton"
+import Drawer from "@material-ui/core/Drawer"
+import AppBar from "@material-ui/core/AppBar"
+import Toolbar from "@material-ui/core/Toolbar"
+import Button from "@material-ui/core/Button"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import ListItemIcon from "@material-ui/core/ListItemIcon"
+import ListItemText from "@material-ui/core/ListItemText"
+import DashboardIcon from "@material-ui/icons/Dashboard"
+import PeopleIcon from "@material-ui/icons/People"
+import TodayIcon from '@material-ui/icons/Today';
+import MenuIcon from "@material-ui/icons/Menu"
+import Typography from "@material-ui/core/Typography"
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
+import Divider from "@material-ui/core/Divider"
+import ExitToApp from '@material-ui/icons/ExitToApp'
 
 const AppbarDrawer = ({signOut}) => {
   const classes = useStyles();
@@ -42,27 +43,27 @@ const AppbarDrawer = ({signOut}) => {
   const mainListItems = (
     <div>
     <Link to="/" style={{ textDecoration: 'none', color: 'initial' }}>  
-        <ListItem button>
+        <ListItem button className={classes.drawerLinkItem}>
             <ListItemIcon>
-                <DashboardIcon />
+                <DashboardIcon className={classes.drawerLinkItem} />
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
         </ListItem>
     </Link>
-    <Link to="/clienti" style={{ textDecoration: 'none', color: 'initial' }}>
-        <ListItem button>
-            <ListItemIcon>
-                <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Clienti" />
-        </ListItem>
-    </Link>
     <Link to="/prenotazioni" style={{ textDecoration: 'none', color: 'initial' }}>
-        <ListItem button>
+        <ListItem button className={classes.drawerLinkItem}>
             <ListItemIcon>
-                <BarChartIcon />
+                <TodayIcon className={classes.drawerLinkItem} />
             </ListItemIcon>
             <ListItemText primary="Prenotazioni" />
+        </ListItem>
+    </Link>
+    <Link to="/clienti" style={{ textDecoration: 'none', color: 'initial' }}>
+        <ListItem button className={classes.drawerLinkItem}>
+            <ListItemIcon>
+                <PeopleIcon className={classes.drawerLinkItem} />
+            </ListItemIcon>
+            <ListItemText primary="Clienti" />
         </ListItem>
     </Link>
     </div>
@@ -95,7 +96,7 @@ const AppbarDrawer = ({signOut}) => {
             >
             IGOR ICE
             </Typography>
-            <Button color="inherit" onClick={handleLogout}>LOGOUT</Button>
+            <Button color="inherit" onClick={handleLogout} startIcon={<ExitToApp />}>LOGOUT</Button>
         </Toolbar>
     </AppBar>
     <Drawer
@@ -157,6 +158,8 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,
+    backgroundColor: theme.palette.grey[900],
+    color: theme.palette.grey[200],
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -172,6 +175,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       width: theme.spacing(9),
     },
+  },
+  drawerLinkItem: {
+    color: theme.palette.primary.contrastText
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {

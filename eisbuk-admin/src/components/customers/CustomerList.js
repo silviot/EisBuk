@@ -2,6 +2,7 @@ import React, {forwardRef} from "react";
 import { connect } from 'react-redux'
 
 import MaterialTable, {MTablePagination} from "material-table";
+import { makeStyles } from '@material-ui/core/styles'
 
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -21,20 +22,19 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import Grid from '@material-ui/core/Grid'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Avatar from '@material-ui/core/Avatar'
-import { makeStyles } from '@material-ui/core/styles';
 
 import { deleteCustomer, updateCustomer } from '../../store/actions/actions'
 import { getInitials } from '../../utils/helpers'
 
-const useStyles = makeStyles({
-  root: {
-    background: 'red'
-    
-  },
-});
+const useStyles = makeStyles((theme) => ({
+  avatar: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.getContrastText(theme.palette.primary.main)
+  }
+}))
 
 export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
-  const classes = useStyles();
+  const classes = useStyles()
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -60,9 +60,8 @@ export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
     <Grid container>
       <Grid item xs={12}>
         <MaterialTable
-          className={classes.root}
           columns={[
-            { title: "", field: "name", render: rowData => <Avatar>{getInitials(rowData.name, rowData.surname)}</Avatar> },
+            { title: "", export: false, field: "name", render: rowData => <Avatar className={classes.avatar}>{getInitials(rowData.name, rowData.surname)}</Avatar> },
             { title: "Nome", field: "name" },
             { title: "Cognome", field: "surname" },
             { title: "Email", field: "email" },

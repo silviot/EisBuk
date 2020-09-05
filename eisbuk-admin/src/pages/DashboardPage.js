@@ -41,28 +41,18 @@ const DashboardPage = () => {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            <Typography variant="h1">Dashboard</Typography>
-            {/* Debug buttons */}
             <Grid item xs={12}>
-              {howManyUsersField}
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={create_users_button}
-              >
-                Create one user
-              </Button>
+              <Typography variant="h1" className={classes.pageTitle}>Dashboard</Typography>
             </Grid>
-            {/* Customers */}
             <Grid item xs={12} md={6}>
               <Paper className={classes.paper}>
-                <CustomerList />
+              <Typography variant="h3">Prenotazioni</Typography>
               </Paper>
             </Grid>
             {/* Bookings */}
             <Grid item xs={12} md={6}>
               <Paper className={classes.paper}>
-                <BookingList />
+              <Typography variant="h3">Clienti</Typography>
               </Paper>
             </Grid>
           </Grid>
@@ -78,6 +68,7 @@ const DashboardPage = () => {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    backgroundColor: theme.palette.secondary.main
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -94,6 +85,9 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  pageTitle: {
+    color: theme.palette.primary.contrastText
+  }
 }));
 
 /* const mapDispatchToProps = (dispatch) => {
