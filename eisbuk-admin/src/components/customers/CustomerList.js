@@ -1,7 +1,8 @@
 import React, {forwardRef} from "react";
 import { connect } from 'react-redux'
 
-import MaterialTable from "material-table";
+import MaterialTable, {MTablePagination} from "material-table";
+
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -20,11 +21,20 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import Grid from '@material-ui/core/Grid'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Avatar from '@material-ui/core/Avatar'
+import { makeStyles } from '@material-ui/core/styles';
 
 import { deleteCustomer, updateCustomer } from '../../store/actions/actions'
 import { getInitials } from '../../utils/helpers'
 
+const useStyles = makeStyles({
+  root: {
+    background: 'red'
+    
+  },
+});
+
 export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
+  const classes = useStyles();
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -50,6 +60,7 @@ export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
     <Grid container>
       <Grid item xs={12}>
         <MaterialTable
+          className={classes.root}
           columns={[
             { title: "", field: "name", render: rowData => <Avatar>{getInitials(rowData.name, rowData.surname)}</Avatar> },
             { title: "Nome", field: "name" },
@@ -70,7 +81,8 @@ export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
             exportButton: true,
             pageSize: 10,
             actionsColumnIndex: -1,
-            searchFieldAlignment: 'left'
+            searchFieldAlignment: 'left',
+            paginationType: 'stepped'
           }}
           editable={{
             onRowUpdate: (newData, oldData) =>
@@ -106,7 +118,11 @@ export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
               exportTitle: 'Esporta',
               searchPlaceholder: 'Cerca',
               searchTooltip: 'Cerca'
-            }
+            },
+          }}
+          components={{
+            Container: props => <div>{props.children}</div>,
+            Pagination: props => <MTablePagination {...props} style={{background:'red'}} />
           }}
         />
       </Grid>

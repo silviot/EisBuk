@@ -4,9 +4,6 @@ import { Provider } from 'react-redux'
 import {
   ReactReduxFirebaseProvider,
 } from 'react-redux-firebase'
-import moment from 'moment'
-import MomentUtils from '@date-io/moment';
-import 'moment/locale/it'
 
 import { rrfProps, store } from "./store/store"
 import PrivateRoute from './components/auth/PrivateRoute'
@@ -18,10 +15,33 @@ import { blue, lightBlue } from "@material-ui/core/colors"
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 import DashboardPage from "./pages/DashboardPage"
-import ClientsPage from "./pages/ClientsPage"
+import ClientsPage from "./pages/CustomersPage"
 import BookingsPage from "./pages/BookingsPage"
 import LoginPage from './pages/LoginPage'
 
+import MomentUtils from '@date-io/moment';
+import moment from 'moment/min/moment-with-locales';
+import Moment from 'react-moment';
+ 
+Moment.globalMoment = moment;
+Moment.globalLocale = 'it';
+ 
+// Set the output format for every react-moment instance.
+Moment.globalFormat = 'D MMM YYYY';
+ 
+// Set the timezone for every instance.
+Moment.globalTimezone = 'Europe/Rome';
+ 
+// Set the output timezone for local for every instance.
+Moment.globalLocal = true;
+ 
+// Use a <span> tag for every react-moment instance.
+Moment.globalElement = 'span';
+ 
+// Upper case all rendered dates.
+Moment.globalFilter = (d) => {
+    return d.toUpperCase();
+};
 
 const igorice = createMuiTheme({
   palette: {

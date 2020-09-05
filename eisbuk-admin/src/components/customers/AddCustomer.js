@@ -25,9 +25,7 @@ const defaultValues = {
 };
   
 
-const AddClient = ({createCustomer}) => {
-    
-
+const AddCustomer = ({createCustomer}) => {
     return (
             <Grid container>
                 <Grid item xs={12}>
@@ -160,4 +158,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(AddClient)
+export default connect(null, mapDispatchToProps)(AddCustomer)

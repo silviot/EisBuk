@@ -16,7 +16,7 @@ import Paper from "@material-ui/core/Paper";
 import AppbarDrawer from '../components/layout/AppbarDrawer'
 import { Typography } from "@material-ui/core";
 
-import AddClient from '../components/customers/AddClient'
+import AddCustomer from '../components/customers/AddCustomer'
 
 const ClientsPage = () => {
   const classes = useStyles();
@@ -36,11 +36,15 @@ const ClientsPage = () => {
               <Typography variant="h1">Clienti</Typography>
             </Grid>
             <Grid item xs={12}>
-              <AddClient />
+              <AddCustomer />
             </Grid>
             <Grid item xs={12}>
               { isLoaded(customers), !isEmpty(customers) &&
-              <CustomerList customers={customers.map(o => ({...o, tableData: {}})) } />
+              <Paper>
+                <Box p={3}>
+                  <CustomerList customers={customers.map(o => ({...o, tableData: {}})) } />
+                </Box>
+              </Paper>
               }
             </Grid>
           </Grid>

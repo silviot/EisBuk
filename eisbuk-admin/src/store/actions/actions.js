@@ -43,7 +43,7 @@ export const signInWithGoogle = () => {
 export const createBookingSlot = ({dateTime, duration}) => {
     return(dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase()
-        dispatch(IS_LOADING)
+
         firebase.firestore()
             .collection('bookings')
             .add({
@@ -51,8 +51,6 @@ export const createBookingSlot = ({dateTime, duration}) => {
                 duration: duration
             })
             .then(() => {
-                
-                dispatch(HAS_LOADED)
             })
     }
 }

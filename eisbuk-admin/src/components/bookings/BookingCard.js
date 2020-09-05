@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const BookingCard = (props) => {
+  const m = moment().locale('it')
   const classes = useStyles();
   const theme = useTheme();
   const formattedDate = moment.unix(props.date.seconds).format('D MMMM YYYY HH:mm:ss')
