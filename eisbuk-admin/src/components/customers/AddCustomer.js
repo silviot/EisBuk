@@ -61,7 +61,7 @@ const AddCustomer = ({createCustomer}) => {
                             {({ submitForm, isSubmitting, setFieldValue }) => (
                                 <Form>
                                     <Grid container spacing={3}>
-                                        <Grid item xs={12} lg={3}>
+                                        <Grid item xs={12} md={6} lg={3}>
                                             <Field
                                                 required
                                                 component={TextField}
@@ -72,7 +72,7 @@ const AddCustomer = ({createCustomer}) => {
                                                 fullWidth
                                             />
                                         </Grid>
-                                        <Grid item xs={12} lg={3}>
+                                        <Grid item xs={12} md={6} lg={3}>
                                             <Field
                                                 required
                                                 component={TextField}
@@ -83,7 +83,7 @@ const AddCustomer = ({createCustomer}) => {
                                                 fullWidth
                                             />
                                         </Grid>
-                                        <Grid item xs={12} lg={3}>
+                                        <Grid item xs={12} md={6} lg={3}>
                                             <Field
                                                 required
                                                 component={TextField}
@@ -95,7 +95,7 @@ const AddCustomer = ({createCustomer}) => {
                                                 fullWidth
                                             />
                                         </Grid>
-                                        <Grid item xs={12} lg={3}>
+                                        <Grid item xs={12} md={6} lg={3}>
                                             <Field
                                                 required
                                                 component={TextField}
@@ -107,7 +107,7 @@ const AddCustomer = ({createCustomer}) => {
                                                 fullWidth
                                             />
                                         </Grid>
-                                        <Grid item xs={12} lg={6}>
+                                        <Grid item xs={12} md={6} lg={6}>
                                             <FormControl variant="outlined" fullWidth>
                                                 <InputLabel id="demo-simple-select-outlined-label">Abbonamento</InputLabel>
                                                 <Field
@@ -121,7 +121,7 @@ const AddCustomer = ({createCustomer}) => {
                                                 </Field>
                                             </FormControl>
                                         </Grid>
-                                        <Grid item xs={12} lg={6}>
+                                        <Grid item xs={12} md={6} lg={6}>
                                             <Typography gutterBottom>
                                                 Livello
                                             </Typography>

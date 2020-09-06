@@ -14,11 +14,14 @@ import {
   Day,
 } from '@material-ui/pickers';
 import LinearProgress from '@material-ui/core/LinearProgress'
+
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 
 import EventAvailable from '@material-ui/icons/EventAvailable'
 import DynamicFeed from '@material-ui/icons/DynamicFeed'
@@ -131,8 +134,8 @@ const BookingsPage = () => {
                 </Box>
               </Grid>
               <Grid className={classes.actions} item xs={12} md={6} align="center">
-                <Button onClick={handleOpenCreateBooking} variant="contained" size="large" color="primary" startIcon={<EventAvailable />}>Nuovo Slot</Button>
-                <Dialog open={openCreateBooking} onClose={handleCloseCreateBooking} aria-labelledby="form-dialog-title">
+               <Button onClick={handleOpenCreateBooking} variant="contained" size="large" color="primary" startIcon={<EventAvailable />}>Nuovo Slot</Button>
+               {/* <Dialog open={openCreateBooking} onClose={handleCloseCreateBooking} aria-labelledby="form-dialog-title">
                   <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
                   <DialogContent>
                     <DialogContentText>
@@ -147,8 +150,22 @@ const BookingsPage = () => {
                       Subscribe
                     </Button>
                   </DialogActions>
-                </Dialog>
-                
+                </Dialog> */}
+                <SwipeableDrawer
+                  anchor='right'
+                  open={openCreateBooking}
+                  onClose={handleCloseCreateBooking}
+                  onOpen={handleOpenCreateBooking}
+                  className={classes.drawer}
+                  classes={{
+                    paper: classes.drawerPaper,
+                  }}
+                >
+                  <Box width={310}>
+                    <Typography className={classes.drawerTitle} variant="h2">Aggiungi Slot</Typography>
+                    <CreateBookingSlot />
+                  </Box>
+                </SwipeableDrawer>
                 <Button variant="contained" size="large" color="primary" startIcon={<DynamicFeed />}>Copia da altro giorno</Button>
               </Grid>
             </Grid>
@@ -233,6 +250,12 @@ const useStyles = makeStyles((theme) => ({
   slotsContainer: {
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3)
+  },
+  drawerTitle: {
+     backgroundColor: theme.palette.primary.main,
+     color: theme.palette.getContrastText(theme.palette.primary.main),
+     fontSize: '2rem',
+     padding: theme.spacing(3)
   }
 }));
 

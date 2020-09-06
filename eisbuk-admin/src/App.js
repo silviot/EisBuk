@@ -9,7 +9,7 @@ import { rrfProps, store } from "./store/store"
 import PrivateRoute from './components/auth/PrivateRoute'
 import LoginRoute from './components/auth/LoginRoute'
 
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { ThemeProvider, createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { blue, lightBlue, blueGrey } from "@material-ui/core/colors"
 
@@ -23,7 +23,7 @@ import MomentUtils from '@date-io/moment';
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import "moment/locale/it";
 
-const igorice = createMuiTheme({
+let igorice = createMuiTheme({
   palette: {
     primary: {
       main: blue[500],
@@ -40,7 +40,7 @@ const igorice = createMuiTheme({
   },
   spacing: 8,
 });
-
+igorice = responsiveFontSizes(igorice);
 
 function App() {
   return (

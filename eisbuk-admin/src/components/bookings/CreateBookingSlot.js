@@ -1,105 +1,92 @@
 import React, {useState} from 'react'
 import { connect } from 'react-redux'
-import { Button } from "@material-ui/core"
+
+import _ from 'lodash'
+
+import { Button, duration } from "@material-ui/core"
 import Grid from "@material-ui/core/Grid"
-import Paper from "@material-ui/core/Paper"
 import Typography from '@material-ui/core/Typography'
-import {
-    DatePicker,
-    TimePicker,
-  } from '@material-ui/pickers';
+import Box from '@material-ui/core/Box'
+import { FormControlLabel } from "@material-ui/core";
+
+import { Formik, Form, Field } from 'formik'
+import { CheckboxWithLabel } from 'formik-material-ui'
+import { DateTimePicker } from 'formik-material-ui-pickers';
 
 import moment from 'moment'
 
 import {createBookingSlot} from '../../store/actions/actions'
 
-const getDefaultDuration = (duration) => {
-    return new Date('August 31, 2020 00:'+duration+':00')
-}
+// Set slot durations choices
+const durations = [20, 30, 50, 60, 90, 120]
+const durationsState = durations.reduce((acc, val) => (acc[val]=false, acc), {})
+
+// Set 50 as default duration choice
+durationsState[50] = true
 
 const CreateBookingSlot = ({createBookingSlot}) => {
-    const inputProps = {
-        step: 300,
-    };
-    const [dateTime, setDateTime] = useState( moment().startOf('hour').toDate() )
-    const [duration, setDuration] = useState(getDefaultDuration( 50 ))
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        createBookingSlot({
-            dateTime: moment(dateTime).toDate(),
-            duration: moment(duration).minutes().toString()
-        })
-    }
-
-    return (
-
-        <Grid container m={0} p={0} spacing={0}>
-            <Grid item xs={12}>
-                <Paper elevation={3}>
-                <form onSubmit={handleSubmit}>
-                    <Grid container>
-                        <Grid item xs={12} md={5}>
-                            <DatePicker
-                                id="booking-day"
-                                name="booking-day"
-    /*                             autoOk */
-                                orientation="landscape"
-                                variant="static"
-                                openTo="date"
-                                value={dateTime}
-                                onChange={setDateTime}
+return (
+    <Grid container>
+        <Grid item xs={12}>
+            <Formik
+                initialValues={{
+                    ...durationsState,
+                    dateTime: moment().startOf('hour').toDate()
+                }}
+                onSubmit={(values, { setSubmitting, resetForm }) => {
+                    createBookingSlot({
+                        dateTime: moment(values.dateTime).toDate(),
+                        duration: _.intersection(_.keys(_.pickBy(values), null, 2), durations.map((x) => x.toString() )),
+                    })
+                    setSubmitting(false)
+                    resetForm()
+/*                     alert(JSON.stringify(values))
+                    setSubmitting(false) */
+                }}
+                >
+                {({ submitForm, isSubmitting }) => (
+                <Form>
+                    <Field 
+                        component={DateTimePicker}
+                        variant="static"
+                        label="Data e Ora"
+                        name="dateTime"
+                        type="date"
+                        ampm={false}
+                        autoOk
+                    />
+                    <Box p={3}>
+                        <Typography variant="h4" align="center">Durata</Typography>
+                        <Grid container>
+                    {
+                        durations.map((duration) => (
+                        <Grid item xs={6}>
+                            <FormControlLabel
+                            label={`${duration} minuti`}
+                            control={
+                                <Field
+                                id={duration}
+                                name={duration}
+                                type="checkbox"
+                                component={CheckboxWithLabel}
+                                />
+                            }
                             />
                         </Grid>
-                        <Grid item xs={12} md={5}>
-                            <TimePicker
-                                id="booking-time"
-                                name="booking-time" 
-                                variant="static"
-                                orientation="landscape"
-                                openTo="hours"
-                                ampm={false}
-                                minutesStep={5}
-                                value={dateTime}
-                                onChange={setDateTime}
-                            />
+                        ))
+                    }
                         </Grid>
-                        <Grid item xs={12} md={2}>
-                            <Grid container>
-                                <Grid item xs={12}>
-                                    <Typography variant="subtitle1" color="textSecondary">
-                                        Durata
-                                    </Typography>
-                                    <TimePicker 
-                                        name="booking-duration"
-                                        id="booking-duration" 
-                                        inputVariant="outlined"
-                                        variant="dialog"
-                                        views={["minutes"]}
-                                        format="mm"
-                                        orientation="landscape"
-                                        openTo="minutes"
-                                        minutesStep={5}
-                                        ampm={false}
-                                        value={duration}
-                                        onChange={setDuration}
-                                    />
-                                </Grid>
-                                <Typography variant="subtitle1" color="textSecondary">
-                                    Minuti
-                                </Typography>
-                                <Grid item xs={12}>
-                                    <Button type="submit" variant="contained">
-                                        Aggiungi Slot
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    </form>
-                </Paper>
-            </Grid>
+                    </Box>
+                    <Box p={3}>
+                        <Button type="submit" disabled={isSubmitting} variant="contained" color="primary" size="large" fullWidth>
+                            Aggiungi Slot
+                        </Button>
+                    </Box>
+                </Form>
+                )}
+            </Formik>
         </Grid>
+    </Grid>
     )
 }
 
