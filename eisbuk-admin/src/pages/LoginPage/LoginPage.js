@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux'
-import {signIn, signInWithGoogle} from '../store/actions/actions'
+import {signIn, signInWithGoogle} from '../../store/actions/actions'
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,10 +14,9 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import Copyright from '../components/layout/Copyright'
-
-
 import { makeStyles } from '@material-ui/core/styles'
+
+import Copyright from '../../components/layout/Copyright'
 
 const useStyles = makeStyles((theme) => ({
   root: {

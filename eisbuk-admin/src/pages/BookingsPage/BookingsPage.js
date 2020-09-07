@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import Copyright from "../components/layout/Copyright"
+import Copyright from "../../components/layout/Copyright"
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from 'react-redux'
 import { useFirestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase'
@@ -7,30 +7,23 @@ import { useFirestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import AppbarDrawer from '../components/layout/AppbarDrawer'
+import AppbarDrawer from '../../components/layout/AppbarDrawer'
 import { Typography, Button, Paper } from "@material-ui/core";
 import {
   DatePicker,
   Day,
 } from '@material-ui/pickers';
 import LinearProgress from '@material-ui/core/LinearProgress'
-
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 
 import EventAvailable from '@material-ui/icons/EventAvailable'
 import DynamicFeed from '@material-ui/icons/DynamicFeed'
 
-import CreateBookingSlot from '../components/bookings/CreateBookingSlot'
-import BookingCard from "../components/bookings/BookingCard";
+import CreateBookingSlot from '../../components/bookings/CreateBookingSlot'
+import BookingCard from "../../components/bookings/BookingCard";
 
 import moment from 'moment' 
-import { onlyUnique } from '../utils/helpers'
+import { onlyUnique } from '../../utils/helpers'
 
 
 const BookingsPage = () => {

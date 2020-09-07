@@ -2,22 +2,20 @@ import React from "react"
 import { useSelector } from 'react-redux'
 import { useFirestoreConnect, isLoaded, isEmpty  } from 'react-redux-firebase'
 
-import CustomerList from "../components/customers/CustomerList";
-import Copyright from "../components/layout/Copyright"
+import CustomerList from "../../components/customers/CustomerList";
+import Copyright from "../../components/layout/Copyright"
 import { makeStyles } from "@material-ui/core/styles";
 
-import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import LinearProgress from '@material-ui/core/LinearProgress'
 
-import AppbarDrawer from '../components/layout/AppbarDrawer'
+import AppbarDrawer from '../../components/layout/AppbarDrawer'
 import { Typography } from "@material-ui/core";
 
-import AddCustomer from '../components/customers/AddCustomer'
+import AddCustomer from '../../components/customers/AddCustomer'
 
 const CustomersPage = () => {
   const classes = useStyles();

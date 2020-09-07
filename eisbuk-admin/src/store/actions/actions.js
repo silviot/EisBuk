@@ -50,7 +50,8 @@ export const createBookingSlot = ({dateTime, duration}) => {
                 date: dateTime,
                 duration: duration
             })
-            .then(() => {
+            .then((err) => {
+                console.log('Error : ' + err)
             })
     }
 }

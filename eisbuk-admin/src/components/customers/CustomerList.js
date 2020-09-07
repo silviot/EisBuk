@@ -1,4 +1,5 @@
 import React, {forwardRef} from "react";
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import MaterialTable, {MTablePagination} from "material-table";
@@ -54,6 +55,7 @@ export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
+  let history = useHistory();
 
   return (
 
@@ -83,6 +85,15 @@ export const CustomerList = ({customers, deleteCustomer, updateCustomer}) => {
             searchFieldAlignment: 'left',
             paginationType: 'stepped'
           }}
+          actions={[
+          {
+            icon: tableIcons.NextPage,
+            tooltip: 'Visualizza Profilo',
+            onClick: (event, rowData) => {
+              history.push(`/clienti/${rowData.id}`)
+            }
+          }
+          ]}
           editable={{
             onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {

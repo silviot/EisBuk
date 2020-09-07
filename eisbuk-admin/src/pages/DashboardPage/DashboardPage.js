@@ -1,9 +1,6 @@
 import React from "react"
 import firebase from "firebase";
 
-import CustomerList from "../components/customers/CustomerList";
-import BookingList from "../components/bookings/BookingList";
-import Copyright from "../components/layout/Copyright"
 import { makeStyles } from "@material-ui/core/styles";
 
 import TextField from "@material-ui/core/TextField";
@@ -13,7 +10,9 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { Typography } from "@material-ui/core";
-import AppbarDrawer from '../components/layout/AppbarDrawer'
+
+import Copyright from "../../components/layout/Copyright"
+import AppbarDrawer from '../../components/layout/AppbarDrawer'
 
 const DashboardPage = () => {
   const classes = useStyles();

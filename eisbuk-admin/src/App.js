@@ -1,27 +1,30 @@
 import React from "react";
 import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom'
+
 import { Provider } from 'react-redux'
 import {
   ReactReduxFirebaseProvider,
 } from 'react-redux-firebase'
-
 import { rrfProps, store } from "./store/store"
+
 import PrivateRoute from './components/auth/PrivateRoute'
 import LoginRoute from './components/auth/LoginRoute'
+
+
+import moment from "moment";
+import MomentUtils from '@date-io/moment';
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import "moment/locale/it";
 
 import { ThemeProvider, createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { blue, lightBlue, blueGrey } from "@material-ui/core/colors"
 
-
 import DashboardPage from "./pages/DashboardPage"
 import CustomersPage from "./pages/CustomersPage"
 import BookingsPage from "./pages/BookingsPage"
 import LoginPage from './pages/LoginPage'
-import moment from "moment";
-import MomentUtils from '@date-io/moment';
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import "moment/locale/it";
+import CustomerAreaPage from './pages/CustomerAreaPage'
 
 let igorice = createMuiTheme({
   palette: {
@@ -55,6 +58,7 @@ function App() {
                       <PrivateRoute path='/clienti' component={CustomersPage} exact />
                       <PrivateRoute path='/prenotazioni' component={BookingsPage} exact />
                       <LoginRoute path='/login' component={LoginPage} />
+                      <Route path="/clienti/:id" children={<CustomerAreaPage />} />
                     </Switch>
                   </BrowserRouter>
                 </MuiPickersUtilsProvider>
