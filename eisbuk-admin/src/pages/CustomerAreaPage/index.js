@@ -1,3 +1,3 @@
-import CustomerAreaPage from './CustomerAreaPage'
+import CustomerAreaPage from "./CustomerAreaPage";
 
-export default CustomerAreaPage
+export default CustomerAreaPage;

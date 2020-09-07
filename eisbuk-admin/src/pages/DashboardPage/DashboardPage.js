@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import firebase from "firebase";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,8 +11,8 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { Typography } from "@material-ui/core";
 
-import Copyright from "../../components/layout/Copyright"
-import AppbarDrawer from '../../components/layout/AppbarDrawer'
+import Copyright from "../../components/layout/Copyright";
+import AppbarDrawer from "../../components/layout/AppbarDrawer";
 
 const DashboardPage = () => {
   const classes = useStyles();
@@ -41,17 +41,19 @@ const DashboardPage = () => {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Typography variant="h1" className={classes.pageTitle}>Dashboard</Typography>
+              <Typography variant="h1" className={classes.pageTitle}>
+                Dashboard
+              </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
               <Paper className={classes.paper}>
-              <Typography variant="h3">Prenotazioni</Typography>
+                <Typography variant="h3">Prenotazioni</Typography>
               </Paper>
             </Grid>
             {/* Bookings */}
             <Grid item xs={12} md={6}>
               <Paper className={classes.paper}>
-              <Typography variant="h3">Clienti</Typography>
+                <Typography variant="h3">Clienti</Typography>
               </Paper>
             </Grid>
           </Grid>
@@ -62,12 +64,12 @@ const DashboardPage = () => {
       </main>
     </div>
   );
-}
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -85,8 +87,8 @@ const useStyles = makeStyles((theme) => ({
     height: 240,
   },
   pageTitle: {
-    color: theme.palette.primary.contrastText
-  }
+    color: theme.palette.primary.contrastText,
+  },
 }));
 
 /* const mapDispatchToProps = (dispatch) => {
@@ -97,4 +99,4 @@ const useStyles = makeStyles((theme) => ({
 
 /* export default connect(null, mapDispatchToProps)(DashboardPage) */
 
-export default DashboardPage
+export default DashboardPage;
