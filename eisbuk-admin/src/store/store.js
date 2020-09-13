@@ -9,8 +9,10 @@ import rootReducer from "./reducers/rootReducer";
 import { getFirebase } from "react-redux-firebase";
 import { createFirestoreInstance } from "redux-firestore";
 
+let fbConfig;
+
 if (process.env.NODE_ENV === "development") {
-  var fbConfig = {
+  fbConfig = {
     apiKey: "AIzaSyDfUuakkXb_xV-VFRyH7yIW4Dr7YmypHRo",
     authDomain: "eisbuk-e6b2a.firebaseapp.com",
     databaseURL: "https://eisbuk-e6b2a.firebaseio.com",
@@ -21,7 +23,7 @@ if (process.env.NODE_ENV === "development") {
   };
   console.log("DEV Database : " + fbConfig.projectId);
 } else {
-  var fbConfig = {
+  fbConfig = {
     apiKey: "AIzaSyA2dS3UiWq8ABNH9ROaQQlTsOkTq5QvCZw",
     authDomain: "eisbuk.firebaseapp.com",
     databaseURL: "https://eisbuk.firebaseio.com",

@@ -16,6 +16,8 @@ import PersonPinIcon from "@material-ui/icons/PersonPin";
 
 import AppbarCustomer from "../../components/layout/AppbarCustomer";
 
+import CustomerAreaCalendar from "./CustomerAreaCalendar";
+
 const LinkTab = (props) => {
   return (
     <Tab
@@ -71,7 +73,7 @@ export const CustomerAreaPage = () => {
         {isLoaded(customerData) && !isEmpty(customerData) && (
           <>
             <AppBar position="static" className={classes.customerNav}>
-              <Container maxWidth="lg">
+              <Container maxWidth="xl">
                 <Tabs
                   value={activeTab}
                   onChange={handleTabChange}
@@ -114,9 +116,7 @@ export const CustomerAreaPage = () => {
                 <Container maxWidth="lg">
                   <Grid item xs={12}>
                     <Box py={3}>
-                      <Typography variant="h6">
-                        Calendario {customerData[0].name}
-                      </Typography>
+                      <CustomerAreaCalendar />
                     </Box>
                   </Grid>
                 </Container>

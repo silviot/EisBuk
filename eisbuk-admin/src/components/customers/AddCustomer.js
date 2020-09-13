@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import { Typography, Box } from "@material-ui/core";
@@ -15,14 +15,6 @@ import { createCustomer } from "../../store/actions/actions";
 
 import { Formik, Form, Field } from "formik";
 import { TextField, Select } from "formik-material-ui";
-
-const defaultValues = {
-  name: "",
-  surname: "",
-  email: "",
-  phone: "",
-  subscription: "standard",
-};
 
 const AddCustomer = ({ createCustomer }) => {
   return (
@@ -128,7 +120,6 @@ const AddCustomer = ({ createCustomer }) => {
                       <Typography gutterBottom>Livello</Typography>
                       <Slider
                         defaultValue={5}
-                        valueLabelDisplay="auto"
                         step={1}
                         min={1}
                         max={10}

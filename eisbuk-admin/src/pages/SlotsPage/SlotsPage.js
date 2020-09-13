@@ -9,22 +9,23 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import AppbarDrawer from "../../components/layout/AppbarDrawer";
 import { Typography, Button, Paper } from "@material-ui/core";
-import { DatePicker, Day } from "@material-ui/pickers";
+import { DatePicker } from "@material-ui/pickers";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 
 import EventAvailable from "@material-ui/icons/EventAvailable";
 import DynamicFeed from "@material-ui/icons/DynamicFeed";
 
-import CreateBookingSlot from "../../components/bookings/CreateBookingSlot";
-import BookingCard from "../../components/bookings/BookingCard";
+import CreateBookingSlot from "../../components/slots/CreateSlot";
+import BookingCard from "../../components/slots/SlotCard";
 
 import moment from "moment";
 import { onlyUnique } from "../../utils/helpers";
 
-const BookingsPage = () => {
+const SlotsPage = () => {
   let m = (m) => moment(m).locale("it");
   const classes = useStyles();
+
   const [date, setDate] = useState({
     start: m().startOf("day").toDate(),
     end: m().add(1, "days").startOf("day").toDate(),
@@ -60,7 +61,7 @@ const BookingsPage = () => {
 
   useFirestoreConnect([
     {
-      collection: "bookings",
+      collection: "slots",
       orderBy: "date",
       where: [
         ["date", ">=", date.start],
@@ -68,22 +69,22 @@ const BookingsPage = () => {
       ],
     },
     {
-      collection: "bookings",
+      collection: "slots",
       orderBy: "date",
       where: [
         ["date", ">=", month.start],
         ["date", "<", month.end],
       ],
-      storeAs: "bookingsByMonth",
+      storeAs: "slotsByMonth",
     },
   ]);
 
-  const bookings = useSelector((state) => state.firestore.ordered.bookings);
-  const bookingsByMonth = useSelector(
-    (state) => state.firestore.ordered.bookingsByMonth
+  const slots = useSelector((state) => state.firestore.ordered.slots);
+  const slotsByMonth = useSelector(
+    (state) => state.firestore.ordered.slotsByMonth
   );
-  let daysInMonth = bookingsByMonth && [
-    ...bookingsByMonth.map((x) => moment.unix(x.date.seconds).format("D")),
+  let daysInMonth = slotsByMonth && [
+    ...slotsByMonth.map((x) => moment.unix(x.date.seconds).format("D")),
   ];
 
   return (
@@ -134,13 +135,14 @@ const BookingsPage = () => {
                               .filter(onlyUnique)
                               .includes(moment(date).format("D"));
                           return (
-                            <Day
+                            <div
                               style={{
                                 border: isSelected ? "1px solid" : "none",
+                                borderRadius: "50%",
                               }}
                             >
                               {dayComponent}
-                            </Day>
+                            </div>
                           );
                         }}
                       />
@@ -163,22 +165,7 @@ const BookingsPage = () => {
                   >
                     Nuovo Slot
                   </Button>
-                  {/* <Dialog open={openCreateBooking} onClose={handleCloseCreateBooking} aria-labelledby="form-dialog-title">
-                  <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
-                  <DialogContent>
-                    <DialogContentText>
-                      <CreateBookingSlot />
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleCloseCreateBooking} color="primary">
-                      Cancel
-                    </Button>
-                    <Button onClick={handleCloseCreateBooking} color="primary">
-                      Subscribe
-                    </Button>
-                  </DialogActions>
-                </Dialog> */}
+
                   <SwipeableDrawer
                     anchor="right"
                     open={openCreateBooking}
@@ -222,17 +209,17 @@ const BookingsPage = () => {
             </Container>
           </Grid>
         </Grid>
-        {!isLoaded(bookings) && <LinearProgress />}
+        {!isLoaded(slots) && <LinearProgress />}
         <Container maxWidth="md" className={classes.slotsContainer}>
           <Grid container spacing={3}>
-            {isLoaded(bookings) &&
-              !isEmpty(bookings) &&
-              bookings.map((booking) => (
-                <Grid item xs={12} key={booking.id}>
-                  <BookingCard {...booking} />
+            {isLoaded(slots) &&
+              !isEmpty(slots) &&
+              slots.map((slot) => (
+                <Grid item xs={12} key={slot.id}>
+                  <BookingCard {...slot} />
                 </Grid>
               ))}
-            {isLoaded(bookings) && isEmpty(bookings) && (
+            {isLoaded(slots) && isEmpty(slots) && (
               <Grid item xs={12} p={6}>
                 <Typography variant="h4" align="center">
                   Nessuno slot disponible
@@ -295,4 +282,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default BookingsPage;
+export default SlotsPage;

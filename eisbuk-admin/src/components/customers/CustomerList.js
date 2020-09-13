@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 import MaterialTable, { MTablePagination } from "material-table";
-import { makeStyles } from "@material-ui/core/styles";
 
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
@@ -22,20 +21,11 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import Grid from "@material-ui/core/Grid";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Avatar from "@material-ui/core/Avatar";
+import ColoredAvatar from "../../components/users/coloredAvatar";
 
 import { deleteCustomer, updateCustomer } from "../../store/actions/actions";
-import { getInitials } from "../../utils/helpers";
-
-const useStyles = makeStyles((theme) => ({
-  avatar: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.getContrastText(theme.palette.primary.main),
-  },
-}));
 
 export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
-  const classes = useStyles();
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -75,9 +65,7 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
               export: false,
               field: "name",
               render: (rowData) => (
-                <Avatar className={classes.avatar}>
-                  {getInitials(rowData.name, rowData.surname)}
-                </Avatar>
+                <ColoredAvatar name={rowData.name} surname={rowData.surname} />
               ),
             },
             { title: "Nome", field: "name" },

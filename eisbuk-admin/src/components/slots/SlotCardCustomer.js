@@ -1,15 +1,10 @@
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
 import moment from "moment";
-import Moment from "react-moment";
 import { connect } from "react-redux";
-
-import { deleteBookingSlot } from "../../store/actions/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,21 +29,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const BookingCard = (props) => {
-  const m = moment().locale("it");
+export const SlotCardCustomer = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const formattedDate = moment
-    .unix(props.date.seconds)
-    .format("D MMMM YYYY HH:mm:ss");
   const formattedHour = moment
     .unix(props.date.seconds)
     .locale("it")
     .format("HH:mm");
-  const handleDelete = (e) => {
-    e.preventDefault();
-    props.deleteBookingSlot(props.id.toString());
-  };
   return (
     <Card className={classes.root}>
       <div className={classes.time}>{formattedHour}</div>
@@ -57,23 +43,16 @@ export const BookingCard = (props) => {
           <Typography variant="subtitle1" color="textSecondary">
             <strong>Durata</strong> : {props.duration} minuti
           </Typography>
-          <IconButton
-            aria-label="delete"
-            color="primary"
-            onClick={handleDelete}
-          >
-            <DeleteIcon />
-          </IconButton>
         </CardContent>
       </div>
     </Card>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
+/* const mapDispatchToProps = (dispatch) => {
   return {
-    deleteBookingSlot: (id) => dispatch(deleteBookingSlot(id)),
+    deleteSlot: (id) => dispatch(deleteSlot(id)),
   };
-};
+}; */
 
-export default connect(null, mapDispatchToProps)(BookingCard);
+export default connect(null, null)(SlotCardCustomer);

@@ -1,13 +1,4 @@
-import {
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  LOGOUT_SUCCESS,
-  LOGOUT_ERROR,
-  GOOGLE_LOGIN_ERROR,
-  GOOGLE_LOGIN_SUCCESS,
-  IS_LOADING,
-  HAS_LOADED,
-} from "./action-types";
+import { GOOGLE_LOGIN_ERROR, GOOGLE_LOGIN_SUCCESS } from "./action-types";
 
 export const signIn = (credentials) => {
   return (dispatch, getState, { getFirebase }) => {
@@ -55,29 +46,28 @@ export const signInWithGoogle = () => {
   };
 };
 
-export const createBookingSlot = ({ dateTime, duration }) => {
+export const createSlot = (data) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
-
     firebase
       .firestore()
-      .collection("bookings")
-      .add({
-        date: dateTime,
-        duration: duration,
+      .collection("slots")
+      .add(data)
+      .then(() => {
+        console.log("Slot added");
       })
-      .then((err) => {
+      .catch((err) => {
         console.log("Error : " + err);
       });
   };
 };
 
-export const deleteBookingSlot = (id) => {
+export const deleteSlot = (id) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
     firebase
       .firestore()
-      .collection("bookings")
+      .collection("slots")
       .doc(id)
       .delete()
       .then(() => {

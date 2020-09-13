@@ -1,11 +1,8 @@
 import React from "react";
-import firebase from "firebase";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -16,22 +13,6 @@ import AppbarDrawer from "../../components/layout/AppbarDrawer";
 
 const DashboardPage = () => {
   const classes = useStyles();
-  const howManyUsersField = (
-    <TextField
-      id="standard-number"
-      label="Number"
-      type="number"
-      defaultValue="1"
-    />
-  );
-  const create_users_button = (event) => {
-    const howMany = 1; // How tf do you extract the value from a Material UI TextField?
-    firebase
-      .app()
-      .functions("europe-west6")
-      .httpsCallable("createTestData")({ howMany: howMany })
-      .then((result) => console.log(result));
-  };
 
   return (
     <div className={classes.root}>

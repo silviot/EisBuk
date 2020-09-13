@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
+import { Route, BrowserRouter, Switch } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import { ReactReduxFirebaseProvider } from "react-redux-firebase";
@@ -23,7 +23,7 @@ import { blue, lightBlue, blueGrey } from "@material-ui/core/colors";
 
 import DashboardPage from "./pages/DashboardPage";
 import CustomersPage from "./pages/CustomersPage";
-import BookingsPage from "./pages/BookingsPage";
+import SlotsPage from "./pages/SlotsPage";
 import LoginPage from "./pages/LoginPage";
 import CustomerAreaPage from "./pages/CustomerAreaPage";
 
@@ -63,7 +63,7 @@ function App() {
                 <PrivateRoute path="/clienti" component={CustomersPage} exact />
                 <PrivateRoute
                   path="/prenotazioni"
-                  component={BookingsPage}
+                  component={SlotsPage}
                   exact
                 />
                 <LoginRoute path="/login" component={LoginPage} />
