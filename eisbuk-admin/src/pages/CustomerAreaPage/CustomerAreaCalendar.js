@@ -53,9 +53,9 @@ export const CustomerAreaCalendar = ({ userCategory }) => {
       collection: "slots",
       orderBy: "date",
       where: [
-        /*         ["date", ">=", month.start], */
+        ["date", ">=", month.start],
         ["date", "<", month.end],
-        ["category", "==", userCategory],
+        /* ["category", "==", userCategory], */
       ],
       storeAs: "slotsByMonth",
     },
