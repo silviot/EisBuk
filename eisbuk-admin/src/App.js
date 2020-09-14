@@ -21,6 +21,9 @@ import {
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { blue, lightBlue, blueGrey } from "@material-ui/core/colors";
 
+import { SnackbarProvider } from "notistack";
+import Notifier from "./utils/Notifier";
+
 import DashboardPage from "./pages/DashboardPage";
 import CustomersPage from "./pages/CustomersPage";
 import SlotsPage from "./pages/SlotsPage";
@@ -56,20 +59,27 @@ function App() {
             utils={MomentUtils}
             locale="it"
           >
-            <CssBaseline />
-            <BrowserRouter>
-              <Switch>
-                <PrivateRoute path="/" component={DashboardPage} exact />
-                <PrivateRoute path="/clienti" component={CustomersPage} exact />
-                <PrivateRoute
-                  path="/prenotazioni"
-                  component={SlotsPage}
-                  exact
-                />
-                <LoginRoute path="/login" component={LoginPage} />
-                <Route path="/clienti/:id" children={<CustomerAreaPage />} />
-              </Switch>
-            </BrowserRouter>
+            <SnackbarProvider maxSnack={3}>
+              <Notifier />
+              <CssBaseline />
+              <BrowserRouter>
+                <Switch>
+                  <PrivateRoute path="/" component={DashboardPage} exact />
+                  <PrivateRoute
+                    path="/clienti"
+                    component={CustomersPage}
+                    exact
+                  />
+                  <PrivateRoute
+                    path="/prenotazioni"
+                    component={SlotsPage}
+                    exact
+                  />
+                  <LoginRoute path="/login" component={LoginPage} />
+                  <Route path="/clienti/:id" children={<CustomerAreaPage />} />
+                </Switch>
+              </BrowserRouter>
+            </SnackbarProvider>
           </MuiPickersUtilsProvider>
         </ThemeProvider>
       </ReactReduxFirebaseProvider>
