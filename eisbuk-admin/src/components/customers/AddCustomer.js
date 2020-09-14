@@ -4,17 +4,42 @@ import { connect } from "react-redux";
 import { Typography, Box } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-
-import Slider from "@material-ui/core/Slider";
-import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputAdornment from "@material-ui/core/InputAdornment";
+
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import Email from "@material-ui/icons/Email";
+import Phone from "@material-ui/icons/Phone";
+import Cake from "@material-ui/icons/Cake";
+import LocalHospital from "@material-ui/icons/LocalHospital";
+import Payment from "@material-ui/icons/Payment";
+import Grade from "@material-ui/icons/Grade";
 
 import { createCustomer } from "../../store/actions/actions";
 
 import { Formik, Form, Field } from "formik";
 import { TextField, Select } from "formik-material-ui";
+import { DatePicker } from "formik-material-ui-pickers";
+import * as Yup from "yup";
+
+import moment from "moment";
+
+import { slotsLabels } from "../../config/appConfig";
+
+const CustomerValidation = Yup.object().shape({
+  name: Yup.string().required("Richiesto"),
+  surname: Yup.string().required("Richiesto"),
+  email: Yup.string().email("Inserisci una email valida").required("Richiesto"),
+  phone: Yup.number("Inserisci un numero").required("Richiesto"),
+  birth: Yup.mixed().required("Richiesto"),
+  certificateExpiration: Yup.mixed("Non è una data").required("Richiesto"),
+  category: Yup.string().required("Scegli la categoria"),
+  subscriptionNumber: Yup.number().required("Richiesto"),
+});
 
 const AddCustomer = ({ createCustomer }) => {
   return (
@@ -22,111 +47,181 @@ const AddCustomer = ({ createCustomer }) => {
       <Grid item xs={12}>
         <Paper>
           <Box p={3}>
-            <Typography variant="h3">Nuovo cliente</Typography>
+            <Typography variant="h3">Nuovo Atleta</Typography>
             <Formik
               initialValues={{
                 name: "",
                 surname: "",
                 email: "",
                 phone: "",
-                subscription: "standard",
-                level: "5",
+                birth: null,
+                category: "",
+                certificateExpiration: null,
+                subscriptionNumber: "",
               }}
-              validate={(values) => {
-                const errors = {};
-                if (!values.email) {
-                  errors.email = "Required";
-                } else if (
-                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-                    values.email
-                  )
-                ) {
-                  errors.email = "Invalid email address";
-                }
-                return errors;
-              }}
+              validationSchema={CustomerValidation}
               onSubmit={(values, { setSubmitting, resetForm }) => {
-                createCustomer(values);
+                createCustomer({
+                  name: values.name,
+                  surname: values.surname,
+                  email: values.email,
+                  phone: values.phone,
+                  birth: moment(values.birth).toDate(),
+                  category: values.category,
+                  certificateExpiration: moment(
+                    values.certificateExpiration
+                  ).toDate(),
+                  subscriptionNumber: values.subscriptionNumber,
+                });
                 setSubmitting(false);
                 resetForm();
               }}
             >
-              {({ submitForm, isSubmitting, setFieldValue }) => (
+              {({ submitForm, isSubmitting, errors }) => (
                 <Form>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={3}>
                       <Field
-                        required
                         component={TextField}
                         name="name"
                         label="Nome"
-                        defaultValue=""
                         variant="outlined"
                         fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <AccountCircle color="disabled" />
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12} md={6} lg={3}>
                       <Field
-                        required
                         component={TextField}
                         name="surname"
                         label="Cognome"
-                        defaultValue=""
                         variant="outlined"
                         fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <AccountCircle color="disabled" />
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12} md={6} lg={3}>
                       <Field
-                        required
                         component={TextField}
                         name="email"
-                        type="email"
                         label="Email"
-                        defaultValue=""
                         variant="outlined"
                         fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <Email color="disabled" />
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12} md={6} lg={3}>
                       <Field
-                        required
                         component={TextField}
                         name="phone"
-                        type="tel"
                         label="Telefono"
-                        defaultValue=""
                         variant="outlined"
                         fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <Phone color="disabled" />
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Grid>
-                    <Grid item xs={12} md={6} lg={6}>
+                    <Grid item xs={12} md={6} lg={3}>
+                      <Field
+                        component={DatePicker}
+                        name="birth"
+                        label="Data di nascita"
+                        variant="outlined"
+                        openTo="year"
+                        inputVariant="outlined"
+                        views={["year", "month", "date"]}
+                        format="D MMMM YYYY"
+                        maxDate={moment()}
+                        fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <Cake color="disabled" />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
                       <FormControl variant="outlined" fullWidth>
-                        <InputLabel id="demo-simple-select-outlined-label">
-                          Abbonamento
-                        </InputLabel>
+                        <InputLabel>Categoria</InputLabel>
                         <Field
                           component={Select}
-                          name="subscription"
-                          labelId="subscription-type"
-                          label="Abbonamento"
+                          name="category"
+                          label="Categoria"
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <Grade color="disabled" />
+                              </InputAdornment>
+                            ),
+                          }}
                         >
-                          <MenuItem value="standard">Standard</MenuItem>
-                          <MenuItem value="professional">Professional</MenuItem>
+                          {slotsLabels.categories.map((level) => (
+                            <MenuItem key={level.id} value={level.id}>
+                              {level.label}
+                            </MenuItem>
+                          ))}
                         </Field>
+                        <FormHelperText>{errors.category}</FormHelperText>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={6}>
-                      <Typography gutterBottom>Livello</Typography>
-                      <Slider
-                        defaultValue={5}
-                        step={1}
-                        min={1}
-                        max={10}
-                        valueLabelDisplay="on"
-                        onChange={(event, value) =>
-                          setFieldValue("level", value)
-                        }
+                    <Grid item xs={12} md={6} lg={3}>
+                      <Field
+                        component={DatePicker}
+                        name="certificateExpiration"
+                        label="Scadenza Cert. Medico"
+                        variant="outlined"
+                        inputVariant="outlined"
+                        views={["year", "month", "date"]}
+                        format="D MMMM YYYY"
+                        fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <LocalHospital color="disabled" />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
+                      <Field
+                        component={TextField}
+                        name="subscriptionNumber"
+                        label="Numero Tessera"
+                        variant="outlined"
+                        fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <Payment color="disabled" />
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12}>

@@ -50,7 +50,7 @@ export const SlotCard = ({
 }) => {
   const classes = useStyles();
   let labels = [];
-  Object.keys(slotsLabels).map((x) => {
+  Object.keys(slotsLabels).forEach((x) => {
     labels[x] = _.keyBy(slotsLabels[x], "id");
   });
 

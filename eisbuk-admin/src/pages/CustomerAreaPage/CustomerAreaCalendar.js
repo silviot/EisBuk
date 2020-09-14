@@ -7,11 +7,11 @@ import { onlyUnique } from "../../utils/helpers";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid, Paper, Box } from "@material-ui/core";
-import { DatePicker, Day } from "@material-ui/pickers";
+import { DatePicker } from "@material-ui/pickers";
 
 import SlotCardCustomer from "../../components/slots/SlotCardCustomer";
 
-export const CustomerAreaCalendar = () => {
+export const CustomerAreaCalendar = ({ userCategory }) => {
   let m = (m) => moment(m).locale("it");
   const classes = useStyles();
 
@@ -41,30 +41,32 @@ export const CustomerAreaCalendar = () => {
 
   useFirestoreConnect([
     {
-      collection: "bookings",
+      collection: "slots",
       orderBy: "date",
       where: [
+        /*         ["category", "==", userCategory], */
         ["date", ">=", date.start],
         ["date", "<", date.end],
       ],
     },
     {
-      collection: "bookings",
+      collection: "slots",
       orderBy: "date",
       where: [
-        ["date", ">=", month.start],
+        /*         ["date", ">=", month.start], */
         ["date", "<", month.end],
+        ["category", "==", userCategory],
       ],
-      storeAs: "bookingsByMonth",
+      storeAs: "slotsByMonth",
     },
   ]);
 
-  const bookings = useSelector((state) => state.firestore.ordered.bookings);
-  const bookingsByMonth = useSelector(
-    (state) => state.firestore.ordered.bookingsByMonth
+  const slots = useSelector((state) => state.firestore.ordered.slots);
+  const slotsByMonth = useSelector(
+    (state) => state.firestore.ordered.slotsByMonth
   );
-  let daysInMonth = bookingsByMonth && [
-    ...bookingsByMonth.map((x) =>
+  let daysInMonth = slotsByMonth && [
+    ...slotsByMonth.map((x) =>
       moment.unix(x.date.seconds).locale("it").format("D")
     ),
   ];
@@ -93,13 +95,13 @@ export const CustomerAreaCalendar = () => {
               daysInMonth &&
               daysInMonth.filter(onlyUnique).includes(m(date).format("D"));
             return (
-              <Day
+              <div
                 style={{
                   border: isSelected ? "1px solid" : "none",
                 }}
               >
                 {dayComponent}
-              </Day>
+              </div>
             );
           }}
         />
@@ -107,17 +109,17 @@ export const CustomerAreaCalendar = () => {
       <Grid item sm={12} md={6}>
         <Box p={3}>
           <Typography variant="h3">
-            {m(date.current).format("dddd M MMMM YYYY")}
+            {m(date.current).format("dddd D MMMM YYYY")}
           </Typography>
           <Grid container spacing={3}>
-            {isLoaded(bookings) &&
-              !isEmpty(bookings) &&
-              bookings.map((booking) => (
-                <Grid item xs={12} key={booking.id}>
-                  <SlotCardCustomer {...booking} />
+            {isLoaded(slots) &&
+              !isEmpty(slots) &&
+              slots.map((slot) => (
+                <Grid item xs={12} key={slot.id}>
+                  <SlotCardCustomer {...slot} />
                 </Grid>
               ))}
-            {isLoaded(bookings) && isEmpty(bookings) && (
+            {isLoaded(slots) && isEmpty(slots) && (
               <Grid item xs={12} p={6}>
                 <Typography variant="h4" align="center">
                   Nessuno slot disponible

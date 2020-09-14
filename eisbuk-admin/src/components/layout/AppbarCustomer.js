@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { appLabels } from "../../config/appConfig";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -19,7 +19,7 @@ const AppbarCustomer = () => {
           noWrap
           className={classes.title}
         >
-          IGOR ICE
+          {appLabels.appName}
         </Typography>
       </Toolbar>
     </AppBar>

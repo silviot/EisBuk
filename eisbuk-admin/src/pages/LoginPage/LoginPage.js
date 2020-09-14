@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { signIn, signInWithGoogle } from "../../store/actions/actions";
+import { appLabels } from "../../config/appConfig";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -83,7 +84,7 @@ const SignInSide = ({ signIn }) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Igor Ice Admin
+            {appLabels.appName}
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField

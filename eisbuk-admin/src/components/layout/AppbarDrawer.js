@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { signOut } from "../../store/actions/actions";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { appLabels } from "../../config/appConfig";
 import IconButton from "@material-ui/core/IconButton";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -66,7 +66,7 @@ const AppbarDrawer = ({ signOut }) => {
           <ListItemIcon>
             <PeopleIcon className={classes.drawerLinkItem} />
           </ListItemIcon>
-          <ListItemText primary="Clienti" />
+          <ListItemText primary="Atleti" />
         </ListItem>
       </Link>
     </div>
@@ -97,14 +97,14 @@ const AppbarDrawer = ({ signOut }) => {
             noWrap
             className={classes.title}
           >
-            IGOR ICE
+            {appLabels.appName}
           </Typography>
           <Button
             color="inherit"
             onClick={handleLogout}
             startIcon={<ExitToApp />}
           >
-            LOGOUT
+            Logout
           </Button>
         </Toolbar>
       </AppBar>

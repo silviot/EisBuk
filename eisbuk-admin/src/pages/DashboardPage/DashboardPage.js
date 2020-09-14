@@ -34,7 +34,7 @@ const DashboardPage = () => {
             {/* Bookings */}
             <Grid item xs={12} md={6}>
               <Paper className={classes.paper}>
-                <Typography variant="h3">Clienti</Typography>
+                <Typography variant="h3">Atleti</Typography>
               </Paper>
             </Grid>
           </Grid>

@@ -81,17 +81,9 @@ export const deleteSlot = (id) => {
 
 export const createCustomer = (customer) => {
   return (dispatch, getState, { getFirebase }) => {
-    const { name, surname, email, phone, subscription, level } = customer;
     console.log(customer);
     const firebase = getFirebase();
-    firebase.firestore().collection("customers").add({
-      name: name,
-      surname: surname,
-      email: email,
-      phone: phone,
-      subscription: subscription,
-      level: level,
-    });
+    firebase.firestore().collection("customers").add(customer);
   };
 };
 

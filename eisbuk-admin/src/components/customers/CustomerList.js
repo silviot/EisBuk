@@ -1,6 +1,7 @@
 import React, { forwardRef } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+import _ from "lodash";
 
 import MaterialTable, { MTablePagination } from "material-table";
 
@@ -20,8 +21,10 @@ import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import Grid from "@material-ui/core/Grid";
-import LinearProgress from "@material-ui/core/LinearProgress";
+
 import ColoredAvatar from "../../components/users/coloredAvatar";
+import { slotsLabels } from "../../config/appConfig";
+import moment from "moment";
 
 import { deleteCustomer, updateCustomer } from "../../store/actions/actions";
 
@@ -54,6 +57,10 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
   };
   let history = useHistory();
+  let labels = [];
+  Object.keys(slotsLabels).forEach((x) => {
+    labels[x] = _.keyBy(slotsLabels[x], "id");
+  });
 
   return (
     <Grid container>
@@ -72,16 +79,19 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
             { title: "Cognome", field: "surname" },
             { title: "Email", field: "email" },
             { title: "Telefono", field: "phone" },
-            { title: "Abbonamento", field: "subscription" },
             {
-              title: "Livello",
-              field: "level",
+              title: "Età",
+              field: "birth",
               render: (rowData) => (
-                <LinearProgress
-                  variant="determinate"
-                  value={rowData.level * 10}
-                />
+                <>
+                  {moment().diff(moment.unix(rowData.birth.seconds), "years")}
+                </>
               ),
+            },
+            {
+              title: "Categoria",
+              field: "category",
+              render: (rowData) => labels.categories[rowData.category].label,
             },
           ]}
           data={customers}

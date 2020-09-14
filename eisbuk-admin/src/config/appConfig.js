@@ -1,4 +1,7 @@
-// Set slot durations choices
+export const appLabels = {
+  appName: "Igor Ice Team",
+  locale: "it",
+};
 export const slotsLabels = {
   durations: [
     { id: 60, label: "1 ora" },

@@ -1,10 +1,13 @@
 import React from "react";
+import { connect } from "react-redux";
+import _ from "lodash";
+import moment from "moment";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import moment from "moment";
-import { connect } from "react-redux";
+
+import { slotsLabels } from "../../config/appConfig";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,20 +32,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SlotCardCustomer = (props) => {
+export const SlotCardCustomer = ({
+  date,
+  durations,
+  type,
+  category,
+  notes,
+}) => {
   const classes = useStyles();
-  const formattedHour = moment
-    .unix(props.date.seconds)
-    .locale("it")
-    .format("HH:mm");
+  const formattedHour = moment.unix(date.seconds).locale("it").format("HH:mm");
+  let labels = [];
+  Object.keys(slotsLabels).forEach((x) => {
+    labels[x] = _.keyBy(slotsLabels[x], "id");
+  });
   return (
     <Card className={classes.root}>
       <div className={classes.time}>{formattedHour}</div>
       <div className={classes.details}>
         <CardContent className={classes.content}>
-          <Typography variant="subtitle1" color="textSecondary">
-            <strong>Durata</strong> : {props.duration} minuti
-          </Typography>
+          <div>
+            Durata{" "}
+            {durations.map((duration) => labels.durations[duration].label)}
+          </div>
+          <div>{labels.categories[category].label}</div>
+          <div>{labels.types[type].label}</div>
+          <div>{notes}</div>
         </CardContent>
       </div>
     </Card>

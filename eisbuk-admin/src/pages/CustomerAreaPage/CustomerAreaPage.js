@@ -104,7 +104,11 @@ export const CustomerAreaPage = () => {
                   <Grid item xs={12}>
                     <Box py={3}>
                       <Typography variant="h6">
-                        Benvenuto {customerData[0].name}
+                        Benvenuto {customerData[0].name}{" "}
+                        {customerData[0].surname}
+                      </Typography>
+                      <Typography variant="p">
+                        {customerData[0].category}
                       </Typography>
                     </Box>
                   </Grid>
@@ -116,7 +120,9 @@ export const CustomerAreaPage = () => {
                 <Container maxWidth="lg">
                   <Grid item xs={12}>
                     <Box py={3}>
-                      <CustomerAreaCalendar />
+                      <CustomerAreaCalendar
+                        userCategory={customerData[0].category}
+                      />
                     </Box>
                   </Grid>
                 </Container>

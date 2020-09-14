@@ -54,7 +54,7 @@ const CreateSlot = ({ createSlot }) => {
             resetForm();
           }}
         >
-          {({ errors, touched, values }) => (
+          {({ errors, values }) => (
             <Form>
               <Field
                 component={DateTimePicker}
