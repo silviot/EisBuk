@@ -71,9 +71,13 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
               title: "",
               export: false,
               field: "name",
-              render: (rowData) => (
-                <ColoredAvatar name={rowData.name} surname={rowData.surname} />
-              ),
+              render: (rowData) =>
+                rowData.name && rowData.surname ? (
+                  <ColoredAvatar
+                    name={rowData.name}
+                    surname={rowData.surname}
+                  />
+                ) : null,
             },
             { title: "Nome", field: "name" },
             { title: "Cognome", field: "surname" },
@@ -82,16 +86,18 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
             {
               title: "Età",
               field: "birth",
-              render: (rowData) => (
-                <>
-                  {moment().diff(moment.unix(rowData.birth.seconds), "years")}
-                </>
-              ),
+              render: (rowData) =>
+                rowData.birth
+                  ? moment().diff(moment.unix(rowData.birth.seconds), "years")
+                  : null,
             },
             {
               title: "Categoria",
               field: "category",
-              render: (rowData) => labels.categories[rowData.category].label,
+              render: (rowData) =>
+                rowData.category
+                  ? labels.categories[rowData.category].label
+                  : null,
             },
           ]}
           data={customers}
