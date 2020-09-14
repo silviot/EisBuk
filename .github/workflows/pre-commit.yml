@@ -1,0 +1,18 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.7"
+          architecture: "x64"
+      - run: sudo apt install python3-setuptools
+      - run: sudo pip3 install pre-commit
+      - run: pre-commit install-hooks
+      - run: pre-commit run -a
