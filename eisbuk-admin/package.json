@@ -22,6 +22,7 @@
     "formik-material-ui-pickers": "^0.0.11",
     "material-table": "^1.69.0",
     "moment": "^2.27.0",
+    "notistack": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-moment": "^0.9.7",

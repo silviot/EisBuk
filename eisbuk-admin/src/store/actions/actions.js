@@ -1,4 +1,36 @@
-import { GOOGLE_LOGIN_ERROR, GOOGLE_LOGIN_SUCCESS } from "./action-types";
+import {
+  GOOGLE_LOGIN_ERROR,
+  GOOGLE_LOGIN_SUCCESS,
+  ENQUEUE_SNACKBAR,
+  CLOSE_SNACKBAR,
+  REMOVE_SNACKBAR,
+} from "./action-types";
+
+import React from "react";
+import Button from "@material-ui/core/Button";
+
+export const enqueueSnackbar = (notification) => {
+  const key = notification.options && notification.options.key;
+
+  return {
+    type: ENQUEUE_SNACKBAR,
+    notification: {
+      ...notification,
+      key: key || new Date().getTime() + Math.random(),
+    },
+  };
+};
+
+export const closeSnackbar = (key) => ({
+  type: CLOSE_SNACKBAR,
+  dismissAll: !key, // dismiss all if no key has been defined
+  key,
+});
+
+export const removeSnackbar = (key) => ({
+  type: REMOVE_SNACKBAR,
+  key,
+});
 
 export const signIn = (credentials) => {
   return (dispatch, getState, { getFirebase }) => {
@@ -7,10 +39,26 @@ export const signIn = (credentials) => {
       .auth()
       .signInWithEmailAndPassword(credentials.email, credentials.password)
       .then(() => {
-        console.log("Login Success");
+        dispatch(
+          enqueueSnackbar({
+            message: "Hai effettuato il login",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "success",
+            },
+          })
+        );
       })
       .catch((err) => {
-        console.log("Login Error");
+        dispatch(
+          enqueueSnackbar({
+            message: "Autenticazione negata",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "error",
+            },
+          })
+        );
       });
   };
 };
@@ -22,10 +70,26 @@ export const signOut = () => {
       .auth()
       .signOut()
       .then(() => {
-        console.log("Logout success");
+        dispatch(
+          enqueueSnackbar({
+            message: "Hai effettuato il logout",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "success",
+            },
+          })
+        );
       })
       .catch((err) => {
-        console.log("Logout error");
+        dispatch(
+          enqueueSnackbar({
+            message: "Si è verificato un errore",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "error",
+            },
+          })
+        );
       });
   };
 };
@@ -54,10 +118,26 @@ export const createSlot = (data) => {
       .collection("slots")
       .add(data)
       .then(() => {
-        console.log("Slot added");
+        dispatch(
+          enqueueSnackbar({
+            message: "Slot Aggiunto",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "success",
+            },
+          })
+        );
       })
       .catch((err) => {
-        console.log("Error : " + err);
+        dispatch(
+          enqueueSnackbar({
+            message: "Errore",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "error",
+            },
+          })
+        );
       });
   };
 };
@@ -71,10 +151,25 @@ export const deleteSlot = (id) => {
       .doc(id)
       .delete()
       .then(() => {
-        console.log("Eliminato");
+        dispatch(
+          enqueueSnackbar({
+            message: "Slot Eliminato",
+            options: {
+              key: new Date().getTime() + Math.random(),
+            },
+          })
+        );
       })
       .catch((err) => {
-        console.log("Error : " + err);
+        dispatch(
+          enqueueSnackbar({
+            message: "Errore",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "error",
+            },
+          })
+        );
       });
   };
 };
@@ -83,7 +178,32 @@ export const createCustomer = (customer) => {
   return (dispatch, getState, { getFirebase }) => {
     console.log(customer);
     const firebase = getFirebase();
-    firebase.firestore().collection("customers").add(customer);
+    firebase
+      .firestore()
+      .collection("customers")
+      .add(customer)
+      .then(() => {
+        dispatch(
+          enqueueSnackbar({
+            message: "Atleta aggiunto",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "success",
+            },
+          })
+        );
+      })
+      .catch((err) => {
+        dispatch(
+          enqueueSnackbar({
+            message: "Errore",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "error",
+            },
+          })
+        );
+      });
   };
 };
 
@@ -96,10 +216,26 @@ export const deleteCustomer = (id) => {
       .doc(id)
       .delete()
       .then(() => {
-        console.log("Eliminato");
+        dispatch(
+          enqueueSnackbar({
+            message: "Atleta rimosso",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "success",
+            },
+          })
+        );
       })
       .catch((err) => {
-        console.log("Error : " + err);
+        dispatch(
+          enqueueSnackbar({
+            message: "Errore",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "error",
+            },
+          })
+        );
       });
   };
 };
