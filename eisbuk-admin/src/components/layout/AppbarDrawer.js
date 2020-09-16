@@ -1,10 +1,10 @@
-import React from "react"
-import clsx from "clsx"
-import { connect } from 'react-redux'
-import {Link} from 'react-router-dom'
-import {signOut} from '../../store/actions/actions'
+import React from "react";
+import clsx from "clsx";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { signOut } from "../../store/actions/actions";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { appLabels } from "../../config/appConfig";
 import IconButton from "@material-ui/core/IconButton";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -16,106 +16,116 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
-import BarChartIcon from "@material-ui/icons/BarChart";
+import TodayIcon from "@material-ui/icons/Today";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import Divider from "@material-ui/core/Divider";
+import ExitToApp from "@material-ui/icons/ExitToApp";
 
-const AppbarDrawer = ({signOut}) => {
+const AppbarDrawer = ({ signOut }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
   const handleLogout = (e) => {
-    e.preventDefault()
-    signOut()
-  }
+    e.preventDefault();
+    signOut();
+  };
 
   const mainListItems = (
     <div>
-    <Link to="/" style={{ textDecoration: 'none', color: 'initial' }}>  
-        <ListItem button>
-            <ListItemIcon>
-                <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
+      <Link to="/" style={{ textDecoration: "none", color: "initial" }}>
+        <ListItem button className={classes.drawerLinkItem}>
+          <ListItemIcon>
+            <DashboardIcon className={classes.drawerLinkItem} />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
         </ListItem>
-    </Link>
-    <Link to="/clienti" style={{ textDecoration: 'none', color: 'initial' }}>
-        <ListItem button>
-            <ListItemIcon>
-                <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Clienti" />
+      </Link>
+      <Link
+        to="/prenotazioni"
+        style={{ textDecoration: "none", color: "initial" }}
+      >
+        <ListItem button className={classes.drawerLinkItem}>
+          <ListItemIcon>
+            <TodayIcon className={classes.drawerLinkItem} />
+          </ListItemIcon>
+          <ListItemText primary="Prenotazioni" />
         </ListItem>
-    </Link>
-    <Link to="/prenotazioni" style={{ textDecoration: 'none', color: 'initial' }}>
-        <ListItem button>
-            <ListItemIcon>
-                <BarChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Prenotazioni" />
+      </Link>
+      <Link to="/clienti" style={{ textDecoration: "none", color: "initial" }}>
+        <ListItem button className={classes.drawerLinkItem}>
+          <ListItemIcon>
+            <PeopleIcon className={classes.drawerLinkItem} />
+          </ListItemIcon>
+          <ListItemText primary="Atleti" />
         </ListItem>
-    </Link>
+      </Link>
     </div>
   );
   return (
     <>
-    <AppBar
-    position="absolute"
-    className={clsx(classes.appBar, open && classes.appBarShift)}
-    >
+      <AppBar
+        position="absolute"
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
         <Toolbar className={classes.toolbar}>
-            <IconButton
+          <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             className={clsx(
-                classes.menuButton,
-                open && classes.menuButtonHidden
+              classes.menuButton,
+              open && classes.menuButtonHidden
             )}
-            >
+          >
             <MenuIcon />
-            </IconButton>
-            <Typography
+          </IconButton>
+          <Typography
             component="h1"
             variant="h6"
             color="inherit"
             noWrap
             className={classes.title}
-            >
-            IGOR ICE
-            </Typography>
-            <Button color="inherit" onClick={handleLogout}>LOGOUT</Button>
+          >
+            {appLabels.appName}
+          </Typography>
+          <Button
+            color="inherit"
+            onClick={handleLogout}
+            startIcon={<ExitToApp />}
+          >
+            Logout
+          </Button>
         </Toolbar>
-    </AppBar>
-    <Drawer
-    variant="permanent"
-    classes={{
-      paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-    }}
-    open={open}
-  >
+      </AppBar>
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+      >
         <div className={classes.toolbarIcon}>
-        <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
-        </IconButton>
+          </IconButton>
         </div>
         <Divider />
         <List>{mainListItems}</List>
-    </Drawer>
+      </Drawer>
     </>
-  )
-}
+  );
+};
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -157,6 +167,8 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,
+    backgroundColor: theme.palette.grey[900],
+    color: theme.palette.grey[200],
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -172,6 +184,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       width: theme.spacing(9),
     },
+  },
+  drawerLinkItem: {
+    color: theme.palette.primary.contrastText,
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -194,11 +209,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const mapDispatchToProps = (dispatch) => {
-    return {
-      signOut: () => dispatch(signOut())
-    }
-  }
-  
-  export default connect(null, mapDispatchToProps)(AppbarDrawer)
+  return {
+    signOut: () => dispatch(signOut()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AppbarDrawer);

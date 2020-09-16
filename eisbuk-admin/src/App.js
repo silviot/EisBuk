@@ -1,36 +1,42 @@
 import React from "react";
-import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { Route, BrowserRouter, Switch } from "react-router-dom";
+
+import { Provider } from "react-redux";
+import { ReactReduxFirebaseProvider } from "react-redux-firebase";
+import { rrfProps, store } from "./store/store";
+
+import PrivateRoute from "./components/auth/PrivateRoute";
+import LoginRoute from "./components/auth/LoginRoute";
+
+import moment from "moment";
+import MomentUtils from "@date-io/moment";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import "moment/locale/it";
+
 import {
-  ReactReduxFirebaseProvider,
-} from 'react-redux-firebase'
-import moment from 'moment'
-import MomentUtils from '@date-io/moment';
-import 'moment/locale/it'
+  ThemeProvider,
+  createMuiTheme,
+  responsiveFontSizes,
+} from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { blue, lightBlue, blueGrey } from "@material-ui/core/colors";
 
-import { rrfProps, store } from "./store/store"
-import PrivateRoute from './components/auth/PrivateRoute'
-import LoginRoute from './components/auth/LoginRoute'
+import DashboardPage from "./pages/DashboardPage";
+import CustomersPage from "./pages/CustomersPage";
+import SlotsPage from "./pages/SlotsPage";
+import LoginPage from "./pages/LoginPage";
+import CustomerAreaPage from "./pages/CustomerAreaPage";
 
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import { blue, lightBlue } from "@material-ui/core/colors"
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-
-import DashboardPage from "./pages/DashboardPage"
-import ClientsPage from "./pages/ClientsPage"
-import BookingsPage from "./pages/BookingsPage"
-import LoginPage from './pages/LoginPage'
-
-
-const igorice = createMuiTheme({
+let igorice = createMuiTheme({
   palette: {
     primary: {
       main: blue[500],
+      constrastText: "#fff",
     },
     secondary: {
-      main: lightBlue[500],
+      main: lightBlue[900],
     },
+    grey: blueGrey,
   },
   typography: {
     // Tell Material-UI what's the font-size on the html element is.
@@ -38,28 +44,37 @@ const igorice = createMuiTheme({
   },
   spacing: 8,
 });
-
+igorice = responsiveFontSizes(igorice);
 
 function App() {
   return (
-      <Provider store={store}>
-        <ReactReduxFirebaseProvider {...rrfProps}>
-            <ThemeProvider theme={igorice}>
-              <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale='it'>
-                  <CssBaseline />
-                  <BrowserRouter>
-                    <Switch>
-                      <PrivateRoute path='/' component={DashboardPage} exact />
-                      <PrivateRoute path='/clienti' component={ClientsPage} exact />
-                      <PrivateRoute path='/prenotazioni' component={BookingsPage} exact />
-                      <LoginRoute path='/login' component={LoginPage} />
-                    </Switch>
-                  </BrowserRouter>
-                </MuiPickersUtilsProvider>
-            </ThemeProvider>
-          </ReactReduxFirebaseProvider>
-      </Provider>
-  )
+    <Provider store={store}>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <ThemeProvider theme={igorice}>
+          <MuiPickersUtilsProvider
+            libInstance={moment}
+            utils={MomentUtils}
+            locale="it"
+          >
+            <CssBaseline />
+            <BrowserRouter>
+              <Switch>
+                <PrivateRoute path="/" component={DashboardPage} exact />
+                <PrivateRoute path="/clienti" component={CustomersPage} exact />
+                <PrivateRoute
+                  path="/prenotazioni"
+                  component={SlotsPage}
+                  exact
+                />
+                <LoginRoute path="/login" component={LoginPage} />
+                <Route path="/clienti/:id" children={<CustomerAreaPage />} />
+              </Switch>
+            </BrowserRouter>
+          </MuiPickersUtilsProvider>
+        </ThemeProvider>
+      </ReactReduxFirebaseProvider>
+    </Provider>
+  );
 }
 
 export default App;

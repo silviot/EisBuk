@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@date-io/date-fns": "1.x",
     "@date-io/moment": "1.x",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
@@ -14,7 +15,11 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "date-fns": "^2.16.1",
     "firebase": "^7.18.0",
+    "formik": "^2.1.5",
+    "formik-material-ui": "^3.0.0-alpha.0",
+    "formik-material-ui-pickers": "^0.0.11",
     "material-table": "^1.69.0",
     "moment": "^2.27.0",
     "react": "^16.13.1",
@@ -32,7 +37,8 @@
     "redux-thunk": "^2.3.0",
     "typescript": "~3.7.2",
     "unix-timestamp": "^0.2.0",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "start": "react-scripts start",
