@@ -2,6 +2,17 @@
 
 ## Booking management for ice skating lessons
 
+## Enabling alpha auth emulation
+
+Make sure you have the latest firebase-tools installed (>=8.11.0)
+
+    firebase --version
+    8.12.0
+
+Enable the expreimental auth emulator:
+
+    firebase --open-sesame authemulator
+
 ## Deploying
 
 make sure you have the firebase client installed:

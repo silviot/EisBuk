@@ -13,11 +13,9 @@ let fbConfig;
 
 if (process.env.NODE_ENV === "development") {
   fbConfig = {
+    databaseURL: "http://localhost:8080?ns=eisbuk",
+    projectId: "eisbuk-local",
     apiKey: "AIzaSyDfUuakkXb_xV-VFRyH7yIW4Dr7YmypHRo",
-    authDomain: "eisbuk-e6b2a.firebaseapp.com",
-    databaseURL: "https://eisbuk-e6b2a.firebaseio.com",
-    projectId: "eisbuk-e6b2a",
-    storageBucket: "eisbuk-e6b2a.appspot.com",
     messagingSenderId: "26525409101",
     appId: "1:26525409101:web:53f88cf5f4b7d6883e6104",
   };
@@ -44,7 +42,16 @@ const rrfConfig = {
 
 // Initialize Firebase, Firestore and Functions instances
 firebase.initializeApp(fbConfig);
-firebase.firestore();
+var db = firebase.firestore();
+if (process.env.NODE_ENV === "development") {
+  db.settings({
+    host: "localhost:8080",
+    ssl: false
+  });
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  firebase.auth().useEmulator('http://localhost:9099/');
+  window.firebase= firebase;
+}
 firebase.functions();
 
 // Create Redux Store with Reducers and Initial state
