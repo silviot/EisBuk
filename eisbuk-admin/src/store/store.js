@@ -47,14 +47,12 @@ var functions = firebase.functions();
 if (process.env.NODE_ENV === "development") {
   db.settings({
     host: "localhost:8080",
-    ssl: false
+    ssl: false,
   });
-  firebase.auth().useEmulator('http://localhost:9099/');
-  functions.useFunctionsEmulator("http://localhost:5001")
-  window.firebase= firebase;
+  firebase.auth().useEmulator("http://localhost:9099/");
+  functions.useFunctionsEmulator("http://localhost:5001");
+  window.firebase = firebase;
 }
-;
-
 // Create Redux Store with Reducers and Initial state
 const initialState = window && window.__INITIAL_STATE__;
 const middlewares = [thunk.withExtraArgument({ getFirebase })];
