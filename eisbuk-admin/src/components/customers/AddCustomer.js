@@ -87,7 +87,7 @@ const AddCustomer = ({ createCustomer }) => {
                         label="Nome"
                         variant="outlined"
                         fullWidth
-                        InputProps={{
+                        inputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
                               <AccountCircle color="disabled" />
@@ -103,7 +103,7 @@ const AddCustomer = ({ createCustomer }) => {
                         label="Cognome"
                         variant="outlined"
                         fullWidth
-                        InputProps={{
+                        inputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
                               <AccountCircle color="disabled" />
@@ -119,7 +119,7 @@ const AddCustomer = ({ createCustomer }) => {
                         label="Email"
                         variant="outlined"
                         fullWidth
-                        InputProps={{
+                        inputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
                               <Email color="disabled" />
@@ -135,7 +135,7 @@ const AddCustomer = ({ createCustomer }) => {
                         label="Telefono"
                         variant="outlined"
                         fullWidth
-                        InputProps={{
+                        inputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
                               <Phone color="disabled" />
@@ -156,7 +156,7 @@ const AddCustomer = ({ createCustomer }) => {
                         format="D MMMM YYYY"
                         maxDate={moment()}
                         fullWidth
-                        InputProps={{
+                        inputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
                               <Cake color="disabled" />
@@ -172,7 +172,7 @@ const AddCustomer = ({ createCustomer }) => {
                           component={Select}
                           name="category"
                           label="Categoria"
-                          InputProps={{
+                          inputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
                                 <Grade color="disabled" />
@@ -199,7 +199,7 @@ const AddCustomer = ({ createCustomer }) => {
                         views={["year", "month", "date"]}
                         format="D MMMM YYYY"
                         fullWidth
-                        InputProps={{
+                        inputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
                               <LocalHospital color="disabled" />
@@ -215,7 +215,7 @@ const AddCustomer = ({ createCustomer }) => {
                         label="Numero Tessera"
                         variant="outlined"
                         fullWidth
-                        InputProps={{
+                        inputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
                               <Payment color="disabled" />

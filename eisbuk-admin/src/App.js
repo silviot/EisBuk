@@ -7,7 +7,7 @@ import { rrfProps, store } from "./store/store";
 
 import PrivateRoute from "./components/auth/PrivateRoute";
 import LoginRoute from "./components/auth/LoginRoute";
-
+import DebugPage from "./components/debugPage"
 import moment from "moment";
 import MomentUtils from "@date-io/moment";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -77,6 +77,7 @@ function App() {
                   />
                   <LoginRoute path="/login" component={LoginPage} />
                   <Route path="/clienti/:id" children={<CustomerAreaPage />} />
+                  <Route path="/debug" children={<DebugPage />} />
                 </Switch>
               </BrowserRouter>
             </SnackbarProvider>
