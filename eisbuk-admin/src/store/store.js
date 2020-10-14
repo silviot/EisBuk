@@ -11,7 +11,7 @@ import { createFirestoreInstance } from "redux-firestore";
 
 let fbConfig;
 
-if (process.env.NODE_ENV === "development") {
+if (window.location.hostname === "localhost") {
   fbConfig = {
     databaseURL: "http://localhost:8080",
     projectId: "eisbuk-e6b2a",
@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === "development") {
     messagingSenderId: "26525409101",
     appId: "1:26525409101:web:53f88cf5f4b7d6883e6104",
   };
-  console.log("DEV Database : " + fbConfig.projectId);
+  console.warn("Using local emulated Database : " + fbConfig.databaseURL);
 } else {
   fbConfig = {
     apiKey: "AIzaSyA2dS3UiWq8ABNH9ROaQQlTsOkTq5QvCZw",
@@ -44,13 +44,15 @@ const rrfConfig = {
 firebase.initializeApp(fbConfig);
 var db = firebase.firestore();
 var functions = firebase.functions();
-if (process.env.NODE_ENV === "development") {
+
+if (window.location.hostname === "localhost") {
   db.settings({
     host: "localhost:8080",
     ssl: false,
   });
   firebase.auth().useEmulator("http://localhost:9099/");
   functions.useFunctionsEmulator("http://localhost:5001");
+  console.warn("Using emulator for functions and authentication");
   window.firebase = firebase;
 }
 // Create Redux Store with Reducers and Initial state
