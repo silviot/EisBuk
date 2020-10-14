@@ -19,7 +19,6 @@ function createTestSlots() {
 }
 
 const debugPage = () => {
-  window.moment = moment;
   return (
     <Container maxWidth="sm">
       <Box my={4} color="secondary.main">
