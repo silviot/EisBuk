@@ -41,6 +41,26 @@ const create_users = async function (howMany) {
   });
 };
 
+exports.createAdminTestUsers = functions
+  .region("europe-west6")
+  .https.onCall(async (data, context) => {
+    try {
+      console.log("hello");
+      res = await admin.auth().createUser({
+        email: "test@eisbuk.it",
+        emailVerified: true,
+        phoneNumber: "+11234567890",
+        password: "test00",
+        displayName: "Test User",
+        disabled: false,
+      });
+    } catch (e) {
+      console.log("Error creating test user");
+      return { success: false };
+    }
+    return { success: true };
+  });
+
 const CATEGORIES = ["ice", "fitness"];
 
 // prettier-ignore
