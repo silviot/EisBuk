@@ -1,5 +1,7 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const { v4 } = require("uuid");
+const uuidv4 = v4;
 
 exports.sync_writable_records = functions
   .region("europe-west6")
@@ -8,16 +10,21 @@ exports.sync_writable_records = functions
     const db = admin.firestore();
     if (change.after.exists) {
       const after = change.after.data();
-      if (after.secret_key) {
+      const before = change.before.data();
+      if (!after.secret_key) {
+        const secret_key = uuidv4();
+        await db
+          .collection("customers")
+          .doc(context.params.customerId)
+          .update({ secret_key });
         // Create a record in /bookings with this secret key as id
-        // TODO: maybe relocate a record, in case the id was in use already
         return db
           .collection("bookings")
-          .doc(after.secret_key)
+          .doc(secret_key)
           .set({ customer_id: context.params.customerId });
       }
-    } else if (change.before !== null && "secret_key" in change.before) {
-      // The key was removed. Remove all bookings?
+    } else if (before && !change.before) {
+      // The key was removed. This should not happend
       return change.after;
     }
     return change.after;

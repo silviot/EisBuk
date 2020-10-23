@@ -22,12 +22,21 @@ const create_users = async function (howMany) {
   await _.range(howMany).map(async (i) => {
     const customer = {
       id: uuidv4(),
-      secret_key: uuidv4(),
       name: getRandomName(FIRST_NAMES),
       surname: getRandomName(LAST_NAMES),
       birthday: "01/01/2000",
     };
     await db.collection("customers").doc(customer.id).set(customer);
+    for (let i = 0; i < 5; i++) {
+      var updated_customer = await db
+        .collection("customers")
+        .doc(customer.id)
+        .get(); // eslint-disable-line
+      if (updated_customer.data().secret_key) {
+        break;
+      }
+      console.log(`Attempt ${i} failed, retrying`);
+    }
     const booking = {
       duration: 1,
       start: timestamp.add(timestamp.now(), _.random(-60, 60) + "d"),
@@ -35,7 +44,7 @@ const create_users = async function (howMany) {
     };
     await db
       .collection("bookings")
-      .doc(customer.secret_key)
+      .doc(updated_customer.data().secret_key)
       .collection("data")
       .add(booking);
   });
