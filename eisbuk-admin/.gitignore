@@ -28,3 +28,4 @@ yarn-error.log*
 # Firebase log files
 firebase*.log
 firestore*.log
+ui-debug.log
