@@ -11,17 +11,15 @@ import { createFirestoreInstance } from "redux-firestore";
 
 let fbConfig;
 
-if (process.env.NODE_ENV === "development") {
+if (window.location.hostname === "localhost") {
   fbConfig = {
+    databaseURL: "http://localhost:8080",
+    projectId: "eisbuk",
     apiKey: "AIzaSyDfUuakkXb_xV-VFRyH7yIW4Dr7YmypHRo",
-    authDomain: "eisbuk-e6b2a.firebaseapp.com",
-    databaseURL: "https://eisbuk-e6b2a.firebaseio.com",
-    projectId: "eisbuk-e6b2a",
-    storageBucket: "eisbuk-e6b2a.appspot.com",
     messagingSenderId: "26525409101",
     appId: "1:26525409101:web:53f88cf5f4b7d6883e6104",
   };
-  console.log("DEV Database : " + fbConfig.projectId);
+  console.warn("Using local emulated Database : " + fbConfig.databaseURL);
 } else {
   fbConfig = {
     apiKey: "AIzaSyA2dS3UiWq8ABNH9ROaQQlTsOkTq5QvCZw",
@@ -44,9 +42,19 @@ const rrfConfig = {
 
 // Initialize Firebase, Firestore and Functions instances
 firebase.initializeApp(fbConfig);
-firebase.firestore();
-firebase.functions();
+var db = firebase.firestore();
+var functions = firebase.functions();
 
+if (window.location.hostname === "localhost") {
+  db.settings({
+    host: "localhost:8080",
+    ssl: false,
+  });
+  firebase.auth().useEmulator("http://localhost:9099/");
+  functions.useFunctionsEmulator("http://localhost:5001");
+  console.warn("Using emulator for functions and authentication");
+  window.firebase = firebase;
+}
 // Create Redux Store with Reducers and Initial state
 const initialState = window && window.__INITIAL_STATE__;
 const middlewares = [thunk.withExtraArgument({ getFirebase })];

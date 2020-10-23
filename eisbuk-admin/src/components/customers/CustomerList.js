@@ -96,7 +96,8 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
               field: "category",
               render: (rowData) =>
                 rowData.category
-                  ? labels.categories[rowData.category].label
+                  ? labels.categories[rowData.category] &&
+                    labels.categories[rowData.category].label
                   : null,
             },
           ]}

@@ -172,13 +172,6 @@ const AddCustomer = ({ createCustomer }) => {
                           component={Select}
                           name="category"
                           label="Categoria"
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <Grade color="disabled" />
-                              </InputAdornment>
-                            ),
-                          }}
                         >
                           {slotsLabels.categories.map((level) => (
                             <MenuItem key={level.id} value={level.id}>
