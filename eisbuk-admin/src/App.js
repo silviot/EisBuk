@@ -66,7 +66,7 @@ function App() {
                 <Switch>
                   <PrivateRoute path="/" component={DashboardPage} exact />
                   <PrivateRoute
-                    path="/clienti"
+                    path="/atleti"
                     component={CustomersPage}
                     exact
                   />
