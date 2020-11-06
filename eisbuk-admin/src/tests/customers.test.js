@@ -1,32 +1,6 @@
-const firebase = require("firebase/app");
-require("firebase/firestore");
 const assert = require("assert");
-const { Firestore } = require("@google-cloud/firestore");
-const { credentials } = require("@grpc/grpc-js");
-
-const adminDb = new Firestore({
-  projectId: "my-project-id",
-  servicePath: "localhost",
-  port: 8081,
-  sslCreds: credentials.createInsecure(),
-  customHeaders: {
-    Authorization: "Bearer owner",
-  },
-});
-
-const fbConfig = {
-  databaseURL: "http://localhost:8080",
-  projectId: "eisbuk",
-  apiKey: "AIzaSyDfUuakkXb_xV-VFRyH7yIW4Dr7YmypHRo",
-  messagingSenderId: "26525409101",
-  appId: "1:26525409101:web:53f88cf5f4b7d6883e6104",
-};
-firebase.initializeApp(fbConfig);
-const db = firebase.firestore();
-db.settings({
-  host: "localhost:8081",
-  ssl: false,
-});
+const { db } = require("./settings");
+const { retry } = require("./utils");
 
 it("Applies secret_key when a customer record is added", async (done) => {
   const coll = db.collection("customers");
@@ -72,28 +46,4 @@ async function waitForCustomerSecretKey(customerId) {
     () => 400 // pause 400 ms between tries
   );
   return doc;
-}
-
-function retry(func, maxTries, delay) {
-  var reTry = 0;
-  return new Promise((resolve, reject) => {
-    function callFunc() {
-      try {
-        // eslint-disable-next-line promise/catch-or-return
-        func().then(resolve, (reason) => {
-          if (++reTry >= maxTries) {
-            reject(reason);
-          } else {
-            setTimeout(
-              callFunc,
-              typeof delay == "function" ? delay(retry) : delay
-            );
-          }
-        });
-      } catch (e) {
-        reject(e);
-      }
-    }
-    callFunc();
-  });
 }
