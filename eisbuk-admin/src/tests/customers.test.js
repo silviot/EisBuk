@@ -1,4 +1,3 @@
-const assert = require("assert");
 const { db } = require("./settings");
 const { retry } = require("./utils");
 
@@ -19,12 +18,12 @@ it("Applies secret_key when a customer record is added", async (done) => {
   );
 
   const fromDbFoo = await waitForCustomerSecretKey("foo");
-  assert.strictEqual(fromDbFoo.data().name, "John");
-  assert.strictEqual(Boolean(fromDbFoo.data().secret_key), true);
+  expect(fromDbFoo.data().name).toBe("John");
+  expect(Boolean(fromDbFoo.data().secret_key)).toBe(true);
 
   const fromDbBar = await waitForCustomerSecretKey("bar");
-  assert.strictEqual(fromDbBar.data().name, "Jane");
-  assert.strictEqual(Boolean(fromDbBar.data().secret_key), true);
+  expect(fromDbBar.data().name).toBe("Jane");
+  expect(Boolean(fromDbBar.data().secret_key)).toBe(true);
   done();
 });
 
