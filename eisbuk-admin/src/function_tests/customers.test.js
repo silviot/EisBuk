@@ -43,24 +43,36 @@ it("Applies secret_key when a customer record is added", async (done) => {
   await Promise.all(
     test_customers.map((customer) => coll.doc(customer.id).set(customer))
   );
-  await retry(
-    async () => {
-      const doc = await coll.doc("foo").get();
-      return doc.data().secret_key
-        ? Promise.resolve()
-        : Promise.reject(new Error("No secret key yet"));
-    },
-    10, // Try the above up to 10 times
-    () => 400 // pause 400 ms between tries
-  );
-  const fromDbFoo = await coll.doc("foo").get();
+
+  const fromDbFoo = await waitForCustomerSecretKey("foo");
   assert.strictEqual(fromDbFoo.data().name, "John");
   assert.strictEqual(Boolean(fromDbFoo.data().secret_key), true);
-  const fromDbBar = await coll.doc("bar").get();
+
+  const fromDbBar = await waitForCustomerSecretKey("bar");
   assert.strictEqual(fromDbBar.data().name, "Jane");
   assert.strictEqual(Boolean(fromDbBar.data().secret_key), true);
   done();
 });
+
+async function waitForCustomerSecretKey(customerId) {
+  var doc;
+  const coll = db.collection("customers");
+  await retry(
+    // Try to fetch the customer `foo` until
+    // it includes a `secret_key` key
+    async () => {
+      doc = await coll.doc(customerId).get();
+      return doc.data().secret_key
+        ? Promise.resolve()
+        : Promise.reject(
+            new Error("The secret key was not automatically added")
+          );
+    },
+    10, // Try the above up to 10 times
+    () => 400 // pause 400 ms between tries
+  );
+  return doc;
+}
 
 function retry(func, maxTries, delay) {
   var reTry = 0;
