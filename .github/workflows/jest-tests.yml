@@ -1,0 +1,14 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: cd eisbuk-admin && yarn
+      - name: Run tests
+        run: cd eisbuk-admin && yarn test:ci
