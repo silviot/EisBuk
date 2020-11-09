@@ -61,7 +61,7 @@ const AppbarDrawer = ({ signOut }) => {
           <ListItemText primary="Prenotazioni" />
         </ListItem>
       </Link>
-      <Link to="/clienti" style={{ textDecoration: "none", color: "initial" }}>
+      <Link to="/atleti" style={{ textDecoration: "none", color: "initial" }}>
         <ListItem button className={classes.drawerLinkItem}>
           <ListItemIcon>
             <PeopleIcon className={classes.drawerLinkItem} />

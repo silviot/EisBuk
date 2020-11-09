@@ -6,7 +6,7 @@ import CustomerList from "../../components/customers/CustomerList";
 import Copyright from "../../components/layout/Copyright";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Button from '@material-ui/core/Button'
+import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -21,8 +21,9 @@ import AddCustomer from "../../components/customers/AddCustomer";
 const CustomersPage = () => {
   const classes = useStyles();
   useFirestoreConnect([{ collection: "customers" }]);
-  const [addAthleteDialog, setAddAthleteDialog] = useState(false)
-  const toggleAddAthleteDialog = () => setAddAthleteDialog(addAthleteDialog ? false : true)
+  const [addAthleteDialog, setAddAthleteDialog] = useState(false);
+  const toggleAddAthleteDialog = () =>
+    setAddAthleteDialog(addAthleteDialog ? false : true);
   const customers = useSelector((state) => state.firestore.ordered.customers);
 
   return (
@@ -35,8 +36,17 @@ const CustomersPage = () => {
             <Typography className={classes.pageTitle} variant="h1">
               Atleti
             </Typography>
-            <Button variant="outlined" color="primary" onClick={toggleAddAthleteDialog}>Aggiungi</Button>
-            <AddCustomer open={addAthleteDialog} handleClose={toggleAddAthleteDialog} />
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={toggleAddAthleteDialog}
+            >
+              Aggiungi
+            </Button>
+            <AddCustomer
+              open={addAthleteDialog}
+              handleClose={toggleAddAthleteDialog}
+            />
           </Container>
         </Box>
         {!isLoaded(customers) && <LinearProgress />}

@@ -92,110 +92,38 @@ const SlotsPage = () => {
       <AppbarDrawer />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Grid container className={classes.headerHero}>
+        <Box py={3} container className={classes.headerHero}>
           <Container maxWidth="lg">
-            <Grid item xs={12}>
-              <Typography variant="h1" className={classes.pageTitle}>
-                Prenotazioni
-              </Typography>
-              <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-              >
-                <Grid item xs={12} md={6}>
-                  <Box py={6}>
-                    <Paper elevation={6}>
-                      <DatePicker
-                        id="booking-day"
-                        className={classes.mainCalendar}
-                        name="booking-day"
-                        orientation="landscape"
-                        variant="static"
-                        openTo="date"
-                        value={date.current}
-                        onChange={(date) => {
-                          handleDateChange(date);
-                        }}
-                        onMonthChange={(date) => {
-                          daysInMonth = [];
-                          handleMonthChange(date);
-                        }}
-                        renderDay={(
-                          day,
-                          selectedDate,
-                          isInCurrentMonth,
-                          dayComponent
-                        ) => {
-                          const date = moment(day ?? null);
-                          const isSelected =
-                            daysInMonth &&
-                            daysInMonth
-                              .filter(onlyUnique)
-                              .includes(moment(date).format("D"));
-                          return (
-                            <div
-                              style={{
-                                border: isSelected ? "1px solid" : "none",
-                                borderRadius: "50%",
-                              }}
-                            >
-                              {dayComponent}
-                            </div>
-                          );
-                        }}
-                      />
-                    </Paper>
-                  </Box>
-                </Grid>
-                <Grid
-                  className={classes.actions}
-                  item
-                  xs={12}
-                  md={6}
-                  align="center"
-                >
-                  <Button
-                    onClick={handleOpenCreateBooking}
-                    variant="contained"
-                    size="large"
-                    color="primary"
-                    startIcon={<EventAvailable />}
-                  >
-                    Nuovo Slot
-                  </Button>
-
-                  <SwipeableDrawer
-                    anchor="right"
-                    open={openCreateBooking}
-                    onClose={handleCloseCreateBooking}
-                    onOpen={handleOpenCreateBooking}
-                    className={classes.drawer}
-                    classes={{
-                      paper: classes.drawerPaper,
-                    }}
-                  >
-                    <Box width={310}>
-                      <Typography className={classes.drawerTitle} variant="h2">
-                        Aggiungi Slot
-                      </Typography>
-                      <CreateBookingSlot />
-                    </Box>
-                  </SwipeableDrawer>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    color="primary"
-                    startIcon={<DynamicFeed />}
-                  >
-                    Copia da altro giorno
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
+            <Typography className={classes.pageTitle} variant="h1">
+              Prenotazioni
+            </Typography>
+            <Button
+              onClick={handleOpenCreateBooking}
+              variant="outlined"
+              color="primary"
+              startIcon={<EventAvailable />}
+            >
+              Nuovo Slot
+            </Button>
+            <SwipeableDrawer
+              anchor="right"
+              open={openCreateBooking}
+              onClose={handleCloseCreateBooking}
+              onOpen={handleOpenCreateBooking}
+              className={classes.drawer}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+            >
+              <Box width={310}>
+                <Typography className={classes.drawerTitle} variant="h2">
+                  Aggiungi Slot
+                </Typography>
+                <CreateBookingSlot />
+              </Box>
+            </SwipeableDrawer>
           </Container>
-        </Grid>
+        </Box>
         <Grid container className={classes.dayHeadingContainer}>
           <Grid item xs={12}>
             <Container max-width="xl">

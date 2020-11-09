@@ -11,11 +11,11 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Email from "@material-ui/icons/Email";
@@ -80,163 +80,159 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
           handleClose();
         }}
       >
-      {({ submitForm, isSubmitting, errors }) => (
-        <Form>
-        <DialogContent style={{overflow:"unset"}}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={3}>
-              <Field
-                component={TextField}
-                name="name"
-                label="Nome"
-                variant="outlined"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircle color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <Field
-                component={TextField}
-                name="surname"
-                label="Cognome"
-                variant="outlined"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircle color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <Field
-                component={TextField}
-                name="email"
-                label="Email"
-                variant="outlined"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Email color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <Field
-                component={TextField}
-                name="phone"
-                label="Telefono"
-                variant="outlined"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Phone color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <Field
-                component={DatePicker}
-                name="birth"
-                label="Data di nascita"
-                variant="outlined"
-                openTo="year"
-                inputVariant="outlined"
-                views={["year", "month", "date"]}
-                format="D MMMM YYYY"
-                maxDate={moment()}
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Cake color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel>Categoria</InputLabel>
-                <Field
-                  component={Select}
-                  name="category"
-                  label="Categoria"
-                >
-                  {slotsLabels.categories.map((level) => (
-                    <MenuItem key={level.id} value={level.id}>
-                      {level.label}
-                    </MenuItem>
-                  ))}
-                </Field>
-                <FormHelperText>{errors.category}</FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <Field
-                component={DatePicker}
-                name="certificateExpiration"
-                label="Scadenza Cert. Medico"
-                variant="outlined"
-                inputVariant="outlined"
-                views={["year", "month", "date"]}
-                format="D MMMM YYYY"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LocalHospital color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <Field
-                component={TextField}
-                name="subscriptionNumber"
-                label="Numero Tessera"
-                variant="outlined"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Payment color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Annulla
-          </Button>
-          <Button
-            disabled={isSubmitting}
-            onClick={submitForm}
-            variant="contained"
-            color="primary"
-          >
-            Aggiungi
-          </Button>
-        </DialogActions>
-        </Form>
+        {({ submitForm, isSubmitting, errors }) => (
+          <Form>
+            <DialogContent style={{ overflow: "unset" }}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6} lg={3}>
+                  <Field
+                    component={TextField}
+                    name="name"
+                    label="Nome"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AccountCircle color="disabled" />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={3}>
+                  <Field
+                    component={TextField}
+                    name="surname"
+                    label="Cognome"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AccountCircle color="disabled" />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={3}>
+                  <Field
+                    component={TextField}
+                    name="email"
+                    label="Email"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Email color="disabled" />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={3}>
+                  <Field
+                    component={TextField}
+                    name="phone"
+                    label="Telefono"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Phone color="disabled" />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={3}>
+                  <Field
+                    component={DatePicker}
+                    name="birth"
+                    label="Data di nascita"
+                    variant="outlined"
+                    openTo="year"
+                    inputVariant="outlined"
+                    views={["year", "month", "date"]}
+                    format="D MMMM YYYY"
+                    maxDate={moment()}
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Cake color="disabled" />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={3}>
+                  <FormControl variant="outlined" fullWidth>
+                    <InputLabel>Categoria</InputLabel>
+                    <Field component={Select} name="category" label="Categoria">
+                      {slotsLabels.categories.map((level) => (
+                        <MenuItem key={level.id} value={level.id}>
+                          {level.label}
+                        </MenuItem>
+                      ))}
+                    </Field>
+                    <FormHelperText>{errors.category}</FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={6} lg={3}>
+                  <Field
+                    component={DatePicker}
+                    name="certificateExpiration"
+                    label="Scadenza Cert. Medico"
+                    variant="outlined"
+                    inputVariant="outlined"
+                    views={["year", "month", "date"]}
+                    format="D MMMM YYYY"
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <LocalHospital color="disabled" />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={3}>
+                  <Field
+                    component={TextField}
+                    name="subscriptionNumber"
+                    label="Numero Tessera"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Payment color="disabled" />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Annulla
+              </Button>
+              <Button
+                disabled={isSubmitting}
+                onClick={submitForm}
+                variant="contained"
+                color="primary"
+              >
+                Aggiungi
+              </Button>
+            </DialogActions>
+          </Form>
         )}
       </Formik>
     </Dialog>
