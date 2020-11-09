@@ -31,6 +31,17 @@ Start the webpack development server as usual:
 
 Head your browser to http://localhost:3000/debug and click the "Create admin test users" button.
 
+## Create new React components
+
+We use [PLOP](https://plopjs.com/) to scaffold components.
+For easy access, install plop globally:
+
+    npm install -g plop
+
+Then `cd` into `eisbuk-admin` directory and create new component(s) with (guess what):
+
+    plop
+
 ## Deploying
 
 make sure you have the firebase client installed:
