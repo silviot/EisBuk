@@ -4,6 +4,7 @@ import {
   ENQUEUE_SNACKBAR,
   CLOSE_SNACKBAR,
   REMOVE_SNACKBAR,
+  CHANGE_DAY,
 } from "./action-types";
 
 import React from "react";
@@ -109,6 +110,11 @@ export const signInWithGoogle = () => {
       });
   };
 };
+
+export const changeCalendarDate = (date) => ({
+  type: CHANGE_DAY,
+  payload: date
+})
 
 export const createSlot = (data) => {
   return (dispatch, getState, { getFirebase }) => {

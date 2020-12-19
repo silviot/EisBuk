@@ -9,33 +9,13 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 
-import moment from "moment";
-
-import { connect } from "react-redux";
-import { deleteSlot } from "../../store/actions/actions";
-
-import { slotsLabels } from "../../config/appConfig";
+import { DateTime } from 'luxon'
+import { slotsLabels } from "../../../config/appConfig";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-  },
-  details: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  content: {
-    flex: 1,
-  },
-  time: {
-    width: 151,
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "1.6rem",
-    fontWeight: "500",
+    backgroundColor: theme.palette.common.white,
+    borderBottom: `1px solid ${theme.palette.grey[100]}`
   },
 }));
 
@@ -53,8 +33,7 @@ export const SlotCard = ({
   Object.keys(slotsLabels).forEach((x) => {
     labels[x] = _.keyBy(slotsLabels[x], "id");
   });
-
-  const formattedHour = moment.unix(date.seconds).locale("it").format("HH:mm");
+  const slotDateTime = DateTime.fromSeconds(date.seconds)
 
   const handleDelete = (e) => {
     e.preventDefault();
@@ -62,10 +41,17 @@ export const SlotCard = ({
   };
 
   return (
-    <Card className={classes.root}>
+    <Box p={3} className={classes.root}>
       <Grid container>
         <Grid item xs={3} className={classes.time}>
-          {formattedHour}
+          <Typography variant="h2" className={classes.slotTi}>
+            {slotDateTime.toFormat('HH:mm')}
+          </Typography>
+          {durations.map((duration) => (
+            <Typography key={duration}>
+              {labels.durations[duration].label}
+            </Typography>
+          ))}
         </Grid>
         <Grid xs={9} item className={classes.details}>
           <Grid container>
@@ -89,11 +75,7 @@ export const SlotCard = ({
               </IconButton>
             </Grid>
             <Grid item xs={8}>
-              {durations.map((duration) => (
-                <Typography key={duration}>
-                  {labels.durations[duration].label}
-                </Typography>
-              ))}
+                <Typography>Partecipanti</Typography>
             </Grid>
             {notes && (
               <Grid container item xs={12}>
@@ -107,14 +89,9 @@ export const SlotCard = ({
           </Grid>
         </Grid>
       </Grid>
-    </Card>
+    </Box>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteSlot: (id) => dispatch(deleteSlot(id)),
-  };
-};
 
-export default connect(null, mapDispatchToProps)(SlotCard);
+export default SlotCard

@@ -73,7 +73,7 @@ const AppbarDrawer = ({ signOut }) => {
   );
   return (
     <>
-      <AppBar
+      {/* <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
@@ -107,7 +107,7 @@ const AppbarDrawer = ({ signOut }) => {
             Logout
           </Button>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
       <Drawer
         variant="permanent"
         classes={{
