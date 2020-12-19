@@ -1,3 +1,3 @@
-import SlotCalendar from './SlotCalendar.js'
+import SlotCalendar from "./SlotCalendar.js";
 
-export default SlotCalendar
+export default SlotCalendar;

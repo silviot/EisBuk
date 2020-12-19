@@ -113,8 +113,8 @@ export const signInWithGoogle = () => {
 
 export const changeCalendarDate = (date) => ({
   type: CHANGE_DAY,
-  payload: date
-})
+  payload: date,
+});
 
 export const createSlot = (data) => {
   return (dispatch, getState, { getFirebase }) => {

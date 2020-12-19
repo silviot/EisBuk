@@ -10,7 +10,7 @@ import LoginRoute from "./components/auth/LoginRoute";
 import DebugPage from "./components/debugPage";
 
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import LuxonUtils from '@date-io/luxon';
+import LuxonUtils from "@date-io/luxon";
 
 import {
   ThemeProvider,
@@ -52,9 +52,7 @@ function App() {
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <ThemeProvider theme={igorice}>
-          <MuiPickersUtilsProvider
-            utils={LuxonUtils}
-          >
+          <MuiPickersUtilsProvider utils={LuxonUtils}>
             <SnackbarProvider maxSnack={3}>
               <Notifier />
               <CssBaseline />

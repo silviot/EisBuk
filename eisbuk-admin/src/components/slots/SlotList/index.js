@@ -1,3 +1,3 @@
-import SlotList from './SlotList.js'
+import SlotList from "./SlotList.js";
 
-export default SlotList
+export default SlotList;

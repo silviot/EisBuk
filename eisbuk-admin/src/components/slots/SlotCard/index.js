@@ -1,3 +1,3 @@
-import SlotCard from './SlotCard.js'
+import SlotCard from "./SlotCard.js";
 
-export default SlotCard
+export default SlotCard;

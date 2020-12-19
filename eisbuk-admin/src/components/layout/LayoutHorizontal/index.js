@@ -1,3 +1,3 @@
-import LayoutHorizontal from './LayoutHorizontal.js'
+import LayoutHorizontal from "./LayoutHorizontal.js";
 
-export default LayoutHorizontal
+export default LayoutHorizontal;

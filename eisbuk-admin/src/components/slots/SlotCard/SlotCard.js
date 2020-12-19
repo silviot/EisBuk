@@ -9,13 +9,13 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 
-import { DateTime } from 'luxon'
+import { DateTime } from "luxon";
 import { slotsLabels } from "../../../config/appConfig";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.common.white,
-    borderBottom: `1px solid ${theme.palette.grey[100]}`
+    borderBottom: `1px solid ${theme.palette.grey[100]}`,
   },
 }));
 
@@ -33,7 +33,7 @@ export const SlotCard = ({
   Object.keys(slotsLabels).forEach((x) => {
     labels[x] = _.keyBy(slotsLabels[x], "id");
   });
-  const slotDateTime = DateTime.fromSeconds(date.seconds)
+  const slotDateTime = DateTime.fromSeconds(date.seconds);
 
   const handleDelete = (e) => {
     e.preventDefault();
@@ -45,7 +45,7 @@ export const SlotCard = ({
       <Grid container>
         <Grid item xs={3} className={classes.time}>
           <Typography variant="h2" className={classes.slotTi}>
-            {slotDateTime.toFormat('HH:mm')}
+            {slotDateTime.toFormat("HH:mm")}
           </Typography>
           {durations.map((duration) => (
             <Typography key={duration}>
@@ -75,7 +75,7 @@ export const SlotCard = ({
               </IconButton>
             </Grid>
             <Grid item xs={8}>
-                <Typography>Partecipanti</Typography>
+              <Typography>Partecipanti</Typography>
             </Grid>
             {notes && (
               <Grid container item xs={12}>
@@ -93,5 +93,4 @@ export const SlotCard = ({
   );
 };
 
-
-export default SlotCard
+export default SlotCard;
