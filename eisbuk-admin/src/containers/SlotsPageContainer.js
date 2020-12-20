@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useFirestoreConnect } from "react-redux-firebase";
-import { deleteSlot, changeCalendarDate, createSlot } from "../store/actions/actions";
+import {
+  deleteSlot,
+  changeCalendarDate,
+  createSlot,
+} from "../store/actions/actions";
 
 import LayoutHorizontal from "../components/layout/LayoutHorizontal";
 import SlotList from "../components/slots/SlotList";
@@ -37,7 +41,7 @@ const SlotsPageContainer = ({
   const [createSlotDrawer, setCreateSlotDrawer] = useState(false);
   const handleOpenCreateSlot = () => {
     setCreateSlotDrawer(true);
-  }
+  };
 
   const handleCloseCreateSlot = () => {
     setCreateSlotDrawer(false);
@@ -45,27 +49,33 @@ const SlotsPageContainer = ({
 
   return (
     <>
-    <LayoutHorizontal
-      heading="Calendario"
-      callToAction={
-        <Button style={{borderColor:'#fff', color: '#fff'}} color="secondary" onClick={handleOpenCreateSlot} variant="outlined" startIcon={<AddCircleOutline />}>
-          Nuovo Slot
-        </Button>
-      }
-      navRail={
-        <>
-          <SlotCalendarDate date={currentDate} />
-          <SlotCalendar date={currentDate} onChange={onCalendarDateChange} />
-        </>
-      }
-      contentRail={<SlotList deleteSlot={deleteSlot} slots={slots} />}
-    />
-    <SlotCreate 
-      open={createSlotDrawer}
-      onClose={handleCloseCreateSlot}
-      onOpen={handleOpenCreateSlot}
-      createSlot={createSlot}
-    />
+      <LayoutHorizontal
+        heading="Calendario"
+        callToAction={
+          <Button
+            style={{ borderColor: "#fff", color: "#fff" }}
+            color="secondary"
+            onClick={handleOpenCreateSlot}
+            variant="outlined"
+            startIcon={<AddCircleOutline />}
+          >
+            Nuovo Slot
+          </Button>
+        }
+        navRail={
+          <>
+            <SlotCalendarDate date={currentDate} />
+            <SlotCalendar date={currentDate} onChange={onCalendarDateChange} />
+          </>
+        }
+        contentRail={<SlotList deleteSlot={deleteSlot} slots={slots} />}
+      />
+      <SlotCreate
+        open={createSlotDrawer}
+        onClose={handleCloseCreateSlot}
+        onOpen={handleOpenCreateSlot}
+        createSlot={createSlot}
+      />
     </>
   );
 };

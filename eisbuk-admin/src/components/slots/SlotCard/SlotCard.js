@@ -17,21 +17,21 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: `1px solid ${theme.palette.grey[100]}`,
   },
   borderedLeftBox: {
-    borderLeft: `1px solid ${theme.palette.grey[50]}`
+    borderLeft: `1px solid ${theme.palette.grey[50]}`,
   },
   borderedBottomBox: {
     borderBottom: `1px solid ${theme.palette.grey[50]}`,
-    '& >*': {
-      marginRight: theme.spacing(1)
-    }
+    "& >*": {
+      marginRight: theme.spacing(1),
+    },
   },
   category: {
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     fontWeight: 700,
   },
   type: {
-    fontWeight: 300
-  }
+    fontWeight: 300,
+  },
 }));
 
 export const SlotCard = ({
@@ -57,38 +57,54 @@ export const SlotCard = ({
 
   return (
     <Box p={3} display="flex" className={classes.root}>
-      <Box width={165} display="flex" justifyContent="center" flexDirection="column" pr={3}>
+      <Box
+        width={165}
+        display="flex"
+        justifyContent="center"
+        flexDirection="column"
+        pr={3}
+      >
         <Typography variant="h2" className={classes.slotTi}>
           {slotDateTime.toFormat("HH:mm")}
         </Typography>
         <DurationsList durations={durations} labels={labels} />
       </Box>
-      <Box className={classes.borderedLeftBox} flexGrow={1} display="flex" flexDirection="column">
-        <Box display="flex" className={classes.borderedBottomBox} px={3} pb={1.5}>
+      <Box
+        className={classes.borderedLeftBox}
+        flexGrow={1}
+        display="flex"
+        flexDirection="column"
+      >
+        <Box
+          display="flex"
+          className={classes.borderedBottomBox}
+          px={3}
+          pb={1.5}
+        >
           {category && (
-            <Typography variant="subtitle1" color="textSecondary" className={classes.category}>
+            <Typography
+              variant="subtitle1"
+              color="textSecondary"
+              className={classes.category}
+            >
               {labels.categories[category].label}
             </Typography>
           )}
           {type && (
-            <Typography variant="subtitle1" color="textSecondary" className={classes.type}>
+            <Typography
+              variant="subtitle1"
+              color="textSecondary"
+              className={classes.type}
+            >
               {labels.types[type].label}
             </Typography>
           )}
         </Box>
-        <Box px={3} pt={1.5}>
-
-        </Box>
-        <Box>
-          { notes && notes }
-        </Box>
+        <Box px={3} pt={1.5}></Box>
+        <Box>{notes && notes}</Box>
       </Box>
       <Box>
-        <IconButton
-          aria-label="delete"
-          color="primary"
-          onClick={handleDelete}
-        >
+        <IconButton aria-label="delete" color="primary" onClick={handleDelete}>
           <DeleteIcon />
         </IconButton>
       </Box>

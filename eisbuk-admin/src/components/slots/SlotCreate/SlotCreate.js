@@ -32,152 +32,157 @@ const SlotCreate = ({ createSlot, open, onClose, onOpen }) => {
   const classes = useStyles();
   return (
     <SwipeableDrawer
-    anchor="right"
-    open={open}
-    onClose={onClose}
-    onOpen={onOpen}
-    className={classes.drawer}
-    classes={{
-      paper: classes.drawerPaper,
-    }}
-  >
-    <Box width={310}>
-      <Typography className={classes.drawerTitle} variant="h2">
-        Aggiungi Slot
-      </Typography>
-      <Grid container>
-        <Grid item xs={12}>
-          <Formik
-            initialValues={{
-              date: moment().startOf("hour").toDate(),
-              durations: [60],
-              category: "",
-              type: "",
-              notes: "",
-            }}
-            validationSchema={SlotValidation}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-              createSlot({
-                date: moment(values.date).toDate(),
-                durations: values.durations,
-                category: values.category,
-                type: values.type,
-                notes: values.notes,
-              });
-              setSubmitting(false);
-              resetForm();
-              onClose();
-            }}
-          >
-            {({ errors, values }) => (
-              <Form>
-                <Field
-                  component={DateTimePicker}
-                  variant="static"
-                  label="Data e Ora"
-                  name="date"
-                  ampm={false}
-                  autoOk
-                />
-                <Box px={6} pb={3}>
-                  <Grid container>
-                    <FormHelperText>{errors.durations}</FormHelperText>
-                    <FieldArray
-                      name="durations"
-                      render={(arrayHelpers) =>
-                        slotsLabels.durations.map((duration) => (
-                          <Grid item xs={12} key={duration.id}>
-                            <FormControlLabel
-                              label={duration.label}
-                              variant="contained"
-                              control={
-                                <Field
-                                  name="durations"
-                                  type="checkbox"
-                                  component={CheckboxWithLabel}
-                                  value={duration.id}
-                                  checked={values.durations.includes(duration.id)}
-                                  onChange={(e) => {
-                                    if (e.target.checked)
-                                      arrayHelpers.push(duration.id);
-                                    else {
-                                      const idx = values.durations.indexOf(
-                                        duration.id
-                                      );
-                                      arrayHelpers.remove(idx);
-                                    }
-                                  }}
-                                />
-                              }
-                            />
-                          </Grid>
-                        ))
-                      }
-                    />
-                  </Grid>
-                </Box>
-                <Box px={3}>
-                  <FormControl variant="outlined" fullWidth>
-                    <InputLabel>Categoria</InputLabel>
-                    <Field component={Select} name="category" label="Categoria">
-                      {slotsLabels.categories.map((level) => (
-                        <MenuItem key={level.id} value={level.id}>
-                          {level.label}
-                        </MenuItem>
-                      ))}
-                    </Field>
-                    <FormHelperText>{errors.category}</FormHelperText>
-                  </FormControl>
-                </Box>
-                <Box p={3}>
-                  <FormControl variant="outlined" fullWidth>
-                    <InputLabel>Tipo di allenamento</InputLabel>
-                    <Field
-                      component={Select}
-                      name="type"
-                      label="Tipo di allenamento"
-                    >
-                      {slotsLabels.types.map((level) => (
-                        <MenuItem key={level.id} value={level.id}>
-                          {level.label}
-                        </MenuItem>
-                      ))}
-                    </Field>
-                    <FormHelperText>{errors.type}</FormHelperText>
-                  </FormControl>
-                </Box>
-                <Box px={3}>
+      anchor="right"
+      open={open}
+      onClose={onClose}
+      onOpen={onOpen}
+      className={classes.drawer}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+    >
+      <Box width={310}>
+        <Typography className={classes.drawerTitle} variant="h2">
+          Aggiungi Slot
+        </Typography>
+        <Grid container>
+          <Grid item xs={12}>
+            <Formik
+              initialValues={{
+                date: moment().startOf("hour").toDate(),
+                durations: [60],
+                category: "",
+                type: "",
+                notes: "",
+              }}
+              validationSchema={SlotValidation}
+              onSubmit={(values, { setSubmitting, resetForm }) => {
+                createSlot({
+                  date: moment(values.date).toDate(),
+                  durations: values.durations,
+                  category: values.category,
+                  type: values.type,
+                  notes: values.notes,
+                });
+                setSubmitting(false);
+                resetForm();
+                onClose();
+              }}
+            >
+              {({ errors, values }) => (
+                <Form>
                   <Field
-                    component={TextField}
-                    label="Note"
-                    name="notes"
-                    variant="outlined"
-                    multiline
-                    fullWidth
-                    rows={4}
+                    component={DateTimePicker}
+                    variant="static"
+                    label="Data e Ora"
+                    name="date"
+                    ampm={false}
+                    autoOk
                   />
-                </Box>
-                <Box p={3}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    fullWidth
-                  >
-                    Aggiungi Slot
-                  </Button>
-                </Box>
-              </Form>
-            )}
-          </Formik>
+                  <Box px={6} pb={3}>
+                    <Grid container>
+                      <FormHelperText>{errors.durations}</FormHelperText>
+                      <FieldArray
+                        name="durations"
+                        render={(arrayHelpers) =>
+                          slotsLabels.durations.map((duration) => (
+                            <Grid item xs={12} key={duration.id}>
+                              <FormControlLabel
+                                label={duration.label}
+                                variant="contained"
+                                control={
+                                  <Field
+                                    name="durations"
+                                    type="checkbox"
+                                    component={CheckboxWithLabel}
+                                    value={duration.id}
+                                    checked={values.durations.includes(
+                                      duration.id
+                                    )}
+                                    onChange={(e) => {
+                                      if (e.target.checked)
+                                        arrayHelpers.push(duration.id);
+                                      else {
+                                        const idx = values.durations.indexOf(
+                                          duration.id
+                                        );
+                                        arrayHelpers.remove(idx);
+                                      }
+                                    }}
+                                  />
+                                }
+                              />
+                            </Grid>
+                          ))
+                        }
+                      />
+                    </Grid>
+                  </Box>
+                  <Box px={3}>
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel>Categoria</InputLabel>
+                      <Field
+                        component={Select}
+                        name="category"
+                        label="Categoria"
+                      >
+                        {slotsLabels.categories.map((level) => (
+                          <MenuItem key={level.id} value={level.id}>
+                            {level.label}
+                          </MenuItem>
+                        ))}
+                      </Field>
+                      <FormHelperText>{errors.category}</FormHelperText>
+                    </FormControl>
+                  </Box>
+                  <Box p={3}>
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel>Tipo di allenamento</InputLabel>
+                      <Field
+                        component={Select}
+                        name="type"
+                        label="Tipo di allenamento"
+                      >
+                        {slotsLabels.types.map((level) => (
+                          <MenuItem key={level.id} value={level.id}>
+                            {level.label}
+                          </MenuItem>
+                        ))}
+                      </Field>
+                      <FormHelperText>{errors.type}</FormHelperText>
+                    </FormControl>
+                  </Box>
+                  <Box px={3}>
+                    <Field
+                      component={TextField}
+                      label="Note"
+                      name="notes"
+                      variant="outlined"
+                      multiline
+                      fullWidth
+                      rows={4}
+                    />
+                  </Box>
+                  <Box p={3}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      fullWidth
+                    >
+                      Aggiungi Slot
+                    </Button>
+                  </Box>
+                </Form>
+              )}
+            </Formik>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
-  </SwipeableDrawer>
+      </Box>
+    </SwipeableDrawer>
   );
 };
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -224,6 +229,5 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
-
 
 export default SlotCreate;
