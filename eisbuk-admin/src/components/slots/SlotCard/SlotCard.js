@@ -36,11 +36,11 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 300,
   },
   avatars: {
-    '& >*': {
+    "& >*": {
       marginRight: theme.spacing(1),
-      marginBottom: theme.spacing(1)
-    }
-  }
+      marginBottom: theme.spacing(1),
+    },
+  },
 }));
 
 export const SlotCard = ({
@@ -111,7 +111,7 @@ export const SlotCard = ({
         </Box>
         <Box px={3} pt={1.5} display="flex" className={classes.avatars}>
           <UserAvatar />
-          <Avatar style={{opacity:0.3}}>
+          <Avatar style={{ opacity: 0.3 }}>
             <AddCircleOutline />
           </Avatar>
         </Box>
