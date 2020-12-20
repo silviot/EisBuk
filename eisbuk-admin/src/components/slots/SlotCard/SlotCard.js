@@ -2,21 +2,36 @@ import React from "react";
 import _ from "lodash";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import Grid from "@material-ui/core/Grid";
 
 import { DateTime } from "luxon";
 import { slotsLabels } from "../../../config/appConfig";
+import DurationsList from "./DurationsList";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.common.white,
     borderBottom: `1px solid ${theme.palette.grey[100]}`,
   },
+  borderedLeftBox: {
+    borderLeft: `1px solid ${theme.palette.grey[50]}`
+  },
+  borderedBottomBox: {
+    borderBottom: `1px solid ${theme.palette.grey[50]}`,
+    '& >*': {
+      marginRight: theme.spacing(1)
+    }
+  },
+  category: {
+    textTransform: 'uppercase',
+    fontWeight: 700,
+  },
+  type: {
+    fontWeight: 300
+  }
 }));
 
 export const SlotCard = ({
@@ -41,54 +56,42 @@ export const SlotCard = ({
   };
 
   return (
-    <Box p={3} className={classes.root}>
-      <Grid container>
-        <Grid item xs={3} className={classes.time}>
-          <Typography variant="h2" className={classes.slotTi}>
-            {slotDateTime.toFormat("HH:mm")}
-          </Typography>
-          {durations.map((duration) => (
-            <Typography key={duration}>
-              {labels.durations[duration].label}
+    <Box p={3} display="flex" className={classes.root}>
+      <Box width={165} display="flex" justifyContent="center" flexDirection="column" pr={3}>
+        <Typography variant="h2" className={classes.slotTi}>
+          {slotDateTime.toFormat("HH:mm")}
+        </Typography>
+        <DurationsList durations={durations} labels={labels} />
+      </Box>
+      <Box className={classes.borderedLeftBox} flexGrow={1} display="flex" flexDirection="column">
+        <Box display="flex" className={classes.borderedBottomBox} px={3} pb={1.5}>
+          {category && (
+            <Typography variant="subtitle1" color="textSecondary" className={classes.category}>
+              {labels.categories[category].label}
             </Typography>
-          ))}
-        </Grid>
-        <Grid xs={9} item className={classes.details}>
-          <Grid container>
-            <Grid item xs={4}>
-              {category && (
-                <Typography variant="subtitle1" color="textSecondary">
-                  {labels.categories[category].label}
-                </Typography>
-              )}
-              {type && (
-                <Typography variant="subtitle1" color="textSecondary">
-                  {labels.types[type].label}
-                </Typography>
-              )}
-              <IconButton
-                aria-label="delete"
-                color="primary"
-                onClick={handleDelete}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography>Partecipanti</Typography>
-            </Grid>
-            {notes && (
-              <Grid container item xs={12}>
-                <Box p={3}>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    {notes}
-                  </Typography>
-                </Box>
-              </Grid>
-            )}
-          </Grid>
-        </Grid>
-      </Grid>
+          )}
+          {type && (
+            <Typography variant="subtitle1" color="textSecondary" className={classes.type}>
+              {labels.types[type].label}
+            </Typography>
+          )}
+        </Box>
+        <Box px={3} pt={1.5}>
+
+        </Box>
+        <Box>
+          { notes && notes }
+        </Box>
+      </Box>
+      <Box>
+        <IconButton
+          aria-label="delete"
+          color="primary"
+          onClick={handleDelete}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Box>
     </Box>
   );
 };

@@ -1,7 +1,8 @@
 import React from "react";
-import { connect } from "react-redux";
 
-import { Button } from "@material-ui/core";
+import { Button, SwipeableDrawer, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -16,7 +17,7 @@ import { DateTimePicker } from "formik-material-ui-pickers";
 import * as Yup from "yup";
 
 import moment from "moment";
-import { slotsLabels } from "../../config/appConfig";
+import { slotsLabels } from "../../../config/appConfig";
 
 const SlotValidation = Yup.object().shape({
   date: Yup.date().required("Richiesto"),
@@ -27,7 +28,8 @@ const SlotValidation = Yup.object().shape({
     .required("Devi scegliere almeno una durata"),
 });
 
-const CreateSlot = ({ createSlot, open, onClose, onOpen }) => {
+const SlotCreate = ({ createSlot, open, onClose, onOpen }) => {
+  const classes = useStyles();
   return (
     <SwipeableDrawer
     anchor="right"
@@ -64,6 +66,7 @@ const CreateSlot = ({ createSlot, open, onClose, onOpen }) => {
               });
               setSubmitting(false);
               resetForm();
+              onClose();
             }}
           >
             {({ errors, values }) => (
@@ -175,4 +178,52 @@ const CreateSlot = ({ createSlot, open, onClose, onOpen }) => {
   );
 };
 
-export default CreateSlot;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: "100vh",
+    overflow: "auto",
+  },
+  headerHero: {
+    backgroundColor: theme.palette.secondary.main,
+  },
+  pageTitle: {
+    color: theme.palette.secondary.contrastText,
+  },
+  actions: {
+    "& button": {
+      marginLeft: theme.spacing(2),
+    },
+  },
+  mainCalendar: {
+    margin: theme.spacing(3),
+  },
+  dayHeadingContainer: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    padding: theme.spacing(3),
+  },
+  dayHeading: {
+    textTransform: "uppercase",
+    textAlign: "center",
+    padding: 0,
+  },
+  slotsContainer: {
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
+  },
+  drawerTitle: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.getContrastText(theme.palette.primary.main),
+    fontSize: "2rem",
+    padding: theme.spacing(3),
+  },
+}));
+
+
+export default SlotCreate;

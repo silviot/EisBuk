@@ -30,7 +30,6 @@ const CustomersPage = () => {
     <div className={classes.root}>
       <AppbarDrawer />
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
         <Box py={3} container className={classes.headerHero}>
           <Container maxWidth="lg">
             <Typography className={classes.pageTitle} variant="h1">

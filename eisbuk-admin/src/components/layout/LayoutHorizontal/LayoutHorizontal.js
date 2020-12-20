@@ -19,16 +19,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LayoutHorizontal = ({ heading, navRail, contentRail }) => {
+const LayoutHorizontal = ({ heading, navRail, contentRail, callToAction }) => {
   const classes = useStyles();
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12} md={4} className={classes.navRail}>
         {heading && (
-          <Box p={3}>
-            <Typography className={classes.heading} variant="h3">
-              {heading}
-            </Typography>
+          <Box p={3} display="flex">
+            <Box flexGrow={1}>
+              <Typography className={classes.heading} variant="h3">
+                {heading}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+              {callToAction}
+            </Box>
           </Box>
         )}
         {navRail}
