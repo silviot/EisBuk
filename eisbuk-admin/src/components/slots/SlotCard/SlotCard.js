@@ -10,6 +10,9 @@ import IconButton from "@material-ui/core/IconButton";
 import { DateTime } from "luxon";
 import { slotsLabels } from "../../../config/appConfig";
 import DurationsList from "./DurationsList";
+import UserAvatar from "./UserAvatar";
+import { Avatar } from "@material-ui/core";
+import { AddCircleOutline } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +35,12 @@ const useStyles = makeStyles((theme) => ({
   type: {
     fontWeight: 300,
   },
+  avatars: {
+    '& >*': {
+      marginRight: theme.spacing(1),
+      marginBottom: theme.spacing(1)
+    }
+  }
 }));
 
 export const SlotCard = ({
@@ -100,7 +109,12 @@ export const SlotCard = ({
             </Typography>
           )}
         </Box>
-        <Box px={3} pt={1.5}></Box>
+        <Box px={3} pt={1.5} display="flex" className={classes.avatars}>
+          <UserAvatar />
+          <Avatar style={{opacity:0.3}}>
+            <AddCircleOutline />
+          </Avatar>
+        </Box>
         <Box>{notes && notes}</Box>
       </Box>
       <Box>
