@@ -10,5 +10,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install modules
         run: cd eisbuk-admin && yarn
+      - name: Patch jsdom
+        run: cd eisbuk-admin && ./fix-jsdom.sh
       - name: Run tests
         run: cd eisbuk-admin && yarn test:ci
