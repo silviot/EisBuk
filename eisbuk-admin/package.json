@@ -47,7 +47,17 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "no-unused-vars": [
+        "error"
+      ]
+    },
+    "settings": {
+      "react": {
+        "version": "16.13.1"
+      }
+    }
   },
   "browserslist": {
     "production": [
@@ -62,6 +72,8 @@
     ]
   },
   "devDependencies": {
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-unused-imports": "^1.0.1",
     "firebase-admin": "^9.2.0",
     "firebase-functions": "^3.11.0",
     "plop": "^2.7.4"
