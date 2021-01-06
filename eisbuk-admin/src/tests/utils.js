@@ -8,7 +8,6 @@ const retry = function (func, maxTries, delay) {
   return new Promise((resolve, reject) => {
     function callFunc() {
       try {
-        // eslint-disable-next-line promise/catch-or-return
         func().then(resolve, (reason) => {
           if (++reTry >= maxTries) {
             reject(reason);
