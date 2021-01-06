@@ -28,6 +28,7 @@ const create_users = async function (howMany) {
     };
     await db.collection("customers").doc(customer.id).set(customer);
     for (let i = 0; i < 5; i++) {
+      /* eslint-disable no-await-in-loop */
       var updated_customer = await db
         .collection("customers")
         .doc(customer.id)

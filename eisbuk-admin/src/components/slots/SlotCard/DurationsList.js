@@ -1,14 +1,7 @@
 import React from "react";
 
 import { makeStyles } from "@material-ui/styles";
-import {
-  Box,
-  Chip,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@material-ui/core";
+import { Box, Chip } from "@material-ui/core";
 import { ChevronRight } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({

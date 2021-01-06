@@ -13,7 +13,7 @@ import SlotCalendarDate from "../components/slots/SlotCalendar/SlotCalendarDate"
 import SlotCalendar from "../components/slots/SlotCalendar";
 
 import SlotCreate from "../components/slots/SlotCreate";
-import { Button, SwipeableDrawer } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { AddCircleOutline } from "@material-ui/icons";
 
 const SlotsPageContainer = ({

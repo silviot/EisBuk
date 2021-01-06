@@ -7,9 +7,6 @@ import {
   CHANGE_DAY,
 } from "./action-types";
 
-import React from "react";
-import Button from "@material-ui/core/Button";
-
 export const enqueueSnackbar = (notification) => {
   const key = notification.options && notification.options.key;
 

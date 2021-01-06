@@ -1,8 +1,9 @@
 import React from "react";
-import { connect } from "react-redux";
 
-import { Button } from "@material-ui/core";
+import { Button, SwipeableDrawer } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -26,8 +27,11 @@ const SlotValidation = Yup.object().shape({
     .of(Yup.number().min(1))
     .required("Devi scegliere almeno una durata"),
 });
+const useStyles = makeStyles((theme) => ({}));
 
 const CreateSlot = ({ createSlot, open, onClose, onOpen }) => {
+  const classes = useStyles();
+
   return (
     <SwipeableDrawer
       anchor="right"

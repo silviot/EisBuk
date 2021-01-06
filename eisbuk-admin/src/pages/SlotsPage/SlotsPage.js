@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppbarDrawer from "../../components/layout/AppbarDrawer";
 import SlotsPageContainer from "../../containers/SlotsPageContainer";
