@@ -1,8 +1,8 @@
-const { db } = require("./settings");
+const { adminDb } = require("./settings");
 const { retry } = require("./utils");
 
 it("Applies secret_key when a customer record is added", async (done) => {
-  const coll = db.collection("customers");
+  const coll = adminDb.collection("customers");
   const test_customers = [
     {
       name: "John",
@@ -29,7 +29,7 @@ it("Applies secret_key when a customer record is added", async (done) => {
 
 async function waitForCustomerSecretKey(customerId) {
   var doc;
-  const coll = db.collection("customers");
+  const coll = adminDb.collection("customers");
   await retry(
     // Try to fetch the customer `foo` until
     // it includes a `secret_key` key
