@@ -8,11 +8,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Cache node modules
+      - name: Cache node modules and firebase emulators
         uses: actions/cache@v2
         with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: |
+            **/node_modules
+            $HOME/.cache/firebase/emulators
+          key: ${{ runner.os }}-modules-emulators-${{ hashFiles('**/yarn.lock') }}
       - name: Install modules
         run: cd eisbuk-admin && yarn
       - name: Patch jsdom
