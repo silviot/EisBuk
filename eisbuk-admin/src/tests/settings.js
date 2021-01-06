@@ -20,7 +20,7 @@ firebase.initializeApp({
   projectId: projectId,
   apiKey: "aaa",
 });
-firebase.auth().useEmulator("http://localhost:8080/");
+firebase.auth().useEmulator("http://localhost:9098/");
 
 exports.db = firebase.firestore();
 
