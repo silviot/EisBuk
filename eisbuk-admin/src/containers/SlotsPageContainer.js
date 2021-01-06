@@ -66,15 +66,15 @@ const SlotsPageContainer = ({
           <>
             <SlotCalendarDate date={currentDate} />
             <SlotCalendar date={currentDate} onChange={onCalendarDateChange} />
+            <SlotCreate
+              open={createSlotDrawer}
+              onClose={handleCloseCreateSlot}
+              onOpen={handleOpenCreateSlot}
+              createSlot={createSlot}
+            />
           </>
         }
         contentRail={<SlotList deleteSlot={deleteSlot} slots={slots} />}
-      />
-      <SlotCreate
-        open={createSlotDrawer}
-        onClose={handleCloseCreateSlot}
-        onOpen={handleOpenCreateSlot}
-        createSlot={createSlot}
       />
     </>
   );
