@@ -1,4 +1,3 @@
-const firebase = require("firebase/app");
 require("firebase/auth");
 const { db, adminDb } = require("./settings");
 const { loginWithUser } = require("./utils");
