@@ -48,35 +48,33 @@ const SlotsPageContainer = ({
   };
 
   return (
-    <>
-      <LayoutHorizontal
-        heading="Calendario"
-        callToAction={
-          <Button
-            style={{ borderColor: "#fff", color: "#fff" }}
-            color="secondary"
-            onClick={handleOpenCreateSlot}
-            variant="outlined"
-            startIcon={<AddCircleOutline />}
-          >
-            Nuovo Slot
-          </Button>
-        }
-        navRail={
-          <>
-            <SlotCalendarDate date={currentDate} />
-            <SlotCalendar date={currentDate} onChange={onCalendarDateChange} />
-            <SlotCreate
-              open={createSlotDrawer}
-              onClose={handleCloseCreateSlot}
-              onOpen={handleOpenCreateSlot}
-              createSlot={createSlot}
-            />
-          </>
-        }
-        contentRail={<SlotList deleteSlot={deleteSlot} slots={slots} />}
-      />
-    </>
+    <LayoutHorizontal
+      heading="Calendario"
+      callToAction={
+        <Button
+          style={{ borderColor: "#fff", color: "#fff" }}
+          color="secondary"
+          onClick={handleOpenCreateSlot}
+          variant="outlined"
+          startIcon={<AddCircleOutline />}
+        >
+          Nuovo Slot
+        </Button>
+      }
+      navRail={
+        <>
+          <SlotCalendarDate date={currentDate} />
+          <SlotCalendar date={currentDate} onChange={onCalendarDateChange} />
+          <SlotCreate
+            open={createSlotDrawer}
+            onClose={handleCloseCreateSlot}
+            onOpen={handleOpenCreateSlot}
+            createSlot={createSlot}
+          />
+        </>
+      }
+      contentRail={<SlotList deleteSlot={deleteSlot} slots={slots} />}
+    />
   );
 };
 
