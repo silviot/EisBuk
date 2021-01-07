@@ -16,8 +16,8 @@ async function fillDay(day) {
   console.log(day);
   const start = new admin.firestore.Timestamp(day, 0),
     end = new admin.firestore.Timestamp(day + 86400, 0);
-  const existing = await admin
-    .firestore()
+  const org = admin.firestore().collection("organizations").doc("default");
+  const existing = await org
     .collection("slots")
     .where("date", ">=", start)
     .where("date", "<=", end)
@@ -26,7 +26,7 @@ async function fillDay(day) {
     console.log("Deleting", el);
     await el.ref.delete();
   });
-  const slotsColl = admin.firestore().collection("slots");
+  const slotsColl = org.collection("slots");
   const TS = admin.firestore.Timestamp;
   await slotsColl.add({
     date: new TS(day + 9 * 3600, 0),

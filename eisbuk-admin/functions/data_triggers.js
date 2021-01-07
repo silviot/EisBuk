@@ -5,7 +5,7 @@ const uuidv4 = v4;
 
 exports.sync_writable_records = functions
   .region("europe-west6")
-  .firestore.document("customers/{customerId}")
+  .firestore.document("organizations/{organization}/customers/{customerId}")
   .onWrite(async (change, context) => {
     const db = admin.firestore();
     if (change.after.exists) {
@@ -14,11 +14,15 @@ exports.sync_writable_records = functions
       if (!after.secret_key) {
         const secret_key = uuidv4();
         await db
+          .collection("organizations")
+          .doc(context.params.organization)
           .collection("customers")
           .doc(context.params.customerId)
           .update({ secret_key });
         // Create a record in /bookings with this secret key as id
         return db
+          .collection("organizations")
+          .doc(context.params.organization)
           .collection("bookings")
           .doc(secret_key)
           .set({ customer_id: context.params.customerId });
