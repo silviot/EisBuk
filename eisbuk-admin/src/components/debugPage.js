@@ -17,6 +17,7 @@ function invokeFunction(functionName) {
 }
 
 function createAdminTestUsers() {
+  invokeFunction("createOrganization")();
   // Auth emulator is not currently accessible from within the functions
   firebase.auth().createUserWithEmailAndPassword("test@eisbuk.it", "test00");
 }

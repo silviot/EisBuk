@@ -17,15 +17,17 @@ exports.createTestData = functions
     return { success: true };
   });
 
-const create_organization = async function (orgName) {
-  const db = admin.firestore();
-  await db
-    .collection("organizations")
-    .doc(orgName)
-    .set({
-      admins: ["test@eisbuk.it"],
-    });
-};
+exports.createOrganization = functions
+  .region("europe-west6")
+  .https.onCall(async function () {
+    const db = admin.firestore();
+    await db
+      .collection("organizations")
+      .doc("default")
+      .set({
+        admins: ["test@eisbuk.it"],
+      });
+  });
 
 const create_users = async function (howMany) {
   const db = admin.firestore();
@@ -44,7 +46,6 @@ const create_users = async function (howMany) {
 exports.createAdminTestUsers = functions
   .region("europe-west6")
   .https.onCall(async (data, context) => {
-    await create_organization("default");
     try {
       await admin.auth().createUser({
         email: "test@eisbuk.it",
