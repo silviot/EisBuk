@@ -3,22 +3,30 @@ const { db, adminDb } = require("./settings");
 const { loginWithUser } = require("./utils");
 
 it("lets only admin access an organization data", async () => {
-  await adminDb
-    .collection("organizations")
-    .doc("default")
-    .set({
-      admins: ["test@example.com"],
-    });
-
-  const doc = db.collection("organizations").doc("default");
+  const orgDefinition = {
+    admins: ["test@example.com"],
+  };
+  await adminDb.collection("organizations").doc("default").set(orgDefinition);
+  // We haven't logged in yet, so we won't be authorized access
+  const default_org_doc = db.collection("organizations").doc("default");
   var error;
   try {
-    (await doc.get()).data();
+    (await default_org_doc.get()).data();
   } catch (e) {
     error = true;
   }
   expect(error).toBe(true);
+
+  // After login we'll be able to read and write documents in our organization
   await loginWithUser("test@example.com");
-  const org = (await doc.get()).data();
-  console.log(org);
+  const org = (await default_org_doc.get()).data();
+  expect(org).toStrictEqual(orgDefinition);
+  const subdoc = db
+    .collection("organizations")
+    .doc("default")
+    .collection("slots")
+    .doc("testdoc");
+  await subdoc.set({ "I am": "deep" });
+  const retrievedDoc = (await subdoc.get()).data();
+  expect(retrievedDoc).toStrictEqual({ "I am": "deep" });
 });
