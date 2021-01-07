@@ -1,13 +1,10 @@
 import React from "react";
 
-import { makeStyles } from "@material-ui/styles";
-
 import { Formik, Form, Field } from "formik";
 import { KeyboardDatePicker, KeyboardTimePicker } from "@material-ui/pickers";
 import * as Yup from "yup";
 
 import moment from "moment";
-import { slotsLabels } from "../../../config/appConfig";
 import { Grid } from "@material-ui/core";
 
 const SlotValidation = Yup.object().shape({
@@ -18,8 +15,6 @@ const SlotValidation = Yup.object().shape({
     .of(Yup.number().min(1))
     .required("Devi scegliere almeno una durata"),
 });
-
-const useStyles = makeStyles((theme) => ({}));
 
 const DatePickerField = ({ field, form, ...other }) => {
   const currentError = form.errors[field.name];
@@ -47,7 +42,7 @@ const DatePickerField = ({ field, form, ...other }) => {
 };
 
 const TimePickerField = ({ field, form, ...other }) => {
-  const currentError = form.errors[field.name];
+  /*   const currentError = form.errors[field.name]; */
 
   return (
     <KeyboardTimePicker
@@ -62,7 +57,6 @@ const TimePickerField = ({ field, form, ...other }) => {
 };
 
 const SlotCreateForm = ({ action }) => {
-  const classes = useStyles();
   return (
     <Formik
       initialValues={{
