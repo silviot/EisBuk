@@ -45,7 +45,7 @@ const debugPage = () => {
       <Box my={4} color="secondary.main">
         <Button
           onClick={invokeFunction("createTestSlots")}
-          color="error"
+          color="primary"
           variant="contained"
         >
           Create test slots
