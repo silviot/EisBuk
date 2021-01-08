@@ -24,6 +24,7 @@ yarn-error.log*
 
 # Firebase cache
 .firebase/
+.emulators-data
 
 # Firebase log files
 firebase*.log

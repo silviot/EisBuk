@@ -12,6 +12,7 @@ import SlotList from "../components/slots/SlotList";
 import SlotCalendarDate from "../components/slots/SlotCalendar/SlotCalendarDate";
 import SlotCalendar from "../components/slots/SlotCalendar";
 
+import { wrapOrganization } from "../utils/firestore";
 import SlotCreate from "../components/slots/SlotCreate";
 import { Button } from "@material-ui/core";
 import { AddCircleOutline } from "@material-ui/icons";
@@ -24,14 +25,14 @@ const SlotsPageContainer = ({
   changeCalendarDate,
 }) => {
   useFirestoreConnect([
-    {
+    wrapOrganization({
       collection: "slots",
       orderBy: "date",
       where: [
         ["date", ">=", currentDate.startOf("day").toJSDate()],
         ["date", "<", currentDate.endOf("day").toJSDate()],
       ],
-    },
+    }),
   ]);
 
   const onCalendarDateChange = (date, isFinish) => {
