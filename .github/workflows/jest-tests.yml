@@ -17,7 +17,5 @@ jobs:
           key: ${{ runner.os }}-modules-emulators-${{ hashFiles('**/yarn.lock') }}
       - name: Install modules
         run: cd eisbuk-admin && yarn
-      - name: Patch jsdom
-        run: cd eisbuk-admin && ./fix-jsdom.sh
       - name: Run tests
         run: cd eisbuk-admin && yarn test:ci
