@@ -2,15 +2,7 @@ const functions = require("firebase-functions");
 const firebase = require("firebase");
 const admin = require("firebase-admin");
 const timestamp = require("unix-timestamp");
-
-function roundTo(val, modbase) {
-  // round the given val to the nearest multiple of modbase
-  // roundTo(12, 5) === 10
-  // roundTo(12, 4) === 12
-  // roundTo(12, 7) === 7
-  // roundTo(17, 4) === 16
-  return Math.floor(val / modbase) * modbase;
-}
+const { roundTo } = require("./utils");
 
 async function fillDay(day) {
   const start = new admin.firestore.Timestamp(day, 0),

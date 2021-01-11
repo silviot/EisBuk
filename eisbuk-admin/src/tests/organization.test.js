@@ -24,7 +24,7 @@ it("lets only admin access an organization data", async () => {
   const subdoc = db
     .collection("organizations")
     .doc("default")
-    .collection("slots")
+    .collection("any_collection")
     .doc("testdoc");
   await subdoc.set({ "I am": "deep" });
   const retrievedDoc = (await subdoc.get()).data();

@@ -45,7 +45,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "firebase -c firebase-testing.json  emulators:exec -- 'yarn run react-scripts test'",
+    "test": "firebase -c firebase-testing.json  emulators:exec -- 'yarn run jest --watch'",
     "test:ci": "firebase -c firebase-testing.json  emulators:exec -- 'yarn run jest --forceExit'",
     "postinstall": "./fix-jsdom.sh",
     "eject": "react-scripts eject"
