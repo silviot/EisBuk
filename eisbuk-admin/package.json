@@ -17,7 +17,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "firebase": "^7.21.1-eap-auth-emulator.df41ee388",
-    "firebase-tools": "^8.12.0",
+    "firebase-tools": "^9.1.1",
     "formik": "^2.1.5",
     "formik-material-ui": "^3.0.0-alpha.0",
     "formik-material-ui-pickers": "^0.0.11",
@@ -45,7 +45,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "firebase -c firebase-testing.json  emulators:exec -- 'yarn run jest --watch'",
+    "test:ci": "firebase -c firebase-testing.json  emulators:exec -- 'yarn run jest --forceExit'",
+    "postinstall": "./fix-jsdom.sh",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -78,6 +80,7 @@
     "eslint-plugin-unused-imports": "^1.0.1",
     "firebase-admin": "^9.2.0",
     "firebase-functions": "^3.11.0",
+    "mocha": "^8.2.1",
     "plop": "^2.7.4"
   }
 }

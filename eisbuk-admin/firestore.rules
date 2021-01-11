@@ -1,8 +1,16 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      // TODO: actually lock this down when we have authentication in place
+    function isAdmin(organization) {
+      // Given an organization name retrieve it from firestore
+      // and check if the currently logged in user is part of the admin
+      // array in that document. If they are return true.
+      return (request.auth != null) && (request.auth.token.email in get(/databases/$(database)/documents/organizations/$(organization)).data.admins);
+    }
+    match /organizations/{organization}/{document=**} {
+      allow read, write: if isAdmin(organization);
+    }
+    match /organizations/{organization}/bookings/{secret_key}/{document=**} {
       allow read, write: if true;
     }
   }

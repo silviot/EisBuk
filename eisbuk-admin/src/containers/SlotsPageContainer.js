@@ -12,6 +12,7 @@ import SlotList from "../components/slots/SlotList";
 import SlotCalendarDate from "../components/slots/SlotCalendar/SlotCalendarDate";
 import SlotCalendar from "../components/slots/SlotCalendar";
 
+import { wrapOrganization } from "../utils/firestore";
 import SlotCreate from "../components/slots/SlotCreate";
 import { Button } from "@material-ui/core";
 import { AddCircleOutline } from "@material-ui/icons";
@@ -24,14 +25,10 @@ const SlotsPageContainer = ({
   changeCalendarDate,
 }) => {
   useFirestoreConnect([
-    {
-      collection: "slots",
-      orderBy: "date",
-      where: [
-        ["date", ">=", currentDate.startOf("day").toJSDate()],
-        ["date", "<", currentDate.endOf("day").toJSDate()],
-      ],
-    },
+    wrapOrganization({
+      collection: "slotsByDay",
+      doc: currentDate.toISODate().substring(0, 7),
+    }),
   ]);
 
   const onCalendarDateChange = (date, isFinish) => {
@@ -78,10 +75,28 @@ const SlotsPageContainer = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  slots: state.firestore.ordered.slots,
-  currentDate: state.app.calendarDay,
-});
+const mapStateToProps = (state) => {
+  // Extract the slots from the current aggregated month.
+  const slots = [];
+  const currentDate = state.app.calendarDay;
+  const currentDateStr = currentDate.toISODate().substring(0, 10);
+  if (
+    state.firestore.ordered.slotsByDay &&
+    state.firestore.ordered.slotsByDay.length
+  ) {
+    if (state.firestore.ordered.slotsByDay[0][currentDateStr]) {
+      for (const slot of Object.values(
+        state.firestore.ordered.slotsByDay[0][currentDateStr]
+      )) {
+        slots.push(slot);
+      }
+    }
+  }
+  return {
+    slots,
+    currentDate,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

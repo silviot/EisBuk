@@ -2,71 +2,64 @@ const functions = require("firebase-functions");
 const firebase = require("firebase");
 const admin = require("firebase-admin");
 const timestamp = require("unix-timestamp");
-
-function roundTo(val, modbase) {
-  // round the given val to the nearest multiple of modbase
-  // roundTo(12, 5) === 10
-  // roundTo(12, 4) === 12
-  // roundTo(12, 7) === 7
-  // roundTo(17, 4) === 16
-  return Math.floor(val / modbase) * modbase;
-}
+const { roundTo } = require("./utils");
 
 async function fillDay(day) {
-  console.log(day);
   const start = new admin.firestore.Timestamp(day, 0),
     end = new admin.firestore.Timestamp(day + 86400, 0);
-  const existing = await admin
-    .firestore()
+  const org = admin.firestore().collection("organizations").doc("default");
+  const existing = await org
     .collection("slots")
     .where("date", ">=", start)
     .where("date", "<=", end)
     .get();
+  const toDelete = [];
   existing.forEach(async (el) => {
-    console.log("Deleting", el);
-    await el.ref.delete();
+    toDelete.push(el.ref.delete());
   });
-  const slotsColl = admin.firestore().collection("slots");
+  await Promise.all(toDelete);
+  const slotsColl = org.collection("slots");
   const TS = admin.firestore.Timestamp;
-  await slotsColl.add({
-    date: new TS(day + 9 * 3600, 0),
-    notes: "",
-    type: "off-ice-danza",
-    durations: [60],
-    category: "preagonismo",
-  });
-  await slotsColl.add({
-    date: new TS(day + 10 * 3600, 0),
-    notes: "",
-    type: "off-ice-gym",
-    durations: [60],
-    category: "preagonismo",
-  });
-  await slotsColl.add({
-    date: new TS(day + 15 * 3600, 0),
-    notes: "",
-    type: "ice",
-    durations: [60, 90, 120],
-    category: "preagonismo",
-  });
-  await slotsColl.add({
-    date: new TS(day + 15 * 3600, 0),
-    notes: "",
-    type: "ice",
-    durations: [60, 90, 120],
-    category: "agonismo",
-  });
+  const toCreate = [
+    slotsColl.add({
+      date: new TS(day + 9 * 3600, 0),
+      type: "off-ice-danza",
+      durations: [60],
+      category: "preagonismo",
+    }),
+    slotsColl.add({
+      date: new TS(day + 10 * 3600, 0),
+      type: "off-ice-gym",
+      durations: [60],
+      category: "preagonismo",
+    }),
+    slotsColl.add({
+      date: new TS(day + 15 * 3600, 0),
+      type: "ice",
+      durations: [60, 90, 120],
+      category: "preagonismo",
+    }),
+    slotsColl.add({
+      date: new TS(day + 15 * 3600, 0),
+      type: "ice",
+      durations: [60, 90, 120],
+      category: "agonismo",
+    }),
+  ];
+  await Promise.all(toCreate);
   return "";
 }
 
 exports.createTestSlots = functions
   .region("europe-west6")
   .https.onCall(async (data, context) => {
+    console.log("Creating test slots...");
     const today = roundTo(admin.firestore.Timestamp.now().seconds, 86400);
+    const daysToFill = [];
     for (let i = -14; i < 15; i++) {
       const day = today + i * 86400;
-      console.log("Creating test slots for day " + i);
-      fillDay(day);
+      daysToFill.push(fillDay(day));
     }
-    return "From the server";
+    await Promise.all(daysToFill);
+    return "Test slots created";
   });

@@ -17,8 +17,21 @@ exports.createTestData = functions
     return { success: true };
   });
 
+exports.createOrganization = functions
+  .region("europe-west6")
+  .https.onCall(async function () {
+    const db = admin.firestore();
+    await db
+      .collection("organizations")
+      .doc("default")
+      .set({
+        admins: ["test@eisbuk.it"],
+      });
+  });
+
 const create_users = async function (howMany) {
   const db = admin.firestore();
+  const org = db.collection("organizations").doc("default");
   await _.range(howMany).map(async (i) => {
     const customer = {
       id: uuidv4(),
@@ -26,28 +39,7 @@ const create_users = async function (howMany) {
       surname: getRandomName(LAST_NAMES),
       birthday: "01/01/2000",
     };
-    await db.collection("customers").doc(customer.id).set(customer);
-    for (let i = 0; i < 5; i++) {
-      /* eslint-disable no-await-in-loop */
-      var updated_customer = await db
-        .collection("customers")
-        .doc(customer.id)
-        .get(); // eslint-disable-line
-      if (updated_customer.data().secret_key) {
-        break;
-      }
-      console.log(`Attempt ${i} failed, retrying`);
-    }
-    const booking = {
-      duration: 1,
-      start: timestamp.add(timestamp.now(), _.random(-60, 60) + "d"),
-      category: getRandomName(CATEGORIES),
-    };
-    await db
-      .collection("bookings")
-      .doc(updated_customer.data().secret_key)
-      .collection("data")
-      .add(booking);
+    await org.collection("customers").doc(customer.id).set(customer);
   });
 };
 
@@ -55,8 +47,7 @@ exports.createAdminTestUsers = functions
   .region("europe-west6")
   .https.onCall(async (data, context) => {
     try {
-      console.log("hello");
-      res = await admin.auth().createUser({
+      await admin.auth().createUser({
         email: "test@eisbuk.it",
         emailVerified: true,
         phoneNumber: "+11234567890",

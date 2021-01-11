@@ -17,6 +17,7 @@ import PersonPinIcon from "@material-ui/icons/PersonPin";
 import AppbarCustomer from "../../components/layout/AppbarCustomer";
 
 import CustomerAreaCalendar from "./CustomerAreaCalendar";
+import { wrapOrganization } from "../../utils/firestore";
 
 const LinkTab = (props) => {
   return (
@@ -53,10 +54,10 @@ export const CustomerAreaPage = () => {
   const classes = useStyles();
   let { id } = useParams();
   useFirestoreConnect([
-    {
+    wrapOrganization({
       collection: "customers",
       doc: id,
-    },
+    }),
   ]);
   const [activeTab, setActiveTab] = useState(0);
   const customerData = useSelector(

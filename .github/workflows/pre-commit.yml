@@ -1,6 +1,6 @@
-name: Tests
+name: Pre-commit
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -12,7 +12,4 @@ jobs:
         with:
           python-version: "3.7"
           architecture: "x64"
-      - run: sudo apt install python3-setuptools
-      - run: sudo pip3 install pre-commit
-      - run: pre-commit install-hooks
-      - run: pre-commit run -a
+      - uses: pre-commit/action@v2.0.0
