@@ -86,11 +86,15 @@ async function updateSlotDay({ organization, day }) {
   if (Object.keys(dayAggregate).length === 0) {
     dayAggregate = admin.firestore.FieldValue.delete();
   }
-  await db
+  doc = db
     .collection("organizations")
     .doc(organization)
     .collection("slotsByDay")
-    .doc(month_str)
-    .update({ [day_str]: dayAggregate });
+    .doc(month_str);
+  try {
+    await doc.update({ [day_str]: dayAggregate });
+  } catch (e) {
+    await doc.create({ [day_str]: dayAggregate });
+  }
   return dayAggregate;
 }

@@ -71,7 +71,7 @@ async function waitForRecord({ record, num_keys }) {
     // we find the newly added one
     async () => {
       var aggregateSlot = (await record.get()).data();
-      if (Object.keys(aggregateSlot).length !== num_keys) {
+      if (!aggregateSlot || Object.keys(aggregateSlot).length !== num_keys) {
         return Promise.reject(
           new Error(`The aggregated slot with ${num_keys} keys was not found`)
         );
