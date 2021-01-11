@@ -50,11 +50,18 @@ it("updates the slots summary on slot creation", async () => {
     num_keys: 2,
   });
   expect(aggregateSlot["2021-01-29"].anotherSlot.type).toStrictEqual("ice");
+
+  // Remove one slot and make sure it's no longer in the aggregated record
+  await anotherSlot.delete();
+  aggregateSlot = await waitForRecord({
+    record: aggregateSlotsQuery,
+    num_keys: 1,
+  });
 });
 
 async function waitForRecord({ record, num_keys }) {
   // retry to get the given record until it contains the expected number of keys
-  var removeme = await retry(
+  return await retry(
     // Try to fetch the aggregate slots for the day until
     // we find the newly added one
     async () => {
@@ -69,6 +76,4 @@ async function waitForRecord({ record, num_keys }) {
     10, // Try the above up to 10 times
     () => 400 // pause 400 ms between tries
   );
-  console.log(removeme);
-  return removeme;
 }
