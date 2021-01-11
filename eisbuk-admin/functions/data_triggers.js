@@ -79,7 +79,7 @@ async function updateSlotDay({ organization, day }) {
     .get();
   var dayAggregate = {};
   slots_qs.forEach((el) => {
-    dayAggregate[el.id] = el.data();
+    dayAggregate[el.id] = { ...el.data(), id: el.id };
   });
   const day_str = luxon_day.toISO().substring(0, 10);
   const month_str = day_str.substring(0, 7);
@@ -91,5 +91,6 @@ async function updateSlotDay({ organization, day }) {
     .doc(organization)
     .collection("slotsByDay")
     .doc(month_str)
-    .set({ [day_str]: dayAggregate }, { merge: true });
+    .update({ [day_str]: dayAggregate });
+  return dayAggregate;
 }

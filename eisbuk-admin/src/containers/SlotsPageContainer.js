@@ -26,12 +26,8 @@ const SlotsPageContainer = ({
 }) => {
   useFirestoreConnect([
     wrapOrganization({
-      collection: "slots",
-      orderBy: "date",
-      where: [
-        ["date", ">=", currentDate.startOf("day").toJSDate()],
-        ["date", "<", currentDate.endOf("day").toJSDate()],
-      ],
+      collection: "slotsByDay",
+      doc: currentDate.toISODate().substring(0, 7),
     }),
   ]);
 
@@ -79,10 +75,28 @@ const SlotsPageContainer = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  slots: state.firestore.ordered.slots,
-  currentDate: state.app.calendarDay,
-});
+const mapStateToProps = (state) => {
+  // Extract the slots from the current aggregated month.
+  const slots = [];
+  const currentDate = state.app.calendarDay;
+  const currentDateStr = currentDate.toISODate().substring(0, 10);
+  if (
+    state.firestore.ordered.slotsByDay &&
+    state.firestore.ordered.slotsByDay.length
+  ) {
+    if (state.firestore.ordered.slotsByDay[0][currentDateStr]) {
+      for (const slot of Object.values(
+        state.firestore.ordered.slotsByDay[0][currentDateStr]
+      )) {
+        slots.push(slot);
+      }
+    }
+  }
+  return {
+    slots,
+    currentDate,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

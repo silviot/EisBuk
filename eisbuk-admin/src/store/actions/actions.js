@@ -150,6 +150,8 @@ export const deleteSlot = (id) => {
     const firebase = getFirebase();
     firebase
       .firestore()
+      .collection("organizations")
+      .doc("default")
       .collection("slots")
       .doc(id)
       .delete()

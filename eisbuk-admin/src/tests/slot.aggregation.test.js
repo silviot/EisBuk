@@ -50,6 +50,11 @@ it("updates the slots summary on slot creation", async () => {
     num_keys: 2,
   });
   expect(aggregateSlot["2021-01-29"].anotherSlot.type).toStrictEqual("ice");
+  expect(aggregateSlot["2021-01-29"].anotherSlot.id).toStrictEqual(
+    "anotherSlot"
+  );
+  expect(Object.keys(aggregateSlot["2021-01-29"]).length).toStrictEqual(1);
+  expect(Object.keys(aggregateSlot["2021-01-30"]).length).toStrictEqual(1);
 
   // Remove one slot and make sure it's no longer in the aggregated record
   await anotherSlot.delete();
@@ -66,7 +71,7 @@ async function waitForRecord({ record, num_keys }) {
     // we find the newly added one
     async () => {
       var aggregateSlot = (await record.get()).data();
-      if (Object.keys(aggregateSlot).length != num_keys) {
+      if (Object.keys(aggregateSlot).length !== num_keys) {
         return Promise.reject(
           new Error(`The aggregated slot with ${num_keys} keys was not found`)
         );
