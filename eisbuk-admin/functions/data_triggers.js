@@ -42,59 +42,31 @@ exports.aggregate_slots = functions
   .firestore.document("organizations/{organization}/slots/{slotId}")
   .onWrite(async (change, context) => {
     const db = admin.firestore();
-    // A slot record was changed. We need to update the day it used
-    // to be in and the new day, if they're different.
-    var before, after;
-    if (typeof change.before.data() != "undefined") {
-      before = change.before.data().date;
+    // Maintain a copy of each slot in a different structure aggregated by month.
+    // This allows to update small documents while still being able to get data for
+    // a whole month in a single read.
+    // The cost is one extra write per each update to the slots.
+    var luxon_day,
+      newSlot = change.after.data();
+    const id = change.after.id || change.before.id;
+    if (typeof newSlot !== "undefined") {
+      newSlot = change.after.data();
+      newSlot.id = change.after.id;
+      luxon_day = luxon.date(new Date(newSlot.date.seconds * 1000));
+    } else {
+      luxon_day = luxon.date(
+        new Date(change.before.data().date.seconds * 1000)
+      );
+      newSlot = admin.firestore.FieldValue.delete();
     }
-    if (typeof change.after.data() != "undefined") {
-      after = change.after.data().date;
-    }
-    if (typeof after != "undefined") {
-      await updateSlotDay({
-        organization: context.params.organization,
-        day: after,
-      });
-    }
-    if (before !== after && typeof before != "undefined") {
-      await updateSlotDay({
-        organization: context.params.organization,
-        day: before,
-      });
-    }
+    const month_str = luxon_day.toISO().substring(0, 7);
+    const day_str = luxon_day.toISO().substring(0, 10);
+    await db
+      .collection("organizations")
+      .doc(context.params.organization)
+      .collection("slotsByDay")
+      .doc(month_str)
+      .set({ [day_str]: { [id]: newSlot } }, { merge: true });
+
     return change.after;
   });
-
-async function updateSlotDay({ organization, day }) {
-  // day should be a Firestore Timestamp object
-  const luxon_day = luxon.date(new Date(day.seconds * 1000));
-  const db = admin.firestore();
-  const slots_qs = await db
-    .collection("organizations")
-    .doc(organization)
-    .collection("slots")
-    .where("date", ">=", luxon_day.startOf("day").toJSDate())
-    .where("date", "<=", luxon_day.endOf("day").toJSDate())
-    .get();
-  var dayAggregate = {};
-  slots_qs.forEach((el) => {
-    dayAggregate[el.id] = { ...el.data(), id: el.id };
-  });
-  const day_str = luxon_day.toISO().substring(0, 10);
-  const month_str = day_str.substring(0, 7);
-  if (Object.keys(dayAggregate).length === 0) {
-    dayAggregate = admin.firestore.FieldValue.delete();
-  }
-  doc = db
-    .collection("organizations")
-    .doc(organization)
-    .collection("slotsByDay")
-    .doc(month_str);
-  try {
-    await doc.update({ [day_str]: dayAggregate });
-  } catch (e) {
-    await doc.create({ [day_str]: dayAggregate });
-  }
-  return dayAggregate;
-}

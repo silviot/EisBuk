@@ -5,12 +5,15 @@ const { loginDefaultUser, createDefaultOrg, retry } = require("./utils");
 
 beforeEach(async () => {
   const org = adminDb.collection("organizations").doc("default");
-  const existing = await org.collection("slots").get();
   const toDelete = [];
-  existing.forEach(async (el) => {
-    toDelete.push(el.ref.delete());
-    console.log("Deleting all existing slots");
-  });
+  for (const coll of ["slots", "slotsByDay"]) {
+    const existing = await org.collection(coll).get();
+    existing.forEach(async (el) => {
+      toDelete.push(el.ref.delete());
+      console.log(`Deleting all existing ${coll}`);
+    });
+  }
+
   await Promise.all(toDelete);
 });
 
@@ -58,9 +61,18 @@ it("updates the slots summary on slot creation", async () => {
 
   // Remove one slot and make sure it's no longer in the aggregated record
   await anotherSlot.delete();
+  // Create a third slot in a different day
+  const thirdSlot = org.collection("slots").doc("thirdSlot");
+  await thirdSlot.set({
+    date: new firebase.firestore.Timestamp(day - 72 * 3600, 0),
+    type: "ice",
+    durations: [60, 90, 120],
+    category: "agonismo",
+  });
+
   aggregateSlot = await waitForRecord({
     record: aggregateSlotsQuery,
-    num_keys: 1,
+    num_keys: 3,
   });
 });
 
