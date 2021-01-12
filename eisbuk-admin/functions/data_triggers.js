@@ -16,12 +16,7 @@ exports.addMissingSecretKey = functions
       const before = change.before.data();
       if (!after.secret_key) {
         const secret_key = uuidv4();
-        await db
-          .collection("organizations")
-          .doc(context.params.organization)
-          .collection("customers")
-          .doc(context.params.customerId)
-          .update({ secret_key });
+        await change.after.ref.update({ secret_key });
         // Create a record in /bookings with this secret key as id
         return db
           .collection("organizations")
@@ -46,10 +41,10 @@ exports.aggregate_slots = functions
     // This allows to update small documents while still being able to get data for
     // a whole month in a single read.
     // The cost is one extra write per each update to the slots.
-    var luxon_day,
-      newSlot = change.after.data();
+    var luxon_day, newSlot;
+    // Ids in firestore can never be mutated: either one will do
     const id = change.after.id || change.before.id;
-    if (typeof newSlot !== "undefined") {
+    if (change.after.exists) {
       newSlot = change.after.data();
       newSlot.id = change.after.id;
       luxon_day = luxon.date(new Date(newSlot.date.seconds * 1000));
@@ -67,6 +62,5 @@ exports.aggregate_slots = functions
       .collection("slotsByDay")
       .doc(month_str)
       .set({ [day_str]: { [id]: newSlot } }, { merge: true });
-
     return change.after;
   });

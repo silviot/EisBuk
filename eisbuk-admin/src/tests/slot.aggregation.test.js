@@ -19,13 +19,12 @@ beforeEach(async () => {
 
 it("updates the slots summary on slot creation", async () => {
   await Promise.all([createDefaultOrg(), loginDefaultUser()]);
-  // Create a slot
   const org = db.collection("organizations").doc("default");
-  const slot = org.collection("slots").doc("testSlot");
   // 1611964800 → Saturday, January 30, 2021 0:00:00 GMT
   const day = 1611964800;
 
   // Create a slot
+  const slot = org.collection("slots").doc("testSlot");
   await slot.set({
     date: new firebase.firestore.Timestamp(day + 15 * 3600, 0),
     type: "ice",
