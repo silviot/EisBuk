@@ -14,4 +14,4 @@ jobs:
       - name: Install requirements
         run: cd eisbuk-admin && yarn
       - name: build storybook and upload
-        run: cd eisbuk-admin && npx chromatic --project-token=${{ secrets.CHROMAUI_PROJECT_TOKEN }}
+        run: cd eisbuk-admin && npx chromatic --exit-zero-on-changes --project-token=${{ secrets.CHROMAUI_PROJECT_TOKEN }}
