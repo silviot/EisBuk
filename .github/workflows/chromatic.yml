@@ -1,0 +1,20 @@
+name: "Deploy storybook"
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - run: cd eisbuk-admin && yarn
+      - run: cd eisbuk-admin && yarn build-storybook --output-dir ../storybook
+      - uses: chromaui/action@v1
+        with:
+          projectToken: dcmb4kmorxe
+          token: ${{ secrets.GITHUB_TOKEN }}
+          storybookBuildDir: storybook
