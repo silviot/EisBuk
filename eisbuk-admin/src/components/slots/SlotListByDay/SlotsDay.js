@@ -6,9 +6,9 @@ import Slot from "./Slot";
 const SlotsDay = ({ day, slots, isCurrent }) => {
   const slotsList = [];
   for (const slot of Object.keys(slots || {}).sort(function (a, b) {
-    return slots[a].date >= slots[b].date;
+    return slots[a].date.seconds >= slots[b].date.seconds;
   })) {
-    slotsList.push(slots[slot]);
+    slotsList.push({ ...slots[slot], id: slot });
   }
   return (
     <Box key={day} id={day}>

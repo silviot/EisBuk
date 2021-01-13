@@ -18,12 +18,14 @@ const slots_one = {
 const slots_many = {
   ...slots_one,
   bar: {
-    date: { seconds: 1609516800 },
+    date: { seconds: 1609495200 },
+    category: "preagonismo",
     type: "off-ice",
     durations: [90, 120],
   },
   baz: {
     date: { seconds: 1609516800 },
+    category: "agonismo",
     type: "off-ice",
     durations: [90, 120],
   },
