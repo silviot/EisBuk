@@ -8,7 +8,7 @@ import {
 } from "../store/actions/actions";
 
 import LayoutHorizontal from "../components/layout/LayoutHorizontal";
-import SlotList from "../components/slots/SlotList";
+import SlotListByDay from "../components/slots/SlotListByDay";
 import SlotCalendarDate from "../components/slots/SlotCalendar/SlotCalendarDate";
 import SlotCalendar from "../components/slots/SlotCalendar";
 
@@ -19,7 +19,6 @@ import { AddCircleOutline } from "@material-ui/icons";
 
 const SlotsPageContainer = ({
   slots,
-  deleteSlot,
   createSlot,
   currentDate,
   changeCalendarDate,
@@ -70,31 +69,19 @@ const SlotsPageContainer = ({
           />
         </>
       }
-      contentRail={<SlotList deleteSlot={deleteSlot} slots={slots} />}
+      contentRail={<SlotListByDay slots={slots} currentDate={currentDate} />}
     />
   );
 };
 
 const mapStateToProps = (state) => {
-  // Extract the slots from the current aggregated month.
-  const slots = [];
-  const currentDate = state.app.calendarDay;
-  const currentDateStr = currentDate.toISODate().substring(0, 10);
-  if (
-    state.firestore.ordered.slotsByDay &&
-    state.firestore.ordered.slotsByDay.length
-  ) {
-    if (state.firestore.ordered.slotsByDay[0][currentDateStr]) {
-      for (const slot of Object.values(
-        state.firestore.ordered.slotsByDay[0][currentDateStr]
-      )) {
-        slots.push(slot);
-      }
-    }
+  var slotsByDay = state.firestore.ordered.slotsByDay;
+  if (typeof slotsByDay !== "undefined") {
+    slotsByDay = slotsByDay[0];
   }
   return {
-    slots,
-    currentDate,
+    currentDate: state.app.calendarDay,
+    slots: slotsByDay,
   };
 };
 
