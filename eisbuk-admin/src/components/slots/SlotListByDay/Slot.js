@@ -9,7 +9,6 @@ const luxon = new LuxonUtils({ locale: "C" });
 
 const Slot = ({ data }) => {
   const date = FBToLuxon(data.date);
-  window.madate = date;
   return (
     <Box>
       <Chip
