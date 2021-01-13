@@ -1,3 +1,4 @@
+import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import React from "react";
 import Box from "@material-ui/core/Box";
 import Slot from "./Slot";
@@ -11,8 +12,8 @@ const SlotsDay = ({ day, slots, isCurrent }) => {
   }
   return (
     <Box key={day} id={day}>
-      {isCurrent ? <b>{day}</b> : day}
-      {slotsList.length === 0 ? <p>Nessuna prenotazione</p> : ""}
+      <h4>{isCurrent ? <b>{day}</b> : day}</h4>
+      {slotsList.length === 0 ? <NotInterestedIcon /> : ""}
       {slotsList.map((slot) => (
         <Slot data={slot}></Slot>
       ))}
