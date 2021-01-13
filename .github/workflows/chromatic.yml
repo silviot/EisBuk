@@ -17,4 +17,4 @@ jobs:
         with:
           projectToken: dcmb4kmorxe
           token: ${{ secrets.GITHUB_TOKEN }}
-          storybookBuildDir: storybook
+          storybookBuildDir: $GITHUB_WORKSPACE/storybook

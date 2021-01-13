@@ -12,6 +12,7 @@ const SlotsDay = ({ day, slots, isCurrent }) => {
   return (
     <Box key={day} id={day}>
       {isCurrent ? <b>{day}</b> : day}
+      {slotsList.length === 0 ? <p>Nessuna prenotazione</p> : ""}
       {slotsList.map((slot) => (
         <Slot data={slot}></Slot>
       ))}
