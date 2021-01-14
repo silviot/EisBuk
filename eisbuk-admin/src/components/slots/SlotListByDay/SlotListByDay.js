@@ -10,7 +10,6 @@ const SlotListByDay = ({ slots, currentDate }) => {
     .filter((el) => el !== "id")
     .sort();
   const current = currentDate.toISODate();
-  window.location.hash = "#" + current;
   return (
     <Box>
       {days.map((el) => (

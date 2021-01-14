@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import Box from "@material-ui/core/Box";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import CategoryIcon from "@material-ui/icons/Category";
@@ -10,11 +10,13 @@ import { deleteSlot } from "../../../store/actions/actions";
 
 const luxon = new LuxonUtils({ locale: "C" });
 
-const Slot = ({ data, deleteSlot }) => {
+export default ({ data }) => {
   const date = FBToLuxon(data.date);
+  const dispatch = useDispatch();
+
   const handleDelete = (e) => {
     e.preventDefault();
-    deleteSlot(data.id);
+    dispatch(deleteSlot(data.id));
   };
 
   return (
@@ -43,13 +45,3 @@ const Slot = ({ data, deleteSlot }) => {
 function FBToLuxon(fbDatetime) {
   return luxon.date(new Date(fbDatetime.seconds * 1000));
 }
-
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteSlot: (id) => dispatch(deleteSlot(id)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Slot);
