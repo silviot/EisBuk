@@ -20,7 +20,7 @@ const SlotCalendarDate = ({ date }) => {
   const classes = useStyles();
   return (
     <>
-      <Box display="flex" justifyContent="center" alignItems="center">
+      <Box display="flex">
         <Box>
           <Typography variant="h5" className={classes.weekDay}>
             {date.setLocale("it").toFormat("EEEE")}

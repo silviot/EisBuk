@@ -1,5 +1,4 @@
 export const wrapOrganization = (toWrap) => {
-  console.log(toWrap);
   return {
     collection: "organizations",
     storeAs: toWrap.collection,

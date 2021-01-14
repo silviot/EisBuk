@@ -15,7 +15,7 @@ const SlotsDay = ({ day, slots, isCurrent }) => {
       <h4>{isCurrent ? <b>{day}</b> : day}</h4>
       {slotsList.length === 0 ? <NotInterestedIcon /> : ""}
       {slotsList.map((slot) => (
-        <Slot data={slot}></Slot>
+        <Slot data={slot} key={slot.id}></Slot>
       ))}
     </Box>
   );

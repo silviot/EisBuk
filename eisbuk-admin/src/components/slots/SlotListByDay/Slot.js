@@ -20,14 +20,21 @@ const Slot = ({ data, deleteSlot }) => {
   return (
     <Box>
       <Chip
+        key="time"
+        size="small"
         onDelete={handleDelete}
         icon={<AccessTimeIcon />}
         label={date.toISOTime().substring(0, 5)}
       />
-      <Chip size="small" icon={<CategoryIcon />} label={data.category} />
-      <Chip size="small" icon={<StarsIcon />} label={data.type} />
+      <Chip
+        key="category"
+        size="small"
+        icon={<CategoryIcon />}
+        label={data.category}
+      />
+      <Chip key="type" size="small" icon={<StarsIcon />} label={data.type} />
       {data.durations.map((val) => (
-        <Chip size="small" label={val} />
+        <Chip size="small" label={val} key={"duration-" + val} />
       ))}
     </Box>
   );

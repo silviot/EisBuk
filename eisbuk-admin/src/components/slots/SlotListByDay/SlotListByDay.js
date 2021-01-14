@@ -6,7 +6,6 @@ const SlotListByDay = ({ slots, currentDate }) => {
   if (typeof slots === "undefined") {
     return <Box>Loading...</Box>;
   }
-  console.log(slots);
   const days = Object.keys(slots)
     .filter((el) => el !== "id")
     .sort();
@@ -16,6 +15,7 @@ const SlotListByDay = ({ slots, currentDate }) => {
     <Box>
       {days.map((el) => (
         <SlotsDay
+          key={el}
           day={el}
           slots={slots[el]}
           isCurrent={current === el}
