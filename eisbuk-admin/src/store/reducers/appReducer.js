@@ -1,24 +1,57 @@
-import { IS_LOADING, HAS_LOADED } from "../actions/action-types";
+import {
+  ENQUEUE_SNACKBAR,
+  CLOSE_SNACKBAR,
+  REMOVE_SNACKBAR,
+  CHANGE_DAY,
+} from "../actions/action-types";
+import { DateTime } from "luxon";
 
-const initState = {
-  isLoading: false,
+const defaultState = {
+  notifications: [],
+  calendarDay: DateTime.local(),
 };
 
-export const appReducer = (state = initState, action) => {
+export const appReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case IS_LOADING:
-      console.log("Loading");
+    case ENQUEUE_SNACKBAR:
       return {
-        isLoading: true,
         ...state,
+        notifications: [
+          ...state.notifications,
+          {
+            key: action.key,
+            ...action.notification,
+          },
+        ],
       };
-    case HAS_LOADED:
-      console.log("Loaded");
+
+    case CLOSE_SNACKBAR:
       return {
-        isLoading: false,
         ...state,
+        notifications: state.notifications.map((notification) =>
+          action.dismissAll || notification.key === action.key
+            ? { ...notification, dismissed: true }
+            : { ...notification }
+        ),
       };
+
+    case REMOVE_SNACKBAR:
+      return {
+        ...state,
+        notifications: state.notifications.filter(
+          (notification) => notification.key !== action.key
+        ),
+      };
+
+    case CHANGE_DAY:
+      return {
+        ...state,
+        calendarDay: action.payload,
+      };
+
     default:
       return state;
   }
 };
+
+export default appReducer;

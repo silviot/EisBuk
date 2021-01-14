@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@date-io/date-fns": "1.x",
-    "@date-io/moment": "1.x",
-    "@material-ui/core": "^4.11.0",
+    "@date-io/luxon": "1.x",
+    "@emotion/react": "^11.1.4",
+    "@emotion/styled": "^11.0.0",
+    "@material-ui/core": "^5.0.0-alpha.22",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/pickers": "^3.2.10",
     "@testing-library/jest-dom": "^4.2.4",
@@ -15,12 +16,12 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
-    "date-fns": "^2.16.1",
     "firebase": "^7.21.1-eap-auth-emulator.df41ee388",
-    "firebase-tools": "^8.12.0",
+    "firebase-tools": "^9.1.1",
     "formik": "^2.1.5",
     "formik-material-ui": "^3.0.0-alpha.0",
     "formik-material-ui-pickers": "^0.0.11",
+    "luxon": "^1.25.0",
     "material-table": "^1.69.0",
     "moment": "^2.27.0",
     "notistack": "^1.0.0",
@@ -29,7 +30,6 @@
     "react-moment": "^0.9.7",
     "react-redux": "^7.2.1",
     "react-redux-firebase": "^3.7.0",
-    "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
@@ -45,11 +45,23 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "firebase -c firebase-testing.json  emulators:exec -- 'yarn run jest --watch'",
+    "test:ci": "firebase -c firebase-testing.json  emulators:exec -- 'yarn run jest --forceExit'",
+    "postinstall": "./fix-jsdom.sh",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "no-unused-vars": [
+        "error"
+      ]
+    },
+    "settings": {
+      "react": {
+        "version": "16.13.1"
+      }
+    }
   },
   "browserslist": {
     "production": [
@@ -64,8 +76,11 @@
     ]
   },
   "devDependencies": {
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-unused-imports": "^1.0.1",
     "firebase-admin": "^9.2.0",
     "firebase-functions": "^3.11.0",
+    "mocha": "^8.2.1",
     "plop": "^2.7.4"
   }
 }

@@ -17,6 +17,7 @@ function invokeFunction(functionName) {
 }
 
 function createAdminTestUsers() {
+  invokeFunction("createOrganization")();
   // Auth emulator is not currently accessible from within the functions
   firebase.auth().createUserWithEmailAndPassword("test@eisbuk.it", "test00");
 }
@@ -45,7 +46,7 @@ const debugPage = () => {
       <Box my={4} color="secondary.main">
         <Button
           onClick={invokeFunction("createTestSlots")}
-          color="default"
+          color="primary"
           variant="contained"
         >
           Create test slots

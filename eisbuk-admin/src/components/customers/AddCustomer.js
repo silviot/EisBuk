@@ -1,9 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { Typography, Box } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -14,7 +12,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 import AccountCircle from "@material-ui/icons/AccountCircle";

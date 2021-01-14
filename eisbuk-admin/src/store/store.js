@@ -14,7 +14,7 @@ let fbConfig;
 if (window.location.hostname === "localhost") {
   fbConfig = {
     databaseURL: "http://localhost:8080",
-    projectId: "eisbuk",
+    projectId: "eisbuk-e6b2a",
     apiKey: "AIzaSyDfUuakkXb_xV-VFRyH7yIW4Dr7YmypHRo",
     messagingSenderId: "26525409101",
     appId: "1:26525409101:web:53f88cf5f4b7d6883e6104",

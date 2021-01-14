@@ -1,8 +1,12 @@
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-exports.createTestData = require("./test_data.js").createTestData;
-exports.sync_writable_records = require("./data_triggers.js").sync_writable_records;
-exports.createTestSlots = require("./test_slots.js").createTestSlots;
-
-exports.createAdminTestUsers = require("./test_data.js").createAdminTestUsers;
+const importAll = (moduleName) => {
+  const module = require(moduleName);
+  for (var fname in module) {
+    exports[fname] = module[fname];
+  }
+};
+importAll("./test_data.js");
+importAll("./data_triggers.js");
+importAll("./test_slots.js");

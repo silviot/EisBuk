@@ -8,10 +8,9 @@ import { rrfProps, store } from "./store/store";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import LoginRoute from "./components/auth/LoginRoute";
 import DebugPage from "./components/debugPage";
-import moment from "moment";
-import MomentUtils from "@date-io/moment";
+
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import "moment/locale/it";
+import LuxonUtils from "@date-io/luxon";
 
 import {
   ThemeProvider,
@@ -42,7 +41,6 @@ let igorice = createMuiTheme({
     grey: blueGrey,
   },
   typography: {
-    // Tell Material-UI what's the font-size on the html element is.
     htmlFontSize: 16,
   },
   spacing: 8,
@@ -54,11 +52,7 @@ function App() {
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <ThemeProvider theme={igorice}>
-          <MuiPickersUtilsProvider
-            libInstance={moment}
-            utils={MomentUtils}
-            locale="it"
-          >
+          <MuiPickersUtilsProvider utils={LuxonUtils}>
             <SnackbarProvider maxSnack={3}>
               <Notifier />
               <CssBaseline />

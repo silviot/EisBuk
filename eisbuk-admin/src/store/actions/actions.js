@@ -4,10 +4,8 @@ import {
   ENQUEUE_SNACKBAR,
   CLOSE_SNACKBAR,
   REMOVE_SNACKBAR,
+  CHANGE_DAY,
 } from "./action-types";
-
-import React from "react";
-import Button from "@material-ui/core/Button";
 
 export const enqueueSnackbar = (notification) => {
   const key = notification.options && notification.options.key;
@@ -110,6 +108,11 @@ export const signInWithGoogle = () => {
   };
 };
 
+export const changeCalendarDate = (date) => ({
+  type: CHANGE_DAY,
+  payload: date,
+});
+
 export const createSlot = (data) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
@@ -147,6 +150,8 @@ export const deleteSlot = (id) => {
     const firebase = getFirebase();
     firebase
       .firestore()
+      .collection("organizations")
+      .doc("default")
       .collection("slots")
       .doc(id)
       .delete()

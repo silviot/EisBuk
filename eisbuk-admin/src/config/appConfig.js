@@ -4,9 +4,9 @@ export const appLabels = {
 };
 export const slotsLabels = {
   durations: [
-    { id: 60, label: "1 ora" },
-    { id: 90, label: "1 ora e 30 min" },
-    { id: 120, label: "2 ore" },
+    { id: 60, label: "1H" },
+    { id: 90, label: "1H 30M" },
+    { id: 120, label: "2H" },
   ],
   categories: [
     { id: "corso", label: "Corso" },

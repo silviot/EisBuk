@@ -1,0 +1,21 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node modules and firebase emulators
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+            $HOME/.cache/firebase/emulators
+          key: ${{ runner.os }}-modules-emulators-${{ hashFiles('**/yarn.lock') }}
+      - name: Install modules
+        run: cd eisbuk-admin && yarn
+      - name: Run tests
+        run: cd eisbuk-admin && yarn test:ci

@@ -17,10 +17,11 @@ import AppbarDrawer from "../../components/layout/AppbarDrawer";
 import { Typography } from "@material-ui/core";
 
 import AddCustomer from "../../components/customers/AddCustomer";
+import { wrapOrganization } from "../../utils/firestore";
 
 const CustomersPage = () => {
   const classes = useStyles();
-  useFirestoreConnect([{ collection: "customers" }]);
+  useFirestoreConnect([wrapOrganization({ collection: "customers" })]);
   const [addAthleteDialog, setAddAthleteDialog] = useState(false);
   const toggleAddAthleteDialog = () =>
     setAddAthleteDialog(addAthleteDialog ? false : true);
@@ -30,8 +31,7 @@ const CustomersPage = () => {
     <div className={classes.root}>
       <AppbarDrawer />
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Box py={3} container className={classes.headerHero}>
+        <Box py={3} container={true} className={classes.headerHero}>
           <Container maxWidth="lg">
             <Typography className={classes.pageTitle} variant="h1">
               Atleti
