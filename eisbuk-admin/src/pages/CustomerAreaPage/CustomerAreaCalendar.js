@@ -39,16 +39,18 @@ export const CustomerAreaCalendar = ({ userCategory }) => {
       end: luxon.date(date).plus({ months: 1 }).startOf("month").toJSDate(),
     });
   };
-
+  const where = [
+    ["date", ">=", date.start],
+    ["date", "<", date.end],
+  ];
+  if (userCategory) {
+    where.push(["category", "==", userCategory]);
+  }
   useFirestoreConnect([
     wrapOrganization({
       collection: "slotsByMonth",
       orderBy: "date",
-      where: [
-        ["category", "==", userCategory],
-        ["date", ">=", date.start],
-        ["date", "<", date.end],
-      ],
+      where,
     }),
   ]);
 
