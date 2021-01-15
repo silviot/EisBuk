@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
-
-import moment from "moment";
 import { onlyUnique } from "../../utils/helpers";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,55 +8,48 @@ import { Typography, Grid, Paper, Box } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 
 import SlotCardCustomer from "../../components/slots/SlotCardCustomer";
+import { wrapOrganization } from "../../utils/firestore";
+import LuxonUtils from "@date-io/luxon";
+const luxon = new LuxonUtils({ locale: "it" });
 
 export const CustomerAreaCalendar = ({ userCategory }) => {
-  let m = (m) => moment(m).locale("it");
+  const now = luxon.date();
   const classes = useStyles();
-
   const [date, setDate] = useState({
-    start: m().startOf("day").toDate(),
-    end: m().add(1, "days").startOf("day").toDate(),
-    current: m().toDate(),
+    start: now.startOf("day").toJSDate(),
+    end: now.plus({ days: 1 }).startOf("day").toJSDate(),
+    current: now.toJSDate(),
   });
   const [month, setMonth] = useState({
-    start: m().startOf("month").toDate(),
-    end: m().add(1, "months").startOf("month").toDate(),
+    start: now.startOf("month").toJSDate(),
+    end: now.plus({ months: 1 }).startOf("month").toJSDate(),
   });
   const handleDateChange = (date) => {
     setDate({
-      start: m(date).startOf("day").toDate(),
-      end: m(date).add(1, "days").startOf("day").toDate(),
-      current: m(date).toDate(),
+      start: luxon.date(date).startOf("day").toJSDate(),
+      end: luxon.date(date).plus({ days: 1 }).startOf("day").toJSDate(),
+      current: luxon.date(date).toJSDate(),
     });
   };
 
   const handleMonthChange = (date) => {
+    console.log(`Changing month from ${month} to ${date}`);
     setMonth({
-      start: m(date).toDate(),
-      end: m(date).add(1, "month").startOf("month").toDate(),
+      start: luxon.date(date).toJSDate(),
+      end: luxon.date(date).plus({ months: 1 }).startOf("month").toJSDate(),
     });
   };
 
   useFirestoreConnect([
-    {
-      collection: "slots",
+    wrapOrganization({
+      collection: "slotsByMonth",
       orderBy: "date",
       where: [
         ["category", "==", userCategory],
         ["date", ">=", date.start],
         ["date", "<", date.end],
       ],
-    },
-    {
-      collection: "slots",
-      orderBy: "date",
-      where: [
-        ["date", ">=", month.start],
-        ["date", "<", month.end],
-        /* ["category", "==", userCategory], */
-      ],
-      storeAs: "slotsByMonth",
-    },
+    }),
   ]);
 
   const slots = useSelector((state) => state.firestore.ordered.slots);
@@ -66,9 +57,7 @@ export const CustomerAreaCalendar = ({ userCategory }) => {
     (state) => state.firestore.ordered.slotsByMonth
   );
   let daysInMonth = slotsByMonth && [
-    ...slotsByMonth.map((x) =>
-      moment.unix(x.date.seconds).locale("it").format("D")
-    ),
+    ...slotsByMonth.map((x) => luxon.date(x.date.seconds).toLocaleString()),
   ];
 
   return (
@@ -90,10 +79,12 @@ export const CustomerAreaCalendar = ({ userCategory }) => {
             handleMonthChange(date);
           }}
           renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => {
-            const date = m(day ?? null);
+            const date = luxon.date(day ?? null);
             const isSelected =
               daysInMonth &&
-              daysInMonth.filter(onlyUnique).includes(m(date).format("D"));
+              daysInMonth
+                .filter(onlyUnique)
+                .includes(luxon.date(date).toLocaleString());
             return (
               <div
                 style={{
@@ -109,7 +100,7 @@ export const CustomerAreaCalendar = ({ userCategory }) => {
       <Grid item sm={12} md={6}>
         <Box p={3}>
           <Typography variant="h3">
-            {m(date.current).format("dddd D MMMM YYYY")}
+            {luxon.date(date.current).toLocaleString()}
           </Typography>
           <Grid container spacing={3}>
             {isLoaded(slots) &&

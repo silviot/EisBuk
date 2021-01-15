@@ -59,7 +59,7 @@ export const CustomerAreaPage = () => {
       doc: id,
     }),
   ]);
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(1);
   const customerData = useSelector(
     (state) => state.firestore.ordered.customers
   );
