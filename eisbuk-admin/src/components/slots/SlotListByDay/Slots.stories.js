@@ -4,6 +4,7 @@ import SlotsDay from "./SlotsDay";
 export default {
   title: "SlotsDay",
   component: SlotsDay,
+  argTypes: { onDelete: { action: "deleted" } },
 };
 
 const Template = (args) => <SlotsDay {...args} />;

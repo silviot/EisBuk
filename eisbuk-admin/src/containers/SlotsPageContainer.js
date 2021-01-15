@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { useFirestoreConnect } from "react-redux-firebase";
 import {
   deleteSlot,
@@ -42,6 +42,10 @@ const SlotsPageContainer = ({
   const handleCloseCreateSlot = () => {
     setCreateSlotDrawer(false);
   };
+  const dispatch = useDispatch();
+  const onDelete = (id) => {
+    dispatch(deleteSlot(id));
+  };
 
   return (
     <LayoutHorizontal
@@ -69,7 +73,13 @@ const SlotsPageContainer = ({
           />
         </>
       }
-      contentRail={<SlotListByDay slots={slots} currentDate={currentDate} />}
+      contentRail={
+        <SlotListByDay
+          slots={slots}
+          currentDate={currentDate}
+          onDelete={onDelete}
+        />
+      }
     />
   );
 };
