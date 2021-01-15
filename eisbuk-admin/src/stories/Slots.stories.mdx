@@ -1,0 +1,51 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+<Meta title="Slots" />
+
+# Slots for bookings
+
+Slots are the basic unit that can be booked.
+
+They have a point in time and some metadata.
+
+This is their primary representation. Clients send this kind of serialisation to the `slots` collection.
+
+```javascript
+slots = {
+  foo: {
+    category: "agonismo",
+    type: "ice",
+    date: { seconds: 1609513200 },
+    durations: [60],
+  },
+  bar: {
+    date: { seconds: 1609495200 },
+    category: "preagonismo",
+    type: "off-ice",
+    durations: [90, 120],
+  },
+  baz: {
+    date: { seconds: 1609516800 },
+    category: "agonismo",
+    type: "off-ice",
+    durations: [60, 90, 120],
+  },
+};
+```
+
+Their ids in the database MUST be uuid4 to avoid collisions. In these examples they are readable strings for clarity.
+
+When a slot is saved a server function is triggered that mirrors the slot contents in a `slotsByMonth` collection.
+
+`slotsByMonth` is organized like this:
+
+```javascript
+slotsByMonth = {
+  "2021-01": {
+    "2021-01-15": {
+      ...slots,
+    },
+    "2021-01-16": {}, // There can be empty days
+  },
+};
+```
