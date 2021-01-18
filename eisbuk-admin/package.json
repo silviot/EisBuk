@@ -44,6 +44,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "emulators:inspect": "firebase emulators:start --inspect-functions 9229",
+    "emulators:start": "firebase emulators:start",
     "build": "react-scripts build",
     "test": "firebase -c firebase-testing.json  emulators:exec -- 'yarn run jest --watch'",
     "test:ci": "firebase -c firebase-testing.json  emulators:exec -- 'yarn run jest --forceExit'",
