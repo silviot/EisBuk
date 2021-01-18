@@ -10,8 +10,9 @@ import { getFirebase } from "react-redux-firebase";
 import { createFirestoreInstance } from "redux-firestore";
 
 let fbConfig;
+const isDev = window.location.port !== "80" && window.location.port !== "443";
 
-if (window.location.hostname === "localhost") {
+if (isDev) {
   fbConfig = {
     databaseURL: "http://localhost:8080",
     projectId: "eisbuk-e6b2a",
