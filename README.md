@@ -19,6 +19,12 @@ Enter the eisbuk-admin directory:
 
     cd eisbuk-admin
 
+# Important (for the http functions to work)
+
+Make sure you set the name of your firebase project:
+
+    npx firebase use eisbuk-e6b2a
+
 Start the firebase emulators:
 
     firebase emulators:start --inspect-functions 9229
