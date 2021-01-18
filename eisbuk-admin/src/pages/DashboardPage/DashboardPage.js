@@ -9,13 +9,10 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 
-import AppbarDrawer from "../../components/layout/AppbarDrawer";
-
 const DashboardPage = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <AppbarDrawer />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>

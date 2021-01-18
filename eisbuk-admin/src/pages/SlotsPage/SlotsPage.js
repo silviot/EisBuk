@@ -1,13 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import AppbarDrawer from "../../components/layout/AppbarDrawer";
 import SlotsPageContainer from "../../containers/SlotsPageContainer";
 
 const SlotsPage = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <AppbarDrawer />
       <main className={classes.content}>
         <SlotsPageContainer />
       </main>

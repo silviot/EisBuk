@@ -13,7 +13,6 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import AppbarDrawer from "../../components/layout/AppbarDrawer";
 import { Typography } from "@material-ui/core";
 
 import AddCustomer from "../../components/customers/AddCustomer";
@@ -29,7 +28,6 @@ const CustomersPage = () => {
 
   return (
     <div className={classes.root}>
-      <AppbarDrawer />
       <main className={classes.content}>
         <Box py={3} container={true} className={classes.headerHero}>
           <Container maxWidth="lg">
