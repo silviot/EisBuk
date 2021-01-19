@@ -10,7 +10,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 const AppbarAdmin = () => {
   const classes = useStyles();
-  console.log("Here i am");
   return (
     <>
       <AppBar className={classes.appBar}>
