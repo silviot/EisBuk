@@ -4,13 +4,18 @@ import Box from "@material-ui/core/Box";
 import Slot from "./Slot";
 import LuxonUtils from "@date-io/luxon";
 
-const luxon = new LuxonUtils({ locale: "it-IT" });
+const luxon = new LuxonUtils({ locale: "C" });
 
 const SlotsDay = ({ day, slots, isCurrent, onDelete }) => {
   const slotsList = [];
   const [deletedSlots, setDeletedSlots] = useState({});
   const luxonDay = luxon.parse(day, "yyyy-mm-dd");
-  const dateStr = luxonDay.toFormat("EEEE dd LLL");
+  const dateStr = luxonDay.toLocaleString({
+    locale: "it-IT",
+    month: "long",
+    weekday: "long",
+    day: "numeric",
+  });
   const extendedOnDelete = onDelete
     ? (id) => {
         // In order to get a more responsive UI we remember here the IDs of slots
