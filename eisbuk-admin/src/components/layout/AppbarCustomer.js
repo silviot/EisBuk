@@ -5,7 +5,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
-const AppbarCustomer = () => {
+const AppbarCustomer = ({ headingText = appLabels.appName }) => {
   const classes = useStyles();
 
   return (
@@ -19,7 +19,7 @@ const AppbarCustomer = () => {
           noWrap
           className={classes.title}
         >
-          {appLabels.appName}
+          {headingText}
         </Typography>
       </Toolbar>
     </AppBar>

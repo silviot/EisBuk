@@ -4,7 +4,7 @@ require("firebase/firestore");
 const { Firestore } = require("@google-cloud/firestore");
 const { credentials } = require("@grpc/grpc-js");
 
-const projectId = "eisbuk-e6b2a";
+const projectId = "eisbuk";
 
 exports.adminDb = new Firestore({
   projectId: projectId,

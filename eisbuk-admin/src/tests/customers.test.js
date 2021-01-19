@@ -1,5 +1,9 @@
 const { adminDb } = require("./settings");
-const { retry } = require("./utils");
+const { retry, deleteAll } = require("./utils");
+
+beforeEach(async () => {
+  await deleteAll(["customers", "bookings"]);
+});
 
 it("Applies secret_key when a customer record is added", async (done) => {
   const coll = adminDb
@@ -30,6 +34,32 @@ it("Applies secret_key when a customer record is added", async (done) => {
   done();
 });
 
+it("Populates bookings when a customer record is added or changed", async (done) => {
+  const orgsColl = adminDb.collection("organizations").doc("default");
+  const customersColl = orgsColl.collection("customers");
+  const test_customers = [
+    {
+      name: "Jane",
+      surname: "Doe",
+      id: "baz",
+    },
+  ];
+  await Promise.all(
+    test_customers.map((customer) =>
+      customersColl.doc(customer.id).set(customer)
+    )
+  );
+
+  const fromDbBaz = await waitForCustomerSecretKey("baz");
+  const bookingsInfo = await orgsColl
+    .collection("bookings")
+    .doc(fromDbBaz.data().secret_key)
+    .get();
+  expect(bookingsInfo.data().name).toEqual("Jane");
+  expect(bookingsInfo.data().surname).toEqual("Doe");
+  done();
+});
+
 async function waitForCustomerSecretKey(customerId) {
   var doc;
   const coll = adminDb
@@ -44,7 +74,9 @@ async function waitForCustomerSecretKey(customerId) {
       return doc.data().secret_key
         ? Promise.resolve()
         : Promise.reject(
-            new Error("The secret key was not automatically added")
+            new Error(
+              `The secret key was not automatically added to ${customerId}`
+            )
           );
     },
     10, // Try the above up to 10 times

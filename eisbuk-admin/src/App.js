@@ -70,7 +70,10 @@ function App() {
                     exact
                   />
                   <LoginRoute path="/login" component={LoginPage} />
-                  <Route path="/clienti/:id" children={<CustomerAreaPage />} />
+                  <Route
+                    path="/clienti/:secret_key"
+                    children={<CustomerAreaPage />}
+                  />
                   <Route path="/debug" children={<DebugPage />} />
                 </Switch>
               </BrowserRouter>

@@ -74,7 +74,7 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
               icon: tableIcons.NextPage,
               tooltip: "Visualizza Profilo",
               onClick: (event, rowData) => {
-                history.push(`/clienti/${rowData.id}`);
+                history.push(`/clienti/${rowData.secret_key}`);
               },
             },
           ]}

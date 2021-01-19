@@ -11,19 +11,25 @@ exports.addMissingSecretKey = functions
   .firestore.document("organizations/{organization}/customers/{customerId}")
   .onWrite(async (change, context) => {
     const db = admin.firestore();
+    const before = change.before.data();
     if (change.after.exists) {
       const after = change.after.data();
-      const before = change.before.data();
       if (!after.secret_key) {
         const secret_key = uuidv4();
-        await change.after.ref.update({ secret_key });
         // Create a record in /bookings with this secret key as id
-        return db
+        // and the customer name
+        bookingsRoot = {
+          customer_id: context.params.customerId,
+          ...(after.name && { name: after.name }),
+          ...(after.surname && { surname: after.surname }),
+        };
+        await db
           .collection("organizations")
           .doc(context.params.organization)
           .collection("bookings")
           .doc(secret_key)
-          .set({ customer_id: context.params.customerId });
+          .set(bookingsRoot);
+        return change.after.ref.update({ secret_key });
       }
     } else if (before && !change.before) {
       // The key was removed. This should not happend

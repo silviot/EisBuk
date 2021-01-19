@@ -52,23 +52,25 @@ const TabPanel = (props) => {
 
 export const CustomerAreaPage = () => {
   const classes = useStyles();
-  let { id } = useParams();
+  let { secret_key } = useParams();
   useFirestoreConnect([
     wrapOrganization({
-      collection: "customers",
-      doc: id,
+      collection: "bookings",
+      doc: secret_key,
     }),
   ]);
   const [activeTab, setActiveTab] = useState(1);
-  const customerData = useSelector(
-    (state) => state.firestore.ordered.customers
-  );
+  const customerData = useSelector((state) => state.firestore.ordered.bookings);
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
+  const title =
+    customerData &&
+    customerData[0] &&
+    `${customerData[0].name} ${customerData[0].surname}`;
   return (
     <div className={classes.root}>
-      <AppbarCustomer />
+      <AppbarCustomer headingText={title} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         {isLoaded(customerData) && !isEmpty(customerData) && (

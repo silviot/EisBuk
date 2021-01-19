@@ -1,20 +1,15 @@
-const { db, adminDb } = require("./settings");
+const { db } = require("./settings");
 const firebase = require("firebase/app");
 require("firebase/firestore");
-const { loginDefaultUser, createDefaultOrg, retry } = require("./utils");
+const {
+  loginDefaultUser,
+  createDefaultOrg,
+  retry,
+  deleteAll,
+} = require("./utils");
 
 beforeEach(async () => {
-  const org = adminDb.collection("organizations").doc("default");
-  const toDelete = [];
-  for (const coll of ["slots", "slotsByDay"]) {
-    const existing = await org.collection(coll).get();
-    existing.forEach(async (el) => {
-      toDelete.push(el.ref.delete());
-      console.log(`Deleting all existing ${coll}`);
-    });
-  }
-
-  await Promise.all(toDelete);
+  await deleteAll(["slots", "slotsByDay"]);
 });
 
 it("updates the slots summary on slot creation", async () => {

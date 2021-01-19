@@ -2,7 +2,13 @@ import React from "react";
 import Box from "@material-ui/core/Box";
 import SlotsDay from "./SlotsDay";
 
-const SlotListByDay = ({ slots, currentDate, onDelete }) => {
+const SlotListByDay = ({
+  slots,
+  currentDate,
+  onDelete,
+  onSubscribe,
+  onUnsubscribe,
+}) => {
   if (typeof slots === "undefined") {
     return <Box>Loading...</Box>;
   }
@@ -19,6 +25,8 @@ const SlotListByDay = ({ slots, currentDate, onDelete }) => {
           slots={slots[el]}
           onDelete={onDelete}
           isCurrent={current === el}
+          onSubscribe={onSubscribe}
+          onUnsubscribe={onUnsubscribe}
         ></SlotsDay>
       ))}
     </Box>
