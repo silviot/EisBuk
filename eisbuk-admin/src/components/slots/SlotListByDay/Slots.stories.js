@@ -4,7 +4,6 @@ import SlotsDay from "./SlotsDay";
 export default {
   title: "SlotsDay",
   component: SlotsDay,
-  argTypes: { onDelete: { action: "deleted" } },
 };
 
 const Template = (args) => <SlotsDay {...args} />;
@@ -34,6 +33,10 @@ ManySlots.args = {
     },
   },
 };
+
+export const ManySlotsWithDelete = Template.bind({});
+ManySlotsWithDelete.args = { ...ManySlots.args };
+ManySlotsWithDelete.argTypes = { onDelete: { action: "deleted" } };
 
 export const OneSlot = Template.bind({});
 OneSlot.args = { ...ManySlots.args, slots: { foo: ManySlots.args.slots.foo } };

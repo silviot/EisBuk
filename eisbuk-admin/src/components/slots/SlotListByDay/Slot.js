@@ -8,26 +8,40 @@ import Chip from "@material-ui/core/Chip";
 
 const luxon = new LuxonUtils({ locale: "C" });
 
-export default ({ data, onDelete }) => {
+export default ({ data, onDelete, deleted }) => {
   const date = FBToLuxon(data.date);
+  var color;
+  if (deleted) {
+    color = "secondary";
+  } else {
+    color = "primary";
+  }
   return (
     <Box>
       <Chip
         key="time"
         size="small"
-        onDelete={() => onDelete(data.id)}
+        color={color}
+        onDelete={onDelete ? () => onDelete(data.id) : onDelete}
         icon={<AccessTimeIcon />}
         label={date.toISOTime().substring(0, 5)}
       />
       <Chip
         key="category"
+        color={color}
         size="small"
         icon={<CategoryIcon />}
         label={data.category}
       />
-      <Chip key="type" size="small" icon={<StarsIcon />} label={data.type} />
+      <Chip
+        key="type"
+        color={color}
+        size="small"
+        icon={<StarsIcon />}
+        label={data.type}
+      />
       {data.durations.map((val) => (
-        <Chip size="small" label={val} key={"duration-" + val} />
+        <Chip size="small" color={color} label={val} key={"duration-" + val} />
       ))}
     </Box>
   );
