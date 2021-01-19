@@ -22,12 +22,14 @@ export default ({ data, onDelete, deleted }) => {
         key="time"
         size="small"
         color={color}
+        disabled={deleted}
         onDelete={onDelete ? () => onDelete(data.id) : onDelete}
         icon={<AccessTimeIcon />}
         label={date.toISOTime().substring(0, 5)}
       />
       <Chip
         key="category"
+        disabled={deleted}
         color={color}
         size="small"
         icon={<CategoryIcon />}
@@ -36,12 +38,19 @@ export default ({ data, onDelete, deleted }) => {
       <Chip
         key="type"
         color={color}
+        disabled={deleted}
         size="small"
         icon={<StarsIcon />}
         label={data.type}
       />
       {data.durations.map((val) => (
-        <Chip size="small" color={color} label={val} key={"duration-" + val} />
+        <Chip
+          disabled={deleted}
+          size="small"
+          color={color}
+          label={val}
+          key={"duration-" + val}
+        />
       ))}
     </Box>
   );
