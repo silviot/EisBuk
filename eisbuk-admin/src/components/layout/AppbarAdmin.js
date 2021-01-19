@@ -2,13 +2,13 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
-import { BugReport as BugReportIcon } from "@material-ui/icons";
 import { People as PeopleIcon } from "@material-ui/icons";
 import { LibraryBooks as LibraryBooksIcon } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
+import DebugMenu from "./DebugMenu";
 
-const AppbarAdmin = () => {
+const AppbarAdmin = (props) => {
   const classes = useStyles();
   return (
     <>
@@ -17,6 +17,8 @@ const AppbarAdmin = () => {
           <Button
             component={Link}
             to="/atleti"
+            color="primary"
+            variant="contained"
             replace
             startIcon={<PeopleIcon />}
           >
@@ -25,19 +27,14 @@ const AppbarAdmin = () => {
           <Button
             component={Link}
             to="/prenotazioni"
+            variant="contained"
+            color="primary"
             replace
             startIcon={<LibraryBooksIcon />}
           >
             Prenotazioni
           </Button>
-          <Button
-            component={Link}
-            to="/debug"
-            replace
-            startIcon={<BugReportIcon />}
-          >
-            Debug
-          </Button>
+          <DebugMenu {...props} />
         </Toolbar>
       </AppBar>
       <div style={{ height: "80px" }} />
