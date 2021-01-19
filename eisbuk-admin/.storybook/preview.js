@@ -1,5 +1,6 @@
 import React from "react";
 import { store } from "../src/store/store";
+import { StoryRouter } from "storybook-react-router";
 import { Provider } from "react-redux";
 
 export const parameters = {
@@ -9,7 +10,9 @@ export const parameters = {
 export const decorators = [
   (Story) => (
     <Provider store={store}>
-      <Story />
+      <StoryRouter>
+        <Story />
+      </StoryRouter>
     </Provider>
   ),
 ];
