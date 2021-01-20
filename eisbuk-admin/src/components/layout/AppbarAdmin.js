@@ -16,6 +16,15 @@ const AppbarAdmin = (props) => {
         <Toolbar className={classes.toolbar}>
           <Button
             component={Link}
+            to="/"
+            color="primary"
+            variant="contained"
+            replace
+          >
+            Dashboard
+          </Button>
+          <Button
+            component={Link}
             to="/atleti"
             color="primary"
             variant="contained"
@@ -43,18 +52,11 @@ const AppbarAdmin = (props) => {
 };
 
 const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+  root: {
+    display: "flex",
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  title: {
-    flexGrow: 1,
+  paper: {
+    marginRight: theme.spacing(2),
   },
 }));
 

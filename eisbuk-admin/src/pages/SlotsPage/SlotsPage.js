@@ -15,15 +15,6 @@ const SlotsPage = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-  },
-  content: {
-    flexGrow: 1,
-    height: "100vh",
-    overflow: "auto",
-  },
-}));
+const useStyles = makeStyles((theme) => ({}));
 
 export default SlotsPage;

@@ -30,8 +30,10 @@ const CustomersPage = () => {
   return (
     <div className={classes.root}>
       <AppbarAdmin />
+
       <main className={classes.content}>
         <Box py={3} container={true} className={classes.headerHero}>
+          <div className={classes.appBarSpacer} />
           <Container maxWidth="lg">
             <Typography className={classes.pageTitle} variant="h1">
               Atleti

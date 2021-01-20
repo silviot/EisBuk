@@ -8,12 +8,14 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import AppbarAdmin from "../../components/layout/AppbarAdmin";
 
 const DashboardPage = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <main className={classes.content}>
+        <AppbarAdmin />
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Box py={3}>

@@ -58,6 +58,15 @@ export const CustomerAreaPage = () => {
       collection: "bookings",
       doc: secret_key,
     }),
+    wrapOrganization({
+      collection: "bookings",
+      doc: secret_key,
+      subcollections: [
+        {
+          collection: "data",
+        },
+      ],
+    }),
   ]);
   const [activeTab, setActiveTab] = useState(1);
   const customerData = useSelector((state) => state.firestore.ordered.bookings);
