@@ -1,4 +1,3 @@
-import { DateTime } from "luxon";
 import Toolbar from "@material-ui/core/Toolbar";
 import AppBar from "@material-ui/core/AppBar";
 import Box from "@material-ui/core/Box";
@@ -6,15 +5,12 @@ import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useFirestoreConnect, useFirestore } from "react-redux-firebase";
-import { deleteSlot, changeCalendarDate } from "../store/actions/actions";
 
 import SlotListByDay from "../components/slots/SlotListByDay";
 
-import { wrapOrganization } from "../utils/firestore";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import { DateTime } from "luxon";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -31,60 +27,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ONE_WEEK = 7 * 24 * 60 * 60;
-export default () => {
+export default ({ currentDate, slots, onDelete, onChangeCalendarDate }) => {
   const classes = useStyles();
-  const currentDate = useSelector((state) => state.app.calendarDay);
-  const prevMonthStr = currentDate
-    .minus({ months: 1 })
-    .toISODate()
-    .substring(0, 7);
-  const currMonthStr = currentDate.toISODate().substring(0, 7);
-  const nextMonthStr = currentDate
-    .plus({ months: 1 })
-    .toISODate()
-    .substring(0, 7);
-  const firestore = useFirestore();
-  const monthsToQuery = [prevMonthStr, currMonthStr, nextMonthStr];
-  useFirestoreConnect([
-    wrapOrganization({
-      collection: "slotsByDay",
-      where: [firestore.FieldPath.documentId(), "in", monthsToQuery],
-    }),
-  ]);
-  const slots = useSelector((state) => {
-    const slots = {};
-    if (typeof state.firestore.ordered.slotsByDay !== "undefined") {
-      for (const availableSlots of state.firestore.ordered.slotsByDay) {
-        for (const key in availableSlots) {
-          if (Object.hasOwnProperty.call(availableSlots, key)) {
-            if (key === "id") continue;
-            let dayDateTime;
-            try {
-              dayDateTime = DateTime.fromFormat(key, "yyyy-LL-dd");
-            } catch (e) {
-              continue;
-            }
-            const diff = (dayDateTime - currentDate) / 1000;
-            if (diff >= 0 && diff < ONE_WEEK) {
-              slots[key] = availableSlots[key];
-            }
-          }
-        }
-      }
-    }
-    return slots;
-  });
-
-  const dispatch = useDispatch();
 
   const adjustCalendarDate = (delta) => {
-    dispatch(changeCalendarDate(currentDate.plus({ days: delta })));
+    onChangeCalendarDate(currentDate.plus({ days: delta }));
   };
-
-  const onDelete = (id) => {
-    dispatch(deleteSlot(id));
-  };
+  const slotsToDisplay = [];
+  for (const key in slots) {
+    if (Object.hasOwnProperty.call(slots, key)) {
+      const slot = slots[key];
+      let dayDateTime;
+      try {
+        dayDateTime = DateTime.fromFormat(key, "yyyy-LL-dd");
+      } catch (e) {
+        continue;
+      }
+      const diff = (dayDateTime - currentDate) / 1000;
+      if (diff >= 0 && diff < ONE_WEEK) {
+        slotsToDisplay[key] = slot;
+      }
+    }
+  }
 
   return (
     <Box>
@@ -123,10 +87,12 @@ export default () => {
         </Toolbar>
       </AppBar>
       <SlotListByDay
-        slots={slots}
+        slots={slotsToDisplay}
         currentDate={currentDate}
         onDelete={onDelete}
       />
     </Box>
   );
 };
+
+const ONE_WEEK = 7 * 24 * 60 * 60;
