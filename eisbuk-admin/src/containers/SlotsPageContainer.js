@@ -54,7 +54,6 @@ export default ({ currentDate, slots, onDelete, onChangeCalendarDate }) => {
       }
     }
   }
-
   return (
     <Box>
       <AppBar position="static" className={classes.appBar}>
@@ -73,12 +72,10 @@ export default ({ currentDate, slots, onDelete, onChangeCalendarDate }) => {
             color="inherit"
             className={classes.selectedDate}
           >
-            {currentDate.toLocaleString({
-              locale: "it-IT",
-              month: "long",
-              weekday: "long",
-              day: "numeric",
-            })}
+            {currentDate.toFormat("d MMMM", { locale: "it-IT" })}-
+            {currentDate
+              .plus({ days: 7 })
+              .toFormat("d MMMM", { locale: "it-IT" })}
           </Typography>
           <IconButton
             edge="start"

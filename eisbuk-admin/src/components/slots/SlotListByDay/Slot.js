@@ -1,5 +1,8 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import CategoryIcon from "@material-ui/icons/Category";
 import StarsIcon from "@material-ui/icons/Stars";
@@ -17,7 +20,7 @@ export default ({ data, onDelete, deleted }) => {
     color = "primary";
   }
   return (
-    <Box>
+    <ListItem>
       <Chip
         key="time"
         size="small"
@@ -52,10 +55,15 @@ export default ({ data, onDelete, deleted }) => {
           key={"duration-" + val}
         />
       ))}
-    </Box>
+      <ListItemSecondaryAction>
+        <IconButton edge="end" aria-label="delete">
+          <DeleteIcon />
+        </IconButton>
+      </ListItemSecondaryAction>
+    </ListItem>
   );
 };
 
-function FBToLuxon(fbDatetime) {
+export function FBToLuxon(fbDatetime) {
   return luxon.date(new Date(fbDatetime.seconds * 1000));
 }

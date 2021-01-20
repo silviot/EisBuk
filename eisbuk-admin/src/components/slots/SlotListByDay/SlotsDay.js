@@ -1,6 +1,5 @@
-import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import React, { useState } from "react";
-import Box from "@material-ui/core/Box";
+import List from "@material-ui/core/List";
 import Slot from "./Slot";
 import LuxonUtils from "@date-io/luxon";
 
@@ -10,12 +9,7 @@ const SlotsDay = ({ day, slots, isCurrent, onDelete }) => {
   const slotsList = [];
   const [deletedSlots, setDeletedSlots] = useState({});
   const luxonDay = luxon.parse(day, "yyyy-LL-dd");
-  const dateStr = luxonDay.toLocaleString({
-    locale: "it-IT",
-    month: "long",
-    weekday: "long",
-    day: "numeric",
-  });
+  const dateStr = luxonDay.toFormat("EEEE d MMMM", { locale: "it-IT" });
   const extendedOnDelete = onDelete
     ? (id) => {
         // In order to get a more responsive UI we remember here the IDs of slots
@@ -38,9 +32,8 @@ const SlotsDay = ({ day, slots, isCurrent, onDelete }) => {
   }
 
   return (
-    <Box key={day} id={day}>
+    <List key={day} id={day} disableGutters={true} dense={true}>
       <h4>{dateStr}</h4>
-      {slotsList.length === 0 ? <NotInterestedIcon /> : ""}
       {slotsList.map((slot) => (
         <Slot
           data={slot}
@@ -49,7 +42,7 @@ const SlotsDay = ({ day, slots, isCurrent, onDelete }) => {
           deleted={!!deletedSlots[slot.id]}
         ></Slot>
       ))}
-    </Box>
+    </List>
   );
 };
 
