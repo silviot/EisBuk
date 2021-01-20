@@ -19,6 +19,7 @@ export default ({ data, onDelete, deleted }) => {
   } else {
     color = "primary";
   }
+  const doDelete = onDelete ? () => onDelete(data.id) : onDelete;
   return (
     <ListItem>
       <Chip
@@ -26,7 +27,6 @@ export default ({ data, onDelete, deleted }) => {
         size="small"
         color={color}
         disabled={deleted}
-        onDelete={onDelete ? () => onDelete(data.id) : onDelete}
         icon={<AccessTimeIcon />}
         label={date.toISOTime().substring(0, 5)}
       />
@@ -55,11 +55,15 @@ export default ({ data, onDelete, deleted }) => {
           key={"duration-" + val}
         />
       ))}
-      <ListItemSecondaryAction>
-        <IconButton edge="end" aria-label="delete">
-          <DeleteIcon />
-        </IconButton>
-      </ListItemSecondaryAction>
+      {doDelete ? (
+        <ListItemSecondaryAction>
+          <IconButton edge="end" aria-label="delete" onClick={doDelete}>
+            <DeleteIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      ) : (
+        <></>
+      )}
     </ListItem>
   );
 };

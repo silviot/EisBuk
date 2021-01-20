@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { DateTime } from "luxon";
 
 const useStyles = makeStyles((theme) => ({
-  appBar: {
+  root: {
     "max-width": "600px",
   },
   selectedDate: {
@@ -55,8 +55,8 @@ export default ({ currentDate, slots, onDelete, onChangeCalendarDate }) => {
     }
   }
   return (
-    <Box>
-      <AppBar position="static" className={classes.appBar}>
+    <Box className={classes.root}>
+      <AppBar position="static">
         <Toolbar variant="dense">
           <IconButton
             edge="start"

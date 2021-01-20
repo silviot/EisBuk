@@ -1,5 +1,4 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
 import SlotsDay from "./SlotsDay";
 
 const SlotListByDay = ({
@@ -10,14 +9,14 @@ const SlotListByDay = ({
   onUnsubscribe,
 }) => {
   if (typeof slots === "undefined") {
-    return <Box>Loading...</Box>;
+    return <div>Loading...</div>;
   }
   const days = Object.keys(slots)
     .filter((el) => el !== "id")
     .sort();
   const current = currentDate.toISODate();
   return (
-    <Box>
+    <>
       {days.map((el) => (
         <SlotsDay
           key={el}
@@ -29,7 +28,7 @@ const SlotListByDay = ({
           onUnsubscribe={onUnsubscribe}
         ></SlotsDay>
       ))}
-    </Box>
+    </>
   );
 };
 
