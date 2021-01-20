@@ -9,7 +9,7 @@ const luxon = new LuxonUtils({ locale: "C" });
 const SlotsDay = ({ day, slots, isCurrent, onDelete }) => {
   const slotsList = [];
   const [deletedSlots, setDeletedSlots] = useState({});
-  const luxonDay = luxon.parse(day, "yyyy-mm-dd");
+  const luxonDay = luxon.parse(day, "yyyy-LL-dd");
   const dateStr = luxonDay.toLocaleString({
     locale: "it-IT",
     month: "long",

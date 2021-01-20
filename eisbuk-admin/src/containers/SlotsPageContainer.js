@@ -7,7 +7,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useFirestoreConnect } from "react-redux-firebase";
+import { useFirestoreConnect, useFirestore } from "react-redux-firebase";
 import { deleteSlot, changeCalendarDate } from "../store/actions/actions";
 
 import SlotListByDay from "../components/slots/SlotListByDay";
@@ -35,28 +35,40 @@ const ONE_WEEK = 7 * 24 * 60 * 60;
 export default () => {
   const classes = useStyles();
   const currentDate = useSelector((state) => state.app.calendarDay);
+  const prevMonthStr = currentDate
+    .minus({ months: 1 })
+    .toISODate()
+    .substring(0, 7);
+  const currMonthStr = currentDate.toISODate().substring(0, 7);
+  const nextMonthStr = currentDate
+    .plus({ months: 1 })
+    .toISODate()
+    .substring(0, 7);
+  const firestore = useFirestore();
+  const monthsToQuery = [prevMonthStr, currMonthStr, nextMonthStr];
   useFirestoreConnect([
     wrapOrganization({
       collection: "slotsByDay",
-      doc: currentDate.toISODate().substring(0, 7),
+      where: [firestore.FieldPath.documentId(), "in", monthsToQuery],
     }),
   ]);
   const slots = useSelector((state) => {
     const slots = {};
     if (typeof state.firestore.ordered.slotsByDay !== "undefined") {
-      const availableSlots = state.firestore.ordered.slotsByDay[0];
-      for (const key in availableSlots) {
-        if (Object.hasOwnProperty.call(availableSlots, key)) {
-          if (key === "id") continue;
-          let dayDateTime;
-          try {
-            dayDateTime = DateTime.fromFormat(key, "yyyy-mm-dd");
-          } catch (e) {
-            continue;
-          }
-          const diff = (dayDateTime - currentDate) / 1000;
-          if (diff > 0 && diff < ONE_WEEK) {
-            slots[key] = availableSlots[key];
+      for (const availableSlots of state.firestore.ordered.slotsByDay) {
+        for (const key in availableSlots) {
+          if (Object.hasOwnProperty.call(availableSlots, key)) {
+            if (key === "id") continue;
+            let dayDateTime;
+            try {
+              dayDateTime = DateTime.fromFormat(key, "yyyy-LL-dd");
+            } catch (e) {
+              continue;
+            }
+            const diff = (dayDateTime - currentDate) / 1000;
+            if (diff >= 0 && diff < ONE_WEEK) {
+              slots[key] = availableSlots[key];
+            }
           }
         }
       }
