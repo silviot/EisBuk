@@ -3,6 +3,9 @@ import firebase from "firebase";
 import React, { useState } from "react";
 import SlotsPageContainer from "./SlotsPageContainer";
 import { DateTime } from "luxon";
+import seedrandom from "seedrandom";
+
+const random = seedrandom("seed");
 
 const Timestamp = firebase.firestore.Timestamp;
 export default {
@@ -14,15 +17,12 @@ const Template = (args) => {
   const [currentDate, setCurrentDate] = useState(
     args.currentDate || DateTime.local()
   );
-  const onChangeCalendarDate = (date) => {
-    setCurrentDate(date);
-    console.log(date, currentDate);
-  };
+  const onChangeCalendarDate = (date) => setCurrentDate(date);
   return (
     <SlotsPageContainer
+      {...args}
       currentDate={currentDate}
       onChangeCalendarDate={onChangeCalendarDate}
-      {...args}
     />
   );
 };
@@ -55,25 +55,22 @@ OneSlot.args = {
 function createSlots(date) {
   const slots = {};
   [...Array(30).keys()].map((i) => {
-    for (let i = 0; i < 5; i++) {
-      if (Math.random() > 0.3) {
+    const days = i - 15;
+    for (let j = 0; j < 10; j++) {
+      const hours = 10 + j;
+      const slotDate = date.plus({ days, hours });
+      const slotId = uuidv4();
+      if (random() > 0.3) {
         continue;
       }
-      const slotDate = date.plus({
-        days: i - 15,
-        hours: 10 + Math.ceil(Math.random() * 8),
-      });
-      const slotId = uuidv4();
-      slots[slotDate.toISODate()] = {
-        [slotId]: {
-          date: new Timestamp(slotDate.ts / 1000, 0),
-          category: "agonismo",
-          type: "ice",
-          durations: [60],
-        },
+      slots[slotDate.toISODate()] = slots[slotDate.toISODate()] || {};
+      slots[slotDate.toISODate()][slotId] = {
+        date: new Timestamp(slotDate.ts / 1000, 0),
+        category: "agonismo",
+        type: "ice",
+        durations: [60],
       };
     }
-    return null;
   });
   return slots;
 }
