@@ -13,6 +13,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import PersonPinIcon from "@material-ui/icons/PersonPin";
+import EventNoteIcon from "@material-ui/icons/EventNote";
 
 import AppbarCustomer from "../../components/layout/AppbarCustomer";
 
@@ -58,15 +59,6 @@ export const CustomerAreaPage = () => {
       collection: "bookings",
       doc: secret_key,
     }),
-    wrapOrganization({
-      collection: "bookings",
-      doc: secret_key,
-      subcollections: [
-        {
-          collection: "data",
-        },
-      ],
-    }),
   ]);
   const [activeTab, setActiveTab] = useState(1);
   const customerData = useSelector((state) => state.firestore.ordered.bookings);
@@ -99,7 +91,7 @@ export const CustomerAreaPage = () => {
                   />
                   <LinkTab
                     label="Calendario"
-                    icon={<PersonPinIcon />}
+                    icon={<EventNoteIcon />}
                     href="/drafts"
                   />
                   <LinkTab
@@ -132,9 +124,7 @@ export const CustomerAreaPage = () => {
                 <Container maxWidth="lg">
                   <Grid item xs={12}>
                     <Box py={3}>
-                      <CustomerAreaCalendar
-                        userCategory={customerData[0].category}
-                      />
+                      <CustomerAreaCalendar />
                     </Box>
                   </Grid>
                 </Container>

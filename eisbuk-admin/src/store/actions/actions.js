@@ -145,6 +145,80 @@ export const createSlot = (data) => {
   };
 };
 
+export const subscribeToSlot = (bookingId, slot) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    firebase
+      .firestore()
+      .collection("organizations")
+      .doc("default")
+      .collection("bookings")
+      .doc(bookingId)
+      .collection("data")
+      .doc(slot.id)
+      .set(slot)
+      .then(() => {
+        dispatch(
+          enqueueSnackbar({
+            message: "Prenotazione effettuata",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "success",
+            },
+          })
+        );
+      })
+      .catch((err) => {
+        dispatch(
+          enqueueSnackbar({
+            message: "Errore",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "error",
+            },
+          })
+        );
+      });
+  };
+};
+
+export const unsubscribeFromSlot = (bookingId, slot) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    firebase
+      .firestore()
+      .collection("organizations")
+      .doc("default")
+      .collection("bookings")
+      .doc(bookingId)
+      .collection("data")
+      .doc(slot.id)
+      .delete()
+      .then(() => {
+        dispatch(
+          enqueueSnackbar({
+            message: "Prenotazione rimossa",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "success",
+            },
+          })
+        );
+      })
+      .catch((err) => {
+        dispatch(
+          enqueueSnackbar({
+            message: "Errore nel rimuovere la prenotazione",
+            options: {
+              key: new Date().getTime() + Math.random(),
+              variant: "error",
+            },
+          })
+        );
+      });
+  };
+};
+
 export const deleteSlot = (id) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();

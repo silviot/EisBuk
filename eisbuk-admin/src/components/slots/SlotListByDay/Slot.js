@@ -63,14 +63,14 @@ export default ({
           key={"duration-" + val}
         />
       ))}
-      {doDelete && (
+      {doDelete && !deleted && (
         <ListItemSecondaryAction>
           <IconButton edge="end" aria-label="delete" onClick={doDelete}>
             <DeleteIcon />
           </IconButton>
         </ListItemSecondaryAction>
       )}
-      {showSubscribe && (
+      {showSubscribe && !deleted && (
         <ListItemSecondaryAction>
           <Switch
             edge="end"

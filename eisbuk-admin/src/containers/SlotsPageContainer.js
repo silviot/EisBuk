@@ -98,7 +98,6 @@ export default ({
       </AppBar>
       <SlotListByDay
         slots={slotsToDisplay}
-        currentDate={currentDate}
         onDelete={onDelete}
         {...{ onSubscribe, onUnsubscribe, subscribedSlots }}
       />

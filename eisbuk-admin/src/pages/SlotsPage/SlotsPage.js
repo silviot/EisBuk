@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFirestoreConnect, useFirestore } from "react-redux-firebase";
 import { deleteSlot, changeCalendarDate } from "../../store/actions/actions";
 import { wrapOrganization } from "../../utils/firestore";
+import { flatten, getMonthStr } from "../../utils/helpers";
 import { makeStyles } from "@material-ui/core/styles";
 import SlotsPageContainer from "../../containers/SlotsPageContainer";
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
@@ -10,37 +11,21 @@ import AppbarAdmin from "../../components/layout/AppbarAdmin";
 const SlotsPage = () => {
   const classes = useStyles();
   const currentDate = useSelector((state) => state.app.calendarDay);
-  const prevMonthStr = currentDate
-    .minus({ months: 1 })
-    .toISODate()
-    .substring(0, 7);
-  const currMonthStr = currentDate.toISODate().substring(0, 7);
-  const nextMonthStr = currentDate
-    .plus({ months: 1 })
-    .toISODate()
-    .substring(0, 7);
   const firestore = useFirestore();
-  const monthsToQuery = [prevMonthStr, currMonthStr, nextMonthStr];
+  const monthsToQuery = [
+    getMonthStr(currentDate, -1),
+    getMonthStr(currentDate, 0),
+    getMonthStr(currentDate, 1),
+  ];
   useFirestoreConnect([
     wrapOrganization({
       collection: "slotsByDay",
       where: [firestore.FieldPath.documentId(), "in", monthsToQuery],
     }),
   ]);
-  const slots = useSelector((state) => {
-    const slots = {};
-    if (typeof state.firestore.ordered.slotsByDay !== "undefined") {
-      for (const availableSlots of state.firestore.ordered.slotsByDay) {
-        for (const key in availableSlots) {
-          if (Object.hasOwnProperty.call(availableSlots, key)) {
-            if (key === "id") continue;
-            slots[key] = availableSlots[key];
-          }
-        }
-      }
-    }
-    return slots;
-  });
+  const slots = useSelector((state) =>
+    flatten(state.firestore.ordered.slotsByDay)
+  );
 
   const dispatch = useDispatch();
 

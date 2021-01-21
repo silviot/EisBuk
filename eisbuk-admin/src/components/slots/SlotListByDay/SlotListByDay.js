@@ -3,7 +3,6 @@ import SlotsDay from "./SlotsDay";
 
 const SlotListByDay = ({
   slots,
-  currentDate,
   onDelete,
   onSubscribe,
   onUnsubscribe,
@@ -22,7 +21,7 @@ const SlotListByDay = ({
           key={el}
           day={el}
           slots={slots[el]}
-          {...{ onSubscribe, onUnsubscribe, subscribedSlots, onDelete }}
+          {...{ onSubscribe, onUnsubscribe, onDelete, subscribedSlots }}
         ></SlotsDay>
       ))}
     </>

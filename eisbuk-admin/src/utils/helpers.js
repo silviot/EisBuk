@@ -14,3 +14,23 @@ export const fs2luxon = (fsdate) => {
   // more than enough for our use case
   return DateTime.fromMillis(fsdate.seconds * 1000);
 };
+
+export const flatten = (toFlatten) => {
+  // Flatten a list of objects, i.e. return an obect with all properties
+  // from all objects in the list. If a property is defined inside two objects
+  // the last one will prevail
+  if (!toFlatten) {
+    return {};
+  }
+  return toFlatten.reduce((partial, el) => ({ ...partial, ...el }), {});
+};
+
+// returns a string representing the month starting from startDate
+// and moving by offset.
+// getMonthStr(luxon`2021-01-02`, -1) → "2020-12"
+export const getMonthStr = (startDate, offset) =>
+  startDate
+    .startOf("month")
+    .plus({ months: offset })
+    .toISODate()
+    .substring(0, 7);
