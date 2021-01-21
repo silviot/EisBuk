@@ -9,6 +9,7 @@ const SlotListByDay = ({
   onSubscribe,
   onUnsubscribe,
   subscribedSlots,
+  onCreateSlot,
 }) => {
   const classes = useStyles();
   if (typeof slots === "undefined") {
@@ -24,7 +25,13 @@ const SlotListByDay = ({
           key={el}
           day={el}
           slots={slots[el]}
-          {...{ onSubscribe, onUnsubscribe, onDelete, subscribedSlots }}
+          {...{
+            onSubscribe,
+            onUnsubscribe,
+            onDelete,
+            subscribedSlots,
+            onCreateSlot,
+          }}
         ></SlotsDay>
       ))}
     </List>

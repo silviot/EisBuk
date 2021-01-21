@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import VerticalAlignBottomIcon from "@material-ui/icons/VerticalAlignBottom";
 import Slot from "./Slot";
 import LuxonUtils from "@date-io/luxon";
 
@@ -13,6 +17,7 @@ const SlotsDay = ({
   onUnsubscribe,
   subscribedSlots,
   onDelete,
+  onCreateSlot,
 }) => {
   const slotsList = [];
   const [deletedSlots, setDeletedSlots] = useState({});
@@ -39,10 +44,40 @@ const SlotsDay = ({
     slotsList.push({ ...slots[slot_id], id: slot_id });
   }
   const classes = useStyles();
+  const showCopyPaste = false;
   return (
     <>
       <ListSubheader key={day + "-title"} className={classes.listSubheader}>
-        {dateStr}
+        <div className={classes.date}>{dateStr}</div>{" "}
+        <div className={classes.dateButtons}>
+          {Boolean(onCreateSlot) && (
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<AddCircleOutlineIcon />}
+            >
+              Crea
+            </Button>
+          )}
+          {showCopyPaste && Boolean(slotsList.length) && (
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<FileCopyIcon />}
+            >
+              Copia
+            </Button>
+          )}
+          {showCopyPaste && (
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<VerticalAlignBottomIcon />}
+            >
+              Incolla
+            </Button>
+          )}
+        </div>
       </ListSubheader>
       {slotsList.map((slot) => (
         <Slot
@@ -62,5 +97,13 @@ export default SlotsDay;
 const useStyles = makeStyles((theme) => ({
   listSubheader: {
     backgroundColor: "white",
+    display: "flex",
+    "justify-content": "space-around",
+  },
+  date: {
+    "flex-grow": 1,
+  },
+  dateButtons: {
+    "flex-grow": 0,
   },
 }));

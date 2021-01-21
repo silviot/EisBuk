@@ -34,6 +34,7 @@ export default ({
   onChangeCalendarDate,
   onSubscribe,
   onUnsubscribe,
+  onCreateSlot,
   subscribedSlots,
 }) => {
   const classes = useStyles();
@@ -99,7 +100,7 @@ export default ({
       <SlotListByDay
         slots={slotsToDisplay}
         onDelete={onDelete}
-        {...{ onSubscribe, onUnsubscribe, subscribedSlots }}
+        {...{ onSubscribe, onUnsubscribe, subscribedSlots, onCreateSlot }}
       />
     </Box>
   );

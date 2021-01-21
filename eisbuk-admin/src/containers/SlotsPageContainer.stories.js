@@ -90,13 +90,16 @@ function createSlots(date, seed) {
   return slots;
 }
 const manySlotsDate = DateTime.fromISO("2021-01-18");
-const ManySlotsWithDelete = Template.bind({});
-ManySlotsWithDelete.args = {
+const ManySlotsWithEdit = Template.bind({});
+ManySlotsWithEdit.args = {
   ...NoSlots.args,
   slots: createSlots(manySlotsDate, "seed123"),
   currentDate: manySlotsDate,
 };
-ManySlotsWithDelete.argTypes = { onDelete: { action: "deleted" } };
+ManySlotsWithEdit.argTypes = {
+  onDelete: { action: "deleted" },
+  onCreateSlot: { action: "created" },
+};
 
 const ManySlotsWithSubscribe = Template.bind({});
 ManySlotsWithSubscribe.args = {
@@ -109,4 +112,5 @@ ManySlotsWithSubscribe.argTypes = {
   onUnsubscribe: { action: "unsubscribed" },
 };
 
-export { ManySlotsWithDelete, ManySlotsWithSubscribe, NoSlots, OneSlot };
+// Maybe I should reorder the definitions instead of reordering them here
+export { ManySlotsWithEdit, ManySlotsWithSubscribe, NoSlots, OneSlot };
