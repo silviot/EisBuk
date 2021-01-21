@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import List from "@material-ui/core/List";
+import { makeStyles } from "@material-ui/core/styles";
+import ListSubheader from "@material-ui/core/ListSubheader";
 import Slot from "./Slot";
 import LuxonUtils from "@date-io/luxon";
 
@@ -37,10 +38,12 @@ const SlotsDay = ({
     // Include the id of the slot into the payload to power actions over the slot
     slotsList.push({ ...slots[slot_id], id: slot_id });
   }
-
+  const classes = useStyles();
   return (
-    <List key={day} id={day} disableGutters={true} dense={true}>
-      <h4>{dateStr}</h4>
+    <>
+      <ListSubheader key={day + "-title"} className={classes.listSubheader}>
+        {dateStr}
+      </ListSubheader>
       {slotsList.map((slot) => (
         <Slot
           data={slot}
@@ -50,8 +53,14 @@ const SlotsDay = ({
           {...{ onSubscribe, onUnsubscribe, subscribedSlots }}
         ></Slot>
       ))}
-    </List>
+    </>
   );
 };
 
 export default SlotsDay;
+
+const useStyles = makeStyles((theme) => ({
+  listSubheader: {
+    backgroundColor: "white",
+  },
+}));

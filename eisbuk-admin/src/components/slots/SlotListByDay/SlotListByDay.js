@@ -1,4 +1,6 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
 import SlotsDay from "./SlotsDay";
 
 const SlotListByDay = ({
@@ -8,6 +10,7 @@ const SlotListByDay = ({
   onUnsubscribe,
   subscribedSlots,
 }) => {
+  const classes = useStyles();
   if (typeof slots === "undefined") {
     return <div>Loading...</div>;
   }
@@ -15,7 +18,7 @@ const SlotListByDay = ({
     .filter((el) => el !== "id")
     .sort();
   return (
-    <>
+    <List disableGutters={true} dense={true} className={classes.root}>
       {days.map((el) => (
         <SlotsDay
           key={el}
@@ -24,8 +27,15 @@ const SlotListByDay = ({
           {...{ onSubscribe, onUnsubscribe, onDelete, subscribedSlots }}
         ></SlotsDay>
       ))}
-    </>
+    </List>
   );
 };
 
 export default SlotListByDay;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "overflow-y": "scroll",
+    height: "78vh", // I'm sorry, I'm not a CSS guy
+  },
+}));
