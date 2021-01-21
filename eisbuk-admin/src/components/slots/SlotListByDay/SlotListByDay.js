@@ -7,6 +7,7 @@ const SlotListByDay = ({
   onDelete,
   onSubscribe,
   onUnsubscribe,
+  subscribedSlots,
 }) => {
   if (typeof slots === "undefined") {
     return <div>Loading...</div>;
@@ -14,7 +15,6 @@ const SlotListByDay = ({
   const days = Object.keys(slots)
     .filter((el) => el !== "id")
     .sort();
-  const current = currentDate.toISODate();
   return (
     <>
       {days.map((el) => (
@@ -22,10 +22,7 @@ const SlotListByDay = ({
           key={el}
           day={el}
           slots={slots[el]}
-          onDelete={onDelete}
-          isCurrent={current === el}
-          onSubscribe={onSubscribe}
-          onUnsubscribe={onUnsubscribe}
+          {...{ onSubscribe, onUnsubscribe, subscribedSlots, onDelete }}
         ></SlotsDay>
       ))}
     </>

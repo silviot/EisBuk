@@ -27,7 +27,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ currentDate, slots, onDelete, onChangeCalendarDate }) => {
+export default ({
+  currentDate,
+  slots,
+  onDelete,
+  onChangeCalendarDate,
+  onSubscribe,
+  onUnsubscribe,
+  subscribedSlots,
+}) => {
   const classes = useStyles();
 
   const adjustCalendarDate = (delta) => {
@@ -92,6 +100,7 @@ export default ({ currentDate, slots, onDelete, onChangeCalendarDate }) => {
         slots={slotsToDisplay}
         currentDate={currentDate}
         onDelete={onDelete}
+        {...{ onSubscribe, onUnsubscribe, subscribedSlots }}
       />
     </Box>
   );

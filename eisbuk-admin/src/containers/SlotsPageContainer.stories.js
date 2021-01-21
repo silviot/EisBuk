@@ -5,11 +5,9 @@ import SlotsPageContainer from "./SlotsPageContainer";
 import { DateTime } from "luxon";
 import seedrandom from "seedrandom";
 
-const random = seedrandom("seed");
-
 const Timestamp = firebase.firestore.Timestamp;
 export default {
-  title: "Calendar navigation",
+  title: "Weekly slots view",
   component: SlotsPageContainer,
 };
 
@@ -18,16 +16,31 @@ const Template = (args) => {
     args.currentDate || DateTime.local()
   );
   const onChangeCalendarDate = (date) => setCurrentDate(date);
+  const [subscribedSlots, setSubscribedSlots] = useState({});
+  const onSubscribe =
+    args.onSubscribe &&
+    ((slot) => {
+      setSubscribedSlots({ ...subscribedSlots, [slot.id]: slot });
+      args.onSubscribe(slot);
+    });
+  const onUnsubscribe =
+    args.onUnsubscribe &&
+    ((slot) => {
+      const newSubscribedSlots = { ...subscribedSlots };
+      delete newSubscribedSlots[slot.id];
+      setSubscribedSlots(newSubscribedSlots);
+      args.onUnsubscribe(slot);
+    });
   return (
     <SlotsPageContainer
-      {...args}
+      {...{ ...args, subscribedSlots, onSubscribe, onUnsubscribe }}
       currentDate={currentDate}
       onChangeCalendarDate={onChangeCalendarDate}
     />
   );
 };
-export const NoSlotsExample = Template.bind({});
-NoSlotsExample.args = {
+const NoSlots = Template.bind({});
+NoSlots.args = {
   slots: {
     "2021-01-20": {},
     "2021-01-01": {},
@@ -35,9 +48,9 @@ NoSlotsExample.args = {
   currentDate: DateTime.fromISO("2021-01-18"),
 };
 
-export const OneSlot = Template.bind({});
+const OneSlot = Template.bind({});
 OneSlot.args = {
-  ...NoSlotsExample.args,
+  ...NoSlots.args,
   slots: {
     "2021-01-21": {},
     "2021-01-18": {},
@@ -52,7 +65,9 @@ OneSlot.args = {
   },
 };
 
-function createSlots(date) {
+function createSlots(date, seed) {
+  const random = seedrandom(seed);
+
   const slots = {};
   [...Array(30).keys()].map((i) => {
     const days = i - 15;
@@ -75,10 +90,23 @@ function createSlots(date) {
   return slots;
 }
 const manySlotsDate = DateTime.fromISO("2021-01-18");
-export const ManySlots = Template.bind({});
-ManySlots.args = {
-  ...NoSlotsExample.args,
-  slots: createSlots(manySlotsDate),
+const ManySlotsWithDelete = Template.bind({});
+ManySlotsWithDelete.args = {
+  ...NoSlots.args,
+  slots: createSlots(manySlotsDate, "seed123"),
   currentDate: manySlotsDate,
-  onDelete: () => {},
 };
+ManySlotsWithDelete.argTypes = { onDelete: { action: "deleted" } };
+
+const ManySlotsWithSubscribe = Template.bind({});
+ManySlotsWithSubscribe.args = {
+  ...NoSlots.args,
+  slots: createSlots(manySlotsDate, "seed123"),
+  currentDate: manySlotsDate,
+};
+ManySlotsWithSubscribe.argTypes = {
+  onSubscribe: { action: "subscribed" },
+  onUnsubscribe: { action: "unsubscribed" },
+};
+
+export { ManySlotsWithDelete, ManySlotsWithSubscribe, NoSlots, OneSlot };

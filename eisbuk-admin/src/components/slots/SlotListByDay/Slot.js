@@ -2,6 +2,7 @@ import React from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
+import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import CategoryIcon from "@material-ui/icons/Category";
@@ -11,21 +12,31 @@ import Chip from "@material-ui/core/Chip";
 
 const luxon = new LuxonUtils({ locale: "C" });
 
-export default ({ data, onDelete, deleted }) => {
+export default ({
+  data,
+  onDelete,
+  deleted,
+  onSubscribe,
+  onUnsubscribe,
+  subscribedSlots,
+}) => {
   const date = FBToLuxon(data.date);
-  var color;
-  if (deleted) {
-    color = "secondary";
-  } else {
-    color = "primary";
-  }
+  subscribedSlots = subscribedSlots || {};
   const doDelete = onDelete ? () => onDelete(data.id) : onDelete;
+  const showSubscribe = Boolean(onUnsubscribe && onSubscribe);
+  const isSubscribed = Boolean(subscribedSlots[data.id]);
+  const handleSubscription = (evt) => {
+    if (isSubscribed) {
+      onUnsubscribe(data);
+    } else {
+      onSubscribe(data);
+    }
+  };
   return (
     <ListItem>
       <Chip
         key="time"
         size="small"
-        color={color}
         disabled={deleted}
         icon={<AccessTimeIcon />}
         label={date.toISOTime().substring(0, 5)}
@@ -33,14 +44,12 @@ export default ({ data, onDelete, deleted }) => {
       <Chip
         key="category"
         disabled={deleted}
-        color={color}
         size="small"
         icon={<CategoryIcon />}
         label={data.category}
       />
       <Chip
         key="type"
-        color={color}
         disabled={deleted}
         size="small"
         icon={<StarsIcon />}
@@ -50,19 +59,25 @@ export default ({ data, onDelete, deleted }) => {
         <Chip
           disabled={deleted}
           size="small"
-          color={color}
           label={val}
           key={"duration-" + val}
         />
       ))}
-      {doDelete ? (
+      {doDelete && (
         <ListItemSecondaryAction>
           <IconButton edge="end" aria-label="delete" onClick={doDelete}>
             <DeleteIcon />
           </IconButton>
         </ListItemSecondaryAction>
-      ) : (
-        <></>
+      )}
+      {showSubscribe && (
+        <ListItemSecondaryAction>
+          <Switch
+            edge="end"
+            onChange={handleSubscription}
+            checked={isSubscribed}
+          />
+        </ListItemSecondaryAction>
       )}
     </ListItem>
   );

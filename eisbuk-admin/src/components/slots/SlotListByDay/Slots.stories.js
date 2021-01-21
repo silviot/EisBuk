@@ -11,7 +11,6 @@ export const ManySlots = Template.bind({});
 
 ManySlots.args = {
   day: "2021-01-15",
-  isCurrent: true,
   slots: {
     foo: {
       category: "agonismo",

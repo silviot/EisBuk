@@ -5,7 +5,14 @@ import LuxonUtils from "@date-io/luxon";
 
 const luxon = new LuxonUtils({ locale: "C" });
 
-const SlotsDay = ({ day, slots, isCurrent, onDelete }) => {
+const SlotsDay = ({
+  day,
+  slots,
+  onSubscribe,
+  onUnsubscribe,
+  subscribedSlots,
+  onDelete,
+}) => {
   const slotsList = [];
   const [deletedSlots, setDeletedSlots] = useState({});
   const luxonDay = luxon.parse(day, "yyyy-LL-dd");
@@ -38,8 +45,9 @@ const SlotsDay = ({ day, slots, isCurrent, onDelete }) => {
         <Slot
           data={slot}
           key={slot.id}
-          onDelete={extendedOnDelete}
           deleted={!!deletedSlots[slot.id]}
+          onDelete={extendedOnDelete}
+          {...{ onSubscribe, onUnsubscribe, subscribedSlots }}
         ></Slot>
       ))}
     </List>
