@@ -9,9 +9,6 @@ import PrivateRoute from "./components/auth/PrivateRoute";
 import LoginRoute from "./components/auth/LoginRoute";
 import DebugPage from "./components/debugPage";
 
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import LuxonUtils from "@date-io/luxon";
-
 import {
   ThemeProvider,
   createMuiTheme,
@@ -52,33 +49,27 @@ function App() {
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <ThemeProvider theme={igorice}>
-          <MuiPickersUtilsProvider utils={LuxonUtils}>
-            <SnackbarProvider maxSnack={3}>
-              <Notifier />
-              <CssBaseline />
-              <BrowserRouter>
-                <Switch>
-                  <PrivateRoute path="/" component={DashboardPage} exact />
-                  <PrivateRoute
-                    path="/atleti"
-                    component={CustomersPage}
-                    exact
-                  />
-                  <PrivateRoute
-                    path="/prenotazioni"
-                    component={SlotsPage}
-                    exact
-                  />
-                  <LoginRoute path="/login" component={LoginPage} />
-                  <Route
-                    path="/clienti/:secret_key"
-                    children={<CustomerAreaPage />}
-                  />
-                  <Route path="/debug" children={<DebugPage />} />
-                </Switch>
-              </BrowserRouter>
-            </SnackbarProvider>
-          </MuiPickersUtilsProvider>
+          <SnackbarProvider maxSnack={3}>
+            <Notifier />
+            <CssBaseline />
+            <BrowserRouter>
+              <Switch>
+                <LoginRoute path="/login" component={LoginPage} />
+                <PrivateRoute path="/" component={DashboardPage} exact />
+                <PrivateRoute path="/atleti" component={CustomersPage} exact />
+                <PrivateRoute
+                  path="/prenotazioni"
+                  component={SlotsPage}
+                  exact
+                />
+                <Route
+                  path="/clienti/:secret_key"
+                  children={<CustomerAreaPage />}
+                />
+                <Route path="/debug" children={<DebugPage />} />
+              </Switch>
+            </BrowserRouter>
+          </SnackbarProvider>
         </ThemeProvider>
       </ReactReduxFirebaseProvider>
     </Provider>

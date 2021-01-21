@@ -70,7 +70,7 @@ export const CustomerAreaPage = () => {
     customerData[0] &&
     `${customerData[0].name} ${customerData[0].surname}`;
   return (
-    <div className={classes.root}>
+    <Container maxWidth="sm">
       <AppbarCustomer headingText={title} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -146,7 +146,7 @@ export const CustomerAreaPage = () => {
           </>
         )}
       </main>
-    </div>
+    </Container>
   );
 };
 
