@@ -33,7 +33,7 @@ export default ({ currentDate, slots, onDelete, onChangeCalendarDate }) => {
   const adjustCalendarDate = (delta) => {
     onChangeCalendarDate(currentDate.plus({ days: delta }));
   };
-  const datesToDisplay = [...Array(6 + 1).keys()].map((i) =>
+  const datesToDisplay = [...Array(7).keys()].map((i) =>
     currentDate.plus({ days: i }).toISODate()
   );
   const slotsToDisplay = datesToDisplay.reduce(function (obj, x) {
