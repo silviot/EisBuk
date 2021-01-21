@@ -19,7 +19,7 @@ const SlotListByDay = ({
     .filter((el) => el !== "id")
     .sort();
   return (
-    <List disableGutters={true} dense={true} className={classes.root}>
+    <List dense={true} className={classes.root}>
       {days.map((el) => (
         <SlotsDay
           key={el}
@@ -42,7 +42,7 @@ export default SlotListByDay;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    "overflow-y": "scroll",
-    height: "78vh", // I'm sorry, I'm not a CSS guy
+    display: "flex",
+    flexDirection: "column",
   },
 }));

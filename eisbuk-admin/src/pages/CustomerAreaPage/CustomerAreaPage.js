@@ -4,10 +4,8 @@ import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -42,11 +40,7 @@ const TabPanel = (props) => {
       id={`customer-tabpanel-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && children}
     </div>
   );
 };
@@ -103,45 +97,18 @@ export const CustomerAreaPage = () => {
               </Container>
             </AppBar>
             <TabPanel value={activeTab} index={0}>
-              <Grid container className={classes.headingHero}>
-                <Container maxWidth="lg">
-                  <Grid item xs={12}>
-                    <Box py={3}>
-                      <Typography variant="h6">
-                        Benvenuto {customerData[0].name}{" "}
-                        {customerData[0].surname}
-                      </Typography>
-                      <Typography variant="p">
-                        {customerData[0].category}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </Container>
-              </Grid>
+              <Typography variant="h6">
+                Benvenuto {customerData[0].name} {customerData[0].surname}
+              </Typography>
+              <Typography variant="p">{customerData[0].category}</Typography>
             </TabPanel>
             <TabPanel value={activeTab} index={1}>
-              <Grid container className={classes.headingHero}>
-                <Container maxWidth="lg">
-                  <Grid item xs={12}>
-                    <Box py={3}>
-                      <CustomerAreaCalendar />
-                    </Box>
-                  </Grid>
-                </Container>
-              </Grid>
+              <CustomerAreaCalendar className="foobar" />
             </TabPanel>
             <TabPanel value={activeTab} index={2}>
-              <Grid container className={classes.headingHero}>
-                <Container maxWidth="lg">
-                  <Grid item xs={12}>
-                    <Box py={3}>
-                      <Typography variant="h6">
-                        Prenotazioni {customerData[0].name}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </Container>
-              </Grid>
+              <Typography variant="h6">
+                Prenotazioni {customerData[0].name}
+              </Typography>
             </TabPanel>
           </>
         )}
@@ -155,11 +122,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   appBarSpacer: theme.mixins.toolbar,
-  headingHero: {
-    /*         backgroundColor: theme.palette.secondary.main,
-        color: theme.palette.getContrastText(theme.palette.secondary.main),
-        flexGrow: 1 */
-  },
   customerNav: {
     backgroundColor: theme.palette.grey[900],
   },

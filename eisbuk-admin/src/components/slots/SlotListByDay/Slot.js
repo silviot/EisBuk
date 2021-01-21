@@ -33,7 +33,7 @@ export default ({
     }
   };
   return (
-    <ListItem>
+    <ListItem disableGutters>
       <Chip
         key="time"
         size="small"

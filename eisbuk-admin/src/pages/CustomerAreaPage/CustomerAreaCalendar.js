@@ -32,7 +32,6 @@ export const CustomerAreaCalendar = () => {
     ["date", ">=", currentDate.minus({ days: 14 }).toJSDate()],
     ["date", "<", currentDate.plus({ days: 14 }).toJSDate()],
   ];
-  console.log(where);
   useFirestoreConnect([
     wrapOrganization({
       collection: "slotsByDay",
