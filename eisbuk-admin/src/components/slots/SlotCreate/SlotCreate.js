@@ -82,9 +82,9 @@ const SlotCreate = ({ createSlot, open, onClose, onOpen, ...props }) => {
       >
         {({ errors, values, isSubmitting, isValidating }) => (
           <>
-            <DialogTitle>Aggiungi Slot</DialogTitle>
-            <DialogContent>
-              <Form>
+            <Form>
+              <DialogTitle>Aggiungi Slot</DialogTitle>
+              <DialogContent>
                 <FormControl component="fieldset">
                   <Field
                     name="time"
@@ -112,19 +112,24 @@ const SlotCreate = ({ createSlot, open, onClose, onOpen, ...props }) => {
 
                   <Field name="notes" as={TextField} label="Note" multiline />
                 </FormControl>
-              </Form>
-            </DialogContent>
-            <DialogActions>
-              <Button color="primary">Annulla</Button>
-              <Button
-                disabled={
-                  !Object.keys(errors).length && (isSubmitting || isValidating)
-                }
-                color="primary"
-              >
-                Crea slot
-              </Button>
-            </DialogActions>
+              </DialogContent>
+              <DialogActions>
+                <Button color="primary" onClick={onClose}>
+                  Annulla
+                </Button>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  disabled={
+                    !Object.keys(errors).length &&
+                    (isSubmitting || isValidating)
+                  }
+                  color="primary"
+                >
+                  Crea slot
+                </Button>
+              </DialogActions>
+            </Form>
           </>
         )}
       </Formik>
