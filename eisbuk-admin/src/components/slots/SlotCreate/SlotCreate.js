@@ -1,22 +1,29 @@
 import React from "react";
 
 import {
-  makeStyles,
-  Dialog,
-  DialogTitle,
-  DialogContent,
+  Box,
   Button,
-  DialogActions,
-  TextField,
-  FormControlLabel,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
   MenuItem,
+  TextField,
 } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 
-import { Formik, Form, Field, useField, ErrorMessage } from "formik";
+import {
+  Formik,
+  Form,
+  Field,
+  useField,
+  ErrorMessage,
+  useFormikContext,
+} from "formik";
 import { SlotCategory, SlotDuration, SlotType } from "../../../data/slots.js";
-
+import { DateTime } from "luxon";
 import * as Yup from "yup";
 
 const defaultValues = {
@@ -27,7 +34,7 @@ const defaultValues = {
   notes: "",
 };
 const SlotValidation = Yup.object().shape({
-  time: Yup.date().required("Manca l'ora"),
+  time: Yup.string().required("Manca l'ora"),
   category: Yup.string().required("Scegli la categoria"),
   type: Yup.string().required("Scegli il tipo di allenamento"),
   durations: Yup.array()
@@ -36,11 +43,30 @@ const SlotValidation = Yup.object().shape({
 });
 
 const TimePickerField = ({ ...props }) => {
-  return <TextField {...props} />;
+  const { setFieldValue } = useFormikContext();
+  const getCurrentTime = (delta) => {
+    const parsed = DateTime.fromISO(props.value);
+    if (!parsed.invalid) {
+      return parsed.plus({ hours: delta }).toISOTime().substring(0, 5);
+    }
+    return "08:00";
+  };
+  const decrease = () => setFieldValue(props.name, getCurrentTime(-1));
+  const increase = () => setFieldValue(props.name, getCurrentTime(1));
+  return (
+    <Box>
+      <Button variant="outlined" onClick={decrease}>
+        -
+      </Button>
+      <TextField {...props} />
+      <Button variant="outlined" onClick={increase}>
+        +
+      </Button>
+    </Box>
+  );
 };
 
 const SlotCreate = ({ createSlot, open, onClose, onOpen, ...props }) => {
-  const classes = useStyles();
   return (
     <Dialog open={open} onClose={onClose}>
       <Formik
@@ -56,9 +82,7 @@ const SlotCreate = ({ createSlot, open, onClose, onOpen, ...props }) => {
       >
         {({ errors, values, isSubmitting, isValidating }) => (
           <>
-            <DialogTitle className={classes.drawerTitle}>
-              Aggiungi Slot
-            </DialogTitle>
+            <DialogTitle>Aggiungi Slot</DialogTitle>
             <DialogContent>
               <Form>
                 <FormControl component="fieldset">
@@ -107,8 +131,6 @@ const SlotCreate = ({ createSlot, open, onClose, onOpen, ...props }) => {
     </Dialog>
   );
 };
-
-const useStyles = makeStyles((theme) => ({}));
 
 const getEnumItems = (values) =>
   Object.keys(values).map((el) => <MenuItem value={values[el]}>{el}</MenuItem>);
