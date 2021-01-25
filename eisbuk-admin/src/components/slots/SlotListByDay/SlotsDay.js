@@ -6,6 +6,7 @@ import FileCopyIcon from "@material-ui/icons/FileCopy";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import VerticalAlignBottomIcon from "@material-ui/icons/VerticalAlignBottom";
 import Slot from "./Slot";
+import SlotCreate from "../SlotCreate";
 import LuxonUtils from "@date-io/luxon";
 
 const luxon = new LuxonUtils({ locale: "C" });
@@ -21,6 +22,7 @@ const SlotsDay = ({
 }) => {
   const slotsList = [];
   const [deletedSlots, setDeletedSlots] = useState({});
+  const [formIsOpen, setFormIsOpen] = useState(false);
   const luxonDay = luxon.parse(day, "yyyy-LL-dd");
   const dateStr = luxonDay.toFormat("EEEE d MMMM", { locale: "it-IT" });
   const extendedOnDelete = onDelete
@@ -45,20 +47,33 @@ const SlotsDay = ({
   }
   const classes = useStyles();
   const showCopyPaste = false;
+  const showCreateForm = () => {
+    setFormIsOpen(true);
+  };
+  const onClose = () => {
+    setFormIsOpen(false);
+  };
+  const newSlotButton = Boolean(onCreateSlot) && (
+    <>
+      <Button
+        variant="outlined"
+        size="small"
+        startIcon={<AddCircleOutlineIcon />}
+        onClick={showCreateForm}
+      >
+        Crea
+      </Button>
+      <SlotCreate createSlot={onCreateSlot} open={formIsOpen} onClose={onClose}>
+        {" "}
+      </SlotCreate>
+    </>
+  );
   return (
     <>
       <ListSubheader key={day + "-title"} className={classes.listSubheader}>
         <div className={classes.date}>{dateStr}</div>{" "}
         <div className={classes.dateButtons}>
-          {Boolean(onCreateSlot) && (
-            <Button
-              variant="outlined"
-              size="small"
-              startIcon={<AddCircleOutlineIcon />}
-            >
-              Crea
-            </Button>
-          )}
+          {newSlotButton}
           {showCopyPaste && Boolean(slotsList.length) && (
             <Button
               variant="outlined"

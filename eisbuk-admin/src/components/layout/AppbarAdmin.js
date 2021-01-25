@@ -52,11 +52,8 @@ const AppbarAdmin = (props) => {
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-  },
-  paper: {
-    marginRight: theme.spacing(2),
+  button: {
+    margin: theme.spacing(2),
   },
 }));
 

@@ -16,7 +16,6 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import { Typography } from "@material-ui/core";
 
 import AddCustomer from "../../components/customers/AddCustomer";
-import AppbarAdmin from "../../components/layout/AppbarAdmin";
 import { wrapOrganization } from "../../utils/firestore";
 
 const CustomersPage = () => {
@@ -29,8 +28,6 @@ const CustomersPage = () => {
 
   return (
     <div className={classes.root}>
-      <AppbarAdmin />
-
       <main className={classes.content}>
         <Box py={3} container={true} className={classes.headerHero}>
           <div className={classes.appBarSpacer} />
