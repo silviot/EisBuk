@@ -1,4 +1,5 @@
 import React from "react";
+import firebase from "firebase";
 
 import {
   Box,
@@ -25,6 +26,8 @@ import {
 import { SlotCategory, SlotDuration, SlotType } from "../../../data/slots.js";
 import { DateTime } from "luxon";
 import * as Yup from "yup";
+
+const Timestamp = firebase.firestore.Timestamp;
 
 const defaultValues = {
   time: "08:00",
@@ -66,14 +69,27 @@ const TimePickerField = ({ ...props }) => {
   );
 };
 
-const SlotCreate = ({ createSlot, open, onClose, onOpen, ...props }) => {
+const SlotCreate = ({
+  createSlot,
+  isoDate,
+  open,
+  onClose,
+  onOpen,
+  ...props
+}) => {
   return (
     <Dialog open={open} onClose={onClose}>
       <Formik
         initialValues={{ ...props.initialValues, ...defaultValues }}
         validationSchema={SlotValidation}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          await createSlot(values);
+          const parsed = DateTime.fromISO(isoDate + "T" + values.time);
+          await createSlot({
+            type: values.type,
+            category: values.category,
+            durations: values.durations,
+            date: Timestamp.fromDate(parsed.toJSDate()),
+          });
           setSubmitting(false);
           resetForm();
           onClose();

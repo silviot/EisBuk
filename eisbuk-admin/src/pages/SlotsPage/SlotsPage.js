@@ -1,7 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFirestoreConnect, useFirestore } from "react-redux-firebase";
-import { deleteSlot, changeCalendarDate } from "../../store/actions/actions";
+import {
+  deleteSlot,
+  changeCalendarDate,
+  createSlot,
+} from "../../store/actions/actions";
 import { wrapOrganization } from "../../utils/firestore";
 import { flatten, getMonthStr } from "../../utils/helpers";
 import { makeStyles } from "@material-ui/core/styles";
@@ -36,7 +40,9 @@ const SlotsPage = () => {
   const onChangeCalendarDate = (date) => {
     dispatch(changeCalendarDate(date));
   };
-
+  const onCreateSlot = (slot) => {
+    dispatch(createSlot(slot));
+  };
   return (
     <div className={classes.root}>
       <AppbarAdmin />
@@ -44,6 +50,7 @@ const SlotsPage = () => {
         <SlotsPageContainer
           slots={slots}
           onDelete={onDelete}
+          onCreateSlot={onCreateSlot}
           currentDate={currentDate}
           onChangeCalendarDate={onChangeCalendarDate}
         />

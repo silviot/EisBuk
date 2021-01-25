@@ -63,7 +63,12 @@ const SlotsDay = ({
       >
         Crea
       </Button>
-      <SlotCreate createSlot={onCreateSlot} open={formIsOpen} onClose={onClose}>
+      <SlotCreate
+        isoDate={day}
+        createSlot={onCreateSlot}
+        open={formIsOpen}
+        onClose={onClose}
+      >
         {" "}
       </SlotCreate>
     </>

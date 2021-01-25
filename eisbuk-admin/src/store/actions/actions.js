@@ -118,6 +118,8 @@ export const createSlot = (data) => {
     const firebase = getFirebase();
     firebase
       .firestore()
+      .collection("organizations")
+      .doc("default")
       .collection("slots")
       .add(data)
       .then(() => {
