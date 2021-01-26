@@ -10,13 +10,6 @@ export const EmptyForm = (args) => <SlotCreate {...args} />;
 EmptyForm.args = {
   open: true,
   isoDate: "2021-01-15",
-  initialValues: {
-    time: "",
-    category: "",
-    durations: [],
-    type: "",
-    notes: "",
-  },
 };
 EmptyForm.argTypes = {
   createSlot: { action: "created" },

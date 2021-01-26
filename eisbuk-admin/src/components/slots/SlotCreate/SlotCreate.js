@@ -80,7 +80,7 @@ const SlotCreate = ({
   return (
     <Dialog open={open} onClose={onClose}>
       <Formik
-        initialValues={{ ...props.initialValues, ...defaultValues }}
+        initialValues={{ ...defaultValues, ...props.initialValues }}
         validationSchema={SlotValidation}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const parsed = DateTime.fromISO(isoDate + "T" + values.time);
