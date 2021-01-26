@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 
+import AppbarAdmin from "../../components/layout/AppbarAdmin";
 import CustomerList from "../../components/customers/CustomerList";
 import Copyright from "../../components/layout/Copyright";
 import { makeStyles } from "@material-ui/core/styles";
@@ -29,6 +30,7 @@ const CustomersPage = () => {
 
   return (
     <div className={classes.root}>
+      <AppbarAdmin />
       <main className={classes.content}>
         <Box py={3} container={true} className={classes.headerHero}>
           <div className={classes.appBarSpacer} />
