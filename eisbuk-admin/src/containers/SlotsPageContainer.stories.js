@@ -32,7 +32,7 @@ const Template = (args) => {
       args.onUnsubscribe(slot);
     });
   return (
-    <div style={{ height: "100vh", overflow: "hidden" }}>
+    <div>
       <SlotsPageContainer
         {...{ ...args, subscribedSlots, onSubscribe, onUnsubscribe }}
         currentDate={currentDate}

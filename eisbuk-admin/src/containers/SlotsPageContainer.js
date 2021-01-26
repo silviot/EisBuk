@@ -13,14 +13,14 @@ import Typography from "@material-ui/core/Typography";
 import { DateTime } from "luxon";
 
 const useStyles = makeStyles((theme) => ({
-  rootOfTheSlotsList: {
+  root: {
     display: "flex",
     flexFlow: "column",
     alignItems: "center",
+    maxWidth: "600px",
   },
   appbar: {
     flexGrow: 0,
-    maxWidth: "600px",
   },
   slotlist: {
     flexGrow: 1,
@@ -74,7 +74,7 @@ export default ({
     }
   }
   return (
-    <Box className={classes.rootOfTheSlotsList}>
+    <Box className={classes.root}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar variant="dense">
           <IconButton
