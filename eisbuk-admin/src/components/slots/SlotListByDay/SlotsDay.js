@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import VerticalAlignBottomIcon from "@material-ui/icons/VerticalAlignBottom";
+import { Button, ListSubheader } from "@material-ui/core";
+import { FileCopy as FileCopyIcon } from "@material-ui/icons";
+import {
+  AddCircleOutline as AddCircleOutlineIcon,
+  VerticalAlignBottom as VerticalAlignBottomIcon,
+} from "@material-ui/icons";
 import Slot from "./Slot";
 import SlotCreate from "../SlotCreate";
 import LuxonUtils from "@date-io/luxon";

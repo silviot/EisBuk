@@ -1,15 +1,19 @@
-import Toolbar from "@material-ui/core/Toolbar";
-import AppBar from "@material-ui/core/AppBar";
-import Box from "@material-ui/core/Box";
-import IconButton from "@material-ui/core/IconButton";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import {
+  Toolbar,
+  AppBar,
+  Box,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
+import {
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+} from "@material-ui/icons";
 import React from "react";
 
 import SlotListByDay from "../components/slots/SlotListByDay";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 import { DateTime } from "luxon";
 
 const useStyles = makeStyles((theme) => ({

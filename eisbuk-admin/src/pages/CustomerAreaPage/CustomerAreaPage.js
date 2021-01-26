@@ -4,14 +4,13 @@ import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 
-import PersonPinIcon from "@material-ui/icons/PersonPin";
-import EventNoteIcon from "@material-ui/icons/EventNote";
+import { Container, Typography, AppBar, Tabs, Tab } from "@material-ui/core";
+
+import {
+  PersonPin as PersonPinIcon,
+  EventNote as EventNoteIcon,
+} from "@material-ui/icons";
 
 import AppbarCustomer from "../../components/layout/AppbarCustomer";
 

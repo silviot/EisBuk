@@ -14,7 +14,7 @@ import {
   createMuiTheme,
   responsiveFontSizes,
 } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { CssBaseline } from "@material-ui/core";
 import { blue, lightBlue, blueGrey } from "@material-ui/core/colors";
 
 import { SnackbarProvider } from "notistack";

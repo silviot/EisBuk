@@ -5,7 +5,7 @@ import _ from "lodash";
 
 import MaterialTable, { MTablePagination } from "material-table";
 import tableIcons from "../../utils/tableIcons";
-import Grid from "@material-ui/core/Grid";
+import { Grid } from "@material-ui/core";
 
 import ColoredAvatar from "../../components/users/coloredAvatar";
 import { slotsLabels } from "../../config/appConfig";

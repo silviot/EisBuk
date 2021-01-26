@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
+import { List } from "@material-ui/core";
 import SlotsDay from "./SlotsDay";
 
 const SlotListByDay = ({

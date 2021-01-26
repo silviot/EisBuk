@@ -1,9 +1,7 @@
 import React from "react";
 import firebase from "firebase/app";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
+import { Container, Box, Button } from "@material-ui/core";
 import AppbarAdmin from "../components/layout/AppbarAdmin";
-import Button from "@material-ui/core/Button";
 
 function invokeFunction(functionName) {
   return function () {

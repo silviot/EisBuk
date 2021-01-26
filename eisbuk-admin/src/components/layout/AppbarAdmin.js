@@ -1,11 +1,11 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import AppBar from "@material-ui/core/AppBar";
-import { People as PeopleIcon } from "@material-ui/icons";
-import { LibraryBooks as LibraryBooksIcon } from "@material-ui/icons";
-import Button from "@material-ui/core/Button";
-import Toolbar from "@material-ui/core/Toolbar";
+import { makeStyles } from "@material-ui/core/styles";
+import { AppBar, Button, Toolbar } from "@material-ui/core";
+import {
+  People as PeopleIcon,
+  LibraryBooks as LibraryBooksIcon,
+} from "@material-ui/icons";
 import DebugMenu from "./DebugMenu";
 
 const AppbarAdmin = (props) => {

@@ -1,25 +1,28 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Grid from "@material-ui/core/Grid";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import {
+  Grid,
+  InputLabel,
+  FormControl,
+  FormHelperText,
+  Button,
+  MenuItem,
+  InputAdornment,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@material-ui/core";
 
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import Email from "@material-ui/icons/Email";
-import Phone from "@material-ui/icons/Phone";
-import Cake from "@material-ui/icons/Cake";
-import LocalHospital from "@material-ui/icons/LocalHospital";
-import Payment from "@material-ui/icons/Payment";
+import {
+  AccountCircle,
+  Email,
+  Phone,
+  Cake,
+  LocalHospital,
+  Payment,
+} from "@material-ui/icons";
 
 import { createCustomer } from "../../store/actions/actions";
 

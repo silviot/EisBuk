@@ -1,14 +1,18 @@
 import React from "react";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import IconButton from "@material-ui/core/IconButton";
-import Switch from "@material-ui/core/Switch";
-import DeleteIcon from "@material-ui/icons/Delete";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import CategoryIcon from "@material-ui/icons/Category";
-import StarsIcon from "@material-ui/icons/Stars";
+import {
+  Chip,
+  IconButton,
+  ListItem,
+  ListItemSecondaryAction,
+  Switch,
+} from "@material-ui/core";
+import {
+  Delete as DeleteIcon,
+  AccessTime as AccessTimeIcon,
+  Category as CategoryIcon,
+  Stars as StarsIcon,
+} from "@material-ui/icons";
 import LuxonUtils from "@date-io/luxon";
-import Chip from "@material-ui/core/Chip";
 
 const luxon = new LuxonUtils({ locale: "C" });
 

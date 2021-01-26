@@ -1,8 +1,6 @@
 import React from "react";
 import firebase from "firebase/app";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button";
+import { Button, Menu, MenuItem } from "@material-ui/core";
 import { BugReport as BugReportIcon } from "@material-ui/icons";
 
 export default () => {
