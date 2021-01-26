@@ -29,7 +29,7 @@ import SlotsPage from "./pages/SlotsPage";
 import LoginPage from "./pages/LoginPage";
 import CustomerAreaPage from "./pages/CustomerAreaPage";
 
-let igorice = createMuiTheme({
+export var igorice = createMuiTheme({
   palette: {
     primary: {
       main: blue[500],
