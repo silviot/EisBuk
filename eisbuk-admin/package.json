@@ -42,10 +42,10 @@
     "yup": "^0.29.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-app-rewired start",
     "emulators:inspect": "firebase emulators:start --project eisbuk-e6b2a --inspect-functions 9229",
     "emulators:start": "firebase emulators:start --project eisbuk-e6b2a",
-    "build": "react-scripts build",
+    "build": "react-app-rewired build",
     "test": "firebase -c firebase-testing.json  emulators:exec --project eisbuk -- 'yarn run jest --watch'",
     "test:ci": "firebase -c firebase-testing.json  emulators:exec --project eisbuk -- 'yarn run jest --forceExit'",
     "postinstall": "./fix-jsdom.sh",
@@ -86,13 +86,16 @@
     "@storybook/node-logger": "^6.1.14",
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.14",
+    "babel-plugin-import": "^1.13.3",
     "chromatic": "^5.6.0",
+    "customize-cra": "^1.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-unused-imports": "^1.0.1",
     "firebase-admin": "^9.4.2",
     "firebase-functions": "^3.11.0",
     "mocha": "^8.2.1",
     "plop": "^2.7.4",
+    "react-app-rewired": "^2.1.8",
     "seedrandom": "^3.0.5",
     "storybook-react-router": "^1.0.8"
   }
