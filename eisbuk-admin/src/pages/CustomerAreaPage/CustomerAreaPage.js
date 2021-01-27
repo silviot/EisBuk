@@ -63,7 +63,9 @@ export const CustomerAreaPage = () => {
     customerData &&
     customerData[0] &&
     `${customerData[0].name} ${customerData[0].surname}`;
-  const adminAppBar = <AppbarAdmin />;
+  const auth = useSelector((state) => state.firebase.auth);
+
+  const adminAppBar = isLoaded(auth) && !isEmpty(auth) ? <AppbarAdmin /> : null;
   return (
     <Container maxWidth="sm">
       {adminAppBar}
