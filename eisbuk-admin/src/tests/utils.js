@@ -1,8 +1,8 @@
-const firebase = require("firebase/app");
-const { adminDb } = require("./settings");
-require("firebase/auth");
+import firebase from "firebase/app";
+import { adminDb } from "./settings";
+import "firebase/auth";
 
-exports.retry = function (func, maxTries, delay) {
+export const retry = function (func, maxTries, delay) {
   // Retry running the (asyncrhronous) function func
   // until it resolves
   var reTry = 0;
@@ -15,7 +15,7 @@ exports.retry = function (func, maxTries, delay) {
           } else {
             setTimeout(
               callFunc,
-              typeof delay == "function" ? delay(exports.retry) : delay
+              typeof delay == "function" ? delay(retry) : delay
             );
           }
         });
@@ -32,7 +32,7 @@ exports.retry = function (func, maxTries, delay) {
 // https://github.com/jsdom/jsdom/pull/2867
 // For now you need to patch your local copy manually
 // A script `fix_jsdom.sh" is provided for this purpose
-exports.loginWithUser = async function (email) {
+export const loginWithUser = async function (email) {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, "secret");
   } catch (e) {
@@ -40,18 +40,18 @@ exports.loginWithUser = async function (email) {
   }
 };
 
-exports.createDefaultOrg = function () {
+export const createDefaultOrg = function () {
   const orgDefinition = {
     admins: ["test@example.com"],
   };
   return adminDb.collection("organizations").doc("default").set(orgDefinition);
 };
 
-exports.loginDefaultUser = function () {
+export const loginDefaultUser = function () {
   return exports.loginWithUser("test@example.com");
 };
 
-exports.deleteAll = async (collections) => {
+export const deleteAll = async (collections) => {
   const org = adminDb.collection("organizations").doc("default");
   const toDelete = [];
   for (const coll of collections) {
