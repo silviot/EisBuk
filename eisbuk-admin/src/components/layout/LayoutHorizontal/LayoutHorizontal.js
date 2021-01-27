@@ -26,14 +26,12 @@ const LayoutHorizontal = ({ heading, navRail, contentRail, callToAction }) => {
       <Grid item xs={12} md={4} className={classes.navRail}>
         {heading && (
           <Box p={3} display="flex">
-            <Box flexGrow={1}>
+            <Box>
               <Typography className={classes.heading} variant="h3">
                 {heading}
               </Typography>
             </Box>
-            <Box display="flex" alignItems="center">
-              {callToAction}
-            </Box>
+            <Box display="flex">{callToAction}</Box>
           </Box>
         )}
         {navRail}

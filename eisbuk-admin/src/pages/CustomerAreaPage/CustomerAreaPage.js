@@ -4,15 +4,13 @@ import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 
-import PersonPinIcon from "@material-ui/icons/PersonPin";
+import { Container, Typography, AppBar, Tabs, Tab } from "@material-ui/core";
+
+import {
+  PersonPin as PersonPinIcon,
+  EventNote as EventNoteIcon,
+} from "@material-ui/icons";
 
 import AppbarCustomer from "../../components/layout/AppbarCustomer";
 
@@ -41,34 +39,32 @@ const TabPanel = (props) => {
       id={`customer-tabpanel-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && children}
     </div>
   );
 };
 
 export const CustomerAreaPage = () => {
   const classes = useStyles();
-  let { id } = useParams();
+  let { secret_key } = useParams();
   useFirestoreConnect([
     wrapOrganization({
-      collection: "customers",
-      doc: id,
+      collection: "bookings",
+      doc: secret_key,
     }),
   ]);
-  const [activeTab, setActiveTab] = useState(0);
-  const customerData = useSelector(
-    (state) => state.firestore.ordered.customers
-  );
+  const [activeTab, setActiveTab] = useState(1);
+  const customerData = useSelector((state) => state.firestore.ordered.bookings);
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
+  const title =
+    customerData &&
+    customerData[0] &&
+    `${customerData[0].name} ${customerData[0].surname}`;
   return (
-    <div className={classes.root}>
-      <AppbarCustomer />
+    <Container maxWidth="sm">
+      <AppbarCustomer headingText={title} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         {isLoaded(customerData) && !isEmpty(customerData) && (
@@ -88,7 +84,7 @@ export const CustomerAreaPage = () => {
                   />
                   <LinkTab
                     label="Calendario"
-                    icon={<PersonPinIcon />}
+                    icon={<EventNoteIcon />}
                     href="/drafts"
                   />
                   <LinkTab
@@ -100,52 +96,23 @@ export const CustomerAreaPage = () => {
               </Container>
             </AppBar>
             <TabPanel value={activeTab} index={0}>
-              <Grid container className={classes.headingHero}>
-                <Container maxWidth="lg">
-                  <Grid item xs={12}>
-                    <Box py={3}>
-                      <Typography variant="h6">
-                        Benvenuto {customerData[0].name}{" "}
-                        {customerData[0].surname}
-                      </Typography>
-                      <Typography variant="p">
-                        {customerData[0].category}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </Container>
-              </Grid>
+              <Typography variant="h6">
+                Benvenuto {customerData[0].name} {customerData[0].surname}
+              </Typography>
+              <Typography variant="p">{customerData[0].category}</Typography>
             </TabPanel>
             <TabPanel value={activeTab} index={1}>
-              <Grid container className={classes.headingHero}>
-                <Container maxWidth="lg">
-                  <Grid item xs={12}>
-                    <Box py={3}>
-                      <CustomerAreaCalendar
-                        userCategory={customerData[0].category}
-                      />
-                    </Box>
-                  </Grid>
-                </Container>
-              </Grid>
+              <CustomerAreaCalendar className="foobar" />
             </TabPanel>
             <TabPanel value={activeTab} index={2}>
-              <Grid container className={classes.headingHero}>
-                <Container maxWidth="lg">
-                  <Grid item xs={12}>
-                    <Box py={3}>
-                      <Typography variant="h6">
-                        Prenotazioni {customerData[0].name}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </Container>
-              </Grid>
+              <Typography variant="h6">
+                Prenotazioni {customerData[0].name}
+              </Typography>
             </TabPanel>
           </>
         )}
       </main>
-    </div>
+    </Container>
   );
 };
 
@@ -154,11 +121,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   appBarSpacer: theme.mixins.toolbar,
-  headingHero: {
-    /*         backgroundColor: theme.palette.secondary.main,
-        color: theme.palette.getContrastText(theme.palette.secondary.main),
-        flexGrow: 1 */
-  },
   customerNav: {
     backgroundColor: theme.palette.grey[900],
   },

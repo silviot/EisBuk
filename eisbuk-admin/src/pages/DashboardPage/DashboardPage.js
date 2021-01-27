@@ -2,21 +2,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Box from "@material-ui/core/Box";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
+import {
+  Box,
+  Container,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+} from "@material-ui/core";
 
-import AppbarDrawer from "../../components/layout/AppbarDrawer";
+import AppbarAdmin from "../../components/layout/AppbarAdmin";
 
 const DashboardPage = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <AppbarDrawer />
       <main className={classes.content}>
+        <AppbarAdmin />
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Box py={3}>

@@ -2,16 +2,18 @@ import React from "react";
 import _ from "lodash";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
+import {
+  Avatar,
+  Box,
+  Typography,
+  DeleteIcon,
+  IconButton,
+} from "@material-ui/core";
 
 import { DateTime } from "luxon";
 import { slotsLabels } from "../../../config/appConfig";
 import DurationsList from "./DurationsList";
 import UserAvatar from "./UserAvatar";
-import { Avatar } from "@material-ui/core";
 import { AddCircleOutline } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({

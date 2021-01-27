@@ -19,9 +19,9 @@ exports.createTestData = functions
 
 exports.createOrganization = functions
   .region("europe-west6")
-  .https.onCall(async function () {
+  .https.onCall(() => {
     const db = admin.firestore();
-    await db
+    return db
       .collection("organizations")
       .doc("default")
       .set({

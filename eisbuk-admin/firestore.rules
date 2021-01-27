@@ -13,5 +13,8 @@ service cloud.firestore {
     match /organizations/{organization}/bookings/{secret_key}/{document=**} {
       allow read, write: if true;
     }
+    match /organizations/{organization}/slotsByDay/{document=**} {
+      allow read: if true;
+    }
   }
 }

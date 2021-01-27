@@ -1,109 +1,124 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { useFirestoreConnect } from "react-redux-firebase";
 import {
-  deleteSlot,
-  changeCalendarDate,
-  createSlot,
-} from "../store/actions/actions";
+  Toolbar,
+  AppBar,
+  Box,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
+import {
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+} from "@material-ui/icons";
+import React from "react";
 
-import LayoutHorizontal from "../components/layout/LayoutHorizontal";
-import SlotList from "../components/slots/SlotList";
-import SlotCalendarDate from "../components/slots/SlotCalendar/SlotCalendarDate";
-import SlotCalendar from "../components/slots/SlotCalendar";
+import SlotListByDay from "../components/slots/SlotListByDay";
 
-import { wrapOrganization } from "../utils/firestore";
-import SlotCreate from "../components/slots/SlotCreate";
-import { Button } from "@material-ui/core";
-import { AddCircleOutline } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core/styles";
+import { DateTime } from "luxon";
 
-const SlotsPageContainer = ({
-  slots,
-  deleteSlot,
-  createSlot,
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexFlow: "column",
+    alignItems: "center",
+    maxWidth: "600px",
+  },
+  appbar: {
+    flexGrow: 0,
+  },
+  slotlist: {
+    flexGrow: 1,
+    overflow: "scroll",
+  },
+  selectedDate: {
+    flexGrow: 6,
+  },
+  prev: {
+    flexGrow: 1,
+  },
+  next: {
+    flexGrow: 1,
+  },
+}));
+
+export default ({
   currentDate,
-  changeCalendarDate,
+  slots,
+  onDelete,
+  onChangeCalendarDate,
+  onSubscribe,
+  onUnsubscribe,
+  onCreateSlot,
+  subscribedSlots,
 }) => {
-  useFirestoreConnect([
-    wrapOrganization({
-      collection: "slotsByDay",
-      doc: currentDate.toISODate().substring(0, 7),
-    }),
-  ]);
+  const classes = useStyles();
 
-  const onCalendarDateChange = (date, isFinish) => {
-    changeCalendarDate(date);
+  const adjustCalendarDate = (delta) => {
+    onChangeCalendarDate(currentDate.plus({ days: delta }));
   };
-
-  const [createSlotDrawer, setCreateSlotDrawer] = useState(false);
-  const handleOpenCreateSlot = () => {
-    setCreateSlotDrawer(true);
-  };
-
-  const handleCloseCreateSlot = () => {
-    setCreateSlotDrawer(false);
-  };
-
-  return (
-    <LayoutHorizontal
-      heading="Calendario"
-      callToAction={
-        <Button
-          style={{ borderColor: "#fff", color: "#fff" }}
-          color="secondary"
-          onClick={handleOpenCreateSlot}
-          variant="outlined"
-          startIcon={<AddCircleOutline />}
-        >
-          Nuovo Slot
-        </Button>
-      }
-      navRail={
-        <>
-          <SlotCalendarDate date={currentDate} />
-          <SlotCalendar date={currentDate} onChange={onCalendarDateChange} />
-          <SlotCreate
-            open={createSlotDrawer}
-            onClose={handleCloseCreateSlot}
-            onOpen={handleOpenCreateSlot}
-            createSlot={createSlot}
-          />
-        </>
-      }
-      contentRail={<SlotList deleteSlot={deleteSlot} slots={slots} />}
-    />
+  const datesToDisplay = [...Array(7).keys()].map((i) =>
+    currentDate.plus({ days: i }).toISODate()
   );
-};
-
-const mapStateToProps = (state) => {
-  // Extract the slots from the current aggregated month.
-  const slots = [];
-  const currentDate = state.app.calendarDay;
-  const currentDateStr = currentDate.toISODate().substring(0, 10);
-  if (
-    state.firestore.ordered.slotsByDay &&
-    state.firestore.ordered.slotsByDay.length
-  ) {
-    if (state.firestore.ordered.slotsByDay[0][currentDateStr]) {
-      for (const slot of Object.values(
-        state.firestore.ordered.slotsByDay[0][currentDateStr]
-      )) {
-        slots.push(slot);
+  const slotsToDisplay = datesToDisplay.reduce(function (obj, x) {
+    return { ...obj, [x]: {} };
+  }, {});
+  for (const key in slots) {
+    if (Object.hasOwnProperty.call(slots, key)) {
+      const slot = slots[key];
+      let dayDateTime;
+      try {
+        dayDateTime = DateTime.fromFormat(key, "yyyy-LL-dd");
+      } catch (e) {
+        continue;
+      }
+      const diff = (dayDateTime - currentDate) / 1000;
+      if (diff >= 0 && diff < ONE_WEEK) {
+        slotsToDisplay[key] = slot;
       }
     }
   }
-  return {
-    slots,
-    currentDate,
-  };
+  return (
+    <Box className={classes.root}>
+      <AppBar position="static" className={classes.appbar}>
+        <Toolbar variant="dense">
+          <IconButton
+            edge="start"
+            className={classes.prev}
+            color="inherit"
+            aria-label="menu"
+            onClick={() => adjustCalendarDate(-7)}
+          >
+            <ChevronLeftIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            color="inherit"
+            className={classes.selectedDate}
+          >
+            {currentDate.toFormat("d MMMM", { locale: "it-IT" })}-
+            {currentDate
+              .plus({ days: 7 })
+              .toFormat("d MMMM", { locale: "it-IT" })}
+          </Typography>
+          <IconButton
+            edge="start"
+            className={classes.next}
+            color="inherit"
+            aria-label="menu"
+            onClick={() => adjustCalendarDate(7)}
+          >
+            <ChevronRightIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <SlotListByDay
+        className={classes.slotlist}
+        slots={slotsToDisplay}
+        onDelete={onDelete}
+        {...{ onSubscribe, onUnsubscribe, subscribedSlots, onCreateSlot }}
+      />
+    </Box>
+  );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteSlot: (id) => dispatch(deleteSlot(id)),
-    changeCalendarDate: (date) => dispatch(changeCalendarDate(date)),
-    createSlot: (data) => dispatch(createSlot(data)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SlotsPageContainer);
+const ONE_WEEK = 7 * 24 * 60 * 60;

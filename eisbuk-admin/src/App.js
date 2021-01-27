@@ -17,7 +17,7 @@ import {
   createMuiTheme,
   responsiveFontSizes,
 } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { CssBaseline } from "@material-ui/core";
 import { blue, lightBlue, blueGrey } from "@material-ui/core/colors";
 
 import { SnackbarProvider } from "notistack";
@@ -29,7 +29,7 @@ import SlotsPage from "./pages/SlotsPage";
 import LoginPage from "./pages/LoginPage";
 import CustomerAreaPage from "./pages/CustomerAreaPage";
 
-let igorice = createMuiTheme({
+export var igorice = createMuiTheme({
   palette: {
     primary: {
       main: blue[500],
@@ -58,6 +58,7 @@ function App() {
               <CssBaseline />
               <BrowserRouter>
                 <Switch>
+                  <LoginRoute path="/login" component={LoginPage} />
                   <PrivateRoute path="/" component={DashboardPage} exact />
                   <PrivateRoute
                     path="/atleti"
@@ -69,8 +70,10 @@ function App() {
                     component={SlotsPage}
                     exact
                   />
-                  <LoginRoute path="/login" component={LoginPage} />
-                  <Route path="/clienti/:id" children={<CustomerAreaPage />} />
+                  <Route
+                    path="/clienti/:secret_key"
+                    children={<CustomerAreaPage />}
+                  />
                   <Route path="/debug" children={<DebugPage />} />
                 </Switch>
               </BrowserRouter>

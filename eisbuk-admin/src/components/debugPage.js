@@ -1,8 +1,7 @@
-import firebase from "firebase/app";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
 import React from "react";
-import Button from "@material-ui/core/Button";
+import firebase from "firebase/app";
+import { Container, Box, Button } from "@material-ui/core";
+import AppbarAdmin from "../components/layout/AppbarAdmin";
 
 function invokeFunction(functionName) {
   return function () {
@@ -22,9 +21,10 @@ function createAdminTestUsers() {
   firebase.auth().createUserWithEmailAndPassword("test@eisbuk.it", "test00");
 }
 
-const debugPage = () => {
+const DebugPage = () => {
   return (
     <Container maxWidth="sm">
+      <AppbarAdmin />
       <Box my={4} color="primary">
         <Button
           onClick={createAdminTestUsers}
@@ -55,4 +55,4 @@ const debugPage = () => {
     </Container>
   );
 };
-export default debugPage;
+export default DebugPage;

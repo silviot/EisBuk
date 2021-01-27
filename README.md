@@ -21,7 +21,7 @@ Enter the eisbuk-admin directory:
 
 Start the firebase emulators:
 
-    firebase emulators:start --inspect-functions 9229
+    yarn emulators:start
 
 The `--inspect-functions` allows you to connect with a debugger, for instance chrome from chrome://inspect/#devices or from the VSCode debugger.
 
