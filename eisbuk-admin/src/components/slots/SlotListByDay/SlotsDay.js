@@ -4,7 +4,7 @@ import { Button, ListSubheader } from "@material-ui/core";
 import { FileCopy as FileCopyIcon } from "@material-ui/icons";
 import {
   AddCircleOutline as AddCircleOutlineIcon,
-  VerticalAlignBottom as VerticalAlignBottomIcon,
+  Assignment as AssignmentIcon,
 } from "@material-ui/icons";
 import Slot from "./Slot";
 import SlotCreate from "../SlotCreate";
@@ -93,7 +93,7 @@ const SlotsDay = ({
             <Button
               variant="outlined"
               size="small"
-              startIcon={<VerticalAlignBottomIcon />}
+              startIcon={<AssignmentIcon />}
             >
               Incolla
             </Button>
