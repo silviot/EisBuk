@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+/* import { useHistory } from "react-router-dom"; */
 import { connect } from "react-redux";
 import _ from "lodash";
 
@@ -19,7 +19,7 @@ import { slotsLabels } from "../../config/appConfig";
 import { deleteCustomer, updateCustomer } from "../../store/actions/actions";
 
 export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
-  let history = useHistory();
+  /*   let history = useHistory(); */
   let labels = [];
   Object.keys(slotsLabels).forEach((x) => {
     labels[x] = _.keyBy(slotsLabels[x], "id");
