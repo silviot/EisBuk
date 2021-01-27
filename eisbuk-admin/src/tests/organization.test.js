@@ -1,6 +1,6 @@
-require("firebase/auth");
-const { db, adminDb } = require("./settings");
-const { loginWithUser } = require("./utils");
+import "firebase/auth";
+import { db, adminDb } from "./settings";
+import { loginWithUser } from "./utils";
 
 it("lets only admin access an organization data", async () => {
   const orgDefinition = {

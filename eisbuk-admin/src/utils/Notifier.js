@@ -21,7 +21,6 @@ const Notifier = () => {
   React.useEffect(() => {
     notifications.forEach(
       ({ key, message, options = {}, dismissed = false }) => {
-        console.log("effect!");
         if (dismissed) {
           // dismiss snackbar using notistack
           closeSnackbar(key);

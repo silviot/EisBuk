@@ -4,7 +4,7 @@ import { useFirestoreConnect, useFirestore } from "react-redux-firebase";
 import {
   deleteSlot,
   changeCalendarDate,
-  createSlot,
+  createSlots,
 } from "../../store/actions/actions";
 import { wrapOrganization } from "../../utils/firestore";
 import { flatten, getMonthStr } from "../../utils/helpers";
@@ -41,7 +41,7 @@ const SlotsPage = () => {
     dispatch(changeCalendarDate(date));
   };
   const onCreateSlot = (slot) => {
-    dispatch(createSlot(slot));
+    dispatch(createSlots([slot]));
   };
   return (
     <div className={classes.root}>

@@ -154,11 +154,15 @@ const SlotCreate = ({
 };
 
 const getEnumItems = (values) =>
-  Object.keys(values).map((el) => <MenuItem value={values[el]}>{el}</MenuItem>);
+  Object.keys(values).map((el) => (
+    <MenuItem key={values[el]} value={values[el]}>
+      {el}
+    </MenuItem>
+  ));
 
 const getCheckBoxes = (name, values) =>
   Object.keys(values).map((el) => (
-    <MyCheckbox name={name} value={values[el]} label={el} />
+    <MyCheckbox key={values[el]} name={name} value={values[el]} label={el} />
   ));
 
 export function MyCheckbox({ name, value, label }) {

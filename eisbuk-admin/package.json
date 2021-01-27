@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": ">=12"
+  },
   "name": "eisbuk-admin",
   "version": "0.1.0",
   "private": true,
@@ -20,6 +23,7 @@
     "firebase-tools": "^9.1.1",
     "formik": "^2.1.5",
     "formik-material-ui": "^3.0.1",
+    "jest": "^26.6.3",
     "luxon": "^1.25.0",
     "material-table": "^1.69.0",
     "moment": "^2.27.0",
@@ -45,8 +49,9 @@
     "emulators:inspect": "firebase emulators:start --project eisbuk-e6b2a --inspect-functions 9229",
     "emulators:start": "firebase emulators:start --project eisbuk-e6b2a",
     "build": "react-app-rewired build",
-    "test": "firebase -c firebase-testing.json  emulators:exec --project eisbuk -- 'yarn run jest --watch'",
-    "test:ci": "firebase -c firebase-testing.json  emulators:exec --project eisbuk -- 'yarn run jest --forceExit'",
+    "test": "jest",
+    "test:ci": "firebase -c firebase-testing.json  emulators:exec --project eisbuk -- 'node node_modules/jest/bin/jest.js --forceExit'",
+    "jest": "node node_modules/jest/bin/jest.js",
     "postinstall": "./fix-jsdom.sh",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
@@ -79,6 +84,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.12.10",
     "@storybook/addon-actions": "^6.1.14",
     "@storybook/addon-essentials": "^6.1.14",
     "@storybook/addon-links": "^6.1.14",

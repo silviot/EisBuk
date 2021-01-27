@@ -1,8 +1,8 @@
-const firebase = require("firebase/app");
-require("firebase/auth");
-require("firebase/firestore");
-const { Firestore } = require("@google-cloud/firestore");
-const { credentials } = require("@grpc/grpc-js");
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
+import { Firestore } from "@google-cloud/firestore";
+import { credentials } from "@grpc/grpc-js";
 
 const projectId = "eisbuk";
 

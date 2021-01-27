@@ -1,12 +1,7 @@
-const { db } = require("./settings");
-const firebase = require("firebase/app");
-require("firebase/firestore");
-const {
-  loginDefaultUser,
-  createDefaultOrg,
-  retry,
-  deleteAll,
-} = require("./utils");
+import { db } from "./settings";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import { loginDefaultUser, createDefaultOrg, retry, deleteAll } from "./utils";
 
 beforeEach(async () => {
   await deleteAll(["slots", "slotsByDay"]);

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, ListSubheader } from "@material-ui/core";
 import { FileCopy as FileCopyIcon } from "@material-ui/icons";
 import {
   AddCircleOutline as AddCircleOutlineIcon,
-  VerticalAlignBottom as VerticalAlignBottomIcon,
+  Assignment as AssignmentIcon,
 } from "@material-ui/icons";
 import Slot from "./Slot";
 import SlotCreate from "../SlotCreate";
+import { copySlotDay, createSlots } from "../../../store/actions/actions";
+import { shiftSlots } from "../../../data/slotutils";
 import LuxonUtils from "@date-io/luxon";
 
 const luxon = new LuxonUtils({ locale: "C" });
@@ -24,6 +27,7 @@ const SlotsDay = ({
   const slotsList = [];
   const [deletedSlots, setDeletedSlots] = useState({});
   const [formIsOpen, setFormIsOpen] = useState(false);
+  const dispatch = useDispatch();
   const luxonDay = luxon.parse(day, "yyyy-LL-dd");
   const dateStr = luxonDay.toFormat("EEEE d MMMM", { locale: "it-IT" });
   const extendedOnDelete = onDelete
@@ -47,14 +51,18 @@ const SlotsDay = ({
     slotsList.push({ ...slots[slot_id], id: slot_id });
   }
   const classes = useStyles();
-  const showCopyPaste = false;
+  const showEditButtons = Boolean(onCreateSlot);
+  const dayInClipboard = useSelector((state) => state.copyPaste.day ?? {});
   const showCreateForm = () => {
     setFormIsOpen(true);
   };
   const onClose = () => {
     setFormIsOpen(false);
   };
-  const newSlotButton = Boolean(onCreateSlot) && (
+  const doPaste = () =>
+    dispatch(createSlots(shiftSlots(Object.values(dayInClipboard), day)));
+
+  const newSlotButton = showEditButtons && (
     <>
       <Button
         variant="outlined"
@@ -69,9 +77,7 @@ const SlotsDay = ({
         createSlot={onCreateSlot}
         open={formIsOpen}
         onClose={onClose}
-      >
-        {" "}
-      </SlotCreate>
+      ></SlotCreate>
     </>
   );
   return (
@@ -80,20 +86,22 @@ const SlotsDay = ({
         <div className={classes.date}>{dateStr}</div>{" "}
         <div className={classes.dateButtons}>
           {newSlotButton}
-          {showCopyPaste && Boolean(slotsList.length) && (
+          {showEditButtons && Boolean(slotsList.length) && (
             <Button
               variant="outlined"
               size="small"
               startIcon={<FileCopyIcon />}
+              onClick={() => dispatch(copySlotDay(slots))}
             >
               Copia
             </Button>
           )}
-          {showCopyPaste && (
+          {showEditButtons && Object.keys(dayInClipboard).length > 0 && (
             <Button
               variant="outlined"
               size="small"
-              startIcon={<VerticalAlignBottomIcon />}
+              startIcon={<AssignmentIcon />}
+              onClick={doPaste}
             >
               Incolla
             </Button>

@@ -1,5 +1,5 @@
-const { adminDb } = require("./settings");
-const { retry, deleteAll } = require("./utils");
+import { adminDb } from "./settings";
+import { retry, deleteAll } from "./utils";
 
 beforeEach(async () => {
   await deleteAll(["customers", "bookings"]);

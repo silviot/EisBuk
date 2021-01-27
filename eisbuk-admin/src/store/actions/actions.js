@@ -5,6 +5,7 @@ import {
   CLOSE_SNACKBAR,
   REMOVE_SNACKBAR,
   CHANGE_DAY,
+  COPY_SLOT_DAY,
 } from "./action-types";
 
 export const enqueueSnackbar = (notification) => {
@@ -113,15 +114,18 @@ export const changeCalendarDate = (date) => ({
   payload: date,
 });
 
-export const createSlot = (data) => {
+export const createSlots = (slots) => {
   return (dispatch, getState, { getFirebase }) => {
-    const firebase = getFirebase();
-    firebase
-      .firestore()
-      .collection("organizations")
-      .doc("default")
-      .collection("slots")
-      .add(data)
+    const db = getFirebase().firestore();
+    const batch = db.batch();
+    for (const slot of slots) {
+      batch.set(
+        db.collection("organizations").doc("default").collection("slots").doc(),
+        slot
+      );
+    }
+    batch
+      .commit()
       .then(() => {
         dispatch(
           enqueueSnackbar({
@@ -340,3 +344,8 @@ export const updateCustomer = (customer) => {
     console.log(updatedData);
   };
 };
+
+export const copySlotDay = (slotDay) => ({
+  type: COPY_SLOT_DAY,
+  payload: slotDay,
+});
