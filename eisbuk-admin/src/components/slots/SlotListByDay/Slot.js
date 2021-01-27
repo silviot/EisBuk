@@ -12,9 +12,7 @@ import {
   Category as CategoryIcon,
   Stars as StarsIcon,
 } from "@material-ui/icons";
-import LuxonUtils from "@date-io/luxon";
-
-const luxon = new LuxonUtils({ locale: "C" });
+import { FBToLuxon } from "../../../data/dtutils";
 
 export default ({
   data,
@@ -86,7 +84,3 @@ export default ({
     </ListItem>
   );
 };
-
-export function FBToLuxon(fbDatetime) {
-  return luxon.date(new Date(fbDatetime.seconds * 1000));
-}
