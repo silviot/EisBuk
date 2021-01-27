@@ -19,6 +19,13 @@ const plugins = [
     },
     "icons",
   ],
+  [
+    "@babel/transform-runtime",
+    {
+      helpers: false,
+      regenerator: true,
+    },
+  ],
 ];
 
 const presets = ["@babel/preset-env", "@babel/preset-react"];
