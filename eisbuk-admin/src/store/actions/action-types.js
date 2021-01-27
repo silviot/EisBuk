@@ -12,3 +12,6 @@ export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";
 export const REMOVE_SNACKBAR = "REMOVE_SNACKBAR";
 
 export const CHANGE_DAY = "CHANGE_DAY";
+
+export const COPY_SLOT_DAY = "COPY_SLOT_DAY";
+export const COPY_SLOT_WEEK = "COPY_SLOT_WEEK";
