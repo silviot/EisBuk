@@ -113,15 +113,20 @@ export const changeCalendarDate = (date) => ({
   payload: date,
 });
 
-export const createSlot = (data) => {
+export const createSlots = (slots) => {
   return (dispatch, getState, { getFirebase }) => {
-    const firebase = getFirebase();
-    firebase
-      .firestore()
+    const db = getFirebase().firestore();
+    const batch = db.batch();
+    const destination = db
       .collection("organizations")
       .doc("default")
       .collection("slots")
-      .add(data)
+      .doc();
+    for (const slot of slots) {
+      batch.set(destination, slot);
+    }
+    batch
+      .commit()
       .then(() => {
         dispatch(
           enqueueSnackbar({
