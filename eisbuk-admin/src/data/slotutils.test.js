@@ -9,7 +9,7 @@ it("Shifts a list of slots to a new day, maintaining the time", () => {
   const newSlots = shiftSlots([jan_10_slot], "2021-01-22");
   expect(foo).toEqual("foo");
   const res = FBToLuxon(newSlots[0].date);
-  expect(res.toObject()).toEqual({
+  expect(res.setZone("Europe/Berlin").toObject()).toEqual({
     day: 22,
     hour: 11,
     millisecond: 0,
