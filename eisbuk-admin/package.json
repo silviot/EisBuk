@@ -21,7 +21,6 @@
     "formik": "^2.1.5",
     "formik-material-ui": "^3.0.1",
     "luxon": "^1.25.0",
-    "material-table": "^1.69.0",
     "moment": "^2.27.0",
     "notistack": "^1.0.0",
     "react": "^16.13.1",
