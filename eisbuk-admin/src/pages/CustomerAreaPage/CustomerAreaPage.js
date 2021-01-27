@@ -124,11 +124,6 @@ const useStyles = makeStyles((theme) => ({
   customerNav: {
     backgroundColor: theme.palette.grey[900],
   },
-  content: {
-    flexGrow: 1,
-    height: "100vh",
-    overflow: "auto",
-  },
 }));
 
 export default CustomerAreaPage;
