@@ -13,6 +13,7 @@ import {
 } from "@material-ui/icons";
 
 import AppbarCustomer from "../../components/layout/AppbarCustomer";
+import AppbarAdmin from "../../components/layout/AppbarAdmin";
 
 import CustomerAreaCalendar from "./CustomerAreaCalendar";
 import { wrapOrganization } from "../../utils/firestore";
@@ -62,8 +63,10 @@ export const CustomerAreaPage = () => {
     customerData &&
     customerData[0] &&
     `${customerData[0].name} ${customerData[0].surname}`;
+  const adminAppBar = <AppbarAdmin />;
   return (
     <Container maxWidth="sm">
+      {adminAppBar}
       <AppbarCustomer headingText={title} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
