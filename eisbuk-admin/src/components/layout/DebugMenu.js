@@ -26,7 +26,7 @@ export default () => {
   return (
     <>
       <Button
-        color="primary"
+        color="secondary"
         variant="contained"
         startIcon={<BugReportIcon />}
         onClick={handleClick}

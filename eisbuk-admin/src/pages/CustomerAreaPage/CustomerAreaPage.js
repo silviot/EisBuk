@@ -13,6 +13,7 @@ import {
 } from "@material-ui/icons";
 
 import AppbarCustomer from "../../components/layout/AppbarCustomer";
+import AppbarAdmin from "../../components/layout/AppbarAdmin";
 
 import CustomerAreaCalendar from "./CustomerAreaCalendar";
 import { wrapOrganization } from "../../utils/firestore";
@@ -62,8 +63,12 @@ export const CustomerAreaPage = () => {
     customerData &&
     customerData[0] &&
     `${customerData[0].name} ${customerData[0].surname}`;
+  const auth = useSelector((state) => state.firebase.auth);
+
+  const adminAppBar = isLoaded(auth) && !isEmpty(auth) ? <AppbarAdmin /> : null;
   return (
     <Container maxWidth="sm">
+      {adminAppBar}
       <AppbarCustomer headingText={title} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -123,11 +128,6 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   customerNav: {
     backgroundColor: theme.palette.grey[900],
-  },
-  content: {
-    flexGrow: 1,
-    height: "100vh",
-    overflow: "auto",
   },
 }));
 

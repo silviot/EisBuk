@@ -10,6 +10,7 @@ const SlotListByDay = ({
   onUnsubscribe,
   subscribedSlots,
   onCreateSlot,
+  className,
 }) => {
   const classes = useStyles();
   if (typeof slots === "undefined") {
@@ -19,7 +20,7 @@ const SlotListByDay = ({
     .filter((el) => el !== "id")
     .sort();
   return (
-    <List dense={true} className={classes.root}>
+    <List dense={true} className={className + " " + classes.root}>
       {days.map((el) => (
         <SlotsDay
           key={el}

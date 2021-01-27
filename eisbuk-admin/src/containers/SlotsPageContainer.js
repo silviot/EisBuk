@@ -18,17 +18,15 @@ import { DateTime } from "luxon";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    flexFlow: "column",
-    alignItems: "center",
     maxWidth: "600px",
   },
   appbar: {
     flexGrow: 0,
   },
   slotlist: {
-    flexGrow: 1,
-    overflow: "scroll",
+    "& > li.MuiListSubheader-sticky": {
+      top: theme.mixins.toolbar.minHeight,
+    },
   },
   selectedDate: {
     flexGrow: 6,
@@ -79,7 +77,7 @@ export default ({
   }
   return (
     <Box className={classes.root}>
-      <AppBar position="static" className={classes.appbar}>
+      <AppBar position="sticky">
         <Toolbar variant="dense">
           <IconButton
             edge="start"
@@ -111,12 +109,14 @@ export default ({
           </IconButton>
         </Toolbar>
       </AppBar>
-      <SlotListByDay
-        className={classes.slotlist}
-        slots={slotsToDisplay}
-        onDelete={onDelete}
-        {...{ onSubscribe, onUnsubscribe, subscribedSlots, onCreateSlot }}
-      />
+      <Box>
+        <SlotListByDay
+          className={classes.slotlist}
+          slots={slotsToDisplay}
+          onDelete={onDelete}
+          {...{ onSubscribe, onUnsubscribe, subscribedSlots, onCreateSlot }}
+        />
+      </Box>
     </Box>
   );
 };
