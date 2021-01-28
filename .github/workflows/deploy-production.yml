@@ -24,6 +24,10 @@ jobs:
         run: cd eisbuk-admin && yarn
       - name: Build app
         run: cd eisbuk-admin && yarn build
+      - name: Change project to eisbuk
+        run: cd eisbuk-admin && npx firebase use && npx firebase use eisbuk
+        env: # Or as an environment variable
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EISBUK }}
       - name: Deploy to firebase
         run: cd eisbuk-admin && npx firebase deploy
         env: # Or as an environment variable
