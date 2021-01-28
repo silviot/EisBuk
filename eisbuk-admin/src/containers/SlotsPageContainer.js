@@ -4,12 +4,13 @@ import {
   Box,
   IconButton,
   Typography,
+  Switch,
 } from "@material-ui/core";
 import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
 } from "@material-ui/icons";
-import React from "react";
+import React, { useState } from "react";
 
 import SlotListByDay from "../components/slots/SlotListByDay";
 
@@ -50,7 +51,7 @@ export default ({
   subscribedSlots,
 }) => {
   const classes = useStyles();
-
+  const [enableEdit, setEnableEdit] = useState(false);
   const adjustCalendarDate = (delta) => {
     onChangeCalendarDate(currentDate.plus({ days: delta }));
   };
@@ -107,6 +108,13 @@ export default ({
           >
             <ChevronRightIcon />
           </IconButton>
+          <Switch
+            edge="end"
+            onChange={() => {
+              setEnableEdit(!enableEdit);
+            }}
+            checked={enableEdit}
+          />
         </Toolbar>
       </AppBar>
       <Box>
