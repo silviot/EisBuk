@@ -2,6 +2,7 @@ import React from "react";
 import firebase from "firebase/app";
 import { Button, Menu, MenuItem } from "@material-ui/core";
 import { BugReport as BugReportIcon } from "@material-ui/icons";
+import { functionsZone } from "../../config/envInfo";
 
 export default () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -15,7 +16,7 @@ export default () => {
     if (functionName) {
       firebase
         .app()
-        .functions()
+        .functions(functionsZone)
         .httpsCallable(functionName)({})
         .then(function (response) {
           console.log(response.data);

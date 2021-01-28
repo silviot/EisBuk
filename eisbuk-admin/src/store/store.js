@@ -8,9 +8,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./reducers/rootReducer";
 import { getFirebase } from "react-redux-firebase";
 import { createFirestoreInstance } from "redux-firestore";
-
+import { isDev } from "../config/envInfo";
 let fbConfig;
-const isDev = window.location.port !== "80" && window.location.port !== "443";
 
 if (isDev) {
   fbConfig = {
