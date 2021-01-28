@@ -2,12 +2,13 @@ import React from "react";
 import firebase from "firebase/app";
 import { Container, Box, Button } from "@material-ui/core";
 import AppbarAdmin from "../components/layout/AppbarAdmin";
+import { functionsZone } from "../config/envInfo";
 
 function invokeFunction(functionName) {
   return function () {
     firebase
       .app()
-      .functions()
+      .functions(functionsZone)
       .httpsCallable(functionName)({})
       .then(function (response) {
         console.log(response.data);
