@@ -122,7 +122,13 @@ export default ({
           className={classes.slotlist}
           slots={slotsToDisplay}
           onDelete={onDelete}
-          {...{ onSubscribe, onUnsubscribe, subscribedSlots, onCreateSlot }}
+          {...{
+            onSubscribe,
+            onUnsubscribe,
+            subscribedSlots,
+            onCreateSlot,
+            enableEdit,
+          }}
         />
       </Box>
     </Box>
