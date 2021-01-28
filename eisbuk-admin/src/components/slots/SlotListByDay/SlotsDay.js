@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, ListSubheader } from "@material-ui/core";
+import { IconButton, ListSubheader } from "@material-ui/core";
 import { FileCopy as FileCopyIcon } from "@material-ui/icons";
 import {
   AddCircleOutline as AddCircleOutlineIcon,
@@ -23,6 +23,7 @@ const SlotsDay = ({
   subscribedSlots,
   onDelete,
   onCreateSlot,
+  enableEdit,
 }) => {
   const slotsList = [];
   const [deletedSlots, setDeletedSlots] = useState({});
@@ -30,17 +31,18 @@ const SlotsDay = ({
   const dispatch = useDispatch();
   const luxonDay = luxon.parse(day, "yyyy-LL-dd");
   const dateStr = luxonDay.toFormat("EEEE d MMMM", { locale: "it-IT" });
-  const extendedOnDelete = onDelete
-    ? (id) => {
-        // In order to get a more responsive UI we remember here the IDs of slots
-        // that should be deleted. Firestore already short-circuits updates sent
-        // to the server before receiving a reply, but here we'll be relying on
-        // secondary data i.e. to see the update we'd need to wait for a server
-        // side trigger function to update the aggregated collection
-        setDeletedSlots({ ...deletedSlots, [id]: true });
-        onDelete(id);
-      }
-    : onDelete;
+  const extendedOnDelete =
+    onDelete && enableEdit
+      ? (id) => {
+          // In order to get a more responsive UI we remember here the IDs of slots
+          // that should be deleted. Firestore already short-circuits updates sent
+          // to the server before receiving a reply, but here we'll be relying on
+          // secondary data i.e. to see the update we'd need to wait for a server
+          // side trigger function to update the aggregated collection
+          setDeletedSlots({ ...deletedSlots, [id]: true });
+          onDelete(id);
+        }
+      : undefined;
 
   // Iterate over slots sorted by timestamp
   const sorted_slots = Object.keys(slots || {}).sort(function (a, b) {
@@ -51,7 +53,6 @@ const SlotsDay = ({
     slotsList.push({ ...slots[slot_id], id: slot_id });
   }
   const classes = useStyles();
-  const showEditButtons = Boolean(onCreateSlot);
   const dayInClipboard = useSelector((state) => state.copyPaste.day ?? {});
   const showCreateForm = () => {
     setFormIsOpen(true);
@@ -62,16 +63,11 @@ const SlotsDay = ({
   const doPaste = () =>
     dispatch(createSlots(shiftSlots(Object.values(dayInClipboard), day)));
 
-  const newSlotButton = showEditButtons && (
+  const newSlotButton = enableEdit && (
     <>
-      <Button
-        variant="outlined"
-        size="small"
-        startIcon={<AddCircleOutlineIcon />}
-        onClick={showCreateForm}
-      >
-        Crea
-      </Button>
+      <IconButton variant="outlined" size="small" onClick={showCreateForm}>
+        <AddCircleOutlineIcon />
+      </IconButton>
       <SlotCreate
         isoDate={day}
         createSlot={onCreateSlot}
@@ -86,25 +82,19 @@ const SlotsDay = ({
         <div className={classes.date}>{dateStr}</div>{" "}
         <div className={classes.dateButtons}>
           {newSlotButton}
-          {showEditButtons && Boolean(slotsList.length) && (
-            <Button
+          {enableEdit && Boolean(slotsList.length) && (
+            <IconButton
               variant="outlined"
               size="small"
-              startIcon={<FileCopyIcon />}
               onClick={() => dispatch(copySlotDay(slots))}
             >
-              Copia
-            </Button>
+              <FileCopyIcon />
+            </IconButton>
           )}
-          {showEditButtons && Object.keys(dayInClipboard).length > 0 && (
-            <Button
-              variant="outlined"
-              size="small"
-              startIcon={<AssignmentIcon />}
-              onClick={doPaste}
-            >
-              Incolla
-            </Button>
+          {enableEdit && Object.keys(dayInClipboard).length > 0 && (
+            <IconButton variant="outlined" size="small" onClick={doPaste}>
+              <AssignmentIcon />
+            </IconButton>
           )}
         </div>
       </ListSubheader>
