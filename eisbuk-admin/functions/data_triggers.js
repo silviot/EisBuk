@@ -1,9 +1,7 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const { v4 } = require("uuid");
-const { roundTo } = require("./utils");
-const LuxonUtils = require("@date-io/luxon");
-const luxon = new LuxonUtils({ locale: "C" });
+const { DateTime } = require("luxon");
 const uuidv4 = v4;
 
 exports.addMissingSecretKey = functions
@@ -53,9 +51,9 @@ exports.aggregate_slots = functions
     if (change.after.exists) {
       newSlot = change.after.data();
       newSlot.id = change.after.id;
-      luxon_day = luxon.date(new Date(newSlot.date.seconds * 1000));
+      luxon_day = DateTime.fromJSDate(new Date(newSlot.date.seconds * 1000));
     } else {
-      luxon_day = luxon.date(
+      luxon_day = DateTime.fromJSDate(
         new Date(change.before.data().date.seconds * 1000)
       );
       newSlot = admin.firestore.FieldValue.delete();
