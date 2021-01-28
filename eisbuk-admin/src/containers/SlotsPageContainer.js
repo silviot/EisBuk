@@ -108,13 +108,15 @@ export default ({
           >
             <ChevronRightIcon />
           </IconButton>
-          <Switch
-            edge="end"
-            onChange={() => {
-              setEnableEdit(!enableEdit);
-            }}
-            checked={enableEdit}
-          />
+          {onDelete && (
+            <Switch
+              edge="end"
+              onChange={() => {
+                setEnableEdit(!enableEdit);
+              }}
+              checked={enableEdit}
+            />
+          )}
         </Toolbar>
       </AppBar>
       <Box>
