@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import firebase from "firebase/firestore";
+import firebase from "firebase/app";
+import "firebase/firestore";
 import React, { useState } from "react";
 import SlotsPageContainer from "./SlotsPageContainer";
 import { DateTime } from "luxon";
