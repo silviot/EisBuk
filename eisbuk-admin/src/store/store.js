@@ -14,7 +14,7 @@ let fbConfig;
 if (isDev) {
   fbConfig = {
     databaseURL: "http://localhost:8080",
-    projectId: "eisbuk-e6b2a",
+    projectId: "eisbuk",
     apiKey: "AIzaSyDfUuakkXb_xV-VFRyH7yIW4Dr7YmypHRo",
     messagingSenderId: "26525409101",
     appId: "1:26525409101:web:53f88cf5f4b7d6883e6104",
@@ -51,7 +51,7 @@ if (isDev) {
     ssl: false,
   });
   firebase.auth().useEmulator("http://localhost:9099/");
-  functions.useFunctionsEmulator("http://localhost:5001");
+  functions.useEmulator("localhost", 5001);
   console.warn("Using emulator for functions and authentication");
   window.firebase = firebase;
 }

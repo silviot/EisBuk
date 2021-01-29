@@ -42,8 +42,8 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "emulators:inspect": "firebase emulators:start --project eisbuk-e6b2a --inspect-functions 9229",
-    "emulators:start": "firebase emulators:start --project eisbuk-e6b2a",
+    "emulators:inspect": "firebase emulators:start --project eisbuk --inspect-functions 9229",
+    "emulators:start": "firebase emulators:start --project eisbuk",
     "build": "react-app-rewired build",
     "test": "firebase -c firebase-testing.json  emulators:exec --project eisbuk -- 'yarn run jest --watch'",
     "test:ci": "firebase -c firebase-testing.json  emulators:exec --project eisbuk -- 'yarn run jest --forceExit'",
