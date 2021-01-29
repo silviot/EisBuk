@@ -45,7 +45,7 @@ firebase.initializeApp(fbConfig);
 var db = firebase.firestore();
 var functions = firebase.functions();
 
-if (window.location.hostname === "localhost") {
+if (isDev) {
   db.settings({
     host: "localhost:8080",
     ssl: false,

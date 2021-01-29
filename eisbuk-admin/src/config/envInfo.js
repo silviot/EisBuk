@@ -7,4 +7,4 @@ export const isDev =
 
 export const functionsZone = isDev ? undefined : "europe-west6";
 
-export const ORGANIZATION = "default";
+export const ORGANIZATION = window.location.hostname;
