@@ -15,8 +15,6 @@ import {
   MenuItem,
 } from "@material-ui/core";
 
-import { KeyboardDatePicker } from "@material-ui/pickers";
-
 import {
   AccountCircle,
   Email,
@@ -31,8 +29,6 @@ import { createCustomer } from "../../store/actions/actions";
 import { Formik, Form, Field } from "formik";
 import { TextField, Select } from "formik-material-ui";
 import * as Yup from "yup";
-
-import { DateTime } from "luxon";
 
 import { slotsLabels } from "../../config/appConfig";
 
@@ -144,15 +140,12 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
                 }}
               />
               <Field
-                component={KeyboardDatePicker}
+                component={TextField}
                 name="birth"
+                type="date"
                 label="Data di nascita"
                 variant="outlined"
-                openTo="year"
-                inputVariant="outlined"
                 views={["year", "month", "date"]}
-                format="dd/MM/yyyy"
-                maxDate={DateTime.now()}
                 fullWidth
                 className={classes.field}
                 InputProps={{
@@ -179,14 +172,12 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
                 <FormHelperText>{errors.category}</FormHelperText>
               </FormControl>
               <Field
-                component={KeyboardDatePicker}
+                component={TextField}
+                type="date"
                 name="certificateExpiration"
                 label="Scadenza Cert. Medico"
                 variant="outlined"
                 className={classes.field}
-                inputVariant="outlined"
-                views={["year", "month", "date"]}
-                format="dd/MM/yyyy"
                 fullWidth
                 InputProps={{
                   startAdornment: (
