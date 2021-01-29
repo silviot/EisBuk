@@ -32,7 +32,7 @@ import { Formik, Form, Field } from "formik";
 import { TextField, Select } from "formik-material-ui";
 import * as Yup from "yup";
 
-import moment from "moment";
+import { DateTime } from "luxon";
 
 import { slotsLabels } from "../../config/appConfig";
 
@@ -70,11 +70,9 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
             surname: values.surname,
             email: values.email,
             phone: values.phone,
-            birth: moment(values.birth).toDate(),
+            birth: values.birth,
             category: values.category,
-            certificateExpiration: moment(
-              values.certificateExpiration
-            ).toDate(),
+            certificateExpiration: values.certificateExpiration,
             subscriptionNumber: values.subscriptionNumber,
           });
           setSubmitting(false);
@@ -154,7 +152,7 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
                 inputVariant="outlined"
                 views={["year", "month", "date"]}
                 format="dd/MM/yyyy"
-                maxDate={moment()}
+                maxDate={DateTime.now()}
                 fullWidth
                 className={classes.field}
                 InputProps={{
