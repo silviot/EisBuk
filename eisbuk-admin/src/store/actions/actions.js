@@ -7,6 +7,7 @@ import {
   CHANGE_DAY,
   COPY_SLOT_DAY,
 } from "./action-types";
+import { ORGANIZATION } from "../../config/envInfo";
 
 export const enqueueSnackbar = (notification) => {
   const key = notification.options && notification.options.key;
@@ -120,7 +121,11 @@ export const createSlots = (slots) => {
     const batch = db.batch();
     for (const slot of slots) {
       batch.set(
-        db.collection("organizations").doc("default").collection("slots").doc(),
+        db
+          .collection("organizations")
+          .doc(ORGANIZATION)
+          .collection("slots")
+          .doc(),
         slot
       );
     }
@@ -157,7 +162,7 @@ export const subscribeToSlot = (bookingId, slot) => {
     firebase
       .firestore()
       .collection("organizations")
-      .doc("default")
+      .doc(ORGANIZATION)
       .collection("bookings")
       .doc(bookingId)
       .collection("data")
@@ -194,7 +199,7 @@ export const unsubscribeFromSlot = (bookingId, slot) => {
     firebase
       .firestore()
       .collection("organizations")
-      .doc("default")
+      .doc(ORGANIZATION)
       .collection("bookings")
       .doc(bookingId)
       .collection("data")
@@ -231,7 +236,7 @@ export const deleteSlot = (id) => {
     firebase
       .firestore()
       .collection("organizations")
-      .doc("default")
+      .doc(ORGANIZATION)
       .collection("slots")
       .doc(id)
       .delete()
@@ -265,6 +270,8 @@ export const createCustomer = (customer) => {
     const firebase = getFirebase();
     firebase
       .firestore()
+      .collection("organizations")
+      .doc(ORGANIZATION)
       .collection("customers")
       .add(customer)
       .then(() => {
@@ -297,6 +304,8 @@ export const deleteCustomer = (id) => {
     const firebase = getFirebase();
     firebase
       .firestore()
+      .collection("organizations")
+      .doc(ORGANIZATION)
       .collection("customers")
       .doc(id)
       .delete()

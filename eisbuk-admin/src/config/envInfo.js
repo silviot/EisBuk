@@ -6,3 +6,5 @@ export const isDev =
   window.location.port !== "443";
 
 export const functionsZone = isDev ? undefined : "europe-west6";
+
+export const ORGANIZATION = "default";

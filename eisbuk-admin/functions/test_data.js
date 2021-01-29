@@ -7,31 +7,27 @@ const uuidv4 = v4;
 
 exports.createTestData = functions
   .region("europe-west6")
-  .https.onCall(async (data, context) => {
-    var howMany = data.howMany;
-    if (typeof howMany === "undefined") {
-      howMany = 1;
-    }
+  .https.onCall(async ({ howMany = 1, organization }) => {
     functions.logger.info(`Creating ${howMany} test users`);
-    await create_users(howMany);
+    await create_users(howMany, organization);
     return { success: true };
   });
 
 exports.createOrganization = functions
   .region("europe-west6")
-  .https.onCall(() => {
+  .https.onCall(({ organization }) => {
     const db = admin.firestore();
     return db
       .collection("organizations")
-      .doc("default")
+      .doc(organization)
       .set({
         admins: ["test@eisbuk.it"],
       });
   });
 
-const create_users = async function (howMany) {
+const create_users = async function (howMany, organization) {
   const db = admin.firestore();
-  const org = db.collection("organizations").doc("default");
+  const org = db.collection("organizations").doc(organization);
   await _.range(howMany).map(async (i) => {
     const customer = {
       id: uuidv4(),
@@ -42,25 +38,6 @@ const create_users = async function (howMany) {
     await org.collection("customers").doc(customer.id).set(customer);
   });
 };
-
-exports.createAdminTestUsers = functions
-  .region("europe-west6")
-  .https.onCall(async (data, context) => {
-    try {
-      await admin.auth().createUser({
-        email: "test@eisbuk.it",
-        emailVerified: true,
-        phoneNumber: "+11234567890",
-        password: "test00",
-        displayName: "Test User",
-        disabled: false,
-      });
-    } catch (e) {
-      console.log("Error creating test user");
-      return { success: false };
-    }
-    return { success: true };
-  });
 
 const CATEGORIES = ["ice", "fitness"];
 

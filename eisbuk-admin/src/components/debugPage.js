@@ -3,13 +3,14 @@ import firebase from "firebase/app";
 import { Container, Box, Button } from "@material-ui/core";
 import AppbarAdmin from "../components/layout/AppbarAdmin";
 import { functionsZone } from "../config/envInfo";
+import { ORGANIZATION } from "../config/envInfo";
 
 function invokeFunction(functionName) {
   return function () {
     firebase
       .app()
       .functions(functionsZone)
-      .httpsCallable(functionName)({})
+      .httpsCallable(functionName)({ organization: ORGANIZATION })
       .then(function (response) {
         console.log(response.data);
       });
