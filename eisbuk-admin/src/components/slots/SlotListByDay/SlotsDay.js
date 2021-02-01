@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { IconButton, ListSubheader } from "@material-ui/core";
+import { Badge, IconButton, ListSubheader } from "@material-ui/core";
 import { FileCopy as FileCopyIcon } from "@material-ui/icons";
 import {
   AddCircleOutline as AddCircleOutlineIcon,
@@ -93,7 +93,12 @@ const SlotsDay = ({
           )}
           {enableEdit && Object.keys(dayInClipboard).length > 0 && (
             <IconButton variant="outlined" size="small" onClick={doPaste}>
-              <AssignmentIcon />
+              <Badge
+                badgeContent={Object.keys(dayInClipboard).length}
+                color="secondary"
+              >
+                <AssignmentIcon />
+              </Badge>
             </IconButton>
           )}
         </div>
