@@ -18,7 +18,7 @@ it("Can ping the functions", async (done) => {
   done();
 });
 
-it.skip("Denies access to users not belonging to the organization", async (done) => {
+it("Denies access to users not belonging to the organization", async (done) => {
   await adminDb
     .collection("organizations")
     .doc("default")
@@ -26,15 +26,27 @@ it.skip("Denies access to users not belonging to the organization", async (done)
       admins: ["test@example.com"],
       foo: "bar",
     });
-  const request = firebase.app().functions().httpsCallable("createTestData")({
+  // We're not logged in yet, so this should throw
+  await expect(
+    firebase.app().functions().httpsCallable("createTestData")({
+      organization: "default",
+    })
+  ).rejects.toThrow();
+
+  // We log in with the wrong user
+  await loginWithUser("wrong@example.com");
+  await expect(
+    firebase.app().functions().httpsCallable("createTestData")({
+      organization: "default",
+    })
+  ).rejects.toThrow();
+
+  //...and with the right one
+  await loginWithUser("test@example.com");
+  await firebase.app().functions().httpsCallable("createTestData")({
     organization: "default",
   });
-  await expect(request).rejects.toThrow(); // We're not logged in yet, so this should throw
-  await loginWithUser("test@example.com");
-  //   const res = await firebase.app().functions().httpsCallable("createTestData")({
-  //     organization: "default",
-  //   });
-  //   console.log(res)
+
   done();
 });
 

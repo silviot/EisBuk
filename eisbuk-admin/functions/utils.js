@@ -14,24 +14,24 @@ exports.checkUser = async (organization, auth) => {
   // provided by the Firebase SDK. Raises an unauthorized exception
   // if the user is not authorized to manage the given organization
   console.log("Checking if user is authorized", auth, organization);
-  if (auth) {
+  if (auth && auth.token && auth.token.email) {
     const org = await admin
       .firestore()
       .collection("organizations")
       .doc(organization)
       .get();
-    console.log(org.data());
-    const uid = auth.uid;
-    const name = auth.token.name || null;
-    const picture = auth.token.picture || null;
-    const email = auth.token.email || null;
-    console.log({ uid, name, picture, email });
-    return true;
+    if (!org.data().admins.includes(auth.token.email)) {
+      doThrow();
+    }
   } else {
-    throw new functions.https.HttpsError(
-      500,
-      "unauthorized",
-      "The function must be called while authenticated with a user that is an admin of the given organization."
-    );
+    doThrow();
   }
 };
+
+function doThrow() {
+  throw new functions.https.HttpsError(
+    500,
+    "unauthorized",
+    "The function must be called while authenticated with a user that is an admin of the given organization."
+  );
+}
