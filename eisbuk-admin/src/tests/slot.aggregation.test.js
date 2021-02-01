@@ -1,10 +1,18 @@
 import { db } from "./settings";
+import { adminDb } from "./settings";
 import firebase from "firebase/app";
 import "firebase/firestore";
-import { loginDefaultUser, createDefaultOrg, retry, deleteAll } from "./utils";
+import {
+  deleteAll,
+  deleteAllCollections,
+  loginDefaultUser,
+  createDefaultOrg,
+  retry,
+} from "./utils";
 
 beforeEach(async () => {
   await deleteAll(["slots", "slotsByDay"]);
+  await deleteAllCollections(adminDb, ["organizations"]);
 });
 
 it("updates the slots summary on slot creation", async () => {
