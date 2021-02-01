@@ -1,21 +1,31 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const timestamp = require("unix-timestamp");
+const { checkUser } = require("./utils");
 var _ = require("lodash");
 const { v4 } = require("uuid");
 const uuidv4 = v4;
 
 exports.createTestData = functions
   .region("europe-west6")
-  .https.onCall(async ({ howMany = 1, organization }) => {
+  .https.onCall(async ({ howMany = 1, organization }, context) => {
+    await checkUser(organization, context.auth);
     functions.logger.info(`Creating ${howMany} test users`);
+    functions.logger.error(`Creating ${howMany} test users`);
     await create_users(howMany, organization);
     return { success: true };
   });
 
+exports.ping = functions.region("europe-west6").https.onCall((data) => {
+  // Utility function to check if we can reach the functions endpoints
+  console.log("ping invoked");
+  return { pong: true, data: { ...data } };
+});
+
 exports.createOrganization = functions
   .region("europe-west6")
-  .https.onCall(({ organization }) => {
+  .https.onCall(({ organization }, context) => {
+    //await checkUser(organization, context.auth);
     const db = admin.firestore();
     return db
       .collection("organizations")

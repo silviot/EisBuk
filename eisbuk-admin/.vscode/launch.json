@@ -9,7 +9,7 @@
       "name": "vscode-jest-tests",
       "request": "launch",
       "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/jest",
-      "args": ["test", "--env=jsdom", "--runInBand"],
+      "args": ["test", "--env=jsdom", "--runInBand", "--watch"],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "protocol": "inspector",
@@ -20,7 +20,7 @@
       "type": "node",
       "request": "attach",
       "name": "debug",
-      "port": "9229"
+      "port": 9229
     }
   ]
 }

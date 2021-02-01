@@ -1,4 +1,5 @@
 const functions = require("firebase-functions");
+const { checkUser } = require("./utils");
 const firebase = require("firebase");
 const admin = require("firebase-admin");
 const timestamp = require("unix-timestamp");
@@ -52,7 +53,8 @@ async function fillDay(day, organization) {
 
 exports.createTestSlots = functions
   .region("europe-west6")
-  .https.onCall(async ({ organization }) => {
+  .https.onCall(async ({ organization }, context) => {
+    await checkUser(organization, context.auth);
     console.log("Creating test slots...");
     const today = roundTo(admin.firestore.Timestamp.now().seconds, 86400);
     const daysToFill = [];
