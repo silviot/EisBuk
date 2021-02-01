@@ -3,6 +3,7 @@ import firebase from "firebase/app";
 import { Button, Menu, MenuItem } from "@material-ui/core";
 import { BugReport as BugReportIcon } from "@material-ui/icons";
 import { functionsZone } from "../../config/envInfo";
+import { ORGANIZATION } from "../../config/envInfo";
 
 export default () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -17,7 +18,7 @@ export default () => {
       firebase
         .app()
         .functions(functionsZone)
-        .httpsCallable(functionName)({})
+        .httpsCallable(functionName)({ organization: ORGANIZATION })
         .then(function (response) {
           console.log(response.data);
         });

@@ -53,12 +53,15 @@ export const loginDefaultUser = function () {
 
 export const deleteAll = async (collections) => {
   const org = adminDb.collection("organizations").doc("default");
+  return deleteAllCollections(org, collections);
+};
+
+export const deleteAllCollections = async (db, collections) => {
   const toDelete = [];
   for (const coll of collections) {
-    const existing = await org.collection(coll).get();
+    const existing = await db.collection(coll).get();
     existing.forEach(async (el) => {
       toDelete.push(el.ref.delete());
-      console.log(`Deleting all existing ${coll}`);
     });
   }
   return Promise.all(toDelete);

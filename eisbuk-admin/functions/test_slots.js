@@ -1,13 +1,14 @@
 const functions = require("firebase-functions");
+const { checkUser } = require("./utils");
 const firebase = require("firebase");
 const admin = require("firebase-admin");
 const timestamp = require("unix-timestamp");
 const { roundTo } = require("./utils");
 
-async function fillDay(day) {
+async function fillDay(day, organization) {
   const start = new admin.firestore.Timestamp(day, 0),
     end = new admin.firestore.Timestamp(day + 86400, 0);
-  const org = admin.firestore().collection("organizations").doc("default");
+  const org = admin.firestore().collection("organizations").doc(organization);
   const existing = await org
     .collection("slots")
     .where("date", ">=", start)
@@ -52,13 +53,14 @@ async function fillDay(day) {
 
 exports.createTestSlots = functions
   .region("europe-west6")
-  .https.onCall(async (data, context) => {
+  .https.onCall(async ({ organization }, context) => {
+    await checkUser(organization, context.auth);
     console.log("Creating test slots...");
     const today = roundTo(admin.firestore.Timestamp.now().seconds, 86400);
     const daysToFill = [];
     for (let i = -14; i < 15; i++) {
       const day = today + i * 86400;
-      daysToFill.push(fillDay(day));
+      daysToFill.push(fillDay(day, organization));
     }
     await Promise.all(daysToFill);
     return "Test slots created";

@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/functions";
 import "firebase/firestore";
 import { Firestore } from "@google-cloud/firestore";
 import { credentials } from "@grpc/grpc-js";
@@ -21,6 +22,7 @@ firebase.initializeApp({
   apiKey: "aaa",
 });
 firebase.auth().useEmulator("http://localhost:9098/");
+firebase.functions().useEmulator("localhost", 5002);
 
 exports.db = firebase.firestore();
 
