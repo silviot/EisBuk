@@ -2,19 +2,20 @@ import { deleteAllCollections } from "./utils";
 import { adminDb } from "./settings";
 import firebase from "firebase/app";
 import "firebase/functions";
+import "./settings";
 
 beforeAll(async () => {
   await deleteAllCollections(adminDb, ["organizations"]);
 });
-firebase.app().functions().useEmulator("localhost", 5001);
 
 // THESE TESTS ARE DISABLED: I could not make them work
 
-it.skip("Can ping the functions", async (done) => {
+it("Can ping the functions", async (done) => {
   const result = await firebase.app().functions().httpsCallable("ping")({
     foo: "bar",
   });
-  console.log(result);
+  expect(result).toEqual({ data: { pong: true, data: { foo: "bar" } } });
+  done();
 });
 
 it.skip("Denies access to users not belonging to the organization", async (done) => {
