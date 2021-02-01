@@ -13,7 +13,6 @@ exports.checkUser = async (organization, auth) => {
   // Receives an organization name and an auth info object as
   // provided by the Firebase SDK. Raises an unauthorized exception
   // if the user is not authorized to manage the given organization
-  console.log("Checking if user is authorized", auth, organization);
   if (auth && auth.token && auth.token.email) {
     const org = await admin
       .firestore()
