@@ -8,7 +8,7 @@ import { DateTime } from "luxon";
 
 const defaultState = {
   notifications: [],
-  calendarDay: DateTime.local().startOf("week"),
+  calendarDay: DateTime.local(),
 };
 
 export const appReducer = (state = defaultState, action) => {

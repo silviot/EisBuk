@@ -10,7 +10,9 @@ import { changeCalendarDate } from "../store/actions/actions";
 
 const WeekNavigationAppBar = ({ extraButtons }) => {
   const classes = useStyles();
-  const currentDate = useSelector((state) => state.app.calendarDay);
+  const currentDate = useSelector((state) => state.app.calendarDay).startOf(
+    "week"
+  );
   const dispatch = useDispatch();
   const adjustCalendarDate = (delta) => {
     dispatch(changeCalendarDate(currentDate.plus({ days: delta })));
