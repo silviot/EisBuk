@@ -1,5 +1,7 @@
 import { bookingDayInfoSelector, calendarDaySelector } from "./selectors";
-import { DateTime } from "luxon";
+import { DateTime, Settings } from "luxon";
+
+Settings.defaultZoneName = "Europe/Rome";
 
 it("Selects the app date", () => {
   expect(calendarDaySelector({ app: { calendarDay: "foo" } })).toEqual("foo");
