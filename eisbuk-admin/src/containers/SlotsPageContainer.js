@@ -20,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const calendarDaySelector = (state) => state.app.calendarDay;
+
 export default ({
   slots,
   onDelete,
@@ -30,7 +32,7 @@ export default ({
 }) => {
   const classes = useStyles();
   const [enableEdit, setEnableEdit] = useState(false);
-  const currentDate = useSelector((state) => state.app.calendarDay);
+  const currentDate = useSelector(calendarDaySelector);
 
   const datesToDisplay = [...Array(7).keys()].map((i) =>
     currentDate.plus({ days: i }).toISODate()

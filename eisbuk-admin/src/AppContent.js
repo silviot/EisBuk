@@ -13,8 +13,10 @@ import CustomerAreaPage from "./pages/CustomerAreaPage";
 import { wrapOrganization } from "./utils/firestore";
 import { getMonthStr } from "./utils/helpers";
 
+const calendarDaySelector = (state) => state.app.calendarDay;
+
 function AppContent(props) {
-  const currentDate = useSelector((state) => state.app.calendarDay);
+  const currentDate = useSelector(calendarDaySelector);
   const firestore = useFirestore();
   const monthsToQuery = [
     getMonthStr(currentDate, -1),

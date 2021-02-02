@@ -6,11 +6,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import SlotsPageContainer from "../../containers/SlotsPageContainer";
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
 
+const selectSlots = (state) => flatten(state.firestore.ordered.slotsByDay);
+
 const SlotsPage = () => {
   const classes = useStyles();
-  const slots = useSelector((state) =>
-    flatten(state.firestore.ordered.slotsByDay)
-  );
+  const slots = useSelector(selectSlots);
 
   const dispatch = useDispatch();
 

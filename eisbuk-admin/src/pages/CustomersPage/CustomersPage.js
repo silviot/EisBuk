@@ -19,12 +19,14 @@ import {
 
 import AddCustomer from "../../components/customers/AddCustomer";
 
+const selectCustomers = (state) => state.firestore.ordered.customers;
+
 const CustomersPage = () => {
   const classes = useStyles();
   const [addAthleteDialog, setAddAthleteDialog] = useState(false);
   const toggleAddAthleteDialog = () =>
     setAddAthleteDialog(addAthleteDialog ? false : true);
-  const customers = useSelector((state) => state.firestore.ordered.customers);
+  const customers = useSelector(selectCustomers);
 
   return (
     <div className={classes.root}>

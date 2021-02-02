@@ -5,9 +5,11 @@ import { removeSnackbar } from "../store/actions/actions";
 
 let displayed = [];
 
+const selectNotifications = (store) => store.app.notifications || [];
+
 const Notifier = () => {
   const dispatch = useDispatch();
-  const notifications = useSelector((store) => store.app.notifications || []);
+  const notifications = useSelector(selectNotifications);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const storeDisplayed = (id) => {

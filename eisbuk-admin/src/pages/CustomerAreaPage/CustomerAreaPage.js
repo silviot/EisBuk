@@ -45,6 +45,9 @@ const TabPanel = (props) => {
   );
 };
 
+const selectAuth = (state) => state.firebase.auth;
+const selectBookings = (state) => state.firestore.ordered.bookings;
+
 export const CustomerAreaPage = () => {
   const classes = useStyles();
   let { secret_key } = useParams();
@@ -55,7 +58,7 @@ export const CustomerAreaPage = () => {
     }),
   ]);
   const [activeTab, setActiveTab] = useState(1);
-  const customerData = useSelector((state) => state.firestore.ordered.bookings);
+  const customerData = useSelector(selectBookings);
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
@@ -63,7 +66,7 @@ export const CustomerAreaPage = () => {
     customerData &&
     customerData[0] &&
     `${customerData[0].name} ${customerData[0].surname}`;
-  const auth = useSelector((state) => state.firebase.auth);
+  const auth = useSelector(selectAuth);
 
   const adminAppBar = isLoaded(auth) && !isEmpty(auth) ? <AppbarAdmin /> : null;
   return (

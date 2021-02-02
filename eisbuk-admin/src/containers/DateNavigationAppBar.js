@@ -34,11 +34,11 @@ const multiply = (factor, delta) => {
   }, {});
 };
 
+const calendarDaySelector = (state) => state.app.calendarDay;
+
 const DateNavigationAppBar = ({ extraButtons, jump = "week" }) => {
   const classes = useStyles();
-  const currentDate = useSelector((state) => state.app.calendarDay).startOf(
-    jump
-  );
+  const currentDate = useSelector(calendarDaySelector).startOf(jump);
   const dispatch = useDispatch();
   const adjustCalendarDate = (factor) => {
     dispatch(
