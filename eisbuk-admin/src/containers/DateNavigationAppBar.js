@@ -7,6 +7,7 @@ import {
   ChevronRight as ChevronRightIcon,
 } from "@material-ui/icons";
 import { changeCalendarDate } from "../store/actions/actions";
+import { calendarDaySelector } from "../store/selectors";
 
 const JUMPS = {
   week: {
@@ -33,8 +34,6 @@ const multiply = (factor, delta) => {
     return obj;
   }, {});
 };
-
-const calendarDaySelector = (state) => state.app.calendarDay;
 
 const DateNavigationAppBar = ({ extraButtons, jump = "week" }) => {
   const classes = useStyles();

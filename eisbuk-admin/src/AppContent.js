@@ -12,8 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import CustomerAreaPage from "./pages/CustomerAreaPage";
 import { wrapOrganization } from "./utils/firestore";
 import { getMonthStr } from "./utils/helpers";
-
-const calendarDaySelector = (state) => state.app.calendarDay;
+import { calendarDaySelector } from "./store/selectors";
 
 function AppContent(props) {
   const currentDate = useSelector(calendarDaySelector);

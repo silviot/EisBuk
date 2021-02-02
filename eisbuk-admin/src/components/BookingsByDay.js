@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-
-const calendarDaySelector = (state) => state.app.calendarDay;
+import { calendarDaySelector } from "../store/selectors";
 
 const BookingsByDay = () => {
   const currentDate = useSelector(calendarDaySelector);

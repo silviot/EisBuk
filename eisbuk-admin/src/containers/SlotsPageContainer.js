@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { DateTime } from "luxon";
 
 import DateNavigationAppBar from "./DateNavigationAppBar";
+import { calendarDaySelector } from "../store/selectors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,8 +20,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const calendarDaySelector = (state) => state.app.calendarDay;
 
 export default ({
   slots,
