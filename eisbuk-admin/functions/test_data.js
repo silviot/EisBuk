@@ -39,11 +39,15 @@ const create_users = async function (howMany, organization) {
   const db = admin.firestore();
   const org = db.collection("organizations").doc(organization);
   await _.range(howMany).map(async (i) => {
+    const name = getRandomName(FIRST_NAMES);
+    const surname = getRandomName(LAST_NAMES);
     const customer = {
       id: uuidv4(),
-      name: getRandomName(FIRST_NAMES),
-      surname: getRandomName(LAST_NAMES),
-      birthday: "01/01/2000",
+      birthday: "2000-01-01",
+      name,
+      surname,
+      email: `${name}.${surname}@example.com`.toLowerCase(),
+      phone: "12345",
     };
     await org.collection("customers").doc(customer.id).set(customer);
   });
