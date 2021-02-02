@@ -1,7 +1,5 @@
 import { db } from "./settings";
 import { adminDb } from "./settings";
-import firebase from "firebase/app";
-import "firebase/firestore";
 import {
   deleteAll,
   deleteAllCollections,
@@ -24,7 +22,7 @@ it("updates the slots summary on slot creation", async () => {
   // Create a slot
   const slot = org.collection("slots").doc("testSlot");
   await slot.set({
-    date: new firebase.firestore.Timestamp(day + 15 * 3600, 0),
+    date: { seconds: day + 15 * 3600 },
     type: "ice",
     durations: [60, 90, 120],
     category: "agonismo",
@@ -40,7 +38,7 @@ it("updates the slots summary on slot creation", async () => {
   // Create another slot on the previous day
   const anotherSlot = org.collection("slots").doc("anotherSlot");
   await anotherSlot.set({
-    date: new firebase.firestore.Timestamp(day - 15 * 3600, 0),
+    date: { seconds: day - 15 * 3600 },
     type: "ice",
     durations: [60, 90, 120],
     category: "agonismo",
@@ -61,7 +59,7 @@ it("updates the slots summary on slot creation", async () => {
   // Create a third slot in a different day
   const thirdSlot = org.collection("slots").doc("thirdSlot");
   await thirdSlot.set({
-    date: new firebase.firestore.Timestamp(day - 72 * 3600, 0),
+    date: { seconds: day - 72 * 3600 },
     type: "ice",
     durations: [60, 90, 120],
     category: "agonismo",
