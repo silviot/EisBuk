@@ -13,10 +13,6 @@ export default {
 };
 
 const Template = (args) => {
-  const [currentDate, setCurrentDate] = useState(
-    args.currentDate || DateTime.local()
-  );
-  const onChangeCalendarDate = (date) => setCurrentDate(date);
   const [subscribedSlots, setSubscribedSlots] = useState({});
   const onSubscribe =
     args.onSubscribe &&
@@ -36,8 +32,6 @@ const Template = (args) => {
     <div>
       <SlotsPageContainer
         {...{ ...args, subscribedSlots, onSubscribe, onUnsubscribe }}
-        currentDate={currentDate}
-        onChangeCalendarDate={onChangeCalendarDate}
       />
     </div>
   );
