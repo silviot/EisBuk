@@ -1,5 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import DateNavigationAppBar from "../../containers/DateNavigationAppBar";
+import BookingsByDay from "../../components/BookingsByDay";
 
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
 
@@ -9,7 +11,8 @@ const DashboardPage = () => {
     <div className={classes.root}>
       <main className={classes.content}>
         <AppbarAdmin />
-        <div className={classes.appBarSpacer} />
+        <DateNavigationAppBar jump="day" />
+        <BookingsByDay />
       </main>
     </div>
   );
