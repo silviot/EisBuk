@@ -71,7 +71,7 @@ async function waitForCustomerSecretKey(customerId) {
     // it includes a `secret_key` key
     async () => {
       doc = await coll.doc(customerId).get();
-      return doc.data().secret_key
+      return doc.data() && doc.data().secret_key
         ? Promise.resolve()
         : Promise.reject(
             new Error(
