@@ -56,7 +56,7 @@ const create_users = async function (howMany, organization) {
   });
 };
 
-const toEmail = (str) => str.replace(/ /i, ".");
+const toEmail = (str) => _.deburr(str.replace(/ /i, "."));
 
 const CATEGORIES = ["ice", "fitness"];
 

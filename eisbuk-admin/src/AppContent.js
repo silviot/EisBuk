@@ -16,15 +16,19 @@ import { getMonthStr } from "./utils/helpers";
 function AppContent(props) {
   const currentDate = useSelector((state) => state.app.calendarDay);
   const firestore = useFirestore();
-  useFirestoreConnect([wrapOrganization({ collection: "customers" })]);
   const monthsToQuery = [
     getMonthStr(currentDate, -1),
     getMonthStr(currentDate, 0),
     getMonthStr(currentDate, 1),
   ];
   useFirestoreConnect([
+    wrapOrganization({ collection: "customers" }),
     wrapOrganization({
       collection: "slotsByDay",
+      where: [firestore.FieldPath.documentId(), "in", monthsToQuery],
+    }),
+    wrapOrganization({
+      collection: "bookingsByDay",
       where: [firestore.FieldPath.documentId(), "in", monthsToQuery],
     }),
   ]);
