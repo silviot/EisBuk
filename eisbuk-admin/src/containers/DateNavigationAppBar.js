@@ -44,7 +44,6 @@ const DateNavigationAppBar = ({ extraButtons, jump = "week" }) => {
       changeCalendarDate(currentDate.plus(multiply(factor, JUMPS[jump].delta)))
     );
   };
-  console.log(JUMPS);
   return (
     <AppBar position="sticky">
       <Toolbar variant="dense">
