@@ -33,7 +33,8 @@ const WeekNavigationAppBar = ({ extraButtons }) => {
           color="inherit"
           className={classes.selectedDate}
         >
-          {currentDate.toFormat("d MMMM", { locale: "it-IT" })}-
+          {currentDate.toFormat("d MMMM", { locale: "it-IT" })}
+          {" — "}
           {currentDate
             .plus({ days: 7 })
             .toFormat("d MMMM", { locale: "it-IT" })}
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
   selectedDate: {
     flexGrow: 6,
+    textAlign: "center",
   },
   prev: {
     flexGrow: 1,
