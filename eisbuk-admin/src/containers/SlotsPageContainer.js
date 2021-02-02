@@ -7,7 +7,7 @@ import SlotListByDay from "../components/slots/SlotListByDay";
 import { makeStyles } from "@material-ui/core/styles";
 import { DateTime } from "luxon";
 
-import WeekNavigationAppBar from "./WeekNavigationAppBar";
+import DateNavigationAppBar from "./DateNavigationAppBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,7 +65,7 @@ export default ({
 
   return (
     <Box className={classes.root}>
-      <WeekNavigationAppBar extraButtons={switchButton} />
+      <DateNavigationAppBar extraButtons={switchButton} />
       <Box>
         <SlotListByDay
           className={classes.slotlist}

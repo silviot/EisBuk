@@ -8,16 +8,44 @@ import {
 } from "@material-ui/icons";
 import { changeCalendarDate } from "../store/actions/actions";
 
-const WeekNavigationAppBar = ({ extraButtons }) => {
+const JUMPS = {
+  week: {
+    display: (currentDate) =>
+      currentDate.toFormat("d MMMM", { locale: "it-IT" }) +
+      " — " +
+      currentDate.plus({ days: 7 }).toFormat("d MMMM", { locale: "it-IT" }),
+    delta: {
+      days: 7,
+    },
+  },
+  day: {
+    display: (currentDate) =>
+      currentDate.toFormat("EEEE d MMMM", { locale: "it-IT" }),
+    delta: {
+      days: 1,
+    },
+  },
+};
+
+const multiply = (factor, delta) => {
+  return Object.keys(delta).reduce(function (obj, key) {
+    obj[key] = delta[key] * factor;
+    return obj;
+  }, {});
+};
+
+const DateNavigationAppBar = ({ extraButtons, jump = "week" }) => {
   const classes = useStyles();
   const currentDate = useSelector((state) => state.app.calendarDay).startOf(
-    "week"
+    jump
   );
   const dispatch = useDispatch();
-  const adjustCalendarDate = (delta) => {
-    dispatch(changeCalendarDate(currentDate.plus({ days: delta })));
+  const adjustCalendarDate = (factor) => {
+    dispatch(
+      changeCalendarDate(currentDate.plus(multiply(factor, JUMPS[jump].delta)))
+    );
   };
-
+  console.log(JUMPS);
   return (
     <AppBar position="sticky">
       <Toolbar variant="dense">
@@ -26,7 +54,7 @@ const WeekNavigationAppBar = ({ extraButtons }) => {
           className={classes.prev}
           color="inherit"
           aria-label="menu"
-          onClick={() => adjustCalendarDate(-7)}
+          onClick={() => adjustCalendarDate(-1)}
         >
           <ChevronLeftIcon />
         </IconButton>
@@ -35,18 +63,14 @@ const WeekNavigationAppBar = ({ extraButtons }) => {
           color="inherit"
           className={classes.selectedDate}
         >
-          {currentDate.toFormat("d MMMM", { locale: "it-IT" })}
-          {" — "}
-          {currentDate
-            .plus({ days: 7 })
-            .toFormat("d MMMM", { locale: "it-IT" })}
+          {JUMPS[jump].display(currentDate)}
         </Typography>
         <IconButton
           edge="start"
           className={classes.next}
           color="inherit"
           aria-label="menu"
-          onClick={() => adjustCalendarDate(7)}
+          onClick={() => adjustCalendarDate(1)}
         >
           <ChevronRightIcon />
         </IconButton>
@@ -72,4 +96,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default WeekNavigationAppBar;
+export default DateNavigationAppBar;
