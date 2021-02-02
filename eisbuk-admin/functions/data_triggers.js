@@ -2,6 +2,7 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const { v4 } = require("uuid");
 const { DateTime } = require("luxon");
+const { fs2luxon } = require("./utils");
 const uuidv4 = v4;
 
 exports.addMissingSecretKey = functions
@@ -67,4 +68,51 @@ exports.aggregate_slots = functions
       .doc(month_str)
       .set({ [day_str]: { [id]: newSlot } }, { merge: true });
     return change.after;
+  });
+
+exports.aggregate_bookings = functions
+  .region("europe-west6")
+  .firestore.document(
+    "organizations/{organization}/bookings/{secretKey}/data/{bookingId}"
+  )
+  .onWrite(async (change, context) => {
+    const db = admin.firestore();
+    const userData = (
+      await db
+        .collection("organizations")
+        .doc(context.params.organization)
+        .collection("bookings")
+        .doc(context.params.secretKey)
+        .get()
+    ).data();
+    const customer_id = userData.customer_id;
+    if (change.after.exists) {
+      const bookingData = change.after.data();
+      const luxon_day = fs2luxon(bookingData.date);
+      const month_str = luxon_day.toISO().substring(0, 7);
+      return db
+        .collection("organizations")
+        .doc(context.params.organization)
+        .collection("bookingsByDay")
+        .doc(month_str)
+        .set({ [bookingData.id]: { [customer_id]: true } }, { merge: true });
+    } else {
+      console.log("deleting");
+      const bookingData = change.before.data();
+      const luxon_day = fs2luxon(bookingData.date);
+      const month_str = luxon_day.toISO().substring(0, 7);
+      return db
+        .collection("organizations")
+        .doc(context.params.organization)
+        .collection("bookingsByDay")
+        .doc(month_str)
+        .set(
+          {
+            [bookingData.id]: {
+              [customer_id]: admin.firestore.FieldValue.delete(),
+            },
+          },
+          { merge: true }
+        );
+    }
   });
