@@ -8,7 +8,7 @@ it("Selects the app date", () => {
 });
 
 it("Selects the bookings", () => {
-  expect(bookingDayInfoSelector(COMPLEX_STATE, "2021-01-19")).toEqual([
+  expect(bookingDayInfoSelector("2021-01-19")(COMPLEX_STATE)).toEqual([
     {
       category: "preagonismo",
       time: "10:00",

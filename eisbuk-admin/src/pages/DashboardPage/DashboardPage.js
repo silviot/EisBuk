@@ -1,18 +1,32 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import DateNavigationAppBar from "../../containers/DateNavigationAppBar";
 import BookingsByDay from "../../components/BookingsByDay";
 
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
 
+import {
+  bookingDayInfoSelector,
+  calendarDaySelector,
+} from "../../store/selectors";
+
 const DashboardPage = () => {
   const classes = useStyles();
+
+  const currentDate = useSelector(calendarDaySelector);
+  const monthStr = currentDate.toISO().substring(0, 10);
+  const bookingDayInfo = useSelector(bookingDayInfoSelector(monthStr));
+
   return (
     <div className={classes.root}>
       <main className={classes.content}>
         <AppbarAdmin />
         <DateNavigationAppBar jump="day" />
-        <BookingsByDay />
+        <BookingsByDay
+          bookingDayInfo={bookingDayInfo}
+          currentDate={currentDate}
+        />
       </main>
     </div>
   );
