@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
+import { isLoaded, isEmpty } from "react-redux-firebase";
 
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
 import CustomerList from "../../components/customers/CustomerList";
@@ -18,11 +18,9 @@ import {
 } from "@material-ui/core";
 
 import AddCustomer from "../../components/customers/AddCustomer";
-import { wrapOrganization } from "../../utils/firestore";
 
 const CustomersPage = () => {
   const classes = useStyles();
-  useFirestoreConnect([wrapOrganization({ collection: "customers" })]);
   const [addAthleteDialog, setAddAthleteDialog] = useState(false);
   const toggleAddAthleteDialog = () =>
     setAddAthleteDialog(addAthleteDialog ? false : true);
