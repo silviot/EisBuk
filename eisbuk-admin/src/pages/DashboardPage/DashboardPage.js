@@ -1,10 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import DateNavigationAppBar from "../../containers/DateNavigationAppBar";
 import BookingsByDay from "../../components/BookingsByDay";
 
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
+import { markAbsentee } from "../../store/actions/actions";
 
 import {
   bookingDayInfoSelector,
@@ -13,17 +14,21 @@ import {
 
 const DashboardPage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const currentDate = useSelector(calendarDaySelector);
   const monthStr = currentDate.toISO().substring(0, 10);
   const bookingDayInfo = useSelector(bookingDayInfoSelector(monthStr));
-
+  const dispatchMarkAbsentee = (args) => dispatch(markAbsentee(args));
   return (
     <div className={classes.root}>
       <main className={classes.content}>
         <AppbarAdmin />
         <DateNavigationAppBar jump="day" />
-        <BookingsByDay bookingDayInfo={bookingDayInfo} />
+        <BookingsByDay
+          bookingDayInfo={bookingDayInfo}
+          markAbsentee={dispatchMarkAbsentee}
+        />
       </main>
     </div>
   );

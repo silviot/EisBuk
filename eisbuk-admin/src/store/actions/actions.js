@@ -264,6 +264,18 @@ export const deleteSlot = (id) => {
   };
 };
 
+export const markAbsentee = ({ slot, user, isAbsent }) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const db = getFirebase().firestore();
+    console.log(slot, user);
+    db.collection("organizations")
+      .doc(ORGANIZATION)
+      .collection("slots")
+      .doc(slot.id)
+      .set({ absentees: { [user.id]: isAbsent } }, { merge: true });
+  };
+};
+
 export const createCustomer = (customer) => {
   return (dispatch, getState, { getFirebase }) => {
     console.log(customer);

@@ -45,6 +45,9 @@ ManySlots.args = {
         { name: "Gus", surname: "Fring", id: "gus" },
         { name: "Saul", surname: "Goodman", id: "saul" },
       ],
+      absentees: {
+        gus: true,
+      },
     },
     {
       time: "15:00",
@@ -64,4 +67,10 @@ ManySlots.args = {
       ],
     },
   ],
+};
+
+export const ManySlotsWithAbsentee = Template.bind({});
+ManySlotsWithAbsentee.args = ManySlots.args;
+ManySlotsWithAbsentee.argTypes = {
+  markAbsentee: { action: "Absentee marked" },
 };

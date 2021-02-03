@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  Button,
   List,
   ListItem,
-  ListItemText,
   ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ColoredAvatar from "./users/coloredAvatar";
 
-const BookingsByDay = ({ bookingDayInfo }) => {
+const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
   const classes = useStyles();
+  const [localAbsentees, setLocalAbsentees] = useState({});
   return (
     <List className={classes.root}>
       {bookingDayInfo.map((slot) => {
@@ -22,12 +25,47 @@ const BookingsByDay = ({ bookingDayInfo }) => {
               />
             </ListItem>
             {slot.users.map((user) => {
+              var isAbsent = (slot.absentees || {})[user.id] ? true : false;
+              const hasLocalChange =
+                typeof (
+                  localAbsentees[slot.id] && localAbsentees[slot.id][user.id]
+                ) !== "undefined" &&
+                localAbsentees[slot.id][user.id] !== isAbsent;
+              if (hasLocalChange) {
+                isAbsent = !isAbsent;
+              }
+              const toggleAbsent = () => {
+                setLocalAbsentees((state) => ({
+                  ...state,
+                  [slot.id]: { ...state[slot.id], [user.id]: !isAbsent },
+                }));
+                markAbsentee({ slot, user, isAbsent: !isAbsent });
+              };
+              const absenteeButtons = markAbsentee ? (
+                <Button
+                  variant="contained"
+                  size="small"
+                  color={isAbsent ? "primary" : "secondary"}
+                  onClick={toggleAbsent}
+                  disabled={hasLocalChange}
+                >
+                  {isAbsent ? "👎" : "👍"}
+                </Button>
+              ) : null;
+              const listItemClass = isAbsent ? classes.absent : "";
+
               return (
-                <ListItem key={`${slot.id}-${user.id}`}>
+                <ListItem
+                  key={`${slot.id}-${user.id}`}
+                  className={listItemClass}
+                >
                   <ListItemAvatar>
                     <ColoredAvatar {...user} />
                   </ListItemAvatar>
                   <ListItemText primary={`${user.name} ${user.surname}`} />
+                  <ListItemSecondaryAction>
+                    {absenteeButtons}
+                  </ListItemSecondaryAction>
                 </ListItem>
               );
             })}
@@ -44,6 +82,9 @@ const useStyles = makeStyles((theme) => ({
   },
   listHeader: {
     backgroundColor: theme.palette.primary.light,
+  },
+  absent: {
+    backgroundColor: theme.palette.secondary.dark,
   },
 }));
 
