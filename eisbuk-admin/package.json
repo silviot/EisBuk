@@ -97,6 +97,7 @@
     "mocha": "^8.2.1",
     "plop": "^2.7.4",
     "react-app-rewired": "^2.1.8",
+    "reselect": "^4.0.0",
     "seedrandom": "^3.0.5",
     "storybook-react-router": "^1.0.8"
   }
