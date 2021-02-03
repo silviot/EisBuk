@@ -12,13 +12,13 @@ export default () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = (functionName) => (evt) => {
+  const handleClose = (functionName, params) => (evt) => {
     setAnchorEl(null);
     if (functionName) {
       firebase
         .app()
         .functions(functionsZone)
-        .httpsCallable(functionName)({ organization: ORGANIZATION })
+        .httpsCallable(functionName)({ ...params, organization: ORGANIZATION })
         .then(function (response) {
           console.log(response.data);
         });
@@ -44,7 +44,10 @@ export default () => {
         onClose={handleClose()}
       >
         <MenuItem onClick={handleClose("createTestData")}>
-          Create athlete
+          Create 1 athlete
+        </MenuItem>
+        <MenuItem onClick={handleClose("createTestData", { howMany: 100 })}>
+          Create 100 athletes
         </MenuItem>
         <MenuItem onClick={handleClose("createTestSlots")}>
           Create slots

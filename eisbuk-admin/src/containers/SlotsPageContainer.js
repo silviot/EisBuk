@@ -1,50 +1,29 @@
-import {
-  Toolbar,
-  AppBar,
-  Box,
-  IconButton,
-  Typography,
-  Switch,
-} from "@material-ui/core";
-import {
-  ChevronLeft as ChevronLeftIcon,
-  ChevronRight as ChevronRightIcon,
-} from "@material-ui/icons";
+import { Box, Switch } from "@material-ui/core";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 import SlotListByDay from "../components/slots/SlotListByDay";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { DateTime } from "luxon";
 
+import DateNavigationAppBar from "./DateNavigationAppBar";
+import { calendarDaySelector } from "../store/selectors";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: "600px",
-  },
-  appbar: {
-    flexGrow: 0,
   },
   slotlist: {
     "& > li.MuiListSubheader-sticky": {
       top: theme.mixins.toolbar.minHeight,
     },
   },
-  selectedDate: {
-    flexGrow: 6,
-  },
-  prev: {
-    flexGrow: 1,
-  },
-  next: {
-    flexGrow: 1,
-  },
 }));
 
 export default ({
-  currentDate,
   slots,
   onDelete,
-  onChangeCalendarDate,
   onSubscribe,
   onUnsubscribe,
   onCreateSlot,
@@ -52,9 +31,8 @@ export default ({
 }) => {
   const classes = useStyles();
   const [enableEdit, setEnableEdit] = useState(false);
-  const adjustCalendarDate = (delta) => {
-    onChangeCalendarDate(currentDate.plus({ days: delta }));
-  };
+  const currentDate = useSelector(calendarDaySelector);
+
   const datesToDisplay = [...Array(7).keys()].map((i) =>
     currentDate.plus({ days: i }).toISODate()
   );
@@ -76,49 +54,19 @@ export default ({
       }
     }
   }
+  const switchButton = onDelete ? (
+    <Switch
+      edge="end"
+      onChange={() => {
+        setEnableEdit(!enableEdit);
+      }}
+      checked={enableEdit}
+    />
+  ) : null;
+
   return (
     <Box className={classes.root}>
-      <AppBar position="sticky">
-        <Toolbar variant="dense">
-          <IconButton
-            edge="start"
-            className={classes.prev}
-            color="inherit"
-            aria-label="menu"
-            onClick={() => adjustCalendarDate(-7)}
-          >
-            <ChevronLeftIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            color="inherit"
-            className={classes.selectedDate}
-          >
-            {currentDate.toFormat("d MMMM", { locale: "it-IT" })}-
-            {currentDate
-              .plus({ days: 7 })
-              .toFormat("d MMMM", { locale: "it-IT" })}
-          </Typography>
-          <IconButton
-            edge="start"
-            className={classes.next}
-            color="inherit"
-            aria-label="menu"
-            onClick={() => adjustCalendarDate(7)}
-          >
-            <ChevronRightIcon />
-          </IconButton>
-          {onDelete && (
-            <Switch
-              edge="end"
-              onChange={() => {
-                setEnableEdit(!enableEdit);
-              }}
-              checked={enableEdit}
-            />
-          )}
-        </Toolbar>
-      </AppBar>
+      <DateNavigationAppBar extraButtons={switchButton} />
       <Box>
         <SlotListByDay
           className={classes.slotlist}

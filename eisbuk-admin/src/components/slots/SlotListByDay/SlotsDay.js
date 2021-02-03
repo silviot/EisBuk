@@ -15,6 +15,8 @@ import LuxonUtils from "@date-io/luxon";
 
 const luxon = new LuxonUtils({ locale: "C" });
 
+const dayCopyPasteSelector = (state) => state.copyPaste.day ?? {};
+
 const SlotsDay = ({
   day,
   slots,
@@ -53,7 +55,7 @@ const SlotsDay = ({
     slotsList.push({ ...slots[slot_id], id: slot_id });
   }
   const classes = useStyles();
-  const dayInClipboard = useSelector((state) => state.copyPaste.day ?? {});
+  const dayInClipboard = useSelector(dayCopyPasteSelector);
   const showCreateForm = () => {
     setFormIsOpen(true);
   };

@@ -1,13 +1,10 @@
 import React from "react";
-import { Route, BrowserRouter, Switch } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import { ReactReduxFirebaseProvider } from "react-redux-firebase";
-import { rrfProps, store } from "./store/store";
 
-import PrivateRoute from "./components/auth/PrivateRoute";
-import LoginRoute from "./components/auth/LoginRoute";
-import DebugPage from "./components/debugPage";
+import { rrfProps, store } from "./store/store";
 
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import LuxonUtils from "@date-io/luxon";
@@ -21,13 +18,8 @@ import { CssBaseline } from "@material-ui/core";
 import { blue, lightBlue, blueGrey } from "@material-ui/core/colors";
 
 import { SnackbarProvider } from "notistack";
+import AppContent from "./AppContent";
 import Notifier from "./utils/Notifier";
-
-import DashboardPage from "./pages/DashboardPage";
-import CustomersPage from "./pages/CustomersPage";
-import SlotsPage from "./pages/SlotsPage";
-import LoginPage from "./pages/LoginPage";
-import CustomerAreaPage from "./pages/CustomerAreaPage";
 
 export var igorice = createMuiTheme({
   palette: {
@@ -57,25 +49,7 @@ function App() {
               <Notifier />
               <CssBaseline />
               <BrowserRouter>
-                <Switch>
-                  <LoginRoute path="/login" component={LoginPage} />
-                  <PrivateRoute path="/" component={DashboardPage} exact />
-                  <PrivateRoute
-                    path="/atleti"
-                    component={CustomersPage}
-                    exact
-                  />
-                  <PrivateRoute
-                    path="/prenotazioni"
-                    component={SlotsPage}
-                    exact
-                  />
-                  <Route
-                    path="/clienti/:secret_key"
-                    children={<CustomerAreaPage />}
-                  />
-                  <Route path="/debug" children={<DebugPage />} />
-                </Switch>
+                <AppContent />
               </BrowserRouter>
             </SnackbarProvider>
           </MuiPickersUtilsProvider>

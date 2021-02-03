@@ -5,6 +5,7 @@ import { AppBar, Button, ButtonGroup, Toolbar } from "@material-ui/core";
 import {
   People as PeopleIcon,
   LibraryBooks as LibraryBooksIcon,
+  DateRange as DateRangeIcon,
 } from "@material-ui/icons";
 import DebugMenu from "./DebugMenu";
 
@@ -22,8 +23,9 @@ const AppbarAdmin = (props) => {
               variant="contained"
               disabled={location.pathname === "/"}
               replace
+              startIcon={<DateRangeIcon />}
             >
-              Dashboard
+              Presenze
             </Button>
             <Button
               component={Link}
@@ -43,7 +45,7 @@ const AppbarAdmin = (props) => {
               replace
               startIcon={<LibraryBooksIcon />}
             >
-              Prenotazioni
+              Slots
             </Button>
             <DebugMenu {...props} />
           </ButtonGroup>

@@ -17,6 +17,10 @@ import {
 import LuxonUtils from "@date-io/luxon";
 const luxon = new LuxonUtils({ locale: "it" });
 
+const slotsSelector = (state) => flatten(state.firestore.ordered.slotsByDay);
+const subscribedSlotsSelector = (state) =>
+  state.firestore.ordered.subscribedSlots;
+
 export const CustomerAreaCalendar = () => {
   const start = luxon.date().startOf("week");
   const { secret_key } = useParams();
@@ -49,12 +53,8 @@ export const CustomerAreaCalendar = () => {
       ],
     }),
   ]);
-  const slots = useSelector((state) =>
-    flatten(state.firestore.ordered.slotsByDay)
-  );
-  var subscribedSlots = useSelector((state) => {
-    return state.firestore.ordered.subscribedSlots;
-  });
+  const slots = useSelector(slotsSelector);
+  var subscribedSlots = useSelector(subscribedSlotsSelector);
 
   const dispatch = useDispatch();
   var onSubscribe = (slot) => {
