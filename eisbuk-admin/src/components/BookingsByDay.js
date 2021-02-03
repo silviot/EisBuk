@@ -25,12 +25,15 @@ const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
               />
             </ListItem>
             {slot.users.map((user) => {
-              const isAbsent = (slot.absentees || {})[user.id] ? true : false;
+              var isAbsent = (slot.absentees || {})[user.id] ? true : false;
               const hasLocalChange =
                 typeof (
                   localAbsentees[slot.id] && localAbsentees[slot.id][user.id]
                 ) !== "undefined" &&
                 localAbsentees[slot.id][user.id] !== isAbsent;
+              if (hasLocalChange) {
+                isAbsent = !isAbsent;
+              }
               const toggleAbsent = () => {
                 setLocalAbsentees((state) => ({
                   ...state,
@@ -49,9 +52,13 @@ const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
                   {isAbsent ? "👎" : "👍"}
                 </Button>
               ) : null;
+              const listItemClass = isAbsent ? classes.absent : "";
 
               return (
-                <ListItem key={`${slot.id}-${user.id}`}>
+                <ListItem
+                  key={`${slot.id}-${user.id}`}
+                  className={listItemClass}
+                >
                   <ListItemAvatar>
                     <ColoredAvatar {...user} />
                   </ListItemAvatar>
@@ -75,6 +82,9 @@ const useStyles = makeStyles((theme) => ({
   },
   listHeader: {
     backgroundColor: theme.palette.primary.light,
+  },
+  absent: {
+    backgroundColor: theme.palette.secondary.dark,
   },
 }));
 
