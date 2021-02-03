@@ -11,6 +11,8 @@ export const parameters = {
 export const decorators = [
   (Story, context) => {
     if (context.args.currentDate) {
+      // If the current story defines a currentDate argument
+      // we honour the request by dispatching to the store
       store.dispatch(changeCalendarDate(context.args.currentDate));
     }
     return (

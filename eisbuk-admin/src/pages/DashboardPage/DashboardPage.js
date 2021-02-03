@@ -23,10 +23,7 @@ const DashboardPage = () => {
       <main className={classes.content}>
         <AppbarAdmin />
         <DateNavigationAppBar jump="day" />
-        <BookingsByDay
-          bookingDayInfo={bookingDayInfo}
-          currentDate={currentDate}
-        />
+        <BookingsByDay bookingDayInfo={bookingDayInfo} />
       </main>
     </div>
   );

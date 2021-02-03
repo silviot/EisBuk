@@ -8,7 +8,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import ColoredAvatar from "./users/coloredAvatar";
 
-const BookingsByDay = ({ bookingDayInfo, currentDate }) => {
+const BookingsByDay = ({ bookingDayInfo }) => {
   const classes = useStyles();
   return (
     <List className={classes.root}>
