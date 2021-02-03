@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   List,
@@ -12,6 +12,7 @@ import ColoredAvatar from "./users/coloredAvatar";
 
 const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
   const classes = useStyles();
+  const [localAbsentees, setLocalAbsentees] = useState({});
   return (
     <List className={classes.root}>
       {bookingDayInfo.map((slot) => {
@@ -25,8 +26,16 @@ const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
             </ListItem>
             {slot.users.map((user) => {
               const isAbsent = (slot.absentees || {})[user.id] ? true : false;
-              console.log(slot.id, user.id, isAbsent);
+              const hasLocalChange =
+                typeof (
+                  localAbsentees[slot.id] && localAbsentees[slot.id][user.id]
+                ) !== "undefined" &&
+                localAbsentees[slot.id][user.id] !== isAbsent;
               const toggleAbsent = () => {
+                setLocalAbsentees((state) => ({
+                  ...state,
+                  [slot.id]: { ...state[slot.id], [user.id]: !isAbsent },
+                }));
                 markAbsentee({ slot, user, isAbsent: !isAbsent });
               };
               const absenteeButtons = markAbsentee ? (
@@ -35,6 +44,7 @@ const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
                   size="small"
                   color={isAbsent ? "primary" : "secondary"}
                   onClick={toggleAbsent}
+                  disabled={hasLocalChange}
                 >
                   {isAbsent ? "👎" : "👍"}
                 </Button>

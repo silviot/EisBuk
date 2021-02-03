@@ -268,7 +268,6 @@ export const markAbsentee = ({ slot, user, isAbsent }) => {
   return (dispatch, getState, { getFirebase }) => {
     const db = getFirebase().firestore();
     console.log(slot, user);
-    debugger;
     db.collection("organizations")
       .doc(ORGANIZATION)
       .collection("slots")
