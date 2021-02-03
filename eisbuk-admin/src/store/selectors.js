@@ -39,13 +39,17 @@ export const bookingDayInfoSelector = (dayStr) =>
           secret_key: allUsers[key].secret_key,
           id: allUsers[key].id,
         }));
-        return {
+        const res = {
           time: fs2luxon(slot.date).toFormat("HH:mm"),
           category: slot.category,
           type: slot.type,
           id: slot.id,
           users: users,
         };
+        if (slot.absentees) {
+          res.absentees = slot.absentees;
+        }
+        return res;
       });
     }
   );

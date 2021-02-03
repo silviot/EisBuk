@@ -65,3 +65,9 @@ ManySlots.args = {
     },
   ],
 };
+
+export const ManySlotsWithAbsentee = Template.bind({});
+ManySlotsWithAbsentee.args = ManySlots.args;
+ManySlotsWithAbsentee.argTypes = {
+  markAbsentee: { action: "Absentee marked" },
+};

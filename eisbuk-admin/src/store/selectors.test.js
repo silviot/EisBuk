@@ -42,6 +42,9 @@ it("Selects the bookings", () => {
       category: "preagonismo",
       type: "ice",
       id: "dEn4dAy8mTEkzzYGvC9Y",
+      absentees: {
+        "fec4d032-8d5c-4604-9a32-e9e5058cc081": true,
+      },
       users: [
         {
           name: "Porfirio",
@@ -179,6 +182,9 @@ const COMPLEX_STATE = {
               id: "dEn4dAy8mTEkzzYGvC9Y",
               category: "preagonismo",
               type: "ice",
+              absentees: {
+                "fec4d032-8d5c-4604-9a32-e9e5058cc081": true,
+              },
             },
           },
         },
@@ -249,6 +255,9 @@ const COMPLEX_STATE = {
               id: "dEn4dAy8mTEkzzYGvC9Y",
               category: "preagonismo",
               type: "ice",
+              absentees: {
+                "fec4d032-8d5c-4604-9a32-e9e5058cc081": true,
+              },
             },
           },
         },
