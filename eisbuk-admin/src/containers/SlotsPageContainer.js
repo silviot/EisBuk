@@ -31,7 +31,7 @@ export default ({
 }) => {
   const classes = useStyles();
   const [enableEdit, setEnableEdit] = useState(false);
-  const currentDate = useSelector(calendarDaySelector);
+  const currentDate = useSelector(calendarDaySelector).startOf("week");
 
   const datesToDisplay = [...Array(7).keys()].map((i) =>
     currentDate.plus({ days: i }).toISODate()
