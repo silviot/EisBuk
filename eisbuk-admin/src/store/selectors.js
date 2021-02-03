@@ -23,12 +23,15 @@ export const bookingDayInfoSelector = (dayStr) => (state) => {
       users.push({
         name: allUsers[key].name,
         surname: allUsers[key].surname,
+        secret_key: allUsers[key].secret_key,
+        id: allUsers[key].id,
       })
     );
     const info = {
       time: fs2luxon(slot.date).toFormat("HH:mm"),
       category: slot.category,
       type: slot.type,
+      id: slot.id,
       users: users,
     };
     return info;

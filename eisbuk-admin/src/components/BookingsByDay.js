@@ -12,18 +12,18 @@ const BookingsByDay = ({ bookingDayInfo, currentDate }) => {
   const classes = useStyles();
   return (
     <List className={classes.root}>
-      {bookingDayInfo.map((day) => {
+      {bookingDayInfo.map((slot) => {
         return (
-          <>
+          <React.Fragment key={slot.id}>
             <ListItem className={classes.listHeader}>
               <ListItemText
-                primary={day.time}
-                secondary={`${day.category} ${day.type}`}
+                primary={slot.time}
+                secondary={`${slot.category} ${slot.type}`}
               />
             </ListItem>
-            {day.users.map((user) => {
+            {slot.users.map((user) => {
               return (
-                <ListItem>
+                <ListItem key={`${slot.id}-${user.id}`}>
                   <ListItemAvatar>
                     <ColoredAvatar {...user} />
                   </ListItemAvatar>
@@ -31,7 +31,7 @@ const BookingsByDay = ({ bookingDayInfo, currentDate }) => {
                 </ListItem>
               );
             })}
-          </>
+          </React.Fragment>
         );
       })}
     </List>

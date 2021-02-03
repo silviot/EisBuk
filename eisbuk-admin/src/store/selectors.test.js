@@ -14,15 +14,19 @@ it("Selects the bookings", () => {
       time: "10:00",
       type: "off-ice-danza",
       users: [],
+      id: "Zj5vUJitCYqn3kMR8LsH",
     },
     {
       category: "preagonismo",
       time: "11:00",
       type: "off-ice-gym",
+      id: "5hAqGeEqEUr6iyTFYAJS",
       users: [
         {
           name: "Rocco",
           surname: "Nocera",
+          secret_key: "e4779485-33b4-4f8d-8f03-7761e78b4b67",
+          id: "ffd4ca76-1659-4eef-a52f-c40cabb81187",
         },
       ],
     },
@@ -31,19 +35,25 @@ it("Selects the bookings", () => {
       time: "16:00",
       type: "ice",
       users: [],
+      id: "nnUF6szWatJP5R7byhwH",
     },
     {
       time: "16:00",
       category: "preagonismo",
       type: "ice",
+      id: "dEn4dAy8mTEkzzYGvC9Y",
       users: [
         {
           name: "Porfirio",
           surname: "Manzi",
+          secret_key: "2b54debf-6023-45ec-94c5-147084e6d1de",
+          id: "fec4d032-8d5c-4604-9a32-e9e5058cc081",
         },
         {
           name: "Rocco",
           surname: "Nocera",
+          secret_key: "e4779485-33b4-4f8d-8f03-7761e78b4b67",
+          id: "ffd4ca76-1659-4eef-a52f-c40cabb81187",
         },
       ],
     },
