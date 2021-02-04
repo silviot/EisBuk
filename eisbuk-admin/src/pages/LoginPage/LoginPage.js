@@ -1,7 +1,13 @@
 import React, { useState } from "react";
+import _ from "lodash";
 import { connect } from "react-redux";
 import { signIn, signInWithGoogle } from "../../store/actions/actions";
 import { appLabels } from "../../config/appConfig";
+import figureSkatingSilhouetteCouple from "../../assets/images/login/figure-skating-silhouette-couple.svg";
+import figureSkatingSilhouetteSkirt from "../../assets/images/login/figure-skating-silhouette-skirt.svg";
+import figureSkatingSilhouette from "../../assets/images/login/figure-skating-silhouette.svg";
+import girlIceSkating from "../../assets/images/login/girl-ice-skating-silhouette.svg";
+import iceSkatingSilhouette from "../../assets/images/login/ice-skating-silhouette.svg";
 
 import {
   Avatar,
@@ -21,19 +27,25 @@ import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
 
 import Copyright from "../../components/layout/Copyright";
 
+const loginBackgrounds = [
+  figureSkatingSilhouetteCouple,
+  figureSkatingSilhouetteSkirt,
+  figureSkatingSilhouette,
+  girlIceSkating,
+  iceSkatingSilhouette,
+];
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
   },
   image: {
-    backgroundImage:
-      "url(https://source.unsplash.com/1600x900/?figure-skating)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
         ? theme.palette.grey[50]
         : theme.palette.grey[900],
-    backgroundSize: "cover",
+    backgroundSize: "contain",
     backgroundPosition: "center",
   },
   paper: {
@@ -76,10 +88,20 @@ const SignInSide = ({ signIn }) => {
     signInWithGoogle();
   };
 
+  const loginImageStyle = {
+    backgroundImage: `url(${_.sample(loginBackgrounds)})`,
+  };
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid
+        item
+        xs={false}
+        sm={4}
+        md={7}
+        className={classes.image}
+        style={loginImageStyle}
+      />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
