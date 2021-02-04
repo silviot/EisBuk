@@ -31,13 +31,6 @@ it("Selects the bookings", () => {
       ],
     },
     {
-      category: "agonismo",
-      time: "16:00",
-      type: "ice",
-      users: [],
-      id: "nnUF6szWatJP5R7byhwH",
-    },
-    {
       time: "16:00",
       category: "preagonismo",
       type: "ice",
@@ -59,6 +52,13 @@ it("Selects the bookings", () => {
           id: "ffd4ca76-1659-4eef-a52f-c40cabb81187",
         },
       ],
+    },
+    {
+      category: "agonismo",
+      time: "16:00",
+      type: "ice",
+      users: [],
+      id: "nnUF6szWatJP5R7byhwH",
     },
   ]);
 });
