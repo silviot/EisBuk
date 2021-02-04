@@ -6,10 +6,11 @@ export const calendarDaySelector = (state) => state.app.calendarDay;
 export const extractSlotDate = (slot) => slot.date.seconds;
 
 function getSafe(fn, defaultVal) {
-  // Try to execute the passed function. If it fails, return the default value
+  // Try to execute the passed function. If it fails or it returns undefined or null,
+  // return the default value
   const def = defaultVal || {};
   try {
-    return fn();
+    return fn() ?? {};
   } catch (e) {
     return def;
   }
