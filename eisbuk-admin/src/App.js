@@ -15,7 +15,7 @@ import {
   responsiveFontSizes,
 } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
-import { blue, lightBlue, blueGrey } from "@material-ui/core/colors";
+import { blue, lightBlue, blueGrey, brown } from "@material-ui/core/colors";
 
 import { SnackbarProvider } from "notistack";
 import AppContent from "./AppContent";
@@ -31,6 +31,7 @@ export var igorice = createMuiTheme({
       main: lightBlue[900],
     },
     grey: blueGrey,
+    absent: brown[200],
   },
   typography: {
     htmlFontSize: 16,
