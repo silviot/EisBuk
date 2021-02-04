@@ -4,6 +4,7 @@ import * as _ from "lodash";
 
 export const calendarDaySelector = (state) => state.app.calendarDay;
 export const extractSlotDate = (slot) => slot.date.seconds;
+export const extractSlotId = (slot) => slot.id;
 
 function getSafe(fn, defaultVal) {
   // Try to execute the passed function. If it fails or it returns undefined or null,
@@ -32,7 +33,7 @@ export const bookingDayInfoSelector = (dayStr) =>
     allUsersSelector,
     (slotsInfo, bookingsInfo, allUsers) => {
       const unsortedSlots = Object.keys(slotsInfo).map((key) => slotsInfo[key]);
-      const slots = _.sortBy(unsortedSlots, [extractSlotDate]);
+      const slots = _.sortBy(unsortedSlots, [extractSlotDate, extractSlotId]);
       return slots.map((slot) => {
         const users = Object.keys(bookingsInfo[slot.id] ?? {}).map((key) => ({
           name: allUsers[key].name,

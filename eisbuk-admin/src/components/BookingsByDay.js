@@ -7,6 +7,7 @@ import {
   ListItemSecondaryAction,
   ListItemText,
 } from "@material-ui/core";
+import { grey } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
 import ColoredAvatar from "./users/coloredAvatar";
 
@@ -53,7 +54,8 @@ const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
                 </Button>
               ) : null;
               const listItemClass = isAbsent ? classes.absent : "";
-
+              const userName =
+                `${user.name} ${user.surname}` + (isAbsent ? " (assente)" : "");
               return (
                 <ListItem
                   key={`${slot.id}-${user.id}`}
@@ -62,7 +64,7 @@ const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
                   <ListItemAvatar>
                     <ColoredAvatar {...user} />
                   </ListItemAvatar>
-                  <ListItemText primary={`${user.name} ${user.surname}`} />
+                  <ListItemText primary={userName} />
                   <ListItemSecondaryAction>
                     {absenteeButtons}
                   </ListItemSecondaryAction>
@@ -84,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.light,
   },
   absent: {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.absent || grey[500],
   },
 }));
 
