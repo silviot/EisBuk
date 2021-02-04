@@ -63,6 +63,18 @@ it("Selects the bookings", () => {
   ]);
 });
 
+it("does not explode when some values are undefined", () => {
+  bookingDayInfoSelector("2021-01-19")({
+    firestore: {
+      data: {
+        slotsByDay: {
+          "2021-01": {},
+        },
+      },
+    },
+  });
+});
+
 const COMPLEX_STATE = {
   app: {
     notifications: [],
