@@ -49,6 +49,8 @@ export const development = _.merge({}, base, {
   },
 });
 
+export const available = [igorice, eisbuk, development];
+
 function getCurrentThemeDefinition() {
   var hostname;
   try {
