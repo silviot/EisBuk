@@ -7,14 +7,7 @@ import CustomerList from "../../components/customers/CustomerList";
 import Copyright from "../../components/layout/Copyright";
 import { makeStyles } from "@material-ui/core/styles";
 
-import {
-  Box,
-  Container,
-  Fab,
-  Grid,
-  Paper,
-  LinearProgress,
-} from "@material-ui/core";
+import { Box, Container, Fab, Grid, LinearProgress } from "@material-ui/core";
 
 import { Add as AddIcon } from "@material-ui/icons";
 
@@ -41,24 +34,22 @@ const CustomersPage = () => {
               {
                 (isLoaded(customers),
                 !isEmpty(customers) && (
-                  <Paper>
-                    <Box p={3}>
-                      <CustomerList
-                        customers={customers.map((o) => ({
-                          ...o,
-                          tableData: {},
-                        }))}
-                      />
-                      <Fab
-                        color="primary"
-                        aria-label="Aggiungi atleta"
-                        className={classes.fab}
-                        onClick={toggleAddAthleteDialog}
-                      >
-                        <AddIcon />
-                      </Fab>
-                    </Box>
-                  </Paper>
+                  <Box p={3}>
+                    <CustomerList
+                      customers={customers.map((o) => ({
+                        ...o,
+                        tableData: {},
+                      }))}
+                    />
+                    <Fab
+                      color="primary"
+                      aria-label="Aggiungi atleta"
+                      className={classes.fab}
+                      onClick={toggleAddAthleteDialog}
+                    >
+                      <AddIcon />
+                    </Fab>
+                  </Box>
                 ))
               }
               <AddCustomer
@@ -89,12 +80,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: "100vh",
     overflow: "auto",
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column",
   },
   customersContainer: {
     paddingTop: theme.spacing(3),
