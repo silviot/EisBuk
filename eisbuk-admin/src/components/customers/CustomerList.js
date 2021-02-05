@@ -20,7 +20,8 @@ import { deleteCustomer, updateCustomer } from "../../store/actions/actions";
 export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+  const [searchString, setSearchString] = React.useState("");
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -30,13 +31,17 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
   };
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, customers.length - page * rowsPerPage);
+  const searchRe = new RegExp(searchString, "i");
   const customersToShow = _.slice(
     customers,
     rowsPerPage * page,
     rowsPerPage * (page + 1)
-  );
+  ).filter((el) => searchRe.test(el.name) || searchRe.test(el.surname));
+  const rowsPerPageOptions = [10, 15, 50, 100];
+
   return (
     <div className={classes.root}>
+      <SearchField setSearchString={setSearchString}></SearchField>
       <TableContainer>
         <Table size="small">
           <TableHead>
@@ -80,13 +85,23 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
-        rowsPerPageOptions={[10, 20, 50, 100, 500]}
+        rowsPerPageOptions={rowsPerPageOptions}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </div>
   );
 };
 
+const SearchField = ({ setSearchString }) => {
+  const handleChange = (e) => {
+    setSearchString(e.target.value);
+  };
+  return (
+    <div>
+      Search: <input autoComplete="off" name="search" onChange={handleChange} />
+    </div>
+  );
+};
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
