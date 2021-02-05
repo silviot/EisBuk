@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => {
 const avatarColors = Object.keys(colorsDef);
 // Get the available classes we can use to get different colors
 
-export const ColoredAvatar = ({ name, surname }) => {
+export const ColoredAvatar = ({ name, surname, className }) => {
   let classes = useStyles();
   let str = name + surname;
   let h = 0;
@@ -45,7 +45,7 @@ export const ColoredAvatar = ({ name, surname }) => {
   h = h & h;
   h = Math.abs(h) % avatarColors.length;
   return (
-    <Avatar className={classes[avatarColors[h]]}>
+    <Avatar className={className + " " + classes[avatarColors[h]]}>
       {getInitials(name, surname)}
     </Avatar>
   );

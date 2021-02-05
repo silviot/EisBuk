@@ -40,7 +40,9 @@ function createCustomer() {
   return {
     name,
     surname,
-    email: lodash.deburr(`${name}.${surname}@example.com`.toLowerCase()),
+    email: lodash
+      .deburr(`${name}.${surname}@example.com`.toLowerCase())
+      .replace(" ", "."),
     id: uuidv4(),
     category: lodash.sample(CATEGORIES),
   };
