@@ -35,12 +35,12 @@ import { slotsLabels } from "../../config/appConfig";
 const CustomerValidation = Yup.object().shape({
   name: Yup.string().required("Richiesto"),
   surname: Yup.string().required("Richiesto"),
-  email: Yup.string().email("Inserisci una email valida").required("Richiesto"),
-  phone: Yup.number("Inserisci un numero").required("Richiesto"),
-  birth: Yup.mixed().required("Richiesto"),
-  certificateExpiration: Yup.mixed("Non è una data").required("Richiesto"),
+  email: Yup.string().email("Inserisci una email valida"),
+  phone: Yup.number("Inserisci un numero"),
+  birth: Yup.mixed(),
+  certificateExpiration: Yup.mixed("Non è una data"),
   category: Yup.string().required("Scegli la categoria"),
-  subscriptionNumber: Yup.number().required("Richiesto"),
+  subscriptionNumber: Yup.number(),
 });
 
 const AddCustomer = ({ open, handleClose, createCustomer }) => {

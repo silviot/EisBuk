@@ -22,7 +22,6 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
   Object.keys(slotsLabels).forEach((x) => {
     labels[x] = _.keyBy(slotsLabels[x], "id");
   });
-  console.log(customers);
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -41,7 +40,7 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
             </TableHead>
             <TableBody>
               {customers.map((customer) => (
-                <TableRow>
+                <TableRow key={customer.id}>
                   <TableCell>{customer.name}</TableCell>
                   <TableCell>{customer.surname}</TableCell>
                   <TableCell>{customer.birthdate}</TableCell>
