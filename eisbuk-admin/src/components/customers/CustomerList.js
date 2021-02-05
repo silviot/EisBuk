@@ -1,63 +1,134 @@
 import React from "react";
 import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/styles";
 import _ from "lodash";
 
 import {
-  Grid,
   Table,
   TableCell,
   TableContainer,
   TableBody,
   TableHead,
+  TablePagination,
   TableRow,
 } from "@material-ui/core";
 
-/* import ColoredAvatar from "../../components/users/coloredAvatar"; */
-import { slotsLabels } from "../../config/appConfig";
+import ColoredAvatar from "../../components/users/coloredAvatar";
 
 import { deleteCustomer, updateCustomer } from "../../store/actions/actions";
 
 export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
-  let labels = [];
-  Object.keys(slotsLabels).forEach((x) => {
-    labels[x] = _.keyBy(slotsLabels[x], "id");
-  });
-  console.log(customers);
+  const classes = useStyles();
+  const [page, setPage] = React.useState(0);
+  const [searchString, setSearchString] = React.useState("");
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, customers.length - page * rowsPerPage);
+  const searchRe = new RegExp(searchString, "i");
+  const customersToShow = _.slice(
+    customers,
+    rowsPerPage * page,
+    rowsPerPage * (page + 1)
+  ).filter((el) => searchRe.test(el.name) || searchRe.test(el.surname));
+  const rowsPerPageOptions = [10, 15, 50, 100];
+
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Nome</TableCell>
-                <TableCell>Cognome</TableCell>
-                <TableCell>Età</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Telefono</TableCell>
-                <TableCell>Data di nascita</TableCell>
-                <TableCell>Categoria</TableCell>
+    <div className={classes.root}>
+      <SearchField setSearchString={setSearchString}></SearchField>
+      <TableContainer>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell>Nome</TableCell>
+              <TableCell>Cognome</TableCell>
+              <TableCell>Età</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Telefono</TableCell>
+              <TableCell>Data di nascita</TableCell>
+              <TableCell>Categoria</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {customersToShow.map((customer) => (
+              <TableRow key={customer.id}>
+                <TableCell>
+                  <ColoredAvatar {...customer} className={classes.small} />
+                </TableCell>
+                <TableCell>{customer.name}</TableCell>
+                <TableCell>{customer.surname}</TableCell>
+                <TableCell>{customer.birthdate}</TableCell>
+                <TableCell>{customer.email}</TableCell>
+                <TableCell>{customer.phone}</TableCell>
+                <TableCell>{customer.birthdate}</TableCell>
+                <TableCell>{customer.category}</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {customers.map((customer) => (
-                <TableRow>
-                  <TableCell>{customer.name}</TableCell>
-                  <TableCell>{customer.surname}</TableCell>
-                  <TableCell>{customer.birthdate}</TableCell>
-                  <TableCell>{customer.email}</TableCell>
-                  <TableCell>{customer.phone}</TableCell>
-                  <TableCell>{customer.birthdate}</TableCell>
-                  <TableCell>{customer.category}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
-    </Grid>
+            ))}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 33 * emptyRows }}>
+                <TableCell colSpan={8} />
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        component="div"
+        count={customers.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        rowsPerPageOptions={rowsPerPageOptions}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+    </div>
   );
 };
+
+const SearchField = ({ setSearchString }) => {
+  const handleChange = (e) => {
+    setSearchString(e.target.value);
+  };
+  return (
+    <div>
+      Search: <input autoComplete="off" name="search" onChange={handleChange} />
+    </div>
+  );
+};
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  },
+  paper: {
+    width: "100%",
+    marginBottom: theme.spacing(2),
+  },
+  table: {
+    minWidth: 750,
+  },
+  visuallyHidden: {
+    border: 0,
+    clip: "rect(0 0 0 0)",
+    height: 1,
+    margin: -1,
+    overflow: "hidden",
+    padding: 0,
+    position: "absolute",
+    top: 20,
+    width: 1,
+  },
+}));
 
 const mapDispatchToProps = (dispatch) => {
   return {

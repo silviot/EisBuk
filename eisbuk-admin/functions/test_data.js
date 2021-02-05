@@ -58,7 +58,7 @@ const create_users = async function (howMany, organization) {
 
 const toEmail = (str) => _.deburr(str.replace(/ /i, "."));
 
-const CATEGORIES = ["ice", "fitness"];
+const CATEGORIES = ["corso", "agonismo", "preagonismo"];
 
 function getRandom(names) {
   return names[Math.floor(Math.random() * (names.length - 1))];
