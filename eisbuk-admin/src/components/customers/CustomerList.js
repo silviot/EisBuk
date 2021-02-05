@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import _ from "lodash";
 
 import {
-  Grid,
   Table,
   TableCell,
   TableContainer,
@@ -23,38 +22,34 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
     labels[x] = _.keyBy(slotsLabels[x], "id");
   });
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Nome</TableCell>
-                <TableCell>Cognome</TableCell>
-                <TableCell>Età</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Telefono</TableCell>
-                <TableCell>Data di nascita</TableCell>
-                <TableCell>Categoria</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {customers.map((customer) => (
-                <TableRow key={customer.id}>
-                  <TableCell>{customer.name}</TableCell>
-                  <TableCell>{customer.surname}</TableCell>
-                  <TableCell>{customer.birthdate}</TableCell>
-                  <TableCell>{customer.email}</TableCell>
-                  <TableCell>{customer.phone}</TableCell>
-                  <TableCell>{customer.birthdate}</TableCell>
-                  <TableCell>{customer.category}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
-    </Grid>
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Nome</TableCell>
+            <TableCell>Cognome</TableCell>
+            <TableCell>Età</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Telefono</TableCell>
+            <TableCell>Data di nascita</TableCell>
+            <TableCell>Categoria</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {customers.map((customer) => (
+            <TableRow key={customer.id}>
+              <TableCell>{customer.name}</TableCell>
+              <TableCell>{customer.surname}</TableCell>
+              <TableCell>{customer.birthdate}</TableCell>
+              <TableCell>{customer.email}</TableCell>
+              <TableCell>{customer.phone}</TableCell>
+              <TableCell>{customer.birthdate}</TableCell>
+              <TableCell>{customer.category}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
