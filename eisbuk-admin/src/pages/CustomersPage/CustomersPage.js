@@ -8,14 +8,15 @@ import Copyright from "../../components/layout/Copyright";
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
-  Typography,
-  Button,
   Box,
   Container,
+  Fab,
   Grid,
   Paper,
   LinearProgress,
 } from "@material-ui/core";
+
+import { Add as AddIcon } from "@material-ui/icons";
 
 import AddCustomer from "../../components/customers/AddCustomer";
 
@@ -32,27 +33,9 @@ const CustomersPage = () => {
     <div className={classes.root}>
       <AppbarAdmin />
       <main className={classes.content}>
-        <Box py={3} container={true} className={classes.headerHero}>
-          <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg">
-            <Typography className={classes.pageTitle} variant="h1">
-              Atleti
-            </Typography>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={toggleAddAthleteDialog}
-            >
-              Aggiungi
-            </Button>
-            <AddCustomer
-              open={addAthleteDialog}
-              handleClose={toggleAddAthleteDialog}
-            />
-          </Container>
-        </Box>
         {!isLoaded(customers) && <LinearProgress />}
         <Container maxWidth="lg" className={classes.customersContainer}>
+          <div className={classes.appBarSpacer} />
           <Grid container spacing={3}>
             <Grid item xs={12}>
               {
@@ -66,10 +49,22 @@ const CustomersPage = () => {
                           tableData: {},
                         }))}
                       />
+                      <Fab
+                        color="primary"
+                        aria-label="Aggiungi atleta"
+                        className={classes.fab}
+                        onClick={toggleAddAthleteDialog}
+                      >
+                        <AddIcon />
+                      </Fab>
                     </Box>
                   </Paper>
                 ))
               }
+              <AddCustomer
+                open={addAthleteDialog}
+                handleClose={toggleAddAthleteDialog}
+              />
             </Grid>
           </Grid>
           <Box pt={4}>
@@ -89,9 +84,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     paddingBottom: theme.spacing(3),
   },
-  pageTitle: {
-    color: theme.palette.primary.contrastText,
-  },
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -107,6 +99,11 @@ const useStyles = makeStyles((theme) => ({
   customersContainer: {
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
+  },
+  fab: {
+    position: "fixed",
+    bottom: theme.spacing(5),
+    right: theme.spacing(5),
   },
 }));
 
