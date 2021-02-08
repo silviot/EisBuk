@@ -12,7 +12,7 @@ import { Box, Container, Fab, Grid, LinearProgress } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 
 import AddCustomer from "../../components/customers/AddCustomer";
-import { deleteCustomer } from "../../store/actions/actions";
+import { deleteCustomer, updateCustomer } from "../../store/actions/actions";
 import { useTitle } from "../../utils/helpers";
 
 const selectCustomers = (state) => state.firestore.ordered.customers;
@@ -42,6 +42,9 @@ const CustomersPage = () => {
                   <Box p={3}>
                     <CustomerList
                       onDeleteCustomer={(id) => dispatch(deleteCustomer(id))}
+                      onEditCustomer={(customer) =>
+                        dispatch(updateCustomer(customer))
+                      }
                       customers={customers.map((o) => ({
                         ...o,
                         tableData: {},

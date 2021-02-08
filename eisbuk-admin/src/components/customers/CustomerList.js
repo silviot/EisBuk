@@ -81,7 +81,7 @@ export const CustomerList = ({
                   className="deleteButton"
                   aria-label="delete"
                   color="primary"
-                  onClick={() => onDeleteCustomer(customer.id)}
+                  onClick={() => onEditCustomer(customer)}
                 >
                   <EditIcon />
                 </IconButton>

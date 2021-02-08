@@ -353,6 +353,8 @@ export const updateCustomer = (customer) => {
     const firebase = getFirebase();
     firebase
       .firestore()
+      .collection("organizations")
+      .doc(ORGANIZATION)
       .collection("customers")
       .doc(customer.id)
       .update(updatedData)
