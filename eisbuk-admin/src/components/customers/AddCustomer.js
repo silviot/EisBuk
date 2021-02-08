@@ -26,7 +26,7 @@ import {
 
 import { createCustomer } from "../../store/actions/actions";
 
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, FastField } from "formik";
 import { TextField, Select } from "formik-material-ui";
 import * as Yup from "yup";
 
@@ -54,9 +54,9 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
           surname: "",
           email: "",
           phone: "",
-          birth: null,
-          category: "",
-          certificateExpiration: null,
+          birth: "",
+          category: slotsLabels.categories[0].id,
+          certificateExpiration: "",
           subscriptionNumber: "",
         }}
         validationSchema={CustomerValidation}
@@ -79,7 +79,7 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
         {({ submitForm, isSubmitting, errors }) => (
           <Form>
             <DialogContent>
-              <Field
+              <FastField
                 className={classes.field}
                 component={TextField}
                 name="name"
@@ -94,7 +94,7 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
                   ),
                 }}
               />
-              <Field
+              <FastField
                 className={classes.field}
                 component={TextField}
                 name="surname"
@@ -109,7 +109,7 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
                   ),
                 }}
               />
-              <Field
+              <FastField
                 component={TextField}
                 name="email"
                 label="Email"
@@ -124,7 +124,7 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
                   ),
                 }}
               />
-              <Field
+              <FastField
                 component={TextField}
                 name="phone"
                 label="Telefono"
@@ -139,7 +139,7 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
                   ),
                 }}
               />
-              <Field
+              <FastField
                 component={TextField}
                 name="birth"
                 type="date"
@@ -162,16 +162,16 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
                 fullWidth
               >
                 <InputLabel>Categoria</InputLabel>
-                <Field component={Select} name="category" label="Categoria">
+                <FastField component={Select} name="category" label="Categoria">
                   {slotsLabels.categories.map((level) => (
                     <MenuItem key={level.id} value={level.id}>
                       {level.label}
                     </MenuItem>
                   ))}
-                </Field>
+                </FastField>
                 <FormHelperText>{errors.category}</FormHelperText>
               </FormControl>
-              <Field
+              <FastField
                 component={TextField}
                 type="date"
                 name="certificateExpiration"
@@ -187,7 +187,7 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
                   ),
                 }}
               />
-              <Field
+              <FastField
                 component={TextField}
                 name="subscriptionNumber"
                 label="Numero Tessera"
@@ -208,6 +208,7 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
                 Annulla
               </Button>
               <Button
+                type="submit"
                 disabled={isSubmitting}
                 onClick={submitForm}
                 variant="contained"
