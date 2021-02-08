@@ -43,7 +43,6 @@ export const signIn = (credentials) => {
           enqueueSnackbar({
             message: "Hai effettuato il login",
             options: {
-              key: new Date().getTime() + Math.random(),
               variant: "success",
             },
           })
@@ -54,7 +53,6 @@ export const signIn = (credentials) => {
           enqueueSnackbar({
             message: "Autenticazione negata",
             options: {
-              key: new Date().getTime() + Math.random(),
               variant: "error",
             },
           })
@@ -74,7 +72,6 @@ export const signOut = () => {
           enqueueSnackbar({
             message: "Hai effettuato il logout",
             options: {
-              key: new Date().getTime() + Math.random(),
               variant: "success",
             },
           })
@@ -85,7 +82,6 @@ export const signOut = () => {
           enqueueSnackbar({
             message: "Si è verificato un errore",
             options: {
-              key: new Date().getTime() + Math.random(),
               variant: "error",
             },
           })
@@ -136,23 +132,12 @@ export const createSlots = (slots) => {
           enqueueSnackbar({
             message: "Slot Aggiunto",
             options: {
-              key: new Date().getTime() + Math.random(),
               variant: "success",
             },
           })
         );
       })
-      .catch((err) => {
-        dispatch(
-          enqueueSnackbar({
-            message: "Errore",
-            options: {
-              key: new Date().getTime() + Math.random(),
-              variant: "error",
-            },
-          })
-        );
-      });
+      .catch(showErrSnackbar(dispatch));
   };
 };
 
@@ -173,23 +158,12 @@ export const subscribeToSlot = (bookingId, slot) => {
           enqueueSnackbar({
             message: "Prenotazione effettuata",
             options: {
-              key: new Date().getTime() + Math.random(),
               variant: "success",
             },
           })
         );
       })
-      .catch((err) => {
-        dispatch(
-          enqueueSnackbar({
-            message: "Errore",
-            options: {
-              key: new Date().getTime() + Math.random(),
-              variant: "error",
-            },
-          })
-        );
-      });
+      .catch(showErrSnackbar(dispatch));
   };
 };
 
@@ -210,7 +184,6 @@ export const unsubscribeFromSlot = (bookingId, slot) => {
           enqueueSnackbar({
             message: "Prenotazione rimossa",
             options: {
-              key: new Date().getTime() + Math.random(),
               variant: "success",
             },
           })
@@ -221,7 +194,6 @@ export const unsubscribeFromSlot = (bookingId, slot) => {
           enqueueSnackbar({
             message: "Errore nel rimuovere la prenotazione",
             options: {
-              key: new Date().getTime() + Math.random(),
               variant: "error",
             },
           })
@@ -244,23 +216,10 @@ export const deleteSlot = (id) => {
         dispatch(
           enqueueSnackbar({
             message: "Slot Eliminato",
-            options: {
-              key: new Date().getTime() + Math.random(),
-            },
           })
         );
       })
-      .catch((err) => {
-        dispatch(
-          enqueueSnackbar({
-            message: "Errore",
-            options: {
-              key: new Date().getTime() + Math.random(),
-              variant: "error",
-            },
-          })
-        );
-      });
+      .catch(showErrSnackbar(dispatch));
   };
 };
 
@@ -291,23 +250,12 @@ export const createCustomer = (customer) => {
           enqueueSnackbar({
             message: "Atleta aggiunto",
             options: {
-              key: new Date().getTime() + Math.random(),
               variant: "success",
             },
           })
         );
       })
-      .catch((err) => {
-        dispatch(
-          enqueueSnackbar({
-            message: "Errore",
-            options: {
-              key: new Date().getTime() + Math.random(),
-              variant: "error",
-            },
-          })
-        );
-      });
+      .catch(showErrSnackbar(dispatch));
   };
 };
 
@@ -326,24 +274,24 @@ export const deleteCustomer = (id) => {
           enqueueSnackbar({
             message: "Atleta rimosso",
             options: {
-              key: new Date().getTime() + Math.random(),
               variant: "success",
             },
           })
         );
       })
-      .catch((err) => {
-        dispatch(
-          enqueueSnackbar({
-            message: "Errore",
-            options: {
-              key: new Date().getTime() + Math.random(),
-              variant: "error",
-            },
-          })
-        );
-      });
+      .catch(showErrSnackbar(dispatch));
   };
+};
+
+const showErrSnackbar = (dispatch) => (err) => {
+  dispatch(
+    enqueueSnackbar({
+      message: "Errore",
+      options: {
+        variant: "error",
+      },
+    })
+  );
 };
 
 export const updateCustomer = (customer) => {
