@@ -41,17 +41,17 @@ const CustomersPage = () => {
                         tableData: {},
                       }))}
                     />
-                    <Fab
-                      color="primary"
-                      aria-label="Aggiungi atleta"
-                      className={classes.fab}
-                      onClick={toggleAddAthleteDialog}
-                    >
-                      <AddIcon />
-                    </Fab>
                   </Box>
                 ))
               }
+              <Fab
+                color="primary"
+                aria-label="Aggiungi atleta"
+                className={classes.fab}
+                onClick={toggleAddAthleteDialog}
+              >
+                <AddIcon />
+              </Fab>
               <AddCustomer
                 open={addAthleteDialog}
                 handleClose={toggleAddAthleteDialog}
