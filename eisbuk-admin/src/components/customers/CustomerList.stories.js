@@ -26,15 +26,15 @@ export const Empty = Template.bind({});
 Empty.args = { customers: [] };
 
 export const ACouple = Template.bind({});
-ACouple.args = { customers: [createCustomer(), createCustomer()] };
+ACouple.args = { customers: [createDemoCustomer(), createDemoCustomer()] };
 
 export const Ten = Template.bind({});
-Ten.args = { customers: _.range(10).map(createCustomer) };
+Ten.args = { customers: _.range(10).map(createDemoCustomer) };
 
 export const AHundred = Template.bind({});
-AHundred.args = { customers: _.range(100).map(createCustomer) };
+AHundred.args = { customers: _.range(100).map(createDemoCustomer) };
 
-function createCustomer() {
+function createDemoCustomer() {
   const name = lodash.sample(FIRST_NAMES);
   const surname = lodash.sample(LAST_NAMES);
   return {
@@ -47,3 +47,10 @@ function createCustomer() {
     category: lodash.sample(CATEGORIES),
   };
 }
+
+export const TenWithEdit = Template.bind({});
+TenWithEdit.args = { customers: _.range(10).map(createDemoCustomer) };
+TenWithEdit.argTypes = {
+  onDeleteCustomer: { action: "deleted" },
+  onEditCustomer: { action: "modified" },
+};

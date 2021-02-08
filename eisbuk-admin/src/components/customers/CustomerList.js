@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import _ from "lodash";
 
+import { Delete as DeleteIcon, Edit as EditIcon } from "@material-ui/icons";
 import {
+  Box,
+  IconButton,
   Table,
   TableCell,
   TableContainer,
@@ -17,7 +20,11 @@ import ColoredAvatar from "../../components/users/coloredAvatar";
 
 import { deleteCustomer, updateCustomer } from "../../store/actions/actions";
 
-export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
+export const CustomerList = ({
+  customers,
+  onDeleteCustomer,
+  onEditCustomer,
+}) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [searchString, setSearchString] = React.useState("");
@@ -47,6 +54,7 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
+              <TableCell></TableCell>
               <TableCell>Nome</TableCell>
               <TableCell>Cognome</TableCell>
               <TableCell>Età</TableCell>
@@ -57,20 +65,48 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {customersToShow.map((customer) => (
-              <TableRow key={customer.id}>
-                <TableCell>
-                  <ColoredAvatar {...customer} className={classes.small} />
-                </TableCell>
-                <TableCell>{customer.name}</TableCell>
-                <TableCell>{customer.surname}</TableCell>
-                <TableCell>{customer.birthdate}</TableCell>
-                <TableCell>{customer.email}</TableCell>
-                <TableCell>{customer.phone}</TableCell>
-                <TableCell>{customer.birthdate}</TableCell>
-                <TableCell>{customer.category}</TableCell>
-              </TableRow>
-            ))}
+            {customersToShow.map((customer) => {
+              const deleteButton = onDeleteCustomer ? (
+                <IconButton
+                  className="deleteButton"
+                  aria-label="delete"
+                  color="primary"
+                  onClick={() => onDeleteCustomer(customer.id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              ) : null;
+              const editButton = onEditCustomer ? (
+                <IconButton
+                  className="deleteButton"
+                  aria-label="delete"
+                  color="primary"
+                  onClick={() => onDeleteCustomer(customer.id)}
+                >
+                  <EditIcon />
+                </IconButton>
+              ) : null;
+              return (
+                <TableRow key={customer.id}>
+                  <TableCell>
+                    <Box className={classes.actionsBox}>
+                      {deleteButton}
+                      {editButton}
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <ColoredAvatar {...customer} className={classes.avatar} />
+                  </TableCell>
+                  <TableCell>{customer.name}</TableCell>
+                  <TableCell>{customer.surname}</TableCell>
+                  <TableCell>{customer.birthdate}</TableCell>
+                  <TableCell>{customer.email}</TableCell>
+                  <TableCell>{customer.phone}</TableCell>
+                  <TableCell>{customer.birthdate}</TableCell>
+                  <TableCell>{customer.category}</TableCell>
+                </TableRow>
+              );
+            })}
             {emptyRows > 0 && (
               <TableRow style={{ height: 33 * emptyRows }}>
                 <TableCell colSpan={8} />
@@ -106,7 +142,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
-  small: {
+  actionsBox: {
+    width: "max-content",
+    whiteSpace: "no-wrap",
+  },
+  avatar: {
     width: theme.spacing(3),
     height: theme.spacing(3),
   },
