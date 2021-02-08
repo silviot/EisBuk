@@ -5,12 +5,14 @@ import { flatten } from "../../utils/helpers";
 import { makeStyles } from "@material-ui/core/styles";
 import SlotsPageContainer from "../../containers/SlotsPageContainer";
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
+import { useTitle } from "../../utils/helpers";
 
 const selectSlots = (state) => flatten(state.firestore.ordered.slotsByDay);
 
 const SlotsPage = () => {
   const classes = useStyles();
   const slots = useSelector(selectSlots);
+  useTitle("Slots");
 
   const dispatch = useDispatch();
 

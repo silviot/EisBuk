@@ -4,6 +4,7 @@ import { Container, Box, Button } from "@material-ui/core";
 import AppbarAdmin from "../components/layout/AppbarAdmin";
 import { functionsZone } from "../config/envInfo";
 import { ORGANIZATION } from "../config/envInfo";
+import { useTitle } from "../utils/helpers";
 
 function invokeFunction(functionName) {
   return function () {
@@ -24,6 +25,7 @@ function createAdminTestUsers() {
 }
 
 const DebugPage = () => {
+  useTitle("Debug");
   return (
     <Container maxWidth="sm">
       <AppbarAdmin />

@@ -12,12 +12,15 @@ import { Box, Container, Fab, Grid, LinearProgress } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 
 import AddCustomer from "../../components/customers/AddCustomer";
+import { useTitle } from "../../utils/helpers";
 
 const selectCustomers = (state) => state.firestore.ordered.customers;
 
 const CustomersPage = () => {
   const classes = useStyles();
   const [addAthleteDialog, setAddAthleteDialog] = useState(false);
+  useTitle("Atleti");
+
   const toggleAddAthleteDialog = () =>
     setAddAthleteDialog(addAthleteDialog ? false : true);
   const customers = useSelector(selectCustomers);
