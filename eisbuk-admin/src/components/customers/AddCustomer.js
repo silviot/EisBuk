@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import {
   Button,
@@ -43,8 +43,10 @@ const CustomerValidation = Yup.object().shape({
   subscriptionNumber: Yup.number(),
 });
 
-const AddCustomer = ({ open, handleClose, createCustomer }) => {
+const AddCustomer = ({ open, handleClose }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle id="form-dialog-title">Nuovo atleta</DialogTitle>
@@ -61,16 +63,18 @@ const AddCustomer = ({ open, handleClose, createCustomer }) => {
         }}
         validationSchema={CustomerValidation}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          createCustomer({
-            name: values.name,
-            surname: values.surname,
-            email: values.email,
-            phone: values.phone,
-            birth: values.birth,
-            category: values.category,
-            certificateExpiration: values.certificateExpiration,
-            subscriptionNumber: values.subscriptionNumber,
-          });
+          dispatch(
+            createCustomer({
+              name: values.name,
+              surname: values.surname,
+              email: values.email,
+              phone: values.phone,
+              birth: values.birth,
+              category: values.category,
+              certificateExpiration: values.certificateExpiration,
+              subscriptionNumber: values.subscriptionNumber,
+            })
+          );
           setSubmitting(false);
           resetForm();
           handleClose();
@@ -230,10 +234,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    createCustomer: (data) => dispatch(createCustomer(data)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(AddCustomer);
+export default AddCustomer;

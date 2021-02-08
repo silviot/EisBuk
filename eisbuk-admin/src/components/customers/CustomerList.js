@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import _ from "lodash";
 
@@ -17,8 +16,6 @@ import {
 } from "@material-ui/core";
 
 import ColoredAvatar from "../../components/users/coloredAvatar";
-
-import { deleteCustomer, updateCustomer } from "../../store/actions/actions";
 
 export const CustomerList = ({
   customers,
@@ -170,11 +167,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteCustomer: (id) => dispatch(deleteCustomer(id)),
-    updateCustomer: (customer) => dispatch(updateCustomer(customer)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(CustomerList);
+export default CustomerList;
