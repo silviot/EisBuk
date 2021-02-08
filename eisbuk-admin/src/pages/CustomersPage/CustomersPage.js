@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
@@ -12,6 +12,7 @@ import { Box, Container, Fab, Grid, LinearProgress } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 
 import AddCustomer from "../../components/customers/AddCustomer";
+import { deleteCustomer } from "../../store/actions/actions";
 import { useTitle } from "../../utils/helpers";
 
 const selectCustomers = (state) => state.firestore.ordered.customers;
@@ -19,6 +20,7 @@ const selectCustomers = (state) => state.firestore.ordered.customers;
 const CustomersPage = () => {
   const classes = useStyles();
   const [addAthleteDialog, setAddAthleteDialog] = useState(false);
+  const dispatch = useDispatch();
   useTitle("Atleti");
 
   const toggleAddAthleteDialog = () =>
@@ -39,6 +41,7 @@ const CustomersPage = () => {
                 !isEmpty(customers) && (
                   <Box p={3}>
                     <CustomerList
+                      onDeleteCustomer={(id) => dispatch(deleteCustomer(id))}
                       customers={customers.map((o) => ({
                         ...o,
                         tableData: {},
