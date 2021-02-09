@@ -1,17 +1,20 @@
 import React from "react";
 import CustomerForm from "./CustomerForm";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import LuxonUtils from "@date-io/luxon";
 
 export default {
   title: "Customer forms",
   component: CustomerForm,
 };
 
-const Template = (args) => (
-  <MuiPickersUtilsProvider utils={LuxonUtils}>
-    <CustomerForm open={true} {...args} />
-  </MuiPickersUtilsProvider>
-);
+const Template = (args) => <CustomerForm open={true} {...args} />;
 
 export const Empty = Template.bind({});
+
+export const EditForm = Template.bind({});
+EditForm.args = {
+  customer: {
+    name: "Gus",
+    surname: "Fring",
+    email: "gus@los-pollos-hermanos.com",
+  },
+};

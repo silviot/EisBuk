@@ -81,130 +81,63 @@ const CustomerForm = ({ open, handleClose }) => {
         }}
       >
         {({ submitForm, isSubmitting, errors }) => (
-          <Form>
+          <Form autoComplete="off">
             <DialogContent>
-              <FastField
+              <MyField
                 className={classes.field}
-                component={TextField}
                 name="name"
                 label="Nome"
-                variant="outlined"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircle color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
+                Icon={AccountCircle}
               />
-              <FastField
+              <MyField
                 className={classes.field}
-                component={TextField}
                 name="surname"
                 label="Cognome"
-                variant="outlined"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircle color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
+                Icon={AccountCircle}
               />
-              <FastField
-                component={TextField}
+              <MyField
                 name="email"
                 label="Email"
-                variant="outlined"
-                fullWidth
                 className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Email color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
+                Icon={Email}
               />
-              <FastField
-                component={TextField}
+              <MyField
                 name="phone"
                 label="Telefono"
-                variant="outlined"
-                fullWidth
                 className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Phone color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
+                Icon={Phone}
               />
-              <FastField
-                component={TextField}
+              <MyField
                 name="birth"
                 type="date"
                 label="Data di nascita"
-                variant="outlined"
                 views={["year", "month", "date"]}
-                fullWidth
                 className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Cake color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
+                Icon={Cake}
               />
-              <FormControl
-                variant="outlined"
-                className={classes.field}
-                fullWidth
-              >
+              <FormControl className={classes.field} fullWidth>
                 <InputLabel>Categoria</InputLabel>
-                <FastField component={Select} name="category" label="Categoria">
+                <MyField component={Select} name="category" label="Categoria">
                   {slotsLabels.categories.map((level) => (
                     <MenuItem key={level.id} value={level.id}>
                       {level.label}
                     </MenuItem>
                   ))}
-                </FastField>
+                </MyField>
                 <FormHelperText>{errors.category}</FormHelperText>
               </FormControl>
-              <FastField
-                component={TextField}
+              <MyField
                 type="date"
                 name="certificateExpiration"
                 label="Scadenza Cert. Medico"
-                variant="outlined"
                 className={classes.field}
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LocalHospital color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
+                Icon={LocalHospital}
               />
-              <FastField
-                component={TextField}
+              <MyField
                 name="subscriptionNumber"
                 label="Numero Tessera"
                 className={classes.field}
-                variant="outlined"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Payment color="disabled" />
-                    </InputAdornment>
-                  ),
-                }}
+                Icon={Payment}
               />
             </DialogContent>
             <DialogActions>
@@ -227,6 +160,30 @@ const CustomerForm = ({ open, handleClose }) => {
     </Dialog>
   );
 };
+
+function MyField({ Icon, ...props }) {
+  const InputProps = {};
+  if (typeof Icon !== "undefined") {
+    InputProps.startAdornment = (
+      <InputAdornment position="start">
+        <Icon color="disabled" />
+      </InputAdornment>
+    );
+  }
+
+  return (
+    <FastField
+      fullWidth
+      autoComplete="off"
+      {...{
+        component: TextField,
+        variant: "outlined",
+        InputProps: InputProps,
+        ...props,
+      }}
+    />
+  );
+}
 
 const useStyles = makeStyles((theme) => ({
   field: {
