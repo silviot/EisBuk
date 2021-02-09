@@ -11,7 +11,7 @@ import { Box, Container, Fab, Grid, LinearProgress } from "@material-ui/core";
 
 import { Add as AddIcon } from "@material-ui/icons";
 
-import AddCustomer from "../../components/customers/AddCustomer";
+import AddCustomer from "../../components/customers/CustomerForm";
 import { deleteCustomer, updateCustomer } from "../../store/actions/actions";
 import { useTitle } from "../../utils/helpers";
 

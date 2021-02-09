@@ -43,7 +43,7 @@ const CustomerValidation = Yup.object().shape({
   subscriptionNumber: Yup.number(),
 });
 
-const AddCustomer = ({ open, handleClose }) => {
+const CustomerForm = ({ open, handleClose }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -234,4 +234,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default AddCustomer;
+export default CustomerForm;
