@@ -1,8 +1,13 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
+import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
-import { Delete as DeleteIcon, Edit as EditIcon } from "@material-ui/icons";
+import {
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  DateRange as DateRangeIcon,
+} from "@material-ui/icons";
 import {
   Box,
   IconButton,
@@ -26,6 +31,9 @@ export const CustomerList = ({
   const [page, setPage] = React.useState(0);
   const [searchString, setSearchString] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  const history = useHistory();
+  const goTo = React.useCallback((url) => history.push(url), [history]);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -83,12 +91,23 @@ export const CustomerList = ({
                   <EditIcon />
                 </IconButton>
               ) : null;
+              const bookingsButton = (
+                <IconButton
+                  color="primary"
+                  onClick={() => {
+                    goTo(`/clienti/${customer.secret_key}`);
+                  }}
+                >
+                  <DateRangeIcon />
+                </IconButton>
+              );
               return (
                 <TableRow key={customer.id}>
                   <TableCell>
                     <Box className={classes.actionsBox}>
                       {deleteButton}
                       {editButton}
+                      {bookingsButton}
                     </Box>
                   </TableCell>
                   <TableCell>
@@ -146,10 +165,6 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: theme.spacing(3),
     height: theme.spacing(3),
-  },
-  paper: {
-    width: "100%",
-    marginBottom: theme.spacing(2),
   },
   table: {
     minWidth: 750,
