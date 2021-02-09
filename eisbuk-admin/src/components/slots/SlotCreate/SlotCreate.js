@@ -1,5 +1,6 @@
 import React from "react";
 import firebase from "firebase/app";
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   Box,
@@ -11,6 +12,7 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
+  IconButton,
   MenuItem,
   TextField,
 } from "@material-ui/core";
@@ -47,6 +49,7 @@ const SlotValidation = Yup.object().shape({
 
 const TimePickerField = ({ ...props }) => {
   const { setFieldValue } = useFormikContext();
+  const classes = useStyles();
   const getCurrentTime = (delta) => {
     const parsed = DateTime.fromISO(props.value);
     if (!parsed.invalid) {
@@ -57,17 +60,23 @@ const TimePickerField = ({ ...props }) => {
   const decrease = () => setFieldValue(props.name, getCurrentTime(-1));
   const increase = () => setFieldValue(props.name, getCurrentTime(1));
   return (
-    <Box>
-      <Button variant="outlined" onClick={decrease}>
+    <Box className={classes.root}>
+      <IconButton color="primary" disableElevation onClick={decrease}>
         -
-      </Button>
+      </IconButton>
       <TextField {...props} />
-      <Button variant="outlined" onClick={increase}>
+      <IconButton color="primary" disableElevation onClick={increase}>
         +
-      </Button>
+      </IconButton>
     </Box>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    whiteSpace: "nowrap",
+  },
+}));
 
 const SlotCreate = ({
   createSlot,
