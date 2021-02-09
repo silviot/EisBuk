@@ -140,7 +140,7 @@ const CustomerForm = ({ open, handleClose, customer, updateCustomer }) => {
                 variant="contained"
                 color="primary"
               >
-                Aggiungi
+                Salva
               </Button>
             </DialogActions>
           </Form>
