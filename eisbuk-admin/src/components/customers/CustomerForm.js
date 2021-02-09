@@ -33,9 +33,9 @@ const CustomerValidation = Yup.object().shape({
   name: Yup.string().required("Richiesto"),
   surname: Yup.string().required("Richiesto"),
   email: Yup.string().email("Inserisci una email valida"),
-  phone: Yup.number("Inserisci un numero"),
+  phone: Yup.string(),
   birth: Yup.mixed(),
-  certificateExpiration: Yup.mixed("Non è una data"),
+  certificateExpiration: Yup.mixed(),
   category: Yup.string().required("Scegli la categoria"),
   subscriptionNumber: Yup.number(),
 });
@@ -62,14 +62,17 @@ const CustomerForm = ({ open, handleClose, customer, updateCustomer }) => {
         onSubmit={(values, { setSubmitting, resetForm }) => {
           updateCustomer(values);
           setSubmitting(false);
-          resetForm();
           handleClose();
         }}
       >
         {({ submitForm, isSubmitting, errors }) => (
           <Form autoComplete="off">
             <DialogContent>
-              <input type="hidden" name="id" value={customer && customer.id} />
+              <input
+                type="hidden"
+                name="id"
+                value={(customer && customer.id) || ""}
+              />
               <MyField
                 className={classes.field}
                 name="name"
@@ -134,7 +137,6 @@ const CustomerForm = ({ open, handleClose, customer, updateCustomer }) => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                onClick={submitForm}
                 variant="contained"
                 color="primary"
               >

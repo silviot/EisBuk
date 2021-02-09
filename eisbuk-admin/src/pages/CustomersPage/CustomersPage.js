@@ -42,7 +42,7 @@ const CustomersPage = () => {
                   <Box p={3}>
                     <CustomerList
                       onDeleteCustomer={(id) => dispatch(deleteCustomer(id))}
-                      onEditCustomer={(customer) =>
+                      updateCustomer={(customer) =>
                         dispatch(updateCustomer(customer))
                       }
                       customers={customers.map((o) => ({

@@ -1,7 +1,8 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
 import { useHistory } from "react-router-dom";
+import { makeStyles } from "@material-ui/styles";
 import _ from "lodash";
+import CustomerForm from "../../components/customers/CustomerForm";
 
 import {
   Delete as DeleteIcon,
@@ -25,12 +26,15 @@ import ColoredAvatar from "../../components/users/coloredAvatar";
 export const CustomerList = ({
   customers,
   onDeleteCustomer,
-  onEditCustomer,
+  updateCustomer,
 }) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [searchString, setSearchString] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  const [customerCurrentlyEdited, setCustomerCurrentlyEdited] = React.useState(
+    null
+  );
   const history = useHistory();
   const goTo = React.useCallback((url) => history.push(url), [history]);
 
@@ -81,12 +85,12 @@ export const CustomerList = ({
                   <DeleteIcon />
                 </IconButton>
               ) : null;
-              const editButton = onEditCustomer ? (
+              const editButton = updateCustomer ? (
                 <IconButton
                   className="deleteButton"
                   aria-label="delete"
                   color="primary"
-                  onClick={() => onEditCustomer(customer)}
+                  onClick={() => setCustomerCurrentlyEdited(customer)}
                 >
                   <EditIcon />
                 </IconButton>
@@ -139,6 +143,12 @@ export const CustomerList = ({
         onChangePage={handleChangePage}
         rowsPerPageOptions={rowsPerPageOptions}
         onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+      <CustomerForm
+        open={Boolean(customerCurrentlyEdited)}
+        handleClose={() => setCustomerCurrentlyEdited(null)}
+        customer={customerCurrentlyEdited}
+        updateCustomer={updateCustomer}
       />
     </div>
   );

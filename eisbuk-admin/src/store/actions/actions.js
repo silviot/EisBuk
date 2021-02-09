@@ -280,7 +280,7 @@ export const updateCustomer = (customer) => {
       .collection("organizations")
       .doc(ORGANIZATION)
       .collection("customers")
-      .doc(customer.id)
+      .doc(customer.id || undefined)
       .set(updatedData)
       .then(() => {
         dispatch(
