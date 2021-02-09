@@ -35,12 +35,20 @@ export const bookingDayInfoSelector = (dayStr) =>
       const unsortedSlots = Object.keys(slotsInfo).map((key) => slotsInfo[key]);
       const slots = _.sortBy(unsortedSlots, [extractSlotDate, extractSlotId]);
       return slots.map((slot) => {
-        const users = Object.keys(bookingsInfo[slot.id] ?? {}).map((key) => ({
-          name: allUsers[key].name,
-          surname: allUsers[key].surname,
-          secret_key: allUsers[key].secret_key,
-          id: allUsers[key].id,
-        }));
+        const users = Object.keys(bookingsInfo[slot.id] ?? {}).map((key) => {
+          const user = allUsers[key] ?? {
+            name: "Cancellato",
+            surname: "Cancellato",
+            secret_key: "Cancellato",
+            id: key,
+          };
+          return {
+            name: user.name,
+            surname: user.surname,
+            secret_key: user.secret_key,
+            id: user.id,
+          };
+        });
         const res = {
           time: fs2luxon(slot.date).toFormat("HH:mm"),
           category: slot.category,
