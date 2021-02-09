@@ -41,7 +41,9 @@ const CustomersPage = () => {
                 !isEmpty(customers) && (
                   <Box p={3}>
                     <CustomerList
-                      onDeleteCustomer={(id) => dispatch(deleteCustomer(id))}
+                      onDeleteCustomer={(customer) =>
+                        dispatch(deleteCustomer(customer))
+                      }
                       updateCustomer={(customer) =>
                         dispatch(updateCustomer(customer))
                       }

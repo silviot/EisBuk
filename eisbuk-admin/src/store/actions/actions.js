@@ -235,7 +235,7 @@ export const markAbsentee = ({ slot, user, isAbsent }) => {
   };
 };
 
-export const deleteCustomer = (id) => {
+export const deleteCustomer = (customer) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
     firebase
@@ -243,12 +243,12 @@ export const deleteCustomer = (id) => {
       .collection("organizations")
       .doc(ORGANIZATION)
       .collection("customers")
-      .doc(id)
+      .doc(customer.id)
       .delete()
       .then(() => {
         dispatch(
           enqueueSnackbar({
-            message: "Atleta rimosso",
+            message: `${customer.name} ${customer.surname} rimosso`,
             options: {
               variant: "success",
             },
