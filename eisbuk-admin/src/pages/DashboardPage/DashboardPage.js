@@ -48,12 +48,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/* const mapDispatchToProps = (dispatch) => {
-  return {
-    signOut: () => dispatch(signOut())
-  }
-} */
-
-/* export default connect(null, mapDispatchToProps)(DashboardPage) */
-
 export default DashboardPage;
