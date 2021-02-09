@@ -235,30 +235,6 @@ export const markAbsentee = ({ slot, user, isAbsent }) => {
   };
 };
 
-export const createCustomer = (customer) => {
-  return (dispatch, getState, { getFirebase }) => {
-    console.log(customer);
-    const firebase = getFirebase();
-    firebase
-      .firestore()
-      .collection("organizations")
-      .doc(ORGANIZATION)
-      .collection("customers")
-      .add(customer)
-      .then(() => {
-        dispatch(
-          enqueueSnackbar({
-            message: "Atleta aggiunto",
-            options: {
-              variant: "success",
-            },
-          })
-        );
-      })
-      .catch(showErrSnackbar(dispatch));
-  };
-};
-
 export const deleteCustomer = (id) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
@@ -305,14 +281,15 @@ export const updateCustomer = (customer) => {
       .doc(ORGANIZATION)
       .collection("customers")
       .doc(customer.id)
-      .update(updatedData)
+      .set(updatedData)
       .then(() => {
-        console.log("Aggiornato");
+        dispatch(
+          enqueueSnackbar({
+            message: `${customer.name} ${customer.surname} aggiornato`,
+          })
+        );
       })
-      .catch((err) => {
-        console.log("Error : " + err);
-      });
-    console.log(updatedData);
+      .catch(showErrSnackbar(dispatch));
   };
 };
 

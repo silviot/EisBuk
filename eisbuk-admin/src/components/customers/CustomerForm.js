@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { useDispatch } from "react-redux";
 
 import {
   Button,
@@ -24,8 +23,6 @@ import {
   Payment,
 } from "@material-ui/icons";
 
-import { createCustomer } from "../../store/actions/actions";
-
 import { Formik, Form, FastField } from "formik";
 import { TextField, Select } from "formik-material-ui";
 import * as Yup from "yup";
@@ -43,9 +40,8 @@ const CustomerValidation = Yup.object().shape({
   subscriptionNumber: Yup.number(),
 });
 
-const CustomerForm = ({ open, handleClose }) => {
+const CustomerForm = ({ open, handleClose, customer, updateCustomer }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -60,21 +56,11 @@ const CustomerForm = ({ open, handleClose }) => {
           category: slotsLabels.categories[0].id,
           certificateExpiration: "",
           subscriptionNumber: "",
+          ...customer,
         }}
         validationSchema={CustomerValidation}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          dispatch(
-            createCustomer({
-              name: values.name,
-              surname: values.surname,
-              email: values.email,
-              phone: values.phone,
-              birth: values.birth,
-              category: values.category,
-              certificateExpiration: values.certificateExpiration,
-              subscriptionNumber: values.subscriptionNumber,
-            })
-          );
+          updateCustomer(values);
           setSubmitting(false);
           resetForm();
           handleClose();
@@ -83,6 +69,7 @@ const CustomerForm = ({ open, handleClose }) => {
         {({ submitForm, isSubmitting, errors }) => (
           <Form autoComplete="off">
             <DialogContent>
+              <input type="hidden" name="id" value={customer && customer.id} />
               <MyField
                 className={classes.field}
                 name="name"
@@ -162,13 +149,17 @@ const CustomerForm = ({ open, handleClose }) => {
 };
 
 function MyField({ Icon, ...props }) {
-  const InputProps = {};
+  var InputProps = undefined;
   if (typeof Icon !== "undefined") {
-    InputProps.startAdornment = (
-      <InputAdornment position="start">
-        <Icon color="disabled" />
-      </InputAdornment>
-    );
+    InputProps = {
+      InputProps: {
+        startAdornment: (
+          <InputAdornment position="start">
+            <Icon color="disabled" />
+          </InputAdornment>
+        ),
+      },
+    };
   }
 
   return (
@@ -178,7 +169,7 @@ function MyField({ Icon, ...props }) {
       {...{
         component: TextField,
         variant: "outlined",
-        InputProps: InputProps,
+        ...InputProps,
         ...props,
       }}
     />
