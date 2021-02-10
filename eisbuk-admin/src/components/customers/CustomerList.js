@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import _ from "lodash";
@@ -19,6 +19,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
 } from "@material-ui/core";
 
 import ColoredAvatar from "../../components/users/coloredAvatar";
@@ -29,14 +30,12 @@ export const CustomerList = ({
   updateCustomer,
 }) => {
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [searchString, setSearchString] = React.useState("");
-  const [rowsPerPage, setRowsPerPage] = React.useState(15);
-  const [customerCurrentlyEdited, setCustomerCurrentlyEdited] = React.useState(
-    null
-  );
+  const [page, setPage] = useState(0);
+  const [searchString, setSearchString] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(15);
+  const [customerCurrentlyEdited, setCustomerCurrentlyEdited] = useState(null);
   const history = useHistory();
-  const goTo = React.useCallback((url) => history.push(url), [history]);
+  const goTo = useCallback((url) => history.push(url), [history]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -56,7 +55,7 @@ export const CustomerList = ({
   const rowsPerPageOptions = [10, 15, 50, 100];
 
   return (
-    <div className={classes.root}>
+    <>
       <SearchField setSearchString={setSearchString}></SearchField>
       <TableContainer>
         <Table size="small">
@@ -108,14 +107,14 @@ export const CustomerList = ({
               return (
                 <TableRow key={customer.id}>
                   <TableCell>
-                    <Box className={classes.actionsBox}>
+                    <Box>
                       {deleteButton}
                       {editButton}
                       {bookingsButton}
                     </Box>
                   </TableCell>
                   <TableCell>
-                    <ColoredAvatar {...customer} className={classes.avatar} />
+                    <ColoredAvatar {...customer} />
                   </TableCell>
                   <TableCell>{customer.name}</TableCell>
                   <TableCell>{customer.surname}</TableCell>
@@ -150,7 +149,7 @@ export const CustomerList = ({
         customer={customerCurrentlyEdited}
         updateCustomer={updateCustomer}
       />
-    </div>
+    </>
   );
 };
 
@@ -160,36 +159,15 @@ const SearchField = ({ setSearchString }) => {
   };
   return (
     <div>
-      Search: <input autoComplete="off" name="search" onChange={handleChange} />
+      <TextField
+        id="standard-search"
+        label="Search"
+        type="search"
+        onChange={handleChange}
+      />
     </div>
   );
 };
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
-  actionsBox: {
-    width: "max-content",
-    whiteSpace: "no-wrap",
-  },
-  avatar: {
-    width: theme.spacing(3),
-    height: theme.spacing(3),
-  },
-  table: {
-    minWidth: 750,
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: "rect(0 0 0 0)",
-    height: 1,
-    margin: -1,
-    overflow: "hidden",
-    padding: 0,
-    position: "absolute",
-    top: 20,
-    width: 1,
-  },
-}));
+const useStyles = makeStyles((theme) => ({}));
 
 export default CustomerList;
