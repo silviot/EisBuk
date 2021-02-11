@@ -7,7 +7,7 @@ const AppbarCustomer = ({ headingText = appLabels.appName }) => {
   const classes = useStyles();
 
   return (
-    <AppBar position="absolute" className={classes.appBar}>
+    <AppBar position="static" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <Typography
           component="h1"
