@@ -157,16 +157,7 @@ const SearchField = ({ setSearchString }) => {
   const handleChange = (e) => {
     setSearchString(e.target.value);
   };
-  return (
-    <div>
-      <TextField
-        id="standard-search"
-        label="Search"
-        type="search"
-        onChange={handleChange}
-      />
-    </div>
-  );
+  return <TextField label="Search" type="search" onChange={handleChange} />;
 };
 const useStyles = makeStyles((theme) => ({}));
 
