@@ -31,9 +31,9 @@ const CustomersPage = () => {
     <div className={classes.root}>
       <AppbarAdmin />
       <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
         {!isLoaded(customers) && <LinearProgress />}
         <Container maxWidth="lg" className={classes.customersContainer}>
-          <div className={classes.appBarSpacer} />
           <Grid container spacing={3}>
             <Grid item xs={12}>
               {
