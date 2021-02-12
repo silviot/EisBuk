@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { signIn, signInWithGoogle } from "../../store/actions/actions";
-import { appLabels } from "../../config/appConfig";
 import figureSkatingSilhouetteCouple from "../../assets/images/login/figure-skating-silhouette-couple.svg";
 import figureSkatingSilhouetteSkirt from "../../assets/images/login/figure-skating-silhouette-skirt.svg";
 import figureSkatingSilhouette from "../../assets/images/login/figure-skating-silhouette.svg";
@@ -26,6 +25,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
 
 import Copyright from "../../components/layout/Copyright";
+import { getCurrentOrganizationSettings } from "../../themes";
 
 const loginBackgrounds = [
   figureSkatingSilhouetteCouple,
@@ -88,6 +88,8 @@ const SignInSide = ({ signIn }) => {
     signInWithGoogle();
   };
 
+  const currentOrganizationSettings = getCurrentOrganizationSettings();
+
   const loginImageStyle = {
     backgroundImage: `url(${_.sample(loginBackgrounds)})`,
   };
@@ -108,7 +110,7 @@ const SignInSide = ({ signIn }) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            {appLabels.appName}
+            {currentOrganizationSettings.name}
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField

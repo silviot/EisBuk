@@ -19,13 +19,13 @@ import { getCurrentOrganizationSettings } from "../../themes";
 const AppbarAdmin = (props) => {
   const classes = useStyles();
   const location = useLocation();
-  const currentOrganizationName = getCurrentOrganizationSettings();
+  const currentOrganizationSettings = getCurrentOrganizationSettings();
   return (
     <>
       <AppBar className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h6" className={classes.title}>
-            {currentOrganizationName.name}
+            {currentOrganizationSettings.name}
           </Typography>
           <ButtonGroup color="secondary">
             <Button
