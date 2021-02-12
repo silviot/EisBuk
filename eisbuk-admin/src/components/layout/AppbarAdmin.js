@@ -58,7 +58,9 @@ const AppbarAdmin = (props) => {
             >
               Slots
             </Button>
-            <DebugMenu {...props} />
+            {currentOrganizationSettings.name == "DEV" && (
+              <DebugMenu {...props} />
+            )}
           </ButtonGroup>
         </Toolbar>
       </AppBar>

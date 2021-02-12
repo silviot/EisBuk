@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/styles";
 import _ from "lodash";
 import CustomerForm from "../../components/customers/CustomerForm";
 
@@ -29,7 +28,6 @@ export const CustomerList = ({
   onDeleteCustomer,
   updateCustomer,
 }) => {
-  const classes = useStyles();
   const [page, setPage] = useState(0);
   const [searchString, setSearchString] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(15);
@@ -159,6 +157,5 @@ const SearchField = ({ setSearchString }) => {
   };
   return <TextField label="Search" type="search" onChange={handleChange} />;
 };
-const useStyles = makeStyles((theme) => ({}));
 
 export default CustomerList;
