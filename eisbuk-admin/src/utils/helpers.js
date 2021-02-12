@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { DateTime } from "luxon";
 
 export const getInitials = (name, surname) => {
