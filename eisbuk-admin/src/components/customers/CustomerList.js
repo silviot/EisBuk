@@ -1,9 +1,17 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import _ from "lodash";
+import CustomerForm from "../../components/customers/CustomerForm";
 
 import {
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  DateRange as DateRangeIcon,
+} from "@material-ui/icons";
+import {
+  Box,
+  IconButton,
   Table,
   TableCell,
   TableContainer,
@@ -15,13 +23,21 @@ import {
 
 import ColoredAvatar from "../../components/users/coloredAvatar";
 
-import { deleteCustomer, updateCustomer } from "../../store/actions/actions";
-
-export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
+export const CustomerList = ({
+  customers,
+  onDeleteCustomer,
+  updateCustomer,
+}) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [searchString, setSearchString] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  const [customerCurrentlyEdited, setCustomerCurrentlyEdited] = React.useState(
+    null
+  );
+  const history = useHistory();
+  const goTo = React.useCallback((url) => history.push(url), [history]);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -47,6 +63,7 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
+              <TableCell></TableCell>
               <TableCell>Nome</TableCell>
               <TableCell>Cognome</TableCell>
               <TableCell>Età</TableCell>
@@ -57,20 +74,59 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {customersToShow.map((customer) => (
-              <TableRow key={customer.id}>
-                <TableCell>
-                  <ColoredAvatar {...customer} className={classes.small} />
-                </TableCell>
-                <TableCell>{customer.name}</TableCell>
-                <TableCell>{customer.surname}</TableCell>
-                <TableCell>{customer.birthdate}</TableCell>
-                <TableCell>{customer.email}</TableCell>
-                <TableCell>{customer.phone}</TableCell>
-                <TableCell>{customer.birthdate}</TableCell>
-                <TableCell>{customer.category}</TableCell>
-              </TableRow>
-            ))}
+            {customersToShow.map((customer) => {
+              const deleteButton = onDeleteCustomer ? (
+                <IconButton
+                  className="deleteButton"
+                  aria-label="delete"
+                  color="primary"
+                  onClick={() => onDeleteCustomer(customer)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              ) : null;
+              const editButton = updateCustomer ? (
+                <IconButton
+                  className="deleteButton"
+                  aria-label="delete"
+                  color="primary"
+                  onClick={() => setCustomerCurrentlyEdited(customer)}
+                >
+                  <EditIcon />
+                </IconButton>
+              ) : null;
+              const bookingsButton = (
+                <IconButton
+                  color="primary"
+                  onClick={() => {
+                    goTo(`/clienti/${customer.secret_key}`);
+                  }}
+                >
+                  <DateRangeIcon />
+                </IconButton>
+              );
+              return (
+                <TableRow key={customer.id}>
+                  <TableCell>
+                    <Box className={classes.actionsBox}>
+                      {deleteButton}
+                      {editButton}
+                      {bookingsButton}
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <ColoredAvatar {...customer} className={classes.avatar} />
+                  </TableCell>
+                  <TableCell>{customer.name}</TableCell>
+                  <TableCell>{customer.surname}</TableCell>
+                  <TableCell>{customer.birthdate}</TableCell>
+                  <TableCell>{customer.email}</TableCell>
+                  <TableCell>{customer.phone}</TableCell>
+                  <TableCell>{customer.birthdate}</TableCell>
+                  <TableCell>{customer.category}</TableCell>
+                </TableRow>
+              );
+            })}
             {emptyRows > 0 && (
               <TableRow style={{ height: 33 * emptyRows }}>
                 <TableCell colSpan={8} />
@@ -87,6 +143,12 @@ export const CustomerList = ({ customers, deleteCustomer, updateCustomer }) => {
         onChangePage={handleChangePage}
         rowsPerPageOptions={rowsPerPageOptions}
         onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+      <CustomerForm
+        open={Boolean(customerCurrentlyEdited)}
+        handleClose={() => setCustomerCurrentlyEdited(null)}
+        customer={customerCurrentlyEdited}
+        updateCustomer={updateCustomer}
       />
     </div>
   );
@@ -106,13 +168,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
-  small: {
+  actionsBox: {
+    width: "max-content",
+    whiteSpace: "no-wrap",
+  },
+  avatar: {
     width: theme.spacing(3),
     height: theme.spacing(3),
-  },
-  paper: {
-    width: "100%",
-    marginBottom: theme.spacing(2),
   },
   table: {
     minWidth: 750,
@@ -130,11 +192,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteCustomer: (id) => dispatch(deleteCustomer(id)),
-    updateCustomer: (customer) => dispatch(updateCustomer(customer)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(CustomerList);
+export default CustomerList;

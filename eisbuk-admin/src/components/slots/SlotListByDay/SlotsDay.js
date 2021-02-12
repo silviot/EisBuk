@@ -122,9 +122,9 @@ export default SlotsDay;
 
 const useStyles = makeStyles((theme) => ({
   listSubheader: {
-    backgroundColor: "white",
     display: "flex",
-    "justify-content": "space-around",
+    fontVariant: "small-caps",
+    borderTop: "1px solid " + theme.palette.secondary.dark,
   },
   date: {
     "flex-grow": 1,

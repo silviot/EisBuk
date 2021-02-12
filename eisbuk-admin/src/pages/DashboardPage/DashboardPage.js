@@ -6,6 +6,7 @@ import BookingsByDay from "../../components/BookingsByDay";
 
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
 import { markAbsentee } from "../../store/actions/actions";
+import { useTitle } from "../../utils/helpers";
 
 import {
   bookingDayInfoSelector,
@@ -15,6 +16,7 @@ import {
 const DashboardPage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  useTitle("Prenotazioni");
 
   const currentDate = useSelector(calendarDaySelector);
   const monthStr = currentDate.toISO().substring(0, 10);
@@ -45,13 +47,5 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
   },
 }));
-
-/* const mapDispatchToProps = (dispatch) => {
-  return {
-    signOut: () => dispatch(signOut())
-  }
-} */
-
-/* export default connect(null, mapDispatchToProps)(DashboardPage) */
 
 export default DashboardPage;

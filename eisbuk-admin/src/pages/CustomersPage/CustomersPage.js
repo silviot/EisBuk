@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
@@ -7,24 +7,22 @@ import CustomerList from "../../components/customers/CustomerList";
 import Copyright from "../../components/layout/Copyright";
 import { makeStyles } from "@material-ui/core/styles";
 
-import {
-  Box,
-  Container,
-  Fab,
-  Grid,
-  Paper,
-  LinearProgress,
-} from "@material-ui/core";
+import { Box, Container, Fab, Grid, LinearProgress } from "@material-ui/core";
 
 import { Add as AddIcon } from "@material-ui/icons";
 
-import AddCustomer from "../../components/customers/AddCustomer";
+import CustomerForm from "../../components/customers/CustomerForm";
+import { deleteCustomer, updateCustomer } from "../../store/actions/actions";
+import { useTitle } from "../../utils/helpers";
 
 const selectCustomers = (state) => state.firestore.ordered.customers;
 
 const CustomersPage = () => {
   const classes = useStyles();
   const [addAthleteDialog, setAddAthleteDialog] = useState(false);
+  const dispatch = useDispatch();
+  useTitle("Atleti");
+
   const toggleAddAthleteDialog = () =>
     setAddAthleteDialog(addAthleteDialog ? false : true);
   const customers = useSelector(selectCustomers);
@@ -41,29 +39,36 @@ const CustomersPage = () => {
               {
                 (isLoaded(customers),
                 !isEmpty(customers) && (
-                  <Paper>
-                    <Box p={3}>
-                      <CustomerList
-                        customers={customers.map((o) => ({
-                          ...o,
-                          tableData: {},
-                        }))}
-                      />
-                      <Fab
-                        color="primary"
-                        aria-label="Aggiungi atleta"
-                        className={classes.fab}
-                        onClick={toggleAddAthleteDialog}
-                      >
-                        <AddIcon />
-                      </Fab>
-                    </Box>
-                  </Paper>
+                  <Box p={3}>
+                    <CustomerList
+                      onDeleteCustomer={(customer) =>
+                        dispatch(deleteCustomer(customer))
+                      }
+                      updateCustomer={(customer) =>
+                        dispatch(updateCustomer(customer))
+                      }
+                      customers={customers.map((o) => ({
+                        ...o,
+                        tableData: {},
+                      }))}
+                    />
+                  </Box>
                 ))
               }
-              <AddCustomer
+              <Fab
+                color="primary"
+                aria-label="Aggiungi atleta"
+                className={classes.fab}
+                onClick={toggleAddAthleteDialog}
+              >
+                <AddIcon />
+              </Fab>
+              <CustomerForm
                 open={addAthleteDialog}
                 handleClose={toggleAddAthleteDialog}
+                updateCustomer={(customer) =>
+                  dispatch(updateCustomer(customer))
+                }
               />
             </Grid>
           </Grid>
@@ -89,12 +94,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: "100vh",
     overflow: "auto",
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column",
   },
   customersContainer: {
     paddingTop: theme.spacing(3),
