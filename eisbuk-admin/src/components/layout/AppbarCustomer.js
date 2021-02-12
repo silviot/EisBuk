@@ -1,11 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { appLabels } from "../../config/appConfig";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import { getCurrentOrganizationSettings } from "../../themes";
 
-const AppbarCustomer = ({ headingText = appLabels.appName }) => {
+const AppbarCustomer = () => {
   const classes = useStyles();
-
+  const currentOrganizationSettings = getCurrentOrganizationSettings();
   return (
     <AppBar position="static" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
@@ -17,7 +17,7 @@ const AppbarCustomer = ({ headingText = appLabels.appName }) => {
           noWrap
           className={classes.title}
         >
-          {headingText}
+          {currentOrganizationSettings.name}
         </Typography>
       </Toolbar>
     </AppBar>
