@@ -51,7 +51,7 @@ export const development = _.merge({}, base, {
 
 export const available = [igorice, eisbuk, development];
 
-function getCurrentThemeDefinition() {
+export function getCurrentOrganizationSettings() {
   var hostname;
   try {
     hostname = window.location.hostname;
@@ -60,14 +60,25 @@ function getCurrentThemeDefinition() {
   }
   switch (hostname) {
     case "igorice.web.app":
-      return igorice;
+      return {
+        theme: igorice,
+        name: "IgorIce",
+      };
     case "eisbuk.web.app":
-      return eisbuk;
+      return {
+        theme: eisbuk,
+        name: "EisBuk",
+      };
     default:
-      return development;
+      return {
+        theme: development,
+        name: "DEV",
+      };
   }
 }
 
+const organizationTheme = getCurrentOrganizationSettings();
+
 export const currentTheme = responsiveFontSizes(
-  createMuiTheme(getCurrentThemeDefinition())
+  createMuiTheme(organizationTheme.theme)
 );
