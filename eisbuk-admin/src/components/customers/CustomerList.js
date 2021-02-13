@@ -22,6 +22,7 @@ import {
 } from "@material-ui/core";
 
 import ColoredAvatar from "../../components/users/coloredAvatar";
+import ConfirmDialog from "../global/ConfirmDialog";
 
 export const CustomerList = ({
   customers,
@@ -32,6 +33,10 @@ export const CustomerList = ({
   const [searchString, setSearchString] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const [customerCurrentlyEdited, setCustomerCurrentlyEdited] = useState(null);
+  const [customerCurrentlyDeleted, setCustomerCurrentlyDeleted] = useState(
+    null
+  );
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const history = useHistory();
   const goTo = useCallback((url) => history.push(url), [history]);
 
@@ -74,18 +79,19 @@ export const CustomerList = ({
             {customersToShow.map((customer) => {
               const deleteButton = onDeleteCustomer ? (
                 <IconButton
-                  className="deleteButton"
                   aria-label="delete"
                   color="primary"
-                  onClick={() => onDeleteCustomer(customer)}
+                  onClick={() => {
+                    setConfirmDeleteDialog(true);
+                    setCustomerCurrentlyDeleted(customer);
+                  }}
                 >
                   <DeleteIcon />
                 </IconButton>
               ) : null;
               const editButton = updateCustomer ? (
                 <IconButton
-                  className="deleteButton"
-                  aria-label="delete"
+                  aria-label="update"
                   color="primary"
                   onClick={() => setCustomerCurrentlyEdited(customer)}
                 >
@@ -105,7 +111,7 @@ export const CustomerList = ({
               return (
                 <TableRow key={customer.id}>
                   <TableCell>
-                    <Box>
+                    <Box display="flex" flexDirection="row">
                       {deleteButton}
                       {editButton}
                       {bookingsButton}
@@ -147,6 +153,22 @@ export const CustomerList = ({
         customer={customerCurrentlyEdited}
         updateCustomer={updateCustomer}
       />
+      {customerCurrentlyDeleted && (
+        <ConfirmDialog
+          title={
+            "Sei sicuro di voler rimuovere " +
+            customerCurrentlyDeleted.name +
+            " " +
+            customerCurrentlyDeleted.surname
+          }
+          open={confirmDeleteDialog}
+          setOpen={setConfirmDeleteDialog}
+          onConfirm={() => onDeleteCustomer(customerCurrentlyDeleted)}
+        >
+          Questa azione non è reversibile, l'utente verrà cancellato
+          definitivamente.
+        </ConfirmDialog>
+      )}
     </>
   );
 };

@@ -7,11 +7,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   FormHelperText,
   InputAdornment,
-  InputLabel,
-  MenuItem,
   Radio,
   FormControlLabel,
 } from "@material-ui/core";
@@ -26,7 +23,7 @@ import {
 } from "@material-ui/icons";
 
 import { Formik, Form, FastField } from "formik";
-import { TextField, Select } from "formik-material-ui";
+import { TextField } from "formik-material-ui";
 import * as Yup from "yup";
 
 import { slotsLabels } from "../../config/appConfig";
