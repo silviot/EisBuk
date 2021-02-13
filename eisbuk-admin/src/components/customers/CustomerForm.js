@@ -12,8 +12,10 @@ import {
   InputAdornment,
   InputLabel,
   MenuItem,
+  Radio,
+  FormControlLabel,
 } from "@material-ui/core";
-
+import { RadioGroup } from "formik-material-ui";
 import {
   AccountCircle,
   Email,
@@ -105,17 +107,26 @@ const CustomerForm = ({ open, handleClose, customer, updateCustomer }) => {
                 className={classes.field}
                 Icon={Cake}
               />
-              <FormControl className={classes.field} fullWidth>
-                <InputLabel>Categoria</InputLabel>
-                <MyField component={Select} name="category" label="Categoria">
-                  {slotsLabels.categories.map((level) => (
-                    <MenuItem key={level.id} value={level.id}>
-                      {level.label}
-                    </MenuItem>
-                  ))}
-                </MyField>
-                <FormHelperText>{errors.category}</FormHelperText>
-              </FormControl>
+
+              <MyField
+                component={RadioGroup}
+                name="category"
+                label="Categoria"
+                row
+                fullWidth
+                className={classes.radioGroup}
+              >
+                {slotsLabels.categories.map((level) => (
+                  <FormControlLabel
+                    key={level.id}
+                    value={level.id}
+                    label={level.label}
+                    control={<Radio />}
+                  />
+                ))}
+              </MyField>
+              <FormHelperText>{errors.category}</FormHelperText>
+
               <MyField
                 type="date"
                 name="certificateExpiration"
@@ -181,6 +192,12 @@ function MyField({ Icon, ...props }) {
 const useStyles = makeStyles((theme) => ({
   field: {
     marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  radioGroup: {
+    justifyContent: "space-evenly",
+    marginTop: theme.spacing(1.5),
+    marginBottom: theme.spacing(1.5),
   },
 }));
 
