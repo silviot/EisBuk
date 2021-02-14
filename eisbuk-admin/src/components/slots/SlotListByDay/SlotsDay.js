@@ -136,7 +136,7 @@ export default SlotsDay;
 const useStyles = makeStyles((theme) => ({
   listSubheader: {
     fontVariant: "small-caps",
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.background.default,
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     display: "flex",
@@ -145,12 +145,12 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(2),
     marginBottom: theme.spacing(0.5),
     borderBottomStyle: "solid",
-    borderBottomColor: theme.palette.secondary.dark,
+    borderBottomColor: theme.palette.divider,
     borderBottomWidth: 1,
   },
   date: {
     "flex-grow": 1,
-    color: theme.palette.getContrastText(theme.palette.secondary.main),
+    color: theme.palette.getContrastText(theme.palette.background.default),
   },
   dateButtons: {
     "flex-grow": 0,

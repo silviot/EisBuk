@@ -39,12 +39,11 @@ export const eisbuk = _.merge({}, base, {
 
 export const development = _.merge({}, base, {
   palette: {
-    type: "dark",
     primary: {
-      main: colors.grey[800],
+      main: colors.orange[900],
     },
     secondary: {
-      main: colors.purple[900],
+      main: colors.grey[900],
     },
   },
 });

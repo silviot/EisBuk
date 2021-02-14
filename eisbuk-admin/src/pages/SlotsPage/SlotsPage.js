@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteSlot, createSlots } from "../../store/actions/actions";
 import { flatten } from "../../utils/helpers";
-import { makeStyles } from "@material-ui/core/styles";
 import SlotsPageContainer from "../../containers/SlotsPageContainer";
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
 import { useTitle } from "../../utils/helpers";
@@ -10,7 +9,6 @@ import { useTitle } from "../../utils/helpers";
 const selectSlots = (state) => flatten(state.firestore.ordered.slotsByDay);
 
 const SlotsPage = () => {
-  const classes = useStyles();
   const slots = useSelector(selectSlots);
   useTitle("Slots");
 
@@ -24,23 +22,15 @@ const SlotsPage = () => {
     dispatch(createSlots([slot]));
   };
   return (
-    <div className={classes.root}>
+    <div>
       <AppbarAdmin />
-      <main className={classes.content}>
-        <SlotsPageContainer
-          slots={slots}
-          onDelete={onDelete}
-          onCreateSlot={onCreateSlot}
-        />
-      </main>
+      <SlotsPageContainer
+        slots={slots}
+        onDelete={onDelete}
+        onCreateSlot={onCreateSlot}
+      />
     </div>
   );
 };
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.secondary.main,
-  },
-}));
 
 export default SlotsPage;

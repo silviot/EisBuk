@@ -9,12 +9,7 @@ import {
   CardActions,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Delete as DeleteIcon,
-  AccessTime as AccessTimeIcon,
-  Category as CategoryIcon,
-  Stars as StarsIcon,
-} from "@material-ui/icons";
+import { Delete as DeleteIcon, Stars as StarsIcon } from "@material-ui/icons";
 import { FBToLuxon } from "../../../data/dtutils";
 import ConfirmDialog from "../../global/ConfirmDialog";
 
