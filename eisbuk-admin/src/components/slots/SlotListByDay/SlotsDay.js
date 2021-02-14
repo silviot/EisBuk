@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { Badge, IconButton, ListSubheader } from "@material-ui/core";
+import {
+  Badge,
+  IconButton,
+  ListSubheader,
+  Grid,
+  Typography,
+  Box,
+} from "@material-ui/core";
 import { FileCopy as FileCopyIcon } from "@material-ui/icons";
 import {
   AddCircleOutline as AddCircleOutlineIcon,
@@ -81,8 +88,10 @@ const SlotsDay = ({
   return (
     <>
       <ListSubheader key={day + "-title"} className={classes.listSubheader}>
-        <div className={classes.date}>{dateStr}</div>{" "}
-        <div className={classes.dateButtons}>
+        <Typography display="inline" variant="h4" className={classes.date}>
+          {dateStr}
+        </Typography>
+        <Box display="flex" className={classes.dateButtons}>
           {newSlotButton}
           {enableEdit && Boolean(slotsList.length) && (
             <IconButton
@@ -103,17 +112,21 @@ const SlotsDay = ({
               </Badge>
             </IconButton>
           )}
-        </div>
+        </Box>
       </ListSubheader>
-      {slotsList.map((slot) => (
-        <Slot
-          data={slot}
-          key={slot.id}
-          deleted={!!deletedSlots[slot.id]}
-          onDelete={extendedOnDelete}
-          {...{ onSubscribe, onUnsubscribe, subscribedSlots }}
-        ></Slot>
-      ))}
+      <Grid className={classes.slotListContainer} container spacing={3}>
+        {slotsList.map((slot) => (
+          <Grid item xs={12} md={6}>
+            <Slot
+              data={slot}
+              key={slot.id}
+              deleted={!!deletedSlots[slot.id]}
+              onDelete={extendedOnDelete}
+              {...{ onSubscribe, onUnsubscribe, subscribedSlots }}
+            ></Slot>
+          </Grid>
+        ))}
+      </Grid>
     </>
   );
 };
@@ -122,12 +135,22 @@ export default SlotsDay;
 
 const useStyles = makeStyles((theme) => ({
   listSubheader: {
-    display: "flex",
     fontVariant: "small-caps",
-    borderTop: "1px solid " + theme.palette.secondary.dark,
+    backgroundColor: theme.palette.secondary.main,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    display: "flex",
+  },
+  slotListContainer: {
+    paddingBottom: theme.spacing(2),
+    marginBottom: theme.spacing(0.5),
+    borderBottomStyle: "solid",
+    borderBottomColor: theme.palette.secondary.dark,
+    borderBottomWidth: 1,
   },
   date: {
     "flex-grow": 1,
+    color: theme.palette.getContrastText(theme.palette.secondary.main),
   },
   dateButtons: {
     "flex-grow": 0,

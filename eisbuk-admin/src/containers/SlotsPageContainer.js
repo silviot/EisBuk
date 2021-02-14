@@ -13,6 +13,7 @@ import { calendarDaySelector } from "../store/selectors";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: "600px",
+    margin: "0 auto",
   },
   slotlist: {
     "& > li.MuiListSubheader-sticky": {

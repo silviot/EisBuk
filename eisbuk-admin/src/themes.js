@@ -41,10 +41,10 @@ export const development = _.merge({}, base, {
   palette: {
     type: "dark",
     primary: {
-      main: "#b3720c",
+      main: colors.grey[800],
     },
     secondary: {
-      main: "#3e2723",
+      main: colors.purple[900],
     },
   },
 });
