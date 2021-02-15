@@ -7,21 +7,26 @@ import {
   ListItemSecondaryAction,
   ListItemText,
 } from "@material-ui/core";
+import { DateTime } from "luxon";
+import _ from "lodash";
 import { grey } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
+import { slotsLabels } from "../config/appConfig";
 import ColoredAvatar from "./users/coloredAvatar";
 
 const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
   const classes = useStyles();
   const [localAbsentees, setLocalAbsentees] = useState({});
+
+  const periods = getPeriods(bookingDayInfo);
   return (
     <List className={classes.root}>
-      {bookingDayInfo.map((slot) => {
+      {periods.map((slot) => {
         return (
-          <React.Fragment key={slot.id}>
+          <React.Fragment key={slot.id + "-" + slot.duration}>
             <ListItem className={classes.listHeader}>
               <ListItemText
-                primary={slot.time}
+                primary={slot.time + " - " + slot.endTime}
                 secondary={`${slot.category} ${slot.type}`}
               />
             </ListItem>
@@ -76,6 +81,37 @@ const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
       })}
     </List>
   );
+};
+
+const getPeriods = (info) => {
+  var result = [];
+  for (let i = 0; i < info.length; i++) {
+    result = result.concat(splitPeriod(info[i]));
+  }
+  return result;
+};
+
+const durationsMap = {};
+
+for (let i = 0; i < slotsLabels.durations.length; i++) {
+  durationsMap[slotsLabels.durations[i].id] = slotsLabels.durations[i].minutes;
+}
+
+const splitPeriod = (booking) => {
+  const result = [];
+  const usersByDuration = _.groupBy(booking.users, (el) => el.duration);
+
+  Object.keys(usersByDuration).map((key) => {
+    result.push({
+      ...booking,
+      duration: key,
+      users: usersByDuration[key],
+      endTime: DateTime.fromISO(booking.time)
+        .plus({ minutes: durationsMap[key] })
+        .toFormat("HH:mm"),
+    });
+  });
+  return result;
 };
 
 const useStyles = makeStyles((theme) => ({
