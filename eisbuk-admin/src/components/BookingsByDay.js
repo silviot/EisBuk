@@ -108,7 +108,7 @@ const splitPeriod = (booking) => {
   const result = [];
   const usersByDuration = _.groupBy(booking.users, (el) => el.duration);
 
-  Object.keys(usersByDuration).map((key) => {
+  Object.keys(usersByDuration).map((key) =>
     result.push({
       ...booking,
       duration: key,
@@ -116,8 +116,8 @@ const splitPeriod = (booking) => {
       endTime: DateTime.fromISO(booking.time)
         .plus({ minutes: durationsMap[key] })
         .toFormat("HH:mm"),
-    });
-  });
+    })
+  );
   return result;
 };
 
