@@ -27,12 +27,13 @@ export default ({
   const doDelete = onDelete ? () => onDelete(data.id) : onDelete;
   const showSubscribe = Boolean(onUnsubscribe && onSubscribe);
   const isSubscribed = Boolean(subscribedSlots[data.id]);
+  const subscribedDuration = isSubscribed && subscribedSlots[data.id].duration;
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
-  const handleSubscription = (evt) => {
+  const handleSubscription = (duration) => (evt) => {
     if (isSubscribed) {
       onUnsubscribe(data);
     } else {
-      onSubscribe(data);
+      onSubscribe({ ...data, duration });
     }
   };
   return (
@@ -52,12 +53,13 @@ export default ({
               size="small"
               icon={<StarsIcon />}
               label={data.type}
-            />
+              />
             {data.durations.map((val) => (
-              <Chip
+                <Chip
                 className={classes.duration}
                 label={val + "min"}
                 key={"duration-" + val}
+                color={subscribedDuration === val? "primary": undefined}
               />
             ))}
           </CardContent>
@@ -75,7 +77,7 @@ export default ({
               {showSubscribe && !deleted && (
                 <Switch
                   edge="end"
-                  onChange={handleSubscription}
+                  onChange={handleSubscription(data.durations[0])}
                   checked={isSubscribed}
                 />
               )}

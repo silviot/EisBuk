@@ -27,6 +27,7 @@ it("Selects the bookings", () => {
           surname: "Nocera",
           secret_key: "e4779485-33b4-4f8d-8f03-7761e78b4b67",
           id: "ffd4ca76-1659-4eef-a52f-c40cabb81187",
+          duration: 60,
         },
       ],
     },
@@ -44,18 +45,21 @@ it("Selects the bookings", () => {
           surname: "Manzi",
           secret_key: "2b54debf-6023-45ec-94c5-147084e6d1de",
           id: "fec4d032-8d5c-4604-9a32-e9e5058cc081",
+          duration: 60,
         },
         {
           name: "Rocco",
           surname: "Nocera",
           secret_key: "e4779485-33b4-4f8d-8f03-7761e78b4b67",
           id: "ffd4ca76-1659-4eef-a52f-c40cabb81187",
+          duration: 120,
         },
         {
           id: "non-existent-user",
           name: "Cancellato",
           secret_key: "Cancellato",
           surname: "Cancellato",
+          duration: 60,
         },
       ],
     },
@@ -210,12 +214,12 @@ const COMPLEX_STATE = {
       bookingsByDay: {
         "2021-01": {
           dEn4dAy8mTEkzzYGvC9Y: {
-            "fec4d032-8d5c-4604-9a32-e9e5058cc081": true,
-            "ffd4ca76-1659-4eef-a52f-c40cabb81187": true,
-            "non-existent-user": true,
+            "fec4d032-8d5c-4604-9a32-e9e5058cc081": 60,
+            "ffd4ca76-1659-4eef-a52f-c40cabb81187": 120,
+            "non-existent-user": 60,
           },
           "5hAqGeEqEUr6iyTFYAJS": {
-            "ffd4ca76-1659-4eef-a52f-c40cabb81187": true,
+            "ffd4ca76-1659-4eef-a52f-c40cabb81187": 60,
           },
         },
       },
@@ -285,11 +289,11 @@ const COMPLEX_STATE = {
         {
           id: "2021-01",
           dEn4dAy8mTEkzzYGvC9Y: {
-            "fec4d032-8d5c-4604-9a32-e9e5058cc081": true,
-            "ffd4ca76-1659-4eef-a52f-c40cabb81187": true,
+            "fec4d032-8d5c-4604-9a32-e9e5058cc081": 60,
+            "ffd4ca76-1659-4eef-a52f-c40cabb81187": 120,
           },
           "5hAqGeEqEUr6iyTFYAJS": {
-            "ffd4ca76-1659-4eef-a52f-c40cabb81187": true,
+            "ffd4ca76-1659-4eef-a52f-c40cabb81187": 60,
           },
         },
       ],

@@ -1,8 +1,8 @@
 export const slotsLabels = {
   durations: [
-    { id: 60, label: "1H" },
-    { id: 90, label: "1H 30M" },
-    { id: 120, label: "2H" },
+    { id: 60, label: "1H", minutes: 50 },
+    { id: 90, label: "1H 30M", minutes: 80 },
+    { id: 120, label: "2H", minutes: 100 },
   ],
   categories: [
     { id: "corso", label: "Corso" },
