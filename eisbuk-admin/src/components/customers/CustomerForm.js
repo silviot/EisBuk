@@ -110,7 +110,6 @@ const CustomerForm = ({ open, handleClose, customer, updateCustomer }) => {
                 name="category"
                 label="Categoria"
                 row
-                fullWidth
                 className={classes.radioGroup}
               >
                 {slotsLabels.categories.map((level) => (
