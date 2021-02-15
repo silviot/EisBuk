@@ -53,13 +53,13 @@ export default ({
               size="small"
               icon={<StarsIcon />}
               label={data.type}
-              />
+            />
             {data.durations.map((val) => (
-                <Chip
+              <Chip
                 className={classes.duration}
                 label={val + "min"}
                 key={"duration-" + val}
-                color={subscribedDuration === val? "primary": undefined}
+                color={subscribedDuration === val ? "primary" : undefined}
               />
             ))}
           </CardContent>

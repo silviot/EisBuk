@@ -25,7 +25,10 @@ const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
       <List className={classes.root}>
         {periods.map((slot) => {
           return (
-            <div key={slot.id + "-" + slot.duration} className={classes.slotWrapper}>
+            <div
+              key={slot.id + "-" + slot.duration}
+              className={classes.slotWrapper}
+            >
               <ListItem className={classes.listHeader}>
                 <ListItemText
                   primary={slot.time + " - " + slot.endTime}
