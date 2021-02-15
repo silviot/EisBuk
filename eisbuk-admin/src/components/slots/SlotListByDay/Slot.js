@@ -83,14 +83,16 @@ export default ({
           ) : null}
         </Card>
       )}
-      <ConfirmDialog
-        title="Sei sicuro di voler rimuovere questo slot ?"
-        open={confirmDeleteDialog}
-        setOpen={setConfirmDeleteDialog}
-        onConfirm={doDelete}
-      >
-        Questa azione non è reversibile
-      </ConfirmDialog>
+      {confirmDeleteDialog ? (
+        <ConfirmDialog
+          title="Sei sicuro di voler rimuovere questo slot ?"
+          open={confirmDeleteDialog}
+          setOpen={setConfirmDeleteDialog}
+          onConfirm={doDelete}
+        >
+          Questa azione non è reversibile
+        </ConfirmDialog>
+      ) : null}
     </>
   );
 };
