@@ -28,12 +28,13 @@ export default ({
   const doDelete = onDelete ? () => onDelete(data.id) : onDelete;
   const showSubscribe = Boolean(onUnsubscribe && onSubscribe);
   const isSubscribed = Boolean(subscribedSlots[data.id]);
+  const subscribedDuraion = isSubscribed && subscribedSlots[data.id].duration;
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
-  const handleSubscription = (evt) => {
+  const handleSubscription = (duration) => (evt) => {
     if (isSubscribed) {
       onUnsubscribe(data);
     } else {
-      onSubscribe(data);
+      onSubscribe({ ...data, duration });
     }
   };
   return (
@@ -63,6 +64,7 @@ export default ({
         {data.durations.map((val) => (
           <Chip
             disabled={deleted}
+            color={subscribedDuraion === val ? "primary" : undefined}
             size="small"
             label={val}
             key={"duration-" + val}
@@ -83,7 +85,7 @@ export default ({
           <ListItemSecondaryAction>
             <Switch
               edge="end"
-              onChange={handleSubscription}
+              onChange={handleSubscription(data.durations[0])}
               checked={isSubscribed}
             />
           </ListItemSecondaryAction>

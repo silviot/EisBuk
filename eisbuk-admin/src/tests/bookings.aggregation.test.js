@@ -36,12 +36,14 @@ it("Copies over booking when created", async (done) => {
       date: { seconds: day },
       category: "John",
       id: "booked-slot-id",
+      duration: 60,
     });
-  await waitForBookingWithId(
+  const record = await waitForBookingWithId(
     "2021-01",
     (data) =>
       data && data["booked-slot-id"] && data["booked-slot-id"]["booker-id"]
   );
+  expect(record["booked-slot-id"]["booker-id"]).toEqual(60);
 
   await adminDb
     .collection("organizations")
@@ -80,5 +82,5 @@ async function waitForBookingWithId(monthStr, condition) {
     10, // Try the above up to 10 times
     () => 400 // pause 400 ms between tries
   );
-  return doc;
+  return doc.data();
 }
