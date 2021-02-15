@@ -17,6 +17,7 @@ import AppbarAdmin from "../../components/layout/AppbarAdmin";
 
 import CustomerAreaCalendar from "./CustomerAreaCalendar";
 import { wrapOrganization } from "../../utils/firestore";
+import CustomerAreaBookings from "../../components/customerArea/CustomerAreaBookings";
 
 const LinkTab = (props) => {
   return (
@@ -112,9 +113,7 @@ export const CustomerAreaPage = () => {
                 <CustomerAreaCalendar className="foobar" />
               </TabPanel>
               <TabPanel value={activeTab} index={2}>
-                <Typography variant="h6">
-                  Prenotazioni {customerData[0].name}
-                </Typography>
+                <CustomerAreaBookings />
               </TabPanel>
             </>
           )}
