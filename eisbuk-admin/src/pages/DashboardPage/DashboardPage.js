@@ -25,6 +25,7 @@ const DashboardPage = () => {
   return (
     <div className={classes.root}>
       <AppbarAdmin />
+      <div className={classes.appBarSpacer} />
       <DateNavigationAppBar jump="day" />
       <BookingsByDay
         bookingDayInfo={bookingDayInfo}

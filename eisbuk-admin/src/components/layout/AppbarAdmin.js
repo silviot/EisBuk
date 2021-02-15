@@ -40,16 +40,6 @@ const AppbarAdmin = (props) => {
             </Button>
             <Button
               component={Link}
-              to="/atleti"
-              disabled={location.pathname === "/atleti"}
-              variant="contained"
-              replace
-              startIcon={<PeopleIcon />}
-            >
-              Atleti
-            </Button>
-            <Button
-              component={Link}
               disabled={location.pathname === "/prenotazioni"}
               to="/prenotazioni"
               variant="contained"
@@ -58,13 +48,22 @@ const AppbarAdmin = (props) => {
             >
               Slots
             </Button>
+            <Button
+              component={Link}
+              to="/atleti"
+              disabled={location.pathname === "/atleti"}
+              variant="contained"
+              replace
+              startIcon={<PeopleIcon />}
+            >
+              Atleti
+            </Button>
             {currentOrganizationSettings.name === "DEV" && (
               <DebugMenu {...props} />
             )}
           </ButtonGroup>
         </Toolbar>
       </AppBar>
-      <div style={{ height: "80px" }} />
     </>
   );
 };
