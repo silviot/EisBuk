@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Chip,
   IconButton,
@@ -13,6 +13,7 @@ import {
   Stars as StarsIcon,
 } from "@material-ui/icons";
 import { FBToLuxon } from "../../../data/dtutils";
+import ConfirmDialog from "../../global/ConfirmDialog";
 
 export default ({
   data,
@@ -27,6 +28,7 @@ export default ({
   const doDelete = onDelete ? () => onDelete(data.id) : onDelete;
   const showSubscribe = Boolean(onUnsubscribe && onSubscribe);
   const isSubscribed = Boolean(subscribedSlots[data.id]);
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const handleSubscription = (evt) => {
     if (isSubscribed) {
       onUnsubscribe(data);
@@ -35,52 +37,66 @@ export default ({
     }
   };
   return (
-    <ListItem disableGutters>
-      <Chip
-        key="time"
-        size="small"
-        disabled={deleted}
-        icon={<AccessTimeIcon />}
-        label={date.toISOTime().substring(0, 5)}
-      />
-      <Chip
-        key="category"
-        disabled={deleted}
-        size="small"
-        icon={<CategoryIcon />}
-        label={data.category}
-      />
-      <Chip
-        key="type"
-        disabled={deleted}
-        size="small"
-        icon={<StarsIcon />}
-        label={data.type}
-      />
-      {data.durations.map((val) => (
+    <>
+      <ListItem disableGutters>
         <Chip
+          key="time"
+          size="small"
+          disabled={deleted}
+          icon={<AccessTimeIcon />}
+          label={date.toISOTime().substring(0, 5)}
+        />
+        <Chip
+          key="category"
           disabled={deleted}
           size="small"
-          label={val}
-          key={"duration-" + val}
+          icon={<CategoryIcon />}
+          label={data.category}
         />
-      ))}
-      {doDelete && !deleted && (
-        <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="delete" onClick={doDelete}>
-            <DeleteIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      )}
-      {showSubscribe && !deleted && (
-        <ListItemSecondaryAction>
-          <Switch
-            edge="end"
-            onChange={handleSubscription}
-            checked={isSubscribed}
+        <Chip
+          key="type"
+          disabled={deleted}
+          size="small"
+          icon={<StarsIcon />}
+          label={data.type}
+        />
+        {data.durations.map((val) => (
+          <Chip
+            disabled={deleted}
+            size="small"
+            label={val}
+            key={"duration-" + val}
           />
-        </ListItemSecondaryAction>
-      )}
-    </ListItem>
+        ))}
+        {doDelete && !deleted && (
+          <ListItemSecondaryAction>
+            <IconButton
+              edge="end"
+              aria-label="delete"
+              onClick={() => setConfirmDeleteDialog(true)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
+        )}
+        {showSubscribe && !deleted && (
+          <ListItemSecondaryAction>
+            <Switch
+              edge="end"
+              onChange={handleSubscription}
+              checked={isSubscribed}
+            />
+          </ListItemSecondaryAction>
+        )}
+      </ListItem>
+      <ConfirmDialog
+        title="Sei sicuro di voler rimuovere questo slot ?"
+        open={confirmDeleteDialog}
+        setOpen={setConfirmDeleteDialog}
+        onConfirm={doDelete}
+      >
+        Questa azione non è reversibile
+      </ConfirmDialog>
+    </>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { DateTime } from "luxon";
 
 export const getInitials = (name, surname) => {
@@ -37,7 +37,7 @@ export const getMonthStr = (startDate, offset) =>
     .substring(0, 7);
 
 export function useTitle(title) {
-  React.useEffect(() => {
+  useEffect(() => {
     const prevTitle = document.title;
     document.title = title;
     return () => {

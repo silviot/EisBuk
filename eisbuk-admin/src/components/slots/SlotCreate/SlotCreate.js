@@ -13,10 +13,10 @@ import {
   FormControl,
   FormControlLabel,
   IconButton,
-  MenuItem,
+  Radio,
   TextField,
 } from "@material-ui/core";
-
+import { RadioGroup } from "formik-material-ui";
 import {
   Formik,
   Form,
@@ -49,7 +49,6 @@ const SlotValidation = Yup.object().shape({
 
 const TimePickerField = ({ ...props }) => {
   const { setFieldValue } = useFormikContext();
-  const classes = useStyles();
   const getCurrentTime = (delta) => {
     const parsed = DateTime.fromISO(props.value);
     if (!parsed.invalid) {
@@ -59,6 +58,12 @@ const TimePickerField = ({ ...props }) => {
   };
   const decrease = () => setFieldValue(props.name, getCurrentTime(-1));
   const increase = () => setFieldValue(props.name, getCurrentTime(1));
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      whiteSpace: "nowrap",
+    },
+  }));
+  const classes = useStyles();
   return (
     <Box className={classes.root}>
       <IconButton color="primary" disableElevation onClick={decrease}>
@@ -72,12 +77,6 @@ const TimePickerField = ({ ...props }) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    whiteSpace: "nowrap",
-  },
-}));
-
 const SlotCreate = ({
   createSlot,
   isoDate,
@@ -86,6 +85,7 @@ const SlotCreate = ({
   onOpen,
   ...props
 }) => {
+  const classes = useStyles();
   return (
     <Dialog open={open} onClose={onClose}>
       <Formik
@@ -115,27 +115,42 @@ const SlotCreate = ({
                     name="time"
                     as={TimePickerField}
                     label="Ora di inizio"
+                    className={classes.field}
                   />
                   <ErrorMessage name="time" />
-
                   <Field
-                    as={TextField}
+                    component={RadioGroup}
                     name="category"
                     label="Categoria"
-                    select
+                    row
+                    fullWidth
+                    className={classes.field}
                   >
                     {getEnumItems(SlotCategory)}
                   </Field>
                   <ErrorMessage name="category" />
 
-                  <Field as={TextField} name="type" label="Tipo" select>
+                  <Field
+                    component={RadioGroup}
+                    name="type"
+                    label="Tipo"
+                    row
+                    className={classes.field}
+                  >
                     {getEnumItems(SlotType)}
                   </Field>
                   <ErrorMessage name="type" />
+                  <Box display="flex">
+                    {getCheckBoxes("durations", SlotDuration)}
+                  </Box>
 
-                  {getCheckBoxes("durations", SlotDuration)}
-
-                  <Field name="notes" as={TextField} label="Note" multiline />
+                  <Field
+                    name="notes"
+                    className={classes.field}
+                    as={TextField}
+                    label="Note"
+                    multiline
+                  />
                 </FormControl>
               </DialogContent>
               <DialogActions>
@@ -164,9 +179,12 @@ const SlotCreate = ({
 
 const getEnumItems = (values) =>
   Object.keys(values).map((el) => (
-    <MenuItem key={values[el]} value={values[el]}>
-      {el}
-    </MenuItem>
+    <FormControlLabel
+      key={values[el]}
+      value={values[el]}
+      label={el}
+      control={<Radio />}
+    />
   ));
 
 const getCheckBoxes = (name, values) =>
@@ -187,4 +205,12 @@ export function MyCheckbox({ name, value, label }) {
     />
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  field: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+}));
+
 export default SlotCreate;

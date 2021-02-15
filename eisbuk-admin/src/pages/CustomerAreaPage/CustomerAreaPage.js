@@ -68,59 +68,59 @@ export const CustomerAreaPage = () => {
     `${customerData[0].name} ${customerData[0].surname}`;
   const auth = useSelector(selectAuth);
 
-  const adminAppBar = isLoaded(auth) && !isEmpty(auth) ? <AppbarAdmin /> : null;
   return (
-    <Container maxWidth="sm">
-      {adminAppBar}
+    <>
+      {isLoaded(auth) && !isEmpty(auth) && <AppbarAdmin />}
       <AppbarCustomer headingText={title} />
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        {isLoaded(customerData) && !isEmpty(customerData) && (
-          <>
-            <AppBar position="static" className={classes.customerNav}>
-              <Container maxWidth="xl">
-                <Tabs
-                  value={activeTab}
-                  onChange={handleTabChange}
-                  indicatorColor="primary"
-                  centered
-                >
-                  <LinkTab
-                    label="Bacheca"
-                    icon={<PersonPinIcon />}
-                    href="/drafts"
-                  />
-                  <LinkTab
-                    label="Calendario"
-                    icon={<EventNoteIcon />}
-                    href="/drafts"
-                  />
-                  <LinkTab
-                    label="Prenotazioni"
-                    icon={<PersonPinIcon />}
-                    href="/trash"
-                  />
-                </Tabs>
-              </Container>
-            </AppBar>
-            <TabPanel value={activeTab} index={0}>
-              <Typography variant="h6">
-                Benvenuto {customerData[0].name} {customerData[0].surname}
-              </Typography>
-              <Typography variant="p">{customerData[0].category}</Typography>
-            </TabPanel>
-            <TabPanel value={activeTab} index={1}>
-              <CustomerAreaCalendar className="foobar" />
-            </TabPanel>
-            <TabPanel value={activeTab} index={2}>
-              <Typography variant="h6">
-                Prenotazioni {customerData[0].name}
-              </Typography>
-            </TabPanel>
-          </>
-        )}
-      </main>
-    </Container>
+      <Container maxWidth="sm">
+        <main className={classes.content}>
+          {isLoaded(customerData) && !isEmpty(customerData) && (
+            <>
+              <AppBar position="static" className={classes.customerNav}>
+                <Container maxWidth="xl">
+                  <Tabs
+                    value={activeTab}
+                    onChange={handleTabChange}
+                    indicatorColor="primary"
+                    centered
+                  >
+                    <LinkTab
+                      label="Bacheca"
+                      icon={<PersonPinIcon />}
+                      href="/drafts"
+                    />
+                    <LinkTab
+                      label="Calendario"
+                      icon={<EventNoteIcon />}
+                      href="/drafts"
+                    />
+                    <LinkTab
+                      label="Prenotazioni"
+                      icon={<PersonPinIcon />}
+                      href="/trash"
+                    />
+                  </Tabs>
+                </Container>
+              </AppBar>
+              <TabPanel value={activeTab} index={0}>
+                <Typography variant="h6">
+                  Benvenuto {customerData[0].name} {customerData[0].surname}
+                </Typography>
+                <Typography variant="p">{customerData[0].category}</Typography>
+              </TabPanel>
+              <TabPanel value={activeTab} index={1}>
+                <CustomerAreaCalendar className="foobar" />
+              </TabPanel>
+              <TabPanel value={activeTab} index={2}>
+                <Typography variant="h6">
+                  Prenotazioni {customerData[0].name}
+                </Typography>
+              </TabPanel>
+            </>
+          )}
+        </main>
+      </Container>
+    </>
   );
 };
 
