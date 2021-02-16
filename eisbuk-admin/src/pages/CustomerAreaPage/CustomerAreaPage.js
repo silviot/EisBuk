@@ -99,7 +99,6 @@ export const CustomerAreaPage = () => {
               </TabPanel>
               <TabPanel value={activeTab} index={1}>
                 <CustomerAreaCalendar className="foobar" />
-                <CustomerAreaBookings />
               </TabPanel>
               <TabPanel value={activeTab} index={2}>
                 <CustomerAreaBookings />

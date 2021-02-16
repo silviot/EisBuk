@@ -22,7 +22,7 @@ const AppbarAdmin = (props) => {
   const currentOrganizationSettings = getCurrentOrganizationSettings();
   return (
     <>
-      <AppBar className={classes.appBar}>
+      <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h6" className={classes.title}>
             {currentOrganizationSettings.name}
@@ -64,7 +64,6 @@ const AppbarAdmin = (props) => {
           </ButtonGroup>
         </Toolbar>
       </AppBar>
-      <div className={classes.appBarSpacer}></div>
     </>
   );
 };
@@ -76,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(2),
   },
-  appBarSpacer: theme.mixins.toolbar,
 }));
 
 export default AppbarAdmin;

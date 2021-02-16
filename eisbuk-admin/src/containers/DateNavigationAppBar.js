@@ -92,6 +92,9 @@ const useStyles = makeStyles((theme) => ({
   next: {
     flexGrow: 1,
   },
+  "& .MuiAppBar-positionSticky": {
+    top: theme.mixins.toolbar,
+  },
 }));
 
 export default DateNavigationAppBar;
