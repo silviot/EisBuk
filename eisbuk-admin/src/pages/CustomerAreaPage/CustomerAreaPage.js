@@ -85,21 +85,9 @@ export const CustomerAreaPage = () => {
                     indicatorColor="primary"
                     centered
                   >
-                    <LinkTab
-                      label="Bacheca"
-                      icon={<PersonPinIcon />}
-                      href="/drafts"
-                    />
-                    <LinkTab
-                      label="Calendario"
-                      icon={<EventNoteIcon />}
-                      href="/drafts"
-                    />
-                    <LinkTab
-                      label="Prenotazioni"
-                      icon={<PersonPinIcon />}
-                      href="/trash"
-                    />
+                    <LinkTab label="Bacheca" icon={<PersonPinIcon />} />
+                    <LinkTab label="Calendario" icon={<EventNoteIcon />} />
+                    <LinkTab label="Prenotazioni" icon={<PersonPinIcon />} />
                   </Tabs>
                 </Container>
               </AppBar>
@@ -111,6 +99,7 @@ export const CustomerAreaPage = () => {
               </TabPanel>
               <TabPanel value={activeTab} index={1}>
                 <CustomerAreaCalendar className="foobar" />
+                <CustomerAreaBookings />
               </TabPanel>
               <TabPanel value={activeTab} index={2}>
                 <CustomerAreaBookings />
@@ -129,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarSpacer: theme.mixins.toolbar,
   customerNav: {
-    backgroundColor: theme.palette.grey[900],
+    backgroundColor: theme.palette.secondary.main,
   },
 }));
 

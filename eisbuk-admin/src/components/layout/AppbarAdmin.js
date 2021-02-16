@@ -64,6 +64,7 @@ const AppbarAdmin = (props) => {
           </ButtonGroup>
         </Toolbar>
       </AppBar>
+      <div className={classes.appBarSpacer}></div>
     </>
   );
 };
@@ -75,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(2),
   },
+  appBarSpacer: theme.mixins.toolbar,
 }));
 
 export default AppbarAdmin;

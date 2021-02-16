@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   deleteButton: {},
 }));
 
-const MyCard = () => {
+const CustomerAreaBookingCard = () => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -101,19 +101,6 @@ const MyCard = () => {
         </Box>
       </CardContent>
     </Card>
-  );
-};
-
-const CustomerAreaBookingCard = ({ date, category }) => {
-  return (
-    <>
-      <MyCard />
-      <MyCard />
-      <MyCard />
-      <MyCard />
-      <MyCard />
-      <MyCard />
-    </>
   );
 };
 
