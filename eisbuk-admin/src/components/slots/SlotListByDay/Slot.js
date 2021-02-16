@@ -3,7 +3,6 @@ import {
   Chip,
   IconButton,
   Card,
-  Switch,
   CardContent,
   Typography,
   CardActions,
@@ -31,8 +30,14 @@ export default ({
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const handleSubscription = (duration) => (evt) => {
     if (isSubscribed) {
-      onUnsubscribe(data);
+      if (subscribedDuration === duration) {
+        onUnsubscribe(data);
+      } else {
+        onUnsubscribe(data);
+        onSubscribe({ ...data, duration });
+      }
     } else {
+      console.log(duration);
       onSubscribe({ ...data, duration });
     }
   };
@@ -56,14 +61,16 @@ export default ({
             />
             {data.durations.map((val) => (
               <Chip
+                clickable={showSubscribe}
                 className={classes.duration}
                 label={val + "min"}
                 key={"duration-" + val}
                 color={subscribedDuration === val ? "primary" : undefined}
+                onClick={showSubscribe ? handleSubscription(val) : null}
               />
             ))}
           </CardContent>
-          {doDelete || showSubscribe ? (
+          {doDelete ? (
             <CardActions className={classes.actionsContainer}>
               {doDelete && !deleted && (
                 <IconButton
@@ -73,13 +80,6 @@ export default ({
                 >
                   <DeleteIcon />
                 </IconButton>
-              )}
-              {showSubscribe && !deleted && (
-                <Switch
-                  edge="end"
-                  onChange={handleSubscription(data.durations[0])}
-                  checked={isSubscribed}
-                />
               )}
             </CardActions>
           ) : null}
