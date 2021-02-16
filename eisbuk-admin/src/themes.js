@@ -29,10 +29,10 @@ export const igorice = _.merge({}, base, {
 export const eisbuk = _.merge({}, base, {
   palette: {
     primary: {
-      main: colors.orange[600],
+      main: colors.orange[900],
     },
     secondary: {
-      main: colors.green[200],
+      main: colors.green[300],
     },
   },
 });

@@ -44,11 +44,28 @@ export default ({
   return (
     <>
       {!deleted && (
-        <Card className={classes.root}>
+        <Card className={classes.root} raised={isSubscribed}>
           <CardContent>
-            <Typography variant="h5" component="h2">
+            <Typography display="inline" variant="h5" component="h2">
               {date.toISOTime().substring(0, 5)}
             </Typography>
+            {isSubscribed && (
+              <Typography
+                display="inline"
+                variant="h6"
+                component="h3"
+                className={classes.endTime}
+              >
+                {" "}
+                -{" "}
+                {date
+                  .plus({ minutes: subscribedDuration })
+                  .minus({ minutes: 10 })
+                  .toISOTime()
+                  .substring(0, 5)}
+              </Typography>
+            )}
+
             <Typography className={classes.category} color="textSecondary">
               {data.category}
             </Typography>
@@ -56,8 +73,8 @@ export default ({
               className={classes.type}
               key="type"
               size="small"
-              icon={<StarsIcon />}
               label={data.type}
+              variant="outlined"
             />
             {data.durations.map((val) => (
               <Chip
@@ -101,7 +118,13 @@ export default ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    border: "2px solid transparent",
     position: "relative",
+    "&.MuiPaper-elevation8": {
+      borderWidth: 2,
+      borderStyle: "solid",
+      borderColor: theme.palette.primary.main,
+    },
   },
   category: {
     textTransform: "capitalize",
@@ -121,5 +144,9 @@ const useStyles = makeStyles((theme) => ({
     borderTopWidth: 1,
     borderTopStyle: "solid",
     borderTopColor: theme.palette.divider,
+  },
+  endTime: {},
+  "&.MuiPaper-elevation8": {
+    border: "2px solid red",
   },
 }));
