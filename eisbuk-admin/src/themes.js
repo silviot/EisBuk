@@ -61,7 +61,7 @@ export function getCurrentOrganizationSettings() {
     case "igorice.web.app":
       return {
         theme: igorice,
-        name: "IgorIce",
+        name: "Igor Ice Team",
       };
     case "eisbuk.web.app":
       return {
