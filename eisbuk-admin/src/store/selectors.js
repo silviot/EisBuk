@@ -56,6 +56,7 @@ export const bookingDayInfoSelector = (dayStr) =>
           type: slot.type,
           id: slot.id,
           users: users,
+          durations: slot.durations,
         };
         if (slot.absentees) {
           res.absentees = slot.absentees;
