@@ -15,12 +15,14 @@ it("Selects the bookings", () => {
       type: "off-ice-danza",
       users: [],
       id: "Zj5vUJitCYqn3kMR8LsH",
+      durations: [60],
     },
     {
       category: "preagonismo",
       time: "11:00",
       type: "off-ice-gym",
       id: "5hAqGeEqEUr6iyTFYAJS",
+      durations: [60],
       users: [
         {
           name: "Rocco",
@@ -35,6 +37,7 @@ it("Selects the bookings", () => {
       time: "16:00",
       category: "preagonismo",
       type: "ice",
+      durations: [60, 90, 120],
       id: "dEn4dAy8mTEkzzYGvC9Y",
       absentees: {
         "fec4d032-8d5c-4604-9a32-e9e5058cc081": true,
@@ -69,6 +72,7 @@ it("Selects the bookings", () => {
       type: "ice",
       users: [],
       id: "nnUF6szWatJP5R7byhwH",
+      durations: [60, 90, 120],
     },
   ]);
 });
