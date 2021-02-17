@@ -20,6 +20,7 @@ OneSlot.args = {
       category: "agonismo",
       type: "ice",
       id: "foo",
+      durations: [90, 120],
       users: [],
     },
   ],
@@ -33,12 +34,14 @@ ManySlots.args = {
       category: "agonismo",
       type: "ice",
       id: "foo",
+      durations: [90, 120],
       users: [{ name: "Saul", surname: "Goodman", id: "saul", duration: 90 }],
     },
     {
       time: "12:00",
       category: "agonismo",
       type: "ice",
+      durations: [60, 120],
       id: "bar",
       users: [
         { name: "Walter", surname: "White", id: "walt", duration: 60 },
@@ -54,6 +57,7 @@ ManySlots.args = {
       category: "agonismo",
       type: "ice",
       id: "baz",
+      durations: [60],
       users: [],
     },
     {
@@ -61,6 +65,7 @@ ManySlots.args = {
       category: "agonismo",
       type: "ice",
       id: "bat",
+      durations: [60, 90],
       users: [
         { name: "Walter", surname: "White", id: "walter", duration: 60 },
         { name: "Jesse", surname: "Pinkman", id: "jesse", duration: 90 },

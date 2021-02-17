@@ -31,7 +31,11 @@ const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
             >
               <ListItem className={classes.listHeader}>
                 <ListItemText
-                  primary={slot.time + " - " + slot.endTime}
+                  primary={
+                    <span>
+                      {slot.time} - {slot.endTime} <b>({slot.users.length})</b>
+                    </span>
+                  }
                   secondary={`${slot.category} ${slot.type}`}
                 />
               </ListItem>
@@ -108,11 +112,11 @@ const splitPeriod = (booking) => {
   const result = [];
   const usersByDuration = _.groupBy(booking.users, (el) => el.duration);
 
-  Object.keys(usersByDuration).map((key) =>
+  booking.durations.map((key) =>
     result.push({
       ...booking,
       duration: key,
-      users: usersByDuration[key],
+      users: usersByDuration[key] || [],
       endTime: DateTime.fromISO(booking.time)
         .plus({ minutes: durationsMap[key] })
         .toFormat("HH:mm"),
