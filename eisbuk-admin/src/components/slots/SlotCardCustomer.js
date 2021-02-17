@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import moment from "moment";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -57,10 +56,4 @@ export const SlotCardCustomer = ({
   );
 };
 
-/* const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteSlot: (id) => dispatch(deleteSlot(id)),
-  };
-}; */
-
-export default connect(null, null)(SlotCardCustomer);
+export default SlotCardCustomer;
