@@ -26,7 +26,7 @@ import { Formik, Form, FastField } from "formik";
 import { TextField } from "formik-material-ui";
 import * as Yup from "yup";
 
-import { slotsLabels } from "../../config/appConfig";
+import { slotsLabelsLists } from "../../config/appConfig";
 
 const CustomerValidation = Yup.object().shape({
   name: Yup.string().required("Richiesto"),
@@ -52,7 +52,7 @@ const CustomerForm = ({ open, handleClose, customer, updateCustomer }) => {
           email: "",
           phone: "",
           birth: "",
-          category: slotsLabels.categories[0].id,
+          category: slotsLabelsLists[0],
           certificateExpiration: "",
           subscriptionNumber: "",
           ...customer,
@@ -112,7 +112,7 @@ const CustomerForm = ({ open, handleClose, customer, updateCustomer }) => {
                 row
                 className={classes.radioGroup}
               >
-                {slotsLabels.categories.map((level) => (
+                {slotsLabelsLists.categories.map((level) => (
                   <FormControlLabel
                     key={level.id}
                     value={level.id}

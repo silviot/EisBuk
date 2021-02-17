@@ -1,8 +1,12 @@
-export const slotsLabels = {
+import _ from "lodash";
+
+// These definition drive the UI.
+// We define them as arrays to be able to specify an order
+export const slotsLabelsLists = {
   durations: [
     { id: 60, label: "1H", minutes: 50 },
-    { id: 90, label: "1H 30M", minutes: 80 },
-    { id: 120, label: "2H", minutes: 100 },
+    { id: 90, label: "1H½", minutes: 80 },
+    { id: 120, label: "2H", minutes: 110 },
   ],
   categories: [
     { id: "corso", label: "Corso" },
@@ -15,3 +19,9 @@ export const slotsLabels = {
     { id: "off-ice-gym", label: "OFF Ice Gym" },
   ],
 };
+
+// But we often need a map, so we build one here.
+export const slotsLabels = {};
+Object.keys(slotsLabelsLists).forEach((el) => {
+  slotsLabels[el] = _.keyBy(slotsLabelsLists[el], "id");
+});

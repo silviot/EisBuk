@@ -1,6 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
-import _ from "lodash";
 import moment from "moment";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -40,10 +38,6 @@ export const SlotCardCustomer = ({
 }) => {
   const classes = useStyles();
   const formattedHour = moment.unix(date.seconds).locale("it").format("HH:mm");
-  let labels = [];
-  Object.keys(slotsLabels).forEach((x) => {
-    labels[x] = _.keyBy(slotsLabels[x], "id");
-  });
   return (
     <Card className={classes.root}>
       <div className={classes.time}>{formattedHour}</div>
@@ -51,10 +45,10 @@ export const SlotCardCustomer = ({
         <CardContent className={classes.content}>
           <div>
             Durata{" "}
-            {durations.map((duration) => labels.durations[duration].label)}
+            {durations.map((duration) => slotsLabels.durations[duration].label)}
           </div>
-          <div>{labels.categories[category].label}</div>
-          <div>{labels.types[type].label}</div>
+          <div>{slotsLabels.categories[category].label}</div>
+          <div>{slotsLabels.types[type].label}</div>
           <div>{notes}</div>
         </CardContent>
       </div>
@@ -62,10 +56,4 @@ export const SlotCardCustomer = ({
   );
 };
 
-/* const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteSlot: (id) => dispatch(deleteSlot(id)),
-  };
-}; */
-
-export default connect(null, null)(SlotCardCustomer);
+export default SlotCardCustomer;
