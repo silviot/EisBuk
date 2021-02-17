@@ -1,3 +1,5 @@
+import React from "react";
+import Button from "@material-ui/core/Button";
 import {
   GOOGLE_LOGIN_ERROR,
   GOOGLE_LOGIN_SUCCESS,
@@ -41,6 +43,7 @@ export const signIn = (credentials) => {
       .then(() => {
         dispatch(
           enqueueSnackbar({
+            key: new Date().getTime() + Math.random(),
             message: "Hai effettuato il login",
             options: {
               variant: "success",
@@ -51,6 +54,7 @@ export const signIn = (credentials) => {
       .catch((err) => {
         dispatch(
           enqueueSnackbar({
+            key: new Date().getTime() + Math.random(),
             message: "Autenticazione negata",
             options: {
               variant: "error",
@@ -70,6 +74,7 @@ export const signOut = () => {
       .then(() => {
         dispatch(
           enqueueSnackbar({
+            key: new Date().getTime() + Math.random(),
             message: "Hai effettuato il logout",
             options: {
               variant: "success",
@@ -80,6 +85,7 @@ export const signOut = () => {
       .catch((err) => {
         dispatch(
           enqueueSnackbar({
+            key: new Date().getTime() + Math.random(),
             message: "Si è verificato un errore",
             options: {
               variant: "error",
@@ -130,9 +136,18 @@ export const createSlots = (slots) => {
       .then(() => {
         dispatch(
           enqueueSnackbar({
+            key: new Date().getTime() + Math.random(),
             message: "Slot Aggiunto",
             options: {
               variant: "success",
+              action: (key) => (
+                <Button
+                  variant="outlined"
+                  onClick={() => dispatch(closeSnackbar(key))}
+                >
+                  OK
+                </Button>
+              ),
             },
           })
         );
@@ -156,9 +171,18 @@ export const subscribeToSlot = (bookingId, slot) => {
       .then(() => {
         dispatch(
           enqueueSnackbar({
+            key: new Date().getTime() + Math.random(),
             message: "Prenotazione effettuata",
             options: {
               variant: "success",
+              action: (key) => (
+                <Button
+                  variant="outlined"
+                  onClick={() => dispatch(closeSnackbar(key))}
+                >
+                  OK
+                </Button>
+              ),
             },
           })
         );
@@ -185,6 +209,14 @@ export const unsubscribeFromSlot = (bookingId, slot) => {
             message: "Prenotazione rimossa",
             options: {
               variant: "success",
+              action: (key) => (
+                <Button
+                  variant="outlined"
+                  onClick={() => dispatch(closeSnackbar(key))}
+                >
+                  OK
+                </Button>
+              ),
             },
           })
         );
@@ -192,9 +224,18 @@ export const unsubscribeFromSlot = (bookingId, slot) => {
       .catch((err) => {
         dispatch(
           enqueueSnackbar({
+            key: new Date().getTime() + Math.random(),
             message: "Errore nel rimuovere la prenotazione",
             options: {
               variant: "error",
+              action: (key) => (
+                <Button
+                  variant="outlined"
+                  onClick={() => dispatch(closeSnackbar(key))}
+                >
+                  OK
+                </Button>
+              ),
             },
           })
         );
@@ -215,7 +256,19 @@ export const deleteSlot = (id) => {
       .then(() => {
         dispatch(
           enqueueSnackbar({
+            key: new Date().getTime() + Math.random(),
             message: "Slot Eliminato",
+            options: {
+              variant: "success",
+              action: (key) => (
+                <Button
+                  variant="outlined"
+                  onClick={() => dispatch(closeSnackbar(key))}
+                >
+                  OK
+                </Button>
+              ),
+            },
           })
         );
       })
@@ -248,9 +301,18 @@ export const deleteCustomer = (customer) => {
       .then(() => {
         dispatch(
           enqueueSnackbar({
+            key: new Date().getTime() + Math.random(),
             message: `${customer.name} ${customer.surname} rimosso`,
             options: {
               variant: "success",
+              action: (key) => (
+                <Button
+                  variant="outlined"
+                  onClick={() => dispatch(closeSnackbar(key))}
+                >
+                  OK
+                </Button>
+              ),
             },
           })
         );
@@ -285,7 +347,18 @@ export const updateCustomer = (customer) => {
       .then(() => {
         dispatch(
           enqueueSnackbar({
+            key: new Date().getTime() + Math.random(),
             message: `${customer.name} ${customer.surname} aggiornato`,
+            options: {
+              action: (key) => (
+                <Button
+                  variant="outlined"
+                  onClick={() => dispatch(closeSnackbar(key))}
+                >
+                  OK
+                </Button>
+              ),
+            },
           })
         );
       })

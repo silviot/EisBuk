@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { Badge, IconButton, ListSubheader } from "@material-ui/core";
+import {
+  Badge,
+  IconButton,
+  ListSubheader,
+  Grid,
+  Typography,
+  Box,
+} from "@material-ui/core";
 import { FileCopy as FileCopyIcon } from "@material-ui/icons";
 import {
   AddCircleOutline as AddCircleOutlineIcon,
@@ -12,6 +19,7 @@ import SlotCreate from "../SlotCreate";
 import { copySlotDay, createSlots } from "../../../store/actions/actions";
 import { shiftSlots } from "../../../data/slotutils";
 import LuxonUtils from "@date-io/luxon";
+import CustomerAreaBookingCard from "../../customerArea/CustomerAreaBookingCard";
 
 const luxon = new LuxonUtils({ locale: "C" });
 
@@ -26,7 +34,9 @@ const SlotsDay = ({
   onDelete,
   onCreateSlot,
   enableEdit,
+  view,
 }) => {
+  subscribedSlots = subscribedSlots || {};
   const slotsList = [];
   const [deletedSlots, setDeletedSlots] = useState({});
   const [formIsOpen, setFormIsOpen] = useState(false);
@@ -80,40 +90,65 @@ const SlotsDay = ({
   );
   return (
     <>
-      <ListSubheader key={day + "-title"} className={classes.listSubheader}>
-        <div className={classes.date}>{dateStr}</div>{" "}
-        <div className={classes.dateButtons}>
-          {newSlotButton}
-          {enableEdit && Boolean(slotsList.length) && (
-            <IconButton
-              variant="outlined"
-              size="small"
-              onClick={() => dispatch(copySlotDay(slots))}
-            >
-              <FileCopyIcon />
-            </IconButton>
+      {view === "slots" ? (
+        <>
+          <ListSubheader key={day + "-title"} className={classes.listSubheader}>
+            <Typography display="inline" variant="h4" className={classes.date}>
+              {dateStr}
+            </Typography>
+            <Box display="flex" className={classes.dateButtons}>
+              {newSlotButton}
+              {enableEdit && Boolean(slotsList.length) && (
+                <IconButton
+                  variant="outlined"
+                  size="small"
+                  onClick={() => dispatch(copySlotDay(slots))}
+                >
+                  <FileCopyIcon />
+                </IconButton>
+              )}
+              {enableEdit && Object.keys(dayInClipboard).length > 0 && (
+                <IconButton variant="outlined" size="small" onClick={doPaste}>
+                  <Badge
+                    badgeContent={Object.keys(dayInClipboard).length}
+                    color="secondary"
+                  >
+                    <AssignmentIcon />
+                  </Badge>
+                </IconButton>
+              )}
+            </Box>
+          </ListSubheader>
+          <Grid className={classes.slotListContainer} container spacing={3}>
+            {slotsList.map((slot) => (
+              <Grid key={slot.id} item xs={12} md={6}>
+                <Slot
+                  data={slot}
+                  key={slot.id}
+                  deleted={!!deletedSlots[slot.id]}
+                  onDelete={extendedOnDelete}
+                  {...{ onSubscribe, onUnsubscribe, subscribedSlots }}
+                ></Slot>
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      ) : (
+        <Grid className={classes.bookingsListContainer} container spacing={3}>
+          {slotsList.map(
+            (slot) =>
+              Boolean(subscribedSlots[slot.id]) && (
+                <Grid key={slot.id} item xs={12}>
+                  <CustomerAreaBookingCard
+                    data={subscribedSlots[slot.id]}
+                    key={slot.id}
+                    {...{ onUnsubscribe }}
+                  />
+                </Grid>
+              )
           )}
-          {enableEdit && Object.keys(dayInClipboard).length > 0 && (
-            <IconButton variant="outlined" size="small" onClick={doPaste}>
-              <Badge
-                badgeContent={Object.keys(dayInClipboard).length}
-                color="secondary"
-              >
-                <AssignmentIcon />
-              </Badge>
-            </IconButton>
-          )}
-        </div>
-      </ListSubheader>
-      {slotsList.map((slot) => (
-        <Slot
-          data={slot}
-          key={slot.id}
-          deleted={!!deletedSlots[slot.id]}
-          onDelete={extendedOnDelete}
-          {...{ onSubscribe, onUnsubscribe, subscribedSlots }}
-        ></Slot>
-      ))}
+        </Grid>
+      )}
     </>
   );
 };
@@ -122,12 +157,24 @@ export default SlotsDay;
 
 const useStyles = makeStyles((theme) => ({
   listSubheader: {
-    display: "flex",
     fontVariant: "small-caps",
-    borderTop: "1px solid " + theme.palette.secondary.dark,
+    backgroundColor: theme.palette.background.default,
+
+    display: "flex",
+  },
+  slotListContainer: {
+    paddingBottom: theme.spacing(2),
+    marginBottom: theme.spacing(0.5),
+    borderBottomStyle: "solid",
+    borderBottomColor: theme.palette.divider,
+    borderBottomWidth: 1,
+  },
+  bookingsListContainer: {
+    marginTop: theme.spacing(0.5),
   },
   date: {
     "flex-grow": 1,
+    color: theme.palette.getContrastText(theme.palette.background.default),
   },
   dateButtons: {
     "flex-grow": 0,

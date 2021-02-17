@@ -28,68 +28,59 @@ const CustomersPage = () => {
   const customers = useSelector(selectCustomers);
 
   return (
-    <div className={classes.root}>
+    <>
       <AppbarAdmin />
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        {!isLoaded(customers) && <LinearProgress />}
-        <Container maxWidth="lg" className={classes.customersContainer}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              {
-                (isLoaded(customers),
-                !isEmpty(customers) && (
-                  <Box p={3}>
-                    <CustomerList
-                      onDeleteCustomer={(customer) =>
-                        dispatch(deleteCustomer(customer))
-                      }
-                      updateCustomer={(customer) =>
-                        dispatch(updateCustomer(customer))
-                      }
-                      customers={customers.map((o) => ({
-                        ...o,
-                        tableData: {},
-                      }))}
-                    />
-                  </Box>
-                ))
-              }
-              <Fab
-                color="primary"
-                aria-label="Aggiungi atleta"
-                className={classes.fab}
-                onClick={toggleAddAthleteDialog}
-              >
-                <AddIcon />
-              </Fab>
-              <CustomerForm
-                open={addAthleteDialog}
-                handleClose={toggleAddAthleteDialog}
-                updateCustomer={(customer) =>
-                  dispatch(updateCustomer(customer))
-                }
-              />
-            </Grid>
+      {!isLoaded(customers) && <LinearProgress />}
+      <Container maxWidth="lg" className={classes.customersContainer}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            {
+              (isLoaded(customers),
+              !isEmpty(customers) && (
+                <Box p={3}>
+                  <CustomerList
+                    onDeleteCustomer={(customer) =>
+                      dispatch(deleteCustomer(customer))
+                    }
+                    updateCustomer={(customer) =>
+                      dispatch(updateCustomer(customer))
+                    }
+                    customers={customers.map((o) => ({
+                      ...o,
+                      tableData: {},
+                    }))}
+                  />
+                </Box>
+              ))
+            }
+            <Fab
+              color="primary"
+              aria-label="Aggiungi atleta"
+              className={classes.fab}
+              onClick={toggleAddAthleteDialog}
+            >
+              <AddIcon />
+            </Fab>
+            <CustomerForm
+              open={addAthleteDialog}
+              handleClose={toggleAddAthleteDialog}
+              updateCustomer={(customer) => dispatch(updateCustomer(customer))}
+            />
           </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
-    </div>
+        </Grid>
+        <Box pt={4}>
+          <Copyright />
+        </Box>
+      </Container>
+    </>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-  },
   headerHero: {
     backgroundColor: theme.palette.secondary.main,
     paddingBottom: theme.spacing(3),
   },
-  appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     height: "100vh",

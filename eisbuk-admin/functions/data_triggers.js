@@ -95,7 +95,10 @@ exports.aggregate_bookings = functions
         .doc(context.params.organization)
         .collection("bookingsByDay")
         .doc(month_str)
-        .set({ [bookingData.id]: { [customer_id]: true } }, { merge: true });
+        .set(
+          { [bookingData.id]: { [customer_id]: bookingData.duration } },
+          { merge: true }
+        );
     } else {
       console.log("deleting");
       const bookingData = change.before.data();

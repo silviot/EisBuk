@@ -47,6 +47,7 @@ export const bookingDayInfoSelector = (dayStr) =>
             surname: user.surname,
             secret_key: user.secret_key,
             id: user.id,
+            duration: bookingsInfo[slot.id][key],
           };
         });
         const res = {

@@ -2,7 +2,7 @@ import React from "react";
 import SlotsDay from "./SlotsDay";
 
 export default {
-  title: "SlotsDay",
+  title: "Slots Day",
   component: SlotsDay,
 };
 
@@ -11,6 +11,7 @@ export const ManySlots = Template.bind({});
 
 ManySlots.args = {
   day: "2021-01-15",
+  view: "slots",
   slots: {
     foo: {
       category: "agonismo",
@@ -34,7 +35,7 @@ ManySlots.args = {
 };
 
 export const ManySlotsWithDelete = Template.bind({});
-ManySlotsWithDelete.args = { ...ManySlots.args };
+ManySlotsWithDelete.args = { ...ManySlots.args, enableEdit: true };
 ManySlotsWithDelete.argTypes = { onDelete: { action: "deleted" } };
 
 export const OneSlot = Template.bind({});

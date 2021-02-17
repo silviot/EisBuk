@@ -21,7 +21,7 @@ const slotsSelector = (state) => flatten(state.firestore.ordered.slotsByDay);
 const subscribedSlotsSelector = (state) =>
   state.firestore.ordered.subscribedSlots;
 
-export const CustomerAreaCalendar = () => {
+export const CustomerAreaCalendar = ({ view = "slots" }) => {
   const start = luxon.date().startOf("week");
   const { secret_key } = useParams();
   const [currentDate, onChangeCalendarDate] = useState(start);
@@ -80,6 +80,7 @@ export const CustomerAreaCalendar = () => {
         onSubscribe,
         onUnsubscribe,
         subscribedSlots,
+        view,
       }}
     />
   );

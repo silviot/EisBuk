@@ -2,16 +2,13 @@ import React, { useState } from "react";
 import {
   Chip,
   IconButton,
-  ListItem,
-  ListItemSecondaryAction,
-  Switch,
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
 } from "@material-ui/core";
-import {
-  Delete as DeleteIcon,
-  AccessTime as AccessTimeIcon,
-  Category as CategoryIcon,
-  Stars as StarsIcon,
-} from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core/styles";
+import { Delete as DeleteIcon } from "@material-ui/icons";
 import { FBToLuxon } from "../../../data/dtutils";
 import ConfirmDialog from "../../global/ConfirmDialog";
 
@@ -23,80 +20,132 @@ export default ({
   onUnsubscribe,
   subscribedSlots,
 }) => {
+  const classes = useStyles();
   const date = FBToLuxon(data.date);
   subscribedSlots = subscribedSlots || {};
   const doDelete = onDelete ? () => onDelete(data.id) : onDelete;
   const showSubscribe = Boolean(onUnsubscribe && onSubscribe);
   const isSubscribed = Boolean(subscribedSlots[data.id]);
+  const subscribedDuration = isSubscribed && subscribedSlots[data.id].duration;
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
-  const handleSubscription = (evt) => {
+  const handleSubscription = (duration) => (evt) => {
     if (isSubscribed) {
-      onUnsubscribe(data);
+      if (subscribedDuration === duration) {
+        onUnsubscribe(data);
+      } else {
+        onUnsubscribe(data);
+        onSubscribe({ ...data, duration });
+      }
     } else {
-      onSubscribe(data);
+      onSubscribe({ ...data, duration });
     }
   };
   return (
     <>
-      <ListItem disableGutters>
-        <Chip
-          key="time"
-          size="small"
-          disabled={deleted}
-          icon={<AccessTimeIcon />}
-          label={date.toISOTime().substring(0, 5)}
-        />
-        <Chip
-          key="category"
-          disabled={deleted}
-          size="small"
-          icon={<CategoryIcon />}
-          label={data.category}
-        />
-        <Chip
-          key="type"
-          disabled={deleted}
-          size="small"
-          icon={<StarsIcon />}
-          label={data.type}
-        />
-        {data.durations.map((val) => (
-          <Chip
-            disabled={deleted}
-            size="small"
-            label={val}
-            key={"duration-" + val}
-          />
-        ))}
-        {doDelete && !deleted && (
-          <ListItemSecondaryAction>
-            <IconButton
-              edge="end"
-              aria-label="delete"
-              onClick={() => setConfirmDeleteDialog(true)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        )}
-        {showSubscribe && !deleted && (
-          <ListItemSecondaryAction>
-            <Switch
-              edge="end"
-              onChange={handleSubscription}
-              checked={isSubscribed}
+      {!deleted && (
+        <Card className={classes.root} raised={isSubscribed}>
+          <CardContent>
+            <Typography display="inline" variant="h5" component="h2">
+              {date.toISOTime().substring(0, 5)}
+            </Typography>
+            {isSubscribed && (
+              <Typography
+                display="inline"
+                variant="h6"
+                component="h3"
+                className={classes.endTime}
+              >
+                {" "}
+                -{" "}
+                {date
+                  .plus({ minutes: subscribedDuration })
+                  .minus({ minutes: 10 })
+                  .toISOTime()
+                  .substring(0, 5)}
+              </Typography>
+            )}
+
+            <Typography className={classes.category} color="textSecondary">
+              {data.category}
+            </Typography>
+            <Chip
+              className={classes.type}
+              key="type"
+              size="small"
+              label={data.type}
+              variant="outlined"
             />
-          </ListItemSecondaryAction>
-        )}
-      </ListItem>
-      <ConfirmDialog
-        title="Sei sicuro di voler rimuovere questo slot ?"
-        open={confirmDeleteDialog}
-        setOpen={setConfirmDeleteDialog}
-        onConfirm={doDelete}
-      >
-        Questa azione non è reversibile
-      </ConfirmDialog>
+            {data.durations.map((val) => (
+              <Chip
+                clickable={showSubscribe}
+                className={classes.duration}
+                label={val + "min"}
+                key={"duration-" + val}
+                color={subscribedDuration === val ? "primary" : undefined}
+                onClick={showSubscribe ? handleSubscription(val) : null}
+              />
+            ))}
+          </CardContent>
+          {doDelete ? (
+            <CardActions className={classes.actionsContainer}>
+              {doDelete && !deleted && (
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() => setConfirmDeleteDialog(true)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              )}
+            </CardActions>
+          ) : null}
+        </Card>
+      )}
+      {confirmDeleteDialog ? (
+        <ConfirmDialog
+          title="Sei sicuro di voler rimuovere questo slot ?"
+          open={confirmDeleteDialog}
+          setOpen={setConfirmDeleteDialog}
+          onConfirm={doDelete}
+        >
+          Questa azione non è reversibile
+        </ConfirmDialog>
+      ) : null}
     </>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    border: "2px solid transparent",
+    position: "relative",
+    "&.MuiPaper-elevation8": {
+      borderWidth: 2,
+      borderStyle: "solid",
+      borderColor: theme.palette.primary.main,
+    },
+  },
+  category: {
+    textTransform: "capitalize",
+  },
+  type: {
+    position: "absolute",
+    top: theme.spacing(1),
+    right: theme.spacing(1),
+    textTransform: "uppercase",
+  },
+  duration: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  actionsContainer: {
+    borderTopWidth: 1,
+    borderTopStyle: "solid",
+    borderTopColor: theme.palette.divider,
+  },
+  endTime: {},
+  "&.MuiPaper-elevation8": {
+    border: "2px solid red",
+  },
+}));

@@ -24,24 +24,19 @@ const DashboardPage = () => {
   const dispatchMarkAbsentee = (args) => dispatch(markAbsentee(args));
   return (
     <div className={classes.root}>
-      <main className={classes.content}>
-        <AppbarAdmin />
-        <DateNavigationAppBar jump="day" />
-        <BookingsByDay
-          bookingDayInfo={bookingDayInfo}
-          markAbsentee={dispatchMarkAbsentee}
-        />
-      </main>
+      <AppbarAdmin />
+      <DateNavigationAppBar jump="day" />
+      <BookingsByDay
+        bookingDayInfo={bookingDayInfo}
+        markAbsentee={dispatchMarkAbsentee}
+      />
     </div>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.secondary.main,
-  },
   appBarSpacer: theme.mixins.toolbar,
-  content: {
+  root: {
     flexGrow: 1,
     height: "100vh",
     overflow: "auto",

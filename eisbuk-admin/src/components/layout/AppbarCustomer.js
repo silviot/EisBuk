@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { getCurrentOrganizationSettings } from "../../themes";
 
-const AppbarCustomer = () => {
+const AppbarCustomer = ({ headingText }) => {
   const classes = useStyles();
   const currentOrganizationSettings = getCurrentOrganizationSettings();
   return (
@@ -17,7 +17,7 @@ const AppbarCustomer = () => {
           noWrap
           className={classes.title}
         >
-          {currentOrganizationSettings.name}
+          {headingText ? headingText : currentOrganizationSettings.name}
         </Typography>
       </Toolbar>
     </AppBar>
