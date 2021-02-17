@@ -102,12 +102,6 @@ const getPeriods = (info) => {
   return result;
 };
 
-const durationsMap = {};
-
-for (let i = 0; i < slotsLabels.durations.length; i++) {
-  durationsMap[slotsLabels.durations[i].id] = slotsLabels.durations[i].minutes;
-}
-
 const splitPeriod = (booking) => {
   const result = [];
   const usersByDuration = _.groupBy(booking.users, (el) => el.duration);
@@ -118,7 +112,7 @@ const splitPeriod = (booking) => {
       duration: key,
       users: usersByDuration[key] || [],
       endTime: DateTime.fromISO(booking.time)
-        .plus({ minutes: durationsMap[key] })
+        .plus({ minutes: slotsLabels.durations[key].minutes })
         .toFormat("HH:mm"),
     })
   );

@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 import { FBToLuxon } from "../../../data/dtutils";
 import ConfirmDialog from "../../global/ConfirmDialog";
+import { slotsLabels } from "../../../config/appConfig";
 
 export default ({
   data,
@@ -75,14 +76,14 @@ export default ({
               label={data.type}
               variant="outlined"
             />
-            {data.durations.map((val) => (
+            {data.durations.map((duration) => (
               <Chip
                 clickable={showSubscribe}
                 className={classes.duration}
-                label={val + "min"}
-                key={"duration-" + val}
-                color={subscribedDuration === val ? "primary" : undefined}
-                onClick={showSubscribe ? handleSubscription(val) : null}
+                label={slotsLabels.durations[duration].label}
+                key={duration}
+                color={subscribedDuration === duration ? "primary" : undefined}
+                onClick={showSubscribe ? handleSubscription(duration) : null}
               />
             ))}
           </CardContent>

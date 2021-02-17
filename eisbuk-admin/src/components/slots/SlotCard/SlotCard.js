@@ -1,5 +1,4 @@
 import React from "react";
-import _ from "lodash";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -55,10 +54,6 @@ export const SlotCard = ({
   notes,
 }) => {
   const classes = useStyles();
-  let labels = [];
-  Object.keys(slotsLabels).forEach((x) => {
-    labels[x] = _.keyBy(slotsLabels[x], "id");
-  });
   const slotDateTime = DateTime.fromSeconds(date.seconds);
 
   const handleDelete = (e) => {
@@ -78,7 +73,7 @@ export const SlotCard = ({
         <Typography variant="h2" className={classes.slotTi}>
           {slotDateTime.toFormat("HH:mm")}
         </Typography>
-        <DurationsList durations={durations} labels={labels} />
+        <DurationsList durations={durations} labels={slotsLabels} />
       </Box>
       <Box
         className={classes.borderedLeftBox}
@@ -98,7 +93,7 @@ export const SlotCard = ({
               color="textSecondary"
               className={classes.category}
             >
-              {labels.categories[category].label}
+              {slotsLabels.categories[category].label}
             </Typography>
           )}
           {type && (
@@ -107,7 +102,7 @@ export const SlotCard = ({
               color="textSecondary"
               className={classes.type}
             >
-              {labels.types[type].label}
+              {slotsLabels.types[type].label}
             </Typography>
           )}
         </Box>
