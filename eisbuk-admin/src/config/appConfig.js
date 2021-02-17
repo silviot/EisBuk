@@ -21,7 +21,7 @@ export const slotsLabelsLists = {
 };
 
 // But we often need a map, so we build one here.
-export const slotLabels = {};
+export const slotsLabels = {};
 Object.keys(slotsLabelsLists).forEach((el) => {
-  slotLabels[el] = _.keyBy(slotsLabelsLists[el], "id");
+  slotsLabels[el] = _.keyBy(slotsLabelsLists[el], "id");
 });
