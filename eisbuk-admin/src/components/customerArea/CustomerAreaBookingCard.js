@@ -10,13 +10,14 @@ import {
 } from "@material-ui/core";
 import StarsIcon from "@material-ui/icons/Stars";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import { FBToLuxon } from "../../data/dtutils";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     position: "relative",
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
+    marginTop: theme.spacing(1.5),
+    marginBottom: theme.spacing(1.5),
   },
   content: {
     display: "flex",
@@ -53,31 +54,47 @@ const useStyles = makeStyles((theme) => ({
     fontSize: theme.typography.h2.fontSize,
     fontWeight: theme.typography.fontWeightLight,
   },
-  month: {},
+  month: {
+    textTransform: "capitalize",
+  },
   deleteButton: {},
 }));
 
-const CustomerAreaBookingCard = () => {
+const CustomerAreaBookingCard = ({ data, onUnsubscribe }) => {
   const classes = useStyles();
+  const date = FBToLuxon(data.date);
   return (
     <Card className={classes.root}>
       <CardContent className={classes.content}>
         <Box className={classes.date} textAlign="center">
           <Typography variant="h5" className={classes.weekday}>
-            Lunedì
+            {date.toFormat("EEE", { locale: "it-IT" })}
           </Typography>
-          <Typography className={classes.day}>15</Typography>
-          <Typography className={classes.month}>Febbraio</Typography>
+          <Typography className={classes.day}>
+            {date.toFormat("d", { locale: "it-IT" })}
+          </Typography>
+          <Typography className={classes.month}>
+            {date.toFormat("MMMM", { locale: "it-IT" })}
+          </Typography>
         </Box>
         <Box className={classes.body} flexGrow={1} flexDirection="column">
           <Box>
             <Typography display="inline" variant="h5" component="h2">
-              {/*           {date.toISOTime().substring(0, 5)} */}16:30 - 17:50
+              {date.toISOTime().substring(0, 5)}
+            </Typography>
+            <Typography display="inline" variant="h6" component="h3">
+              {" "}
+              -{" "}
+              {date
+                .plus({ minutes: data.duration })
+                .minus({ minutes: 10 })
+                .toISOTime()
+                .substring(0, 5)}
             </Typography>
             <Chip
               className={classes.duration}
               variant="outlined"
-              label="90min"
+              label={data.duration + "min"}
             />
           </Box>
           <Chip
@@ -85,7 +102,7 @@ const CustomerAreaBookingCard = () => {
             key="type"
             size="small"
             icon={<StarsIcon />}
-            label="Off ice danza"
+            label={data.type}
           />
         </Box>
         <Box display="flex" alignItems="center" pr={1.5}>
@@ -94,6 +111,7 @@ const CustomerAreaBookingCard = () => {
               color="primary"
               aria-label="add"
               className={classes.deleteButton}
+              onClick={() => onUnsubscribe(data)}
             >
               <HighlightOffIcon />
             </Fab>

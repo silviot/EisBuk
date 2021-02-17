@@ -29,6 +29,7 @@ export default ({
   onUnsubscribe,
   onCreateSlot,
   subscribedSlots,
+  view = "slots",
 }) => {
   const classes = useStyles();
   const [enableEdit, setEnableEdit] = useState(false);
@@ -68,6 +69,7 @@ export default ({
   return (
     <Box className={classes.root}>
       <DateNavigationAppBar extraButtons={switchButton} />
+
       <Box>
         <SlotListByDay
           className={classes.slotlist}
@@ -79,6 +81,7 @@ export default ({
             subscribedSlots,
             onCreateSlot,
             enableEdit,
+            view,
           }}
         />
       </Box>
