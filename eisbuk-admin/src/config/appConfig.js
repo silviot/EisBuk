@@ -14,9 +14,19 @@ export const slotsLabelsLists = {
     { id: "agonismo", label: "Agonismo" },
   ],
   types: [
-    { id: "ice", label: "Ice" },
-    { id: "off-ice-danza", label: "OFF Ice Danza" },
-    { id: "off-ice-gym", label: "OFF Ice Gym" },
+    { id: "ice", label: "Ice", color: "primary", icon: "AcUnit" },
+    {
+      id: "off-ice-danza",
+      label: "OFF Ice Danza",
+      color: "secondary",
+      icon: "AccessibilityNew",
+    },
+    {
+      id: "off-ice-gym",
+      label: "OFF Ice Gym",
+      color: "secondary",
+      icon: "FitnessCenter",
+    },
   ],
 };
 

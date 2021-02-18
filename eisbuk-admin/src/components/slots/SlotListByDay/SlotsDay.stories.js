@@ -22,13 +22,13 @@ ManySlots.args = {
     bar: {
       date: { seconds: 1609495200 },
       category: "preagonismo",
-      type: "off-ice",
+      type: "off-ice-danza",
       durations: [90, 120],
     },
     baz: {
       date: { seconds: 1609516800 },
       category: "agonismo",
-      type: "off-ice",
+      type: "off-ice-gym",
       durations: [60, 90, 120],
     },
   },

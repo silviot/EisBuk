@@ -128,7 +128,9 @@ const SlotCreate = ({
                   >
                     {getEnumItems(SlotCategory)}
                   </Field>
-                  <ErrorMessage name="category" />
+                  <div className={classes.error}>
+                    <ErrorMessage name="category" />
+                  </div>
 
                   <Field
                     component={RadioGroup}
@@ -139,7 +141,9 @@ const SlotCreate = ({
                   >
                     {getEnumItems(SlotType)}
                   </Field>
-                  <ErrorMessage name="type" />
+                  <div className={classes.error}>
+                    <ErrorMessage name="type" />
+                  </div>
                   <Box display="flex">
                     {getCheckBoxes("durations", SlotDuration)}
                   </Box>
@@ -210,6 +214,10 @@ const useStyles = makeStyles((theme) => ({
   field: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
+  },
+  error: {
+    color: theme.palette.error.dark,
+    fontWeight: theme.typography.fontWeightBold,
   },
 }));
 
