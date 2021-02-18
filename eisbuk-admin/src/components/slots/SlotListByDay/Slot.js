@@ -29,9 +29,7 @@ export default ({
   const subscribedDuration = isSubscribed && subscribedSlots[data.id].duration;
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
 
-  const getSlotsLabels = (id) =>
-    slotsLabels.types.filter((e) => e.id === id)[0];
-  const slotLabel = getSlotsLabels(data.type);
+  const slotLabel = slotsLabels.types[data.type];
 
   const handleSubscription = (duration) => (evt) => {
     if (isSubscribed) {
@@ -83,7 +81,7 @@ export default ({
                 variant="outlined"
               />
             )}
-            {data.durations.map((val) => (
+            {data.durations.map((duration) => (
               <Chip
                 clickable={showSubscribe}
                 className={classes.duration}
