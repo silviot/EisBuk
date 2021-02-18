@@ -71,16 +71,14 @@ export default ({
             <Typography className={classes.category} color="textSecondary">
               {data.category}
             </Typography>
-            {onDelete && (
-              <Chip
-                className={classes.type}
-                key="type"
-                size="small"
-                label={slotLabel.label}
-                color={slotLabel.color}
-                variant="outlined"
-              />
-            )}
+            <Chip
+              className={classes.type}
+              key="type"
+              size="small"
+              label={slotLabel.label}
+              color={slotLabel.color}
+              variant="outlined"
+            />
             {data.durations.map((duration) => (
               <Chip
                 clickable={showSubscribe}
