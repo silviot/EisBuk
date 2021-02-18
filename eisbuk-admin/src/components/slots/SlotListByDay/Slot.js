@@ -12,7 +12,6 @@ import { Delete as DeleteIcon } from "@material-ui/icons";
 import { FBToLuxon } from "../../../data/dtutils";
 import ConfirmDialog from "../../global/ConfirmDialog";
 import { slotsLabels } from "../../../config/appConfig";
-
 export default ({
   data,
   onDelete,
@@ -29,6 +28,11 @@ export default ({
   const isSubscribed = Boolean(subscribedSlots[data.id]);
   const subscribedDuration = isSubscribed && subscribedSlots[data.id].duration;
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
+
+  const getSlotsLabels = (id) =>
+    slotsLabels.types.filter((e) => e.id === id)[0];
+  const slotLabel = getSlotsLabels(data.type);
+
   const handleSubscription = (duration) => (evt) => {
     if (isSubscribed) {
       if (subscribedDuration === duration) {
@@ -69,14 +73,17 @@ export default ({
             <Typography className={classes.category} color="textSecondary">
               {data.category}
             </Typography>
-            <Chip
-              className={classes.type}
-              key="type"
-              size="small"
-              label={data.type}
-              variant="outlined"
-            />
-            {data.durations.map((duration) => (
+            {onDelete && (
+              <Chip
+                className={classes.type}
+                key="type"
+                size="small"
+                label={slotLabel.label}
+                color={slotLabel.color}
+                variant="outlined"
+              />
+            )}
+            {data.durations.map((val) => (
               <Chip
                 clickable={showSubscribe}
                 className={classes.duration}
