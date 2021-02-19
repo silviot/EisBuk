@@ -21,3 +21,48 @@ jobs:
         run: cd eisbuk-admin && yarn
       - name: Build app
         run: cd eisbuk-admin && yarn build
+
+  storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install requirements
+        run: cd eisbuk-admin && yarn
+      - name: build storybook and upload
+        run: cd eisbuk-admin && npx chromatic --exit-zero-on-changes --project-token=${{ secrets.CHROMAUI_PROJECT_TOKEN }}
+
+  test_v12:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "12"
+      - name: Cache node modules and firebase emulators
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+            $HOME/.cache/firebase/emulators
+          key: ${{ runner.os }}-modules-emulators-v12-${{ hashFiles('**/yarn.lock') }}
+      - name: Install modules
+        run: cd eisbuk-admin && yarn
+      - name: Run tests
+        run: cd eisbuk-admin && yarn test:ci
+
+  pre-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.7"
+          architecture: "x64"
+      - uses: pre-commit/action@v2.0.0
