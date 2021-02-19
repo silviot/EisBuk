@@ -71,7 +71,7 @@ export default ({
                 </Typography>
               )}
               {!isCustomer &&
-              data.categories && // Safety check. Can be removed when migrateSlotsToPluralCategories has been applied
+                data.categories && // Safety check. Can be removed when migrateSlotsToPluralCategories has been applied
                 data.categories.map((category) => (
                   <Typography
                     className={classes.category}
