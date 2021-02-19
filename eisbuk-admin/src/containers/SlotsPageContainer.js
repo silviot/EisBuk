@@ -1,6 +1,10 @@
-import { Box, Switch } from "@material-ui/core";
+import { Box, IconButton, Switch } from "@material-ui/core";
+import {
+  FileCopy as FileCopyIcon,
+  Assignment as AssignmentIcon,
+} from "@material-ui/icons";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import SlotListByDay from "../components/slots/SlotListByDay";
 
@@ -9,6 +13,9 @@ import { DateTime } from "luxon";
 
 import DateNavigationAppBar from "./DateNavigationAppBar";
 import { calendarDaySelector } from "../store/selectors";
+import { shiftSlotsWeek } from "../data/slotutils.js";
+import { copySlotWeek, createSlots } from "../store/actions/actions";
+import _ from "lodash";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const weekCopyPasteSelector = (state) => state.copyPaste.week ?? {};
+
 export default ({
   slots,
   onDelete,
@@ -34,6 +43,8 @@ export default ({
   const classes = useStyles();
   const [enableEdit, setEnableEdit] = useState(false);
   const currentDate = useSelector(calendarDaySelector).startOf("week");
+  const weekToPaste = useSelector(weekCopyPasteSelector);
+  const dispatch = useDispatch();
 
   const datesToDisplay = [...Array(7).keys()].map((i) =>
     currentDate.plus({ days: i }).toISODate()
@@ -41,6 +52,8 @@ export default ({
   const slotsToDisplay = datesToDisplay.reduce(function (obj, x) {
     return { ...obj, [x]: {} };
   }, {});
+  var slotsToCopy = [];
+  var numSlots = 0;
   for (const key in slots) {
     if (Object.hasOwnProperty.call(slots, key)) {
       const slot = slots[key];
@@ -53,9 +66,17 @@ export default ({
       const diff = (dayDateTime - currentDate) / 1000;
       if (diff >= 0 && diff < ONE_WEEK) {
         slotsToDisplay[key] = slot;
+        numSlots += _.size(_.omit(slot, "id"));
+        slotsToCopy = slotsToCopy.concat(_.values(_.omit(slot, "id")));
       }
     }
   }
+  const doPaste = () =>
+    dispatch(
+      createSlots(
+        shiftSlotsWeek(weekToPaste.slots, weekToPaste.weekStart, currentDate)
+      )
+    );
   const switchButton = onDelete ? (
     <Switch
       edge="end"
@@ -65,10 +86,44 @@ export default ({
       checked={enableEdit}
     />
   ) : null;
+  const extraButtons = (
+    <>
+      {enableEdit && (
+        <IconButton
+          variant="outlined"
+          size="small"
+          disabled={numSlots === 0}
+          onClick={() =>
+            dispatch(
+              copySlotWeek({ weekStart: currentDate, slots: slotsToCopy })
+            )
+          }
+        >
+          <FileCopyIcon />
+        </IconButton>
+      )}
+      {enableEdit && (
+        <IconButton
+          variant="outlined"
+          size="small"
+          onClick={doPaste}
+          tooltip="Incolla settimana"
+          disabled={
+            !weekToPaste.weekStart ||
+            +weekToPaste.weekStart === +currentDate ||
+            numSlots !== 0
+          }
+        >
+          <AssignmentIcon />
+        </IconButton>
+      )}
+      {switchButton}
+    </>
+  );
 
   return (
     <Box className={classes.root}>
-      <DateNavigationAppBar extraButtons={switchButton} />
+      <DateNavigationAppBar extraButtons={extraButtons} />
 
       <Box>
         <SlotListByDay

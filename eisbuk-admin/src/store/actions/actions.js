@@ -8,6 +8,7 @@ import {
   REMOVE_SNACKBAR,
   CHANGE_DAY,
   COPY_SLOT_DAY,
+  COPY_SLOT_WEEK,
 } from "./action-types";
 import { ORGANIZATION } from "../../config/envInfo";
 
@@ -369,4 +370,9 @@ export const updateCustomer = (customer) => {
 export const copySlotDay = (slotDay) => ({
   type: COPY_SLOT_DAY,
   payload: slotDay,
+});
+
+export const copySlotWeek = (slotWeek) => ({
+  type: COPY_SLOT_WEEK,
+  payload: slotWeek,
 });

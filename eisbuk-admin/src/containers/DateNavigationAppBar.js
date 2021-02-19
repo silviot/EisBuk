@@ -14,7 +14,7 @@ const JUMPS = {
     display: (currentDate) =>
       currentDate.toFormat("d MMMM", { locale: "it-IT" }) +
       " — " +
-      currentDate.plus({ days: 7 }).toFormat("d MMMM", { locale: "it-IT" }),
+      currentDate.plus({ days: 6 }).toFormat("d MMMM", { locale: "it-IT" }),
     delta: {
       days: 7,
     },
