@@ -68,11 +68,8 @@ export const CustomerList = ({
               <TableCell></TableCell>
               <TableCell>Nome</TableCell>
               <TableCell>Cognome</TableCell>
-              <TableCell>Età</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Telefono</TableCell>
-              <TableCell>Data di nascita</TableCell>
               <TableCell>Categoria</TableCell>
+              <TableCell>Email</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -98,7 +95,7 @@ export const CustomerList = ({
                   <EditIcon />
                 </IconButton>
               ) : null;
-              const bookingsButton = (
+              const bookingsButton = customer.secret_key && (
                 <IconButton
                   color="primary"
                   onClick={() => {
@@ -122,11 +119,8 @@ export const CustomerList = ({
                   </TableCell>
                   <TableCell>{customer.name}</TableCell>
                   <TableCell>{customer.surname}</TableCell>
-                  <TableCell>{customer.birthdate}</TableCell>
-                  <TableCell>{customer.email}</TableCell>
-                  <TableCell>{customer.phone}</TableCell>
-                  <TableCell>{customer.birthdate}</TableCell>
                   <TableCell>{customer.category}</TableCell>
+                  <TableCell>{customer.email}</TableCell>
                 </TableRow>
               );
             })}

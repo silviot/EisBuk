@@ -59,11 +59,12 @@ export const CustomerAreaPage = () => {
   ]);
   const [activeTab, setActiveTab] = useState(1);
   const customerData = useSelector(selectBookings);
+  debugger;
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
   const title =
-    customerData &&
+    isLoaded(customerData) &&
     customerData[0] &&
     `${customerData[0].name} ${customerData[0].surname}`;
   const auth = useSelector(selectAuth);
@@ -96,10 +97,13 @@ export const CustomerAreaPage = () => {
                 </Typography>
               </TabPanel>
               <TabPanel value={activeTab} index={1}>
-                <CustomerAreaCalendar />
+                <CustomerAreaCalendar category={customerData[0].category} />
               </TabPanel>
               <TabPanel value={activeTab} index={2}>
-                <CustomerAreaCalendar view="bookings" />
+                <CustomerAreaCalendar
+                  view="bookings"
+                  category={customerData[0].category}
+                />
               </TabPanel>
             </>
           )}

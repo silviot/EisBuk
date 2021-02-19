@@ -15,13 +15,15 @@ import {
   unsubscribeFromSlot,
 } from "../../store/actions/actions";
 import LuxonUtils from "@date-io/luxon";
+import _ from "lodash";
+
 const luxon = new LuxonUtils({ locale: "it" });
 
 const slotsSelector = (state) => flatten(state.firestore.ordered.slotsByDay);
 const subscribedSlotsSelector = (state) =>
   state.firestore.ordered.subscribedSlots;
 
-export const CustomerAreaCalendar = ({ view = "slots" }) => {
+export const CustomerAreaCalendar = ({ category, view = "slots" }) => {
   const start = luxon.date().startOf("week");
   const { secret_key } = useParams();
   const [currentDate, onChangeCalendarDate] = useState(start);
@@ -53,7 +55,16 @@ export const CustomerAreaCalendar = ({ view = "slots" }) => {
       ],
     }),
   ]);
-  const slots = useSelector(slotsSelector);
+  const allSlots = _.omitBy(
+    useSelector(slotsSelector),
+    (el) => typeof el === "string"
+  );
+  const slots = _.mapValues(allSlots, (daySlots) =>
+    _.pickBy(daySlots, (slot) => {
+      return slot.categories.includes(category);
+    })
+  );
+  debugger;
   var subscribedSlots = useSelector(subscribedSlotsSelector);
 
   const dispatch = useDispatch();

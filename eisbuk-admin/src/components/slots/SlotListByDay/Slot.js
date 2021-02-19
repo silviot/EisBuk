@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   Chip,
   IconButton,
@@ -12,6 +13,7 @@ import { Delete as DeleteIcon } from "@material-ui/icons";
 import { FBToLuxon } from "../../../data/dtutils";
 import ConfirmDialog from "../../global/ConfirmDialog";
 import { slotsLabels } from "../../../config/appConfig";
+
 export default ({
   data,
   onDelete,
@@ -28,6 +30,7 @@ export default ({
   const isSubscribed = Boolean(subscribedSlots[data.id]);
   const subscribedDuration = isSubscribed && subscribedSlots[data.id].duration;
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
+  const auth = useSelector((state) => state.firebase.auth);
 
   const slotLabel = slotsLabels.types[data.type];
 
@@ -67,7 +70,11 @@ export default ({
                   .substring(0, 5)}
               </Typography>
             )}
+            <br />
             {data.categories && // Safety check. Can be removed when migrateSlotsToPluralCategories has been applied
+              auth &&
+              !auth.isEmpty &&
+              auth.isLoaded &&
               data.categories.map((category) => (
                 <Typography className={classes.category} color="textSecondary">
                   {category}

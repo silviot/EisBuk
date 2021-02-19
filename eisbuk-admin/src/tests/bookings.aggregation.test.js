@@ -38,7 +38,7 @@ it("Copies over booking when created", async (done) => {
       id: "booked-slot-id",
       duration: 60,
     });
-  const record = await waitForBookingWithId(
+  const record = await waitForBookingWithCondition(
     "2021-01",
     (data) =>
       data && data["booked-slot-id"] && data["booked-slot-id"]["booker-id"]
@@ -53,14 +53,14 @@ it("Copies over booking when created", async (done) => {
     .collection("data")
     .doc("booked-slot-id")
     .delete();
-  await waitForBookingWithId(
+  await waitForBookingWithCondition(
     "2021-01",
     (data) => !data["booked-slot-id"]["booker-id"]
   );
   done();
 });
 
-async function waitForBookingWithId(monthStr, condition) {
+async function waitForBookingWithCondition(monthStr, condition) {
   var doc;
   const coll = adminDb
     .collection("organizations")
@@ -75,7 +75,7 @@ async function waitForBookingWithId(monthStr, condition) {
         ? Promise.resolve()
         : Promise.reject(
             new Error(
-              `The booking  aggregation ${monthStr} was not updated correctly`
+              `The booking aggregation ${monthStr} was not updated correctly`
             )
           );
     },
