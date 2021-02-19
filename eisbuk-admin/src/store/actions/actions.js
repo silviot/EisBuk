@@ -9,6 +9,7 @@ import {
   CHANGE_DAY,
   COPY_SLOT_DAY,
   COPY_SLOT_WEEK,
+  SET_SLOT_TIME,
 } from "./action-types";
 import { ORGANIZATION } from "../../config/envInfo";
 
@@ -118,10 +119,16 @@ export const changeCalendarDate = (date) => ({
   payload: date,
 });
 
+export const setNewSlotTime = (time) => ({
+  type: SET_SLOT_TIME,
+  payload: time,
+});
+
 export const createSlots = (slots) => {
   return (dispatch, getState, { getFirebase }) => {
     const db = getFirebase().firestore();
     const batch = db.batch();
+    let newSlotTime = slots[slots.length - 1];
     for (const slot of slots) {
       batch.set(
         db
@@ -152,6 +159,7 @@ export const createSlots = (slots) => {
             },
           })
         );
+        dispatch(setNewSlotTime(newSlotTime.date));
       })
       .catch(showErrSnackbar(dispatch));
   };
