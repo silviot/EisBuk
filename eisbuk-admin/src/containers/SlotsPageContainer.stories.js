@@ -53,7 +53,7 @@ OneSlot.args = {
     "2021-01-18": {},
     "2021-01-20": {
       foo: {
-        category: "agonismo",
+        categories: ["agonismo"],
         type: "ice",
         date: { seconds: 1609513200 },
         durations: [60],
@@ -78,7 +78,7 @@ function createSlots(date, seed) {
       slots[slotDate.toISODate()] = slots[slotDate.toISODate()] || {};
       slots[slotDate.toISODate()][slotId] = {
         date: new Timestamp(slotDate.ts / 1000, 0),
-        category: "agonismo",
+        categories: ["agonismo"],
         type: "ice",
         durations: [60],
       };

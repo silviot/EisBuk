@@ -13,20 +13,20 @@ This is their primary representation. Clients send this kind of serialisation to
 ```javascript
 slots = {
   foo: {
-    category: "agonismo",
+    categories: ["agonismo", "preagonismo", "corso"],
     type: "ice",
     date: { seconds: 1609513200 },
     durations: [60],
   },
   bar: {
     date: { seconds: 1609495200 },
-    category: "preagonismo",
+    categories: ["preagonismo"],
     type: "off-ice-danza",
     durations: [90, 120],
   },
   baz: {
     date: { seconds: 1609516800 },
-    category: "agonismo",
+    categories: ["agonismo"],
     type: "off-ice-gym",
     durations: [60, 90, 120],
   },

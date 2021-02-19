@@ -12,6 +12,7 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
+  FormGroup,
   IconButton,
   Radio,
   TextField,
@@ -25,7 +26,7 @@ import {
   ErrorMessage,
   useFormikContext,
 } from "formik";
-import { SlotCategory, SlotDuration, SlotType } from "../../../data/slots.js";
+import { slotsLabelsLists } from "../../../config/appConfig";
 import { DateTime } from "luxon";
 import * as Yup from "yup";
 
@@ -34,13 +35,15 @@ const Timestamp = firebase.firestore.Timestamp;
 const defaultValues = {
   time: "08:00",
   durations: ["60"],
-  category: "",
+  categories: [],
   type: "",
   notes: "",
 };
 const SlotValidation = Yup.object().shape({
   time: Yup.string().required("Manca l'ora"),
-  category: Yup.string().required("Scegli la categoria"),
+  categories: Yup.array()
+    .of(Yup.string().min(1))
+    .required("Scegli almeno una categoria"),
   type: Yup.string().required("Scegli il tipo di allenamento"),
   durations: Yup.array()
     .of(Yup.number().min(1))
@@ -95,7 +98,7 @@ const SlotCreate = ({
           const parsed = DateTime.fromISO(isoDate + "T" + values.time);
           await createSlot({
             type: values.type,
-            category: values.category,
+            categories: values.categories,
             durations: values.durations,
             date: Timestamp.fromDate(parsed.toJSDate()),
           });
@@ -118,18 +121,11 @@ const SlotCreate = ({
                     className={classes.field}
                   />
                   <ErrorMessage name="time" />
-                  <Field
-                    component={RadioGroup}
-                    name="category"
-                    label="Categoria"
-                    row
-                    fullWidth
-                    className={classes.field}
-                  >
-                    {getEnumItems(SlotCategory)}
-                  </Field>
+                  <FormGroup>
+                    {getCheckBoxes("categories", slotsLabelsLists.categories)}
+                  </FormGroup>
                   <div className={classes.error}>
-                    <ErrorMessage name="category" />
+                    <ErrorMessage name="categories" />
                   </div>
 
                   <Field
@@ -139,13 +135,13 @@ const SlotCreate = ({
                     row
                     className={classes.field}
                   >
-                    {getEnumItems(SlotType)}
+                    {getEnumItems(slotsLabelsLists.types)}
                   </Field>
                   <div className={classes.error}>
                     <ErrorMessage name="type" />
                   </div>
                   <Box display="flex">
-                    {getCheckBoxes("durations", SlotDuration)}
+                    {getCheckBoxes("durations", slotsLabelsLists.durations)}
                   </Box>
 
                   <Field
@@ -182,18 +178,23 @@ const SlotCreate = ({
 };
 
 const getEnumItems = (values) =>
-  Object.keys(values).map((el) => (
+  values.map((el) => (
     <FormControlLabel
-      key={values[el]}
-      value={values[el]}
-      label={el}
+      key={el.id}
+      value={el.id}
+      label={el.label}
       control={<Radio />}
     />
   ));
 
 const getCheckBoxes = (name, values) =>
-  Object.keys(values).map((el) => (
-    <MyCheckbox key={values[el]} name={name} value={values[el]} label={el} />
+  values.map((el) => (
+    <MyCheckbox
+      key={el.id}
+      name={name}
+      value={el.id.toString()}
+      label={el.label}
+    />
   ));
 
 export function MyCheckbox({ name, value, label }) {

@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
   body: {
     padding: theme.spacing(1.5),
   },
-  category: {},
   type: {
     textTransform: "uppercase",
   },

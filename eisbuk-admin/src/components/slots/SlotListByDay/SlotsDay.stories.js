@@ -14,20 +14,20 @@ ManySlots.args = {
   view: "slots",
   slots: {
     foo: {
-      category: "agonismo",
+      categories: ["agonismo", "preagonismo"],
       type: "ice",
       date: { seconds: 1609513200 },
       durations: [60],
     },
     bar: {
       date: { seconds: 1609495200 },
-      category: "preagonismo",
+      categories: ["preagonismo", "agonismo", "corso"],
       type: "off-ice-danza",
       durations: [90, 120],
     },
     baz: {
       date: { seconds: 1609516800 },
-      category: "agonismo",
+      categories: ["corse"],
       type: "off-ice-gym",
       durations: [60, 90, 120],
     },

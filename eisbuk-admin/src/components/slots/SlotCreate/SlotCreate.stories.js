@@ -22,7 +22,7 @@ FormWithValues.args = {
   isoDate: "2021-01-15",
   initialValues: {
     time: "11:30",
-    category: "preagonismo",
+    categories: ["preagonismo"],
     durations: ["60", "120"],
     type: "ice",
     notes: "Here are some notes\nWith two lines",

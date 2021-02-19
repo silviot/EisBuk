@@ -67,10 +67,12 @@ export default ({
                   .substring(0, 5)}
               </Typography>
             )}
-
-            <Typography className={classes.category} color="textSecondary">
-              {data.category}
-            </Typography>
+            {data.categories && // Safety check. Can be removed when migrateSlotsToPluralCategories has been applied
+              data.categories.map((category) => (
+                <Typography className={classes.category} color="textSecondary">
+                  {category}
+                </Typography>
+              ))}
             <Chip
               className={classes.type}
               key="type"

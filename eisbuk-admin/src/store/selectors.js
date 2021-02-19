@@ -52,7 +52,7 @@ export const bookingDayInfoSelector = (dayStr) =>
         });
         const res = {
           time: fs2luxon(slot.date).toFormat("HH:mm"),
-          category: slot.category,
+          categories: slot.categories,
           type: slot.type,
           id: slot.id,
           users: users,
