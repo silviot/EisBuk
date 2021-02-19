@@ -96,10 +96,10 @@ export const CustomerAreaPage = () => {
                 </Typography>
               </TabPanel>
               <TabPanel value={activeTab} index={1}>
-                <CustomerAreaCalendar />
+                <CustomerAreaCalendar isCustomer={true} />
               </TabPanel>
               <TabPanel value={activeTab} index={2}>
-                <CustomerAreaCalendar view="bookings" />
+                <CustomerAreaCalendar view="bookings" isCustomer={true} />
               </TabPanel>
             </>
           )}
