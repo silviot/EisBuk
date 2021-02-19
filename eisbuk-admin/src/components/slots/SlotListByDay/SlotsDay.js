@@ -9,15 +9,15 @@ import {
   Typography,
   Box,
 } from "@material-ui/core";
-import { FileCopy as FileCopyIcon } from "@material-ui/icons";
 import {
+  FileCopy as FileCopyIcon,
   AddCircleOutline as AddCircleOutlineIcon,
   Assignment as AssignmentIcon,
 } from "@material-ui/icons";
 import Slot from "./Slot";
 import SlotCreate from "../SlotCreate";
 import { copySlotDay, createSlots } from "../../../store/actions/actions";
-import { shiftSlots } from "../../../data/slotutils";
+import { shiftSlotsDay } from "../../../data/slotutils";
 import LuxonUtils from "@date-io/luxon";
 import CustomerAreaBookingCard from "../../customerArea/CustomerAreaBookingCard";
 
@@ -73,7 +73,7 @@ const SlotsDay = ({
     setFormIsOpen(false);
   };
   const doPaste = () =>
-    dispatch(createSlots(shiftSlots(Object.values(dayInClipboard), day)));
+    dispatch(createSlots(shiftSlotsDay(Object.values(dayInClipboard), day)));
 
   const newSlotButton = enableEdit && (
     <>
