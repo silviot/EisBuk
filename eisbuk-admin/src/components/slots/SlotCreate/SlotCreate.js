@@ -102,6 +102,7 @@ const SlotCreate = ({
             categories: values.categories,
             durations: values.durations,
             date: Timestamp.fromDate(parsed.toJSDate()),
+            notes: values.notes,
           });
           setSubmitting(false);
           resetForm();

@@ -49,41 +49,50 @@ export default ({
     <>
       {!deleted && (
         <Card className={classes.root} raised={isSubscribed}>
-          <CardContent>
-            <Typography display="inline" variant="h5" component="h2">
-              {date.toISOTime().substring(0, 5)}
-            </Typography>
-            {isSubscribed && (
-              <Typography
-                display="inline"
-                variant="h6"
-                component="h3"
-                className={classes.endTime}
-              >
-                {" "}
-                -{" "}
-                {date
-                  .plus({ minutes: subscribedDuration })
-                  .minus({ minutes: 10 })
-                  .toISOTime()
-                  .substring(0, 5)}
+          <CardContent className={classes.wrapper}>
+            <Box p={1.5}>
+              <Typography display="inline" variant="h5" component="h2">
+                {date.toISOTime().substring(0, 5)}
               </Typography>
-            )}
-            {!isCustomer &&
-            data.categories && // Safety check. Can be removed when migrateSlotsToPluralCategories has been applied
-              data.categories.map((category) => (
-                <Typography className={classes.category} color="textSecondary">
-                  {category}
+              {isSubscribed && (
+                <Typography
+                  display="inline"
+                  variant="h6"
+                  component="h3"
+                  className={classes.endTime}
+                >
+                  {" "}
+                  -{" "}
+                  {date
+                    .plus({ minutes: subscribedDuration })
+                    .minus({ minutes: 10 })
+                    .toISOTime()
+                    .substring(0, 5)}
                 </Typography>
-              ))}
-            <Chip
-              className={classes.type}
-              key="type"
-              size="small"
-              label={slotLabel.label}
-              color={slotLabel.color}
-              variant="outlined"
-            />
+              )}
+              {!isCustomer &&
+              data.categories && // Safety check. Can be removed when migrateSlotsToPluralCategories has been applied
+                data.categories.map((category) => (
+                  <Typography
+                    className={classes.category}
+                    color="textSecondary"
+                  >
+                    {category}
+                  </Typography>
+                ))}
+            </Box>
+            <Box>
+              <Chip
+                className={classes.type}
+                key="type"
+                size="small"
+                label={slotLabel.label}
+                color={slotLabel.color}
+                variant="outlined"
+              />
+            </Box>
+          </CardContent>
+          <Box pl={1.5} pb={1.5} pr={1.5} display="flex">
             <Box>
               {data.durations.map((duration) => (
                 <Chip
@@ -98,7 +107,8 @@ export default ({
                 />
               ))}
             </Box>
-          </CardContent>
+            <Box>{data.notes}</Box>
+          </Box>
           {doDelete ? (
             <CardActions className={classes.actionsContainer}>
               {doDelete && !deleted && (
@@ -141,6 +151,13 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.primary.main,
     },
   },
+  wrapper: {
+    display: "flex",
+    padding: 0,
+    "&:last-child": {
+      paddingBottom: 0,
+    },
+  },
   category: {
     textTransform: "capitalize",
   },
@@ -151,8 +168,6 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "uppercase",
   },
   duration: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1),
     marginRight: theme.spacing(1),
   },
   actionsContainer: {
