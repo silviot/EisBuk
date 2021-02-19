@@ -89,6 +89,7 @@ const SlotCreate = ({
   ...props
 }) => {
   const classes = useStyles();
+  const parsedDate = DateTime.fromISO(isoDate);
   return (
     <Dialog open={open} onClose={onClose}>
       <Formik
@@ -111,7 +112,9 @@ const SlotCreate = ({
         {({ errors, values, isSubmitting, isValidating }) => (
           <>
             <Form>
-              <DialogTitle>Aggiungi Slot</DialogTitle>
+              <DialogTitle>
+                {parsedDate.toFormat("EEEE d MMMM", { locale: "it-IT" })}
+              </DialogTitle>
               <DialogContent>
                 <FormControl component="fieldset">
                   <Field
