@@ -109,7 +109,10 @@ export default ({
       )}
       {confirmDeleteDialog ? (
         <ConfirmDialog
-          title="Sei sicuro di voler rimuovere questo slot ?"
+          title={`Sei sicuro di voler rimuovere lo slot del ${date.toFormat(
+            "d MMMM",
+            { locale: "it-IT" }
+          )} alle ${date.toFormat("HH:mm")}?`}
           open={confirmDeleteDialog}
           setOpen={setConfirmDeleteDialog}
           onConfirm={doDelete}
