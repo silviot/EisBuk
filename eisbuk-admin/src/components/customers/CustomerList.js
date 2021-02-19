@@ -95,7 +95,7 @@ export const CustomerList = ({
                   <EditIcon />
                 </IconButton>
               ) : null;
-              const bookingsButton = (
+              const bookingsButton = customer.secret_key && (
                 <IconButton
                   color="primary"
                   onClick={() => {

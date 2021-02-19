@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CustomerAreaBookingCard = ({ data, onUnsubscribe }) => {
   const classes = useStyles();
+
   const date = FBToLuxon(data.date);
   return (
     <Card className={classes.root}>
