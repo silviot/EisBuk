@@ -44,6 +44,7 @@ const SlotsDay = ({
   const dispatch = useDispatch();
   const luxonDay = luxon.parse(day, "yyyy-LL-dd");
   const dateStr = luxonDay.toFormat("EEEE d MMMM", { locale: "it-IT" });
+
   const extendedOnDelete =
     onDelete && enableEdit
       ? (id) => {
@@ -128,7 +129,11 @@ const SlotsDay = ({
                   key={slot.id}
                   deleted={!!deletedSlots[slot.id]}
                   onDelete={extendedOnDelete}
-                  {...{ onSubscribe, onUnsubscribe, subscribedSlots }}
+                  {...{
+                    onSubscribe,
+                    onUnsubscribe,
+                    subscribedSlots,
+                  }}
                 ></Slot>
               </Grid>
             ))}

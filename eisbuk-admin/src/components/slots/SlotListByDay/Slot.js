@@ -7,6 +7,7 @@ import {
   CardContent,
   Typography,
   CardActions,
+  Box,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Delete as DeleteIcon } from "@material-ui/icons";
@@ -21,6 +22,7 @@ export default ({
   onSubscribe,
   onUnsubscribe,
   subscribedSlots,
+  isCustomer,
 }) => {
   const classes = useStyles();
   const date = FBToLuxon(data.date);
@@ -88,16 +90,20 @@ export default ({
               color={slotLabel.color}
               variant="outlined"
             />
-            {data.durations.map((duration) => (
-              <Chip
-                clickable={showSubscribe}
-                className={classes.duration}
-                label={slotsLabels.durations[duration].label}
-                key={duration}
-                color={subscribedDuration === duration ? "primary" : undefined}
-                onClick={showSubscribe ? handleSubscription(duration) : null}
-              />
-            ))}
+            <Box>
+              {data.durations.map((duration) => (
+                <Chip
+                  clickable={showSubscribe}
+                  className={classes.duration}
+                  label={slotsLabels.durations[duration].label}
+                  key={duration}
+                  color={
+                    subscribedDuration === duration ? "primary" : undefined
+                  }
+                  onClick={showSubscribe ? handleSubscription(duration) : null}
+                />
+              ))}
+            </Box>
           </CardContent>
           {doDelete ? (
             <CardActions className={classes.actionsContainer}>

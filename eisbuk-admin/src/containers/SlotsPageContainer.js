@@ -38,7 +38,8 @@ export default ({
   onUnsubscribe,
   onCreateSlot,
   subscribedSlots,
-  view = "slots",
+  view,
+  isCustomer,
 }) => {
   const classes = useStyles();
   const [enableEdit, setEnableEdit] = useState(false);
@@ -137,6 +138,7 @@ export default ({
             onCreateSlot,
             enableEdit,
             view,
+            isCustomer,
           }}
         />
       </Box>
