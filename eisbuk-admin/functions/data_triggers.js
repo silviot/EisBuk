@@ -9,28 +9,30 @@ exports.addMissingSecretKey = functions
   .region("europe-west6")
   .firestore.document("organizations/{organization}/customers/{customerId}")
   .onWrite(async (change, context) => {
+    /* Adds the secret_key to a user if it's missing.
+      Updates a copy of a subset of user data in user's bookings doc, accessible by
+      anonymous users who have access to `secret_key`.
+      */
     const db = admin.firestore();
     const before = change.before.data();
     if (change.after.exists) {
       const after = change.after.data();
-      if (!after.secret_key) {
-        const secret_key = uuidv4();
-        // Create a record in /bookings with this secret key as id
-        // and the customer name
-        bookingsRoot = {
-          customer_id: context.params.customerId,
-          ...(after.name && { name: after.name }),
-          ...(after.surname && { surname: after.surname }),
-          ...(after.category && { category: after.category }),
-        };
-        await db
-          .collection("organizations")
-          .doc(context.params.organization)
-          .collection("bookings")
-          .doc(secret_key)
-          .set(bookingsRoot);
-        return change.after.ref.update({ secret_key });
-      }
+      const secret_key = after.secret_key || uuidv4();
+      // Create a record in /bookings with this secret key as id
+      // and the customer name
+      bookingsRoot = {
+        customer_id: context.params.customerId,
+        ...(after.name && { name: after.name }),
+        ...(after.surname && { surname: after.surname }),
+        ...(after.category && { category: after.category }),
+      };
+      await db
+        .collection("organizations")
+        .doc(context.params.organization)
+        .collection("bookings")
+        .doc(secret_key)
+        .set(bookingsRoot);
+      return after.secret_key ? null : change.after.ref.update({ secret_key });
     } else if (before && !change.before) {
       // The key was removed. This should not happend
       return change.after;
