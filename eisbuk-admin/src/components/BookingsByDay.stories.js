@@ -17,7 +17,7 @@ OneSlot.args = {
   bookingDayInfo: [
     {
       time: "11:00",
-      category: "agonismo",
+      categories: ["agonismo"],
       type: "ice",
       id: "foo",
       durations: [90, 120],
@@ -31,7 +31,7 @@ ManySlots.args = {
   bookingDayInfo: [
     {
       time: "11:00",
-      category: "agonismo",
+      categories: ["agonismo"],
       type: "ice",
       id: "foo",
       durations: [90, 120],
@@ -39,7 +39,7 @@ ManySlots.args = {
     },
     {
       time: "12:00",
-      category: "agonismo",
+      categories: ["agonismo"],
       type: "ice",
       durations: [60, 120],
       id: "bar",
@@ -54,7 +54,7 @@ ManySlots.args = {
     },
     {
       time: "15:00",
-      category: "agonismo",
+      categories: ["agonismo", "preagonismo", "corso"],
       type: "ice",
       id: "baz",
       durations: [60],
@@ -62,8 +62,8 @@ ManySlots.args = {
     },
     {
       time: "16:30",
-      category: "agonismo",
-      type: "ice",
+      categories: ["agonismo", "preagonismo"],
+      type: "off-ice-danza",
       id: "bat",
       durations: [60, 90],
       users: [

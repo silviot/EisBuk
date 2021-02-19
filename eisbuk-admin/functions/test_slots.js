@@ -26,25 +26,25 @@ async function fillDay(day, organization) {
       date: new TS(day + 9 * 3600, 0),
       type: "off-ice-danza",
       durations: [60],
-      category: "preagonismo",
+      categories: ["preagonismo"],
     }),
     slotsColl.add({
       date: new TS(day + 10 * 3600, 0),
       type: "off-ice-gym",
       durations: [60],
-      category: "preagonismo",
+      categories: ["preagonismo"],
     }),
     slotsColl.add({
       date: new TS(day + 15 * 3600, 0),
       type: "ice",
       durations: [60, 90, 120],
-      category: "preagonismo",
+      categories: ["preagonismo"],
     }),
     slotsColl.add({
-      date: new TS(day + 15 * 3600, 0),
+      date: new TS(day + 17.5 * 3600, 0),
       type: "ice",
       durations: [60, 90, 120],
-      category: "agonismo",
+      categories: ["agonismo"],
     }),
   ];
   await Promise.all(toCreate);

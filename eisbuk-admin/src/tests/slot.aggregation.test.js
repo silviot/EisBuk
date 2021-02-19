@@ -25,7 +25,7 @@ it("updates the slots summary on slot creation", async () => {
     date: { seconds: day + 15 * 3600 },
     type: "ice",
     durations: [60, 90, 120],
-    category: "agonismo",
+    categories: ["agonismo", "preagonismo"],
   });
   // Now check that the aggregate collection has been updated
   const aggregateSlotsQuery = org.collection("slotsByDay").doc("2021-01");
@@ -41,7 +41,7 @@ it("updates the slots summary on slot creation", async () => {
     date: { seconds: day - 15 * 3600 },
     type: "ice",
     durations: [60, 90, 120],
-    category: "agonismo",
+    categories: ["agonismo", "preagonismo"],
   });
   aggregateSlot = await waitForRecord({
     record: aggregateSlotsQuery,
@@ -62,7 +62,7 @@ it("updates the slots summary on slot creation", async () => {
     date: { seconds: day - 72 * 3600 },
     type: "ice",
     durations: [60, 90, 120],
-    category: "agonismo",
+    categories: ["agonismo", "preagonismo"],
   });
 
   aggregateSlot = await waitForRecord({

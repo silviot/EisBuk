@@ -34,7 +34,7 @@ it("Copies over booking when created", async (done) => {
     .doc("booked-slot-id")
     .create({
       date: { seconds: day },
-      category: "John",
+      categories: ["agonismo"],
       id: "booked-slot-id",
       duration: 60,
     });

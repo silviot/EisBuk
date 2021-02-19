@@ -36,7 +36,7 @@ const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
                       {slot.time} - {slot.endTime} <b>({slot.users.length})</b>
                     </span>
                   }
-                  secondary={`${slot.category} ${slot.type}`}
+                  secondary={`${slot.categories.join(", ")} ${slot.type}`}
                 />
               </ListItem>
               {slot.users.map((user) => {

@@ -94,7 +94,6 @@ export const CustomerAreaPage = () => {
                 <Typography variant="h6">
                   Benvenuto {customerData[0].name} {customerData[0].surname}
                 </Typography>
-                <Typography variant="p">{customerData[0].category}</Typography>
               </TabPanel>
               <TabPanel value={activeTab} index={1}>
                 <CustomerAreaCalendar />

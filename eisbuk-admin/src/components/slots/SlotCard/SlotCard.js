@@ -49,7 +49,7 @@ export const SlotCard = ({
   id,
   date,
   durations,
-  category,
+  categories,
   type,
   notes,
 }) => {
@@ -87,7 +87,7 @@ export const SlotCard = ({
           px={3}
           pb={1.5}
         >
-          {category && (
+          {categories.map((category) => (
             <Typography
               variant="subtitle1"
               color="textSecondary"
@@ -95,7 +95,7 @@ export const SlotCard = ({
             >
               {slotsLabels.categories[category].label}
             </Typography>
-          )}
+          ))}
           {type && (
             <Typography
               variant="subtitle1"
