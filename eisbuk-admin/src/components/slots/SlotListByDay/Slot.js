@@ -94,7 +94,13 @@ export default ({
                 className={classes.duration}
                 label={slotsLabels.durations[duration].label}
                 key={duration}
-                color={subscribedDuration === duration ? "primary" : undefined}
+                color={
+                  subscribedDuration === duration
+                    ? "primary"
+                    : showSubscribe
+                    ? "secondary"
+                    : undefined
+                }
                 onClick={showSubscribe ? handleSubscription(duration) : null}
               />
             ))}
