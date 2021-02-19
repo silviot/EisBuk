@@ -21,6 +21,7 @@ exports.addMissingSecretKey = functions
           customer_id: context.params.customerId,
           ...(after.name && { name: after.name }),
           ...(after.surname && { surname: after.surname }),
+          ...(after.category && { category: after.category }),
         };
         await db
           .collection("organizations")

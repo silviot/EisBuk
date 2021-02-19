@@ -42,6 +42,7 @@ it("Populates bookings when a customer record is added or changed", async (done)
       name: "Jane",
       surname: "Doe",
       id: "baz",
+      category: "corso",
     },
   ];
   await Promise.all(
@@ -51,12 +52,12 @@ it("Populates bookings when a customer record is added or changed", async (done)
   );
 
   const fromDbBaz = await waitForCustomerSecretKey("baz");
-  const bookingsInfo = await orgsColl
-    .collection("bookings")
-    .doc(fromDbBaz.data().secret_key)
-    .get();
-  expect(bookingsInfo.data().name).toEqual("Jane");
-  expect(bookingsInfo.data().surname).toEqual("Doe");
+  const bookingsInfo = (
+    await orgsColl.collection("bookings").doc(fromDbBaz.data().secret_key).get()
+  ).data();
+  expect(bookingsInfo.name).toEqual("Jane");
+  expect(bookingsInfo.surname).toEqual("Doe");
+  expect(bookingsInfo.category).toEqual("corso");
   done();
 });
 
