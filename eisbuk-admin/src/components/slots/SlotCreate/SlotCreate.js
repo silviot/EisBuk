@@ -1,7 +1,8 @@
 import React from "react";
 import firebase from "firebase/app";
+import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { fs2luxon } from "../../../utils/helpers";
 import {
   Box,
   Button,
@@ -89,7 +90,11 @@ const SlotCreate = ({
   ...props
 }) => {
   const classes = useStyles();
+  const lastTime = useSelector((state) => state.app.newSlotTime);
   const parsedDate = DateTime.fromISO(isoDate);
+  if (lastTime != null) {
+    defaultValues["time"] = fs2luxon(lastTime).toFormat("HH:mm");
+  }
   return (
     <Dialog open={open} onClose={onClose}>
       <Formik

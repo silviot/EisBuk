@@ -39,7 +39,6 @@ export default ({
   onCreateSlot,
   subscribedSlots,
   view,
-  isCustomer,
 }) => {
   const classes = useStyles();
   const [enableEdit, setEnableEdit] = useState(false);
@@ -138,7 +137,6 @@ export default ({
             onCreateSlot,
             enableEdit,
             view,
-            isCustomer,
           }}
         />
       </Box>

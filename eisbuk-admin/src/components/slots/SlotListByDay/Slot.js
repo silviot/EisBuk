@@ -22,7 +22,6 @@ export default ({
   onSubscribe,
   onUnsubscribe,
   subscribedSlots,
-  isCustomer,
 }) => {
   const classes = useStyles();
   const date = FBToLuxon(data.date);
@@ -61,16 +60,6 @@ export default ({
                 auth &&
                 !auth.isEmpty &&
                 auth.isLoaded &&
-                data.categories.map((category) => (
-                  <Typography
-                    className={classes.category}
-                    color="textSecondary"
-                  >
-                    {category}
-                  </Typography>
-                ))}
-              {!isCustomer &&
-                data.categories && // Safety check. Can be removed when migrateSlotsToPluralCategories has been applied
                 data.categories.map((category) => (
                   <Typography
                     className={classes.category}

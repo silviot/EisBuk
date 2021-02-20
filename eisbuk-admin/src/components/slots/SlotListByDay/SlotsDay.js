@@ -34,8 +34,7 @@ const SlotsDay = ({
   onDelete,
   onCreateSlot,
   enableEdit,
-  view = "slots", // If this is set to "slots" we display something else
-  // TODO: refactor in a different component
+  view = "slots",
 }) => {
   subscribedSlots = subscribedSlots || {};
   const slotsList = [];
