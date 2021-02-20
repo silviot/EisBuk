@@ -64,7 +64,6 @@ export const CustomerAreaCalendar = ({ category, view = "slots" }) => {
       return slot.categories.includes(category);
     })
   );
-  debugger;
   var subscribedSlots = useSelector(subscribedSlotsSelector);
 
   const dispatch = useDispatch();

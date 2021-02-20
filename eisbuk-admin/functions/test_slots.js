@@ -32,7 +32,7 @@ async function fillDay(day, organization) {
       date: new TS(day + 10 * 3600, 0),
       type: "off-ice-gym",
       durations: [60],
-      categories: ["preagonismo"],
+      categories: ["corso"],
     }),
     slotsColl.add({
       date: new TS(day + 15 * 3600, 0),

@@ -51,11 +51,17 @@ export default ({
       {!deleted && (
         <Card className={classes.root} raised={isSubscribed}>
           <CardContent>
-            <Typography display="inline" variant="h5" component="h2">
+            <Typography
+              display="inline"
+              variant="h5"
+              component="h2"
+              key="start"
+            >
               {date.toISOTime().substring(0, 5)}
             </Typography>
             {isSubscribed && (
               <Typography
+                key="end"
                 display="inline"
                 variant="h6"
                 component="h3"
@@ -76,7 +82,11 @@ export default ({
               !auth.isEmpty &&
               auth.isLoaded &&
               data.categories.map((category) => (
-                <Typography className={classes.category} color="textSecondary">
+                <Typography
+                  className={classes.category}
+                  color="textSecondary"
+                  key="category"
+                >
                   {category}
                 </Typography>
               ))}
@@ -94,7 +104,13 @@ export default ({
                 className={classes.duration}
                 label={slotsLabels.durations[duration].label}
                 key={duration}
-                color={subscribedDuration === duration ? "primary" : undefined}
+                color={
+                  subscribedDuration === duration
+                    ? "primary"
+                    : showSubscribe
+                    ? "secondary"
+                    : undefined
+                }
                 onClick={showSubscribe ? handleSubscription(duration) : null}
               />
             ))}
