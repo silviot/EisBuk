@@ -36,8 +36,7 @@ const SlotsDay = ({
   onDelete,
   onCreateSlot,
   enableEdit,
-  view, // If this is set to "slots" we display something else
-  // TODO: refactor in a different component
+  view = "slots",
 }) => {
   subscribedSlots = subscribedSlots || {};
   const slotsList = [];
@@ -48,6 +47,7 @@ const SlotsDay = ({
 
   const luxonDay = luxon.parse(day, "yyyy-LL-dd");
   const dateStr = luxonDay.toFormat("EEEE d MMMM", { locale: "it-IT" });
+
   const extendedOnDelete =
     onDelete && enableEdit
       ? (id) => {
@@ -130,7 +130,7 @@ const SlotsDay = ({
           </ListSubheader>
           <Grid className={classes.slotListContainer} container spacing={3}>
             {slotsList.map((slot) => (
-              <Grid key={slot.id} item xs={12} md={6}>
+              <Grid key={slot.id} item xs={12}>
                 <Slot
                   data={slot}
                   key={slot.id}

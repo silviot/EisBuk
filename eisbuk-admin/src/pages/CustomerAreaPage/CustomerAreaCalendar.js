@@ -82,17 +82,19 @@ export const CustomerAreaCalendar = ({ category, view = "slots" }) => {
     );
   }
   return (
-    <SlotsPageContainer
-      {...{
-        slots,
-        currentDate,
-        onChangeCalendarDate,
-        onSubscribe,
-        onUnsubscribe,
-        subscribedSlots,
-        view,
-      }}
-    />
+    <>
+      <SlotsPageContainer
+        {...{
+          slots,
+          currentDate,
+          onChangeCalendarDate,
+          onSubscribe,
+          onUnsubscribe,
+          subscribedSlots,
+          view,
+        }}
+      />
+    </>
   );
 };
 

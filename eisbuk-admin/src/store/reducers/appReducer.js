@@ -3,12 +3,14 @@ import {
   CLOSE_SNACKBAR,
   REMOVE_SNACKBAR,
   CHANGE_DAY,
+  SET_SLOT_TIME,
 } from "../actions/action-types";
 import { DateTime } from "luxon";
 
 const defaultState = {
   notifications: [],
   calendarDay: DateTime.local(),
+  newSlotTime: null,
 };
 
 export const appReducer = (state = defaultState, action) => {
@@ -47,6 +49,12 @@ export const appReducer = (state = defaultState, action) => {
       return {
         ...state,
         calendarDay: action.payload,
+      };
+
+    case SET_SLOT_TIME:
+      return {
+        ...state,
+        newSlotTime: action.payload,
       };
 
     default:

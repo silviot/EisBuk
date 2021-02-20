@@ -38,7 +38,7 @@ export default ({
   onUnsubscribe,
   onCreateSlot,
   subscribedSlots,
-  view = "slots",
+  view,
 }) => {
   const classes = useStyles();
   const [enableEdit, setEnableEdit] = useState(false);
