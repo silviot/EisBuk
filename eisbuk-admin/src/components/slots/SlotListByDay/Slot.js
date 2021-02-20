@@ -57,8 +57,6 @@ export default ({
               <Typography display="inline" variant="h5" component="h2">
                 {date.toISOTime().substring(0, 5)}
               </Typography>
-              )}
-              <br />
               {data.categories && // Safety check. Can be removed when migrateSlotsToPluralCategories has been applied
                 auth &&
                 !auth.isEmpty &&
