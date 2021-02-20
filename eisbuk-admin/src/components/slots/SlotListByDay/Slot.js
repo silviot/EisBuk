@@ -54,11 +54,10 @@ export default ({
           <CardContent className={classes.wrapper}>
             <Box p={1.5}>
               <Typography
-                key="end"
+                key="start"
                 display="inline"
                 variant="h5"
                 component="h2"
-                key="start"
               >
                 {date.toISOTime().substring(0, 5)}
               </Typography>
