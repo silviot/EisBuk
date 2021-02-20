@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { isLoaded, isEmpty } from "react-redux-firebase";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Badge,
@@ -19,6 +20,7 @@ import SlotCreate from "../SlotCreate";
 import { copySlotDay, createSlots } from "../../../store/actions/actions";
 import { shiftSlotsDay } from "../../../data/slotutils";
 import LuxonUtils from "@date-io/luxon";
+import { DateTime } from "luxon";
 import CustomerAreaBookingCard from "../../customerArea/CustomerAreaBookingCard";
 
 const luxon = new LuxonUtils({ locale: "C" });
@@ -41,6 +43,8 @@ const SlotsDay = ({
   const [deletedSlots, setDeletedSlots] = useState({});
   const [formIsOpen, setFormIsOpen] = useState(false);
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.firebase.auth);
+
   const luxonDay = luxon.parse(day, "yyyy-LL-dd");
   const dateStr = luxonDay.toFormat("EEEE d MMMM", { locale: "it-IT" });
 
@@ -89,6 +93,10 @@ const SlotsDay = ({
       ></SlotCreate>
     </>
   );
+
+  const canChange =
+    (isLoaded(auth) && !isEmpty(auth)) ||
+    luxonDay - DateTime.local().endOf("month") > 0;
   return (
     <>
       {view === "slots" ? (
@@ -129,8 +137,7 @@ const SlotsDay = ({
                   deleted={!!deletedSlots[slot.id]}
                   onDelete={extendedOnDelete}
                   {...{
-                    onSubscribe,
-                    onUnsubscribe,
+                    ...(canChange && { onSubscribe, onUnsubscribe }),
                     subscribedSlots,
                   }}
                 ></Slot>

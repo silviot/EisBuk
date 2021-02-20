@@ -54,6 +54,7 @@ export default ({
           <CardContent className={classes.wrapper}>
             <Box p={1.5}>
               <Typography
+                key="end"
                 display="inline"
                 variant="h5"
                 component="h2"
