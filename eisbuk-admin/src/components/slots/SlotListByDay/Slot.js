@@ -53,9 +53,31 @@ export default ({
         <Card className={classes.root} raised={isSubscribed}>
           <CardContent className={classes.wrapper}>
             <Box p={1.5}>
-              <Typography display="inline" variant="h5" component="h2">
+              <Typography
+                display="inline"
+                variant="h5"
+                component="h2"
+                key="start"
+              >
                 {date.toISOTime().substring(0, 5)}
               </Typography>
+              {isSubscribed && (
+                <Typography
+                  key="end"
+                  display="inline"
+                  variant="h6"
+                  component="h3"
+                  className={classes.endTime}
+                >
+                  {" "}
+                  -{" "}
+                  {date
+                    .plus({ minutes: subscribedDuration })
+                    .minus({ minutes: 10 })
+                    .toISOTime()
+                    .substring(0, 5)}
+                </Typography>
+              )}
               {data.categories && // Safety check. Can be removed when migrateSlotsToPluralCategories has been applied
                 auth &&
                 !auth.isEmpty &&
@@ -64,6 +86,7 @@ export default ({
                   <Typography
                     className={classes.category}
                     color="textSecondary"
+                    key="category"
                   >
                     {category}
                   </Typography>
@@ -89,7 +112,11 @@ export default ({
                   label={slotsLabels.durations[duration].label}
                   key={duration}
                   color={
-                    subscribedDuration === duration ? "primary" : undefined
+                    subscribedDuration === duration
+                      ? "primary"
+                      : showSubscribe
+                      ? "secondary"
+                      : undefined
                   }
                   onClick={showSubscribe ? handleSubscription(duration) : null}
                 />
