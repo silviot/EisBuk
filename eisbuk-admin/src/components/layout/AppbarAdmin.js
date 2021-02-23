@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -7,6 +8,8 @@ import {
   ButtonGroup,
   Hidden,
   List,
+  Menu,
+  MenuItem,
   Toolbar,
   Typography,
   SwipeableDrawer,
@@ -21,20 +24,53 @@ import {
   Menu as MenuIcon,
 } from "@material-ui/icons";
 import DebugMenu from "./DebugMenu";
-import { getCurrentOrganizationSettings } from "../../themes";
+import { signOut } from "../../store/actions/actions";
+import { organizationInfo } from "../../themes";
 
 const AppbarAdmin = (props) => {
   const classes = useStyles();
   const location = useLocation();
-  const currentOrganizationSettings = getCurrentOrganizationSettings();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const dispatch = useDispatch();
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = (action) => () => {
+    switch (action) {
+      case "logout":
+        dispatch(signOut());
+        break;
+      default:
+        break;
+    }
+    setAnchorEl(null);
+  };
+
+  const currentUserEmail = useSelector((state) => state.firebase.auth.email);
   return (
     <>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <Typography variant="h6" className={classes.title}>
-            {currentOrganizationSettings.name}
+          <Typography
+            variant="h6"
+            onClick={handleClick}
+            className={classes.title}
+          >
+            {organizationInfo.name}
           </Typography>
+          <Menu
+            id="admin-actions"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose()}
+          >
+            <MenuItem onClick={handleClose("")}>{currentUserEmail}</MenuItem>
+            <MenuItem onClick={handleClose("logout")}>Logout</MenuItem>
+          </Menu>
           <Hidden xsDown>
             <ButtonGroup color="secondary">
               <Button
@@ -67,9 +103,7 @@ const AppbarAdmin = (props) => {
               >
                 Atleti
               </Button>
-              {currentOrganizationSettings.name === "DEV" && (
-                <DebugMenu {...props} />
-              )}
+              {organizationInfo.name === "DEV" && <DebugMenu {...props} />}
             </ButtonGroup>
           </Hidden>
           <Hidden smUp>

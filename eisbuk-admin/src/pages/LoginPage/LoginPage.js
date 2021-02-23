@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { signIn, signInWithGoogle } from "../../store/actions/actions";
@@ -25,7 +26,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
 
 import Copyright from "../../components/layout/Copyright";
-import { getCurrentOrganizationSettings } from "../../themes";
+import { organizationInfo } from "../../themes";
 
 const loginBackgrounds = [
   figureSkatingSilhouetteCouple,
@@ -73,6 +74,8 @@ const SignInSide = ({ signIn }) => {
     email: "test@eisbuk.it",
     password: "test00",
   });
+  const dispatch = useDispatch();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
@@ -85,10 +88,8 @@ const SignInSide = ({ signIn }) => {
 
   const loginWithGoogle = (e) => {
     e.preventDefault();
-    signInWithGoogle();
+    dispatch(signInWithGoogle());
   };
-
-  const currentOrganizationSettings = getCurrentOrganizationSettings();
 
   const loginImageStyle = {
     backgroundImage: `url(${_.sample(loginBackgrounds)})`,
@@ -110,7 +111,7 @@ const SignInSide = ({ signIn }) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            {currentOrganizationSettings.name}
+            {organizationInfo.name}
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
