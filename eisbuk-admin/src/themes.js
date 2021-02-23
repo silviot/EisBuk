@@ -51,7 +51,7 @@ export const development = _.merge({}, base, {
 
 export const available = [igorice, eisbuk, development];
 
-export function getCurrentOrganizationSettings() {
+function getCurrentOrganizationSettings() {
   switch (ORGANIZATION) {
     case "igorice.web.app":
       return {
@@ -71,8 +71,8 @@ export function getCurrentOrganizationSettings() {
   }
 }
 
-const organizationTheme = getCurrentOrganizationSettings();
+export const organizationInfo = getCurrentOrganizationSettings();
 
 export const currentTheme = responsiveFontSizes(
-  createMuiTheme(organizationTheme.theme)
+  createMuiTheme(organizationInfo.theme)
 );

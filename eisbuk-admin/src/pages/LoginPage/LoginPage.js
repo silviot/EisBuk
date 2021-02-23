@@ -25,7 +25,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
 
 import Copyright from "../../components/layout/Copyright";
-import { getCurrentOrganizationSettings } from "../../themes";
+import { organizationInfo } from "../../themes";
 
 const loginBackgrounds = [
   figureSkatingSilhouetteCouple,
@@ -88,8 +88,6 @@ const SignInSide = ({ signIn }) => {
     signInWithGoogle();
   };
 
-  const currentOrganizationSettings = getCurrentOrganizationSettings();
-
   const loginImageStyle = {
     backgroundImage: `url(${_.sample(loginBackgrounds)})`,
   };
@@ -110,7 +108,7 @@ const SignInSide = ({ signIn }) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            {currentOrganizationSettings.name}
+            {organizationInfo.name}
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField

@@ -67,9 +67,7 @@ const AppbarAdmin = (props) => {
               >
                 Atleti
               </Button>
-              {currentOrganizationSettings.name === "DEV" && (
-                <DebugMenu {...props} />
-              )}
+              {organizationInfo.name === "DEV" && <DebugMenu {...props} />}
             </ButtonGroup>
           </Hidden>
           <Hidden smUp>
