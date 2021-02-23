@@ -22,6 +22,7 @@ import { shiftSlotsDay } from "../../../data/slotutils";
 import LuxonUtils from "@date-io/luxon";
 import { DateTime } from "luxon";
 import CustomerAreaBookingCard from "../../customerArea/CustomerAreaBookingCard";
+import _ from "lodash";
 
 const luxon = new LuxonUtils({ locale: "C" });
 
@@ -39,7 +40,6 @@ const SlotsDay = ({
   view = "slots",
 }) => {
   subscribedSlots = subscribedSlots || {};
-  const slotsList = [];
   const [deletedSlots, setDeletedSlots] = useState({});
   const [formIsOpen, setFormIsOpen] = useState(false);
   const dispatch = useDispatch();
@@ -61,14 +61,7 @@ const SlotsDay = ({
         }
       : undefined;
 
-  // Iterate over slots sorted by timestamp
-  const sorted_slots = Object.keys(slots || {}).sort(function (a, b) {
-    return slots[a].date.seconds >= slots[b].date.seconds;
-  });
-  for (const slot_id of sorted_slots) {
-    // Include the id of the slot into the payload to power actions over the slot
-    slotsList.push({ ...slots[slot_id], id: slot_id });
-  }
+  const slotsList = _.sortBy(_.values(slots), (el) => el.date.seconds);
   const classes = useStyles();
   const dayInClipboard = useSelector(dayCopyPasteSelector);
   const showCreateForm = () => {
