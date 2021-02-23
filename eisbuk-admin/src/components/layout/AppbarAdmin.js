@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -48,7 +48,8 @@ const AppbarAdmin = (props) => {
     }
     setAnchorEl(null);
   };
-  const currentUserEmail = "foo@bar.com";
+
+  const currentUserEmail = useSelector((state) => state.firebase.auth.email);
   return (
     <>
       <AppBar position="static" className={classes.appBar}>

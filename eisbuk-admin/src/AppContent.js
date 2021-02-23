@@ -1,6 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useFirestoreConnect, useFirestore } from "react-redux-firebase";
+import {
+  isLoaded,
+  isEmpty,
+  useFirestoreConnect,
+  useFirestore,
+} from "react-redux-firebase";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import LoginRoute from "./components/auth/LoginRoute";
@@ -12,9 +17,10 @@ import LoginPage from "./pages/LoginPage";
 import CustomerAreaPage from "./pages/CustomerAreaPage";
 import { wrapOrganization } from "./utils/firestore";
 import { getMonthStr } from "./utils/helpers";
+import { ORGANIZATION } from "./config/envInfo";
 import { calendarDaySelector } from "./store/selectors";
 
-function AppContent(props) {
+function AppContentAuthenticated() {
   const currentDate = useSelector(calendarDaySelector);
   const firestore = useFirestore();
   const monthsToQuery = [
@@ -32,8 +38,15 @@ function AppContent(props) {
       collection: "bookingsByDay",
       where: [firestore.FieldPath.documentId(), "in", monthsToQuery],
     }),
+    {
+      collection: "organizations",
+      doc: ORGANIZATION,
+    },
   ]);
+  return AppComponents();
+}
 
+function AppComponents() {
   return (
     <Switch>
       <LoginRoute path="/login" component={LoginPage} />
@@ -44,6 +57,15 @@ function AppContent(props) {
       <Route path="/debug" children={<DebugPage />} />
     </Switch>
   );
+}
+
+function AppContent() {
+  const auth = useSelector((state) => state.firebase.auth);
+  if (isLoaded(auth) && !isEmpty(auth)) {
+    return <AppContentAuthenticated />;
+  } else {
+    return <AppComponents />;
+  }
 }
 
 export default AppContent;
