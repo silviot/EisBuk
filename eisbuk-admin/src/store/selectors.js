@@ -11,7 +11,7 @@ function getSafe(fn, defaultVal) {
   // return the default value
   const def = defaultVal || {};
   try {
-    return fn() ?? {};
+    return fn() ?? defaultVal;
   } catch (e) {
     return def;
   }
@@ -32,8 +32,11 @@ export const bookingDayInfoSelector = (dayStr) =>
     makeBookingsInfoSelector(dayStr),
     allUsersSelector,
     (slotsInfo, bookingsInfo, allUsers) => {
-      const unsortedSlots = Object.keys(slotsInfo).map((key) => slotsInfo[key]);
-      const slots = _.sortBy(unsortedSlots, [extractSlotDate, extractSlotId]);
+      const slots = _.sortBy(_.values(slotsInfo), [
+        extractSlotDate,
+        extractSlotId,
+      ]);
+
       return slots.map((slot) => {
         const users = Object.keys(bookingsInfo[slot.id] ?? {}).map((key) => {
           const user = allUsers[key] ?? {
