@@ -62,8 +62,12 @@ function AppComponents() {
 function AppContent() {
   const auth = useSelector((state) => state.firebase.auth);
   if (isLoaded(auth) && !isEmpty(auth)) {
+    // The user is authenticated: it makes sense to query protected collections
+    // that are used all over the application
     return <AppContentAuthenticated />;
   } else {
+    // Anonymous user: do not attempt to query collections that would fail with
+    // unauthorized. Only render subcomponents
     return <AppComponents />;
   }
 }
