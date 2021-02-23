@@ -54,11 +54,11 @@ export const CustomerAreaCalendar = ({ category, view = "slots" }) => {
       ],
     }),
   ]);
-  const allSlots = _.omitBy(
+  const allSlotsByDay = _.omitBy(
     useSelector(slotsSelector),
     (el) => typeof el === "string"
   );
-  const slots = _.mapValues(allSlots, (daySlots) =>
+  const slots = _.mapValues(allSlotsByDay, (daySlots) =>
     _.pickBy(daySlots, (slot) => {
       return slot.categories.includes(category);
     })
