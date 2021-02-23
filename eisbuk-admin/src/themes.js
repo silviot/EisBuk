@@ -1,5 +1,6 @@
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import * as colors from "@material-ui/core/colors";
+import { ORGANIZATION } from "./config/envInfo";
 import _ from "lodash";
 
 const base = {
@@ -29,10 +30,10 @@ export const igorice = _.merge({}, base, {
 export const eisbuk = _.merge({}, base, {
   palette: {
     primary: {
-      main: colors.orange[900],
+      main: colors.lime[900],
     },
     secondary: {
-      main: colors.green[300],
+      main: colors.purple[300],
     },
   },
 });
@@ -51,13 +52,7 @@ export const development = _.merge({}, base, {
 export const available = [igorice, eisbuk, development];
 
 export function getCurrentOrganizationSettings() {
-  var hostname;
-  try {
-    hostname = window.location.hostname;
-  } catch (e) {
-    hostname = "";
-  }
-  switch (hostname) {
+  switch (ORGANIZATION) {
     case "igorice.web.app":
       return {
         theme: igorice,
