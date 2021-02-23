@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
 import _ from "lodash";
 import CustomerForm from "../../components/customers/CustomerForm";
 
@@ -37,9 +36,6 @@ export const CustomerList = ({
     null
   );
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
-  const history = useHistory();
-  const goTo = useCallback((url) => history.push(url), [history]);
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -98,9 +94,7 @@ export const CustomerList = ({
               const bookingsButton = customer.secret_key && (
                 <IconButton
                   color="primary"
-                  onClick={() => {
-                    goTo(`/clienti/${customer.secret_key}`);
-                  }}
+                  href={`/clienti/${customer.secret_key}`}
                 >
                   <DateRangeIcon />
                 </IconButton>
