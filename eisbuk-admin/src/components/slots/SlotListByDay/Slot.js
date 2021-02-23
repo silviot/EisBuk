@@ -86,7 +86,7 @@ export default ({
                   <Typography
                     className={classes.category}
                     color="textSecondary"
-                    key="category"
+                    key={category}
                   >
                     {category}
                   </Typography>
