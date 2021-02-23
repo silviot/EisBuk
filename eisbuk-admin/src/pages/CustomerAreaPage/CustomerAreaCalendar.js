@@ -20,8 +20,7 @@ import _ from "lodash";
 const luxon = new LuxonUtils({ locale: "it" });
 
 const slotsSelector = (state) => flatten(state.firestore.ordered.slotsByDay);
-const subscribedSlotsSelector = (state) =>
-  state.firestore.ordered.subscribedSlots;
+const subscribedSlotsSelector = (state) => state.firestore.data.subscribedSlots;
 
 export const CustomerAreaCalendar = ({ category, view = "slots" }) => {
   const start = luxon.date().startOf("week");
@@ -75,11 +74,6 @@ export const CustomerAreaCalendar = ({ category, view = "slots" }) => {
   };
   if (!isLoaded(subscribedSlots)) {
     onSubscribe = undefined;
-  } else {
-    subscribedSlots = subscribedSlots.reduce(
-      (partial, el) => ({ ...partial, [el.id]: el }),
-      {}
-    );
   }
   return (
     <>
