@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { signIn, signInWithGoogle } from "../../store/actions/actions";
@@ -73,6 +74,8 @@ const SignInSide = ({ signIn }) => {
     email: "test@eisbuk.it",
     password: "test00",
   });
+  const dispatch = useDispatch();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
@@ -85,7 +88,7 @@ const SignInSide = ({ signIn }) => {
 
   const loginWithGoogle = (e) => {
     e.preventDefault();
-    signInWithGoogle();
+    dispatch(signInWithGoogle());
   };
 
   const loginImageStyle = {

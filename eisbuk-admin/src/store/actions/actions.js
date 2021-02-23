@@ -102,7 +102,7 @@ export const signInWithGoogle = () => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
     firebase
-      .login({ provider: "google", type: "popup" })
+      .login({ provider: "google", type: "redirect" })
       .then(() => {
         console.log("Google login success");
         dispatch({ type: GOOGLE_LOGIN_SUCCESS });
