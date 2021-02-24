@@ -3,6 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import Unauthorized from "./Unauthorized";
+import Loading from "./Loading";
 import { ORGANIZATION } from "../../config/envInfo";
 
 const PrivateRoute = (props) => {
@@ -10,15 +11,29 @@ const PrivateRoute = (props) => {
   const organizationRecord = useSelector(
     (state) => state.firestore.data.organizations
   );
-  const isAuthorized =
-    isLoaded(organizationRecord) &&
-    !isEmpty(organizationRecord) &&
+  const isAuthorized = isLoaded(organizationRecord) && isLoaded(auth);
+  !isEmpty(organizationRecord) &&
     organizationRecord[ORGANIZATION].admins.includes(auth.email);
+  console.log(auth, organizationRecord);
 
-  if (isLoaded(auth) && !isEmpty(auth) && isAuthorized) {
+  if (
+    isLoaded(auth) &&
+    isLoaded(organizationRecord) &&
+    !isEmpty(auth) &&
+    isAuthorized
+  ) {
     return <Route {...props} />;
-  } else if (isLoaded(auth) && !isEmpty(auth) && !isAuthorized) {
+  } else if (
+    isLoaded(auth) &&
+    !isEmpty(auth) &&
+    isLoaded(organizationRecord) &&
+    !isAuthorized
+  ) {
+    console.log(auth);
     return <Unauthorized />;
+  }
+  if (!isLoaded(auth) || !isLoaded(organizationRecord)) {
+    return <Loading />;
   }
   return <Redirect to="/login" />;
 };
