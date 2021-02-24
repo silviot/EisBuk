@@ -11,31 +11,32 @@ const PrivateRoute = (props) => {
   const organizationRecord = useSelector(
     (state) => state.firestore.data.organizations
   );
-  const isAuthorized = isLoaded(organizationRecord) && isLoaded(auth);
-  !isEmpty(organizationRecord) &&
-    organizationRecord[ORGANIZATION].admins.includes(auth.email);
-  console.log(auth, organizationRecord);
-
-  if (
-    isLoaded(auth) &&
+  const isAuthenticated = isLoaded(auth) && !isEmpty(auth);
+  const isAuthorized =
     isLoaded(organizationRecord) &&
-    !isEmpty(auth) &&
-    isAuthorized
+    !isEmpty(organizationRecord) &&
+    isAuthenticated &&
+    organizationRecord[ORGANIZATION] &&
+    organizationRecord[ORGANIZATION].admins &&
+    organizationRecord[ORGANIZATION].admins.includes(auth.email);
+
+  if (!isLoaded(auth)) {
+    return <Loading />;
+  } else if (
+    isAuthenticated &&
+    (isAuthorized || typeof organizationRecord === "undefined")
   ) {
     return <Route {...props} />;
   } else if (
-    isLoaded(auth) &&
-    !isEmpty(auth) &&
-    isLoaded(organizationRecord) &&
-    !isAuthorized
+    isAuthenticated &&
+    !isAuthorized &&
+    typeof organizationRecord !== "undefined"
   ) {
-    console.log(auth);
+    console.log("Was unauthorized");
     return <Unauthorized />;
+  } else if (!isAuthenticated && isLoaded(auth)) {
+    return <Redirect to="/login" />;
   }
-  if (!isLoaded(auth) || !isLoaded(organizationRecord)) {
-    return <Loading />;
-  }
-  return <Redirect to="/login" />;
 };
 
 export default PrivateRoute;
