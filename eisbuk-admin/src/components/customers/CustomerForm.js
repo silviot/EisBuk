@@ -158,7 +158,7 @@ const CustomerForm = ({ open, handleClose, customer, updateCustomer }) => {
 };
 
 function MyField({ Icon, ...props }) {
-  var InputProps = undefined;
+  var InputProps = {};
   if (typeof Icon !== "undefined") {
     InputProps = {
       InputProps: {
@@ -170,10 +170,11 @@ function MyField({ Icon, ...props }) {
       },
     };
   }
-
+  if (!props.row) {
+    InputProps.fullWidth = true;
+  }
   return (
     <FastField
-      fullWidth
       autoComplete="off"
       {...{
         component: TextField,
