@@ -4,6 +4,7 @@ const timestamp = require("unix-timestamp");
 const { checkUser } = require("./utils");
 const FIRST_NAMES = require("./italian-names.json");
 const LAST_NAMES = require("./italian-surnames.json");
+const { DateTime } = require("luxon");
 var _ = require("lodash");
 const { v4 } = require("uuid");
 const uuidv4 = v4;
@@ -51,6 +52,9 @@ const create_users = async function (howMany, organization) {
       email: toEmail(`${name}.${surname}@example.com`.toLowerCase()),
       phone: "12345",
       category: getRandom(CATEGORIES),
+      certificateExpiration: DateTime.local()
+        .plus({ days: _.random(10, 200) })
+        .toISODate(),
     };
     await org.collection("customers").doc(customer.id).set(customer);
   });

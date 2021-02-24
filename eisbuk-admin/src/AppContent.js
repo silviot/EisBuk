@@ -30,7 +30,10 @@ function AppContentAuthenticated() {
     getMonthStr(currentDate, 1),
   ];
   useFirestoreConnect([
-    wrapOrganization({ collection: "customers" }),
+    wrapOrganization({
+      collection: "customers",
+      orderBy: ["certificateExpiration", "asc"],
+    }),
     wrapOrganization({
       collection: "slotsByDay",
       where: [firestore.FieldPath.documentId(), "in", monthsToQuery],
