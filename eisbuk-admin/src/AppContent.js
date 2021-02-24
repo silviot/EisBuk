@@ -8,6 +8,7 @@ import {
 } from "react-redux-firebase";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./components/auth/PrivateRoute";
+import Unauthorized from "./components/auth/Unauthorized";
 import LoginRoute from "./components/auth/LoginRoute";
 import DebugPage from "./components/debugPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -53,6 +54,7 @@ function AppComponents() {
       <PrivateRoute path="/" component={DashboardPage} exact />
       <PrivateRoute path="/atleti" component={CustomersPage} exact />
       <PrivateRoute path="/prenotazioni" component={SlotsPage} exact />
+      <Route path="/unauthorized" component={Unauthorized} exact />
       <Route path="/clienti/:secret_key" children={<CustomerAreaPage />} />
       <Route path="/debug" children={<DebugPage />} />
     </Switch>

@@ -78,7 +78,6 @@ const AppbarAdmin = (props) => {
                 to="/"
                 variant="contained"
                 disabled={location.pathname === "/"}
-                replace
                 startIcon={<DateRangeIcon />}
               >
                 Presenze
@@ -88,7 +87,6 @@ const AppbarAdmin = (props) => {
                 disabled={location.pathname === "/prenotazioni"}
                 to="/prenotazioni"
                 variant="contained"
-                replace
                 startIcon={<LibraryBooksIcon />}
               >
                 Slots
@@ -98,7 +96,6 @@ const AppbarAdmin = (props) => {
                 to="/atleti"
                 disabled={location.pathname === "/atleti"}
                 variant="contained"
-                replace
                 startIcon={<PeopleIcon />}
               >
                 Atleti
