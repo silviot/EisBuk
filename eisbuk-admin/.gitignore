@@ -30,3 +30,5 @@ yarn-error.log*
 firebase*.log
 firestore*.log
 ui-debug.log
+
+envInfoEnv.js
