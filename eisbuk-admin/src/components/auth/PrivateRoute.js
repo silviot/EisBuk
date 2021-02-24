@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
+import Unauthorized from "./Unauthorized";
 import { ORGANIZATION } from "../../config/envInfo";
 
 const PrivateRoute = (props) => {
@@ -13,14 +14,13 @@ const PrivateRoute = (props) => {
     isLoaded(organizationRecord) &&
     !isEmpty(organizationRecord) &&
     organizationRecord[ORGANIZATION].admins.includes(auth.email);
-  return (
-    <>
-      {isLoaded(auth) && !isEmpty(auth) && isAuthorized && <Route {...props} />}
-      {isLoaded(auth) && isEmpty(auth) && isAuthorized && (
-        <Redirect to="/login" />
-      )}
-    </>
-  );
+
+  if (isLoaded(auth) && !isEmpty(auth) && isAuthorized) {
+    return <Route {...props} />;
+  } else if (isLoaded(auth) && !isEmpty(auth) && !isAuthorized) {
+    return <Unauthorized />;
+  }
+  return <Redirect to="/login" />;
 };
 
 export default PrivateRoute;
