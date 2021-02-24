@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => {
 const avatarColors = Object.keys(colorsDef);
 // Get the available classes we can use to get different colors
 
-export const ColoredAvatar = ({ name, surname, className }) => {
+export const ColoredAvatar = ({ name, surname, className, category }) => {
   let classes = useStyles();
   let str = name + surname;
   let h = 0;
@@ -44,8 +44,24 @@ export const ColoredAvatar = ({ name, surname, className }) => {
   }
   h = h & h;
   h = Math.abs(h) % avatarColors.length;
+
+  var variant;
+  switch (category) {
+    case "agonismo":
+      variant = "square";
+      break;
+    case "preagonismo":
+      variant = "rounded";
+      break;
+    default:
+      variant = "circle";
+      break;
+  }
   return (
-    <Avatar className={className + " " + classes[avatarColors[h]]}>
+    <Avatar
+      className={className + " " + classes[avatarColors[h]]}
+      variant={variant}
+    >
       {getInitials(name, surname)}
     </Avatar>
   );
