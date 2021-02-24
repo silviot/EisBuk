@@ -43,17 +43,6 @@ const rrfConfig = {
 // Initialize Firebase, Firestore and Functions instances
 firebase.initializeApp(fbConfig);
 const db = firebase.firestore();
-db.enablePersistence().catch((err) => {
-  if (err.code === "failed-precondition") {
-    console.warn(
-      "Multiple tabs open, persistence can only be enabled in one tab at a a time."
-    );
-  } else if (err.code === "unimplemented") {
-    console.warn(
-      "The current browser does not support all of the features required to enable persistence"
-    );
-  }
-});
 
 const functions = firebase.functions();
 
@@ -66,6 +55,18 @@ if (isDev) {
   functions.useEmulator("localhost", 5001);
   console.warn("Using emulator for functions and authentication");
   window.firebase = firebase;
+} else {
+  db.enablePersistence().catch((err) => {
+    if (err.code === "failed-precondition") {
+      console.warn(
+        "Multiple tabs open, persistence can only be enabled in one tab at a a time."
+      );
+    } else if (err.code === "unimplemented") {
+      console.warn(
+        "The current browser does not support all of the features required to enable persistence"
+      );
+    }
+  });
 }
 
 // Create Redux Store with Reducers and Initial state
