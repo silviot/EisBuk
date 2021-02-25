@@ -42,8 +42,8 @@ const create_users = async function (howMany, organization) {
   const db = admin.firestore();
   const org = db.collection("organizations").doc(organization);
   await _.range(howMany).map(async (i) => {
-    const name = getRandom(FIRST_NAMES);
-    const surname = getRandom(LAST_NAMES);
+    const name = _.sample(FIRST_NAMES);
+    const surname = _.sample(LAST_NAMES);
     const customer = {
       id: uuidv4(),
       birthday: "2000-01-01",
@@ -51,7 +51,7 @@ const create_users = async function (howMany, organization) {
       surname,
       email: toEmail(`${name}.${surname}@example.com`.toLowerCase()),
       phone: "12345",
-      category: getRandom(CATEGORIES),
+      category: _.sample(CATEGORIES),
       certificateExpiration: DateTime.local()
         .plus({ days: _.random(10, 200) })
         .toISODate(),
@@ -63,7 +63,3 @@ const create_users = async function (howMany, organization) {
 const toEmail = (str) => _.deburr(str.replace(/ /i, "."));
 
 const CATEGORIES = ["corso", "agonismo", "preagonismo"];
-
-function getRandom(names) {
-  return names[Math.floor(Math.random() * (names.length - 1))];
-}
