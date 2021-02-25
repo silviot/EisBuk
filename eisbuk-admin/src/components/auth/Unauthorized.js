@@ -17,9 +17,15 @@ const backgrounds = [
   iceSkatingSilhouette,
 ];
 
-const Unauthorized = () => {
+const Unauthorized = ({ backgroundIndex }) => {
+  var background;
+  if (!_.isNil(backgroundIndex)) {
+    background = backgrounds[backgroundIndex % backgrounds.length];
+  } else {
+    background = _.sample(backgrounds);
+  }
   const style = {
-    backgroundImage: `url(${_.sample(backgrounds)})`,
+    backgroundImage: `url(${background})`,
     backgroundRepeat: "no-repeat",
     backgroundOpacity: "20%",
     backgroundSize: "contain",
