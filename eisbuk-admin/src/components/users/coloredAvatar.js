@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Avatar } from "@material-ui/core";
+import { Avatar, Badge } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import * as colors from "@material-ui/core/colors";
-
+import { DateTime } from "luxon";
 import { getInitials } from "../../utils/helpers";
 
 // For all available colors make a CSS class
@@ -51,8 +51,31 @@ const getColor = ({ name, surname }) => {
   return avatarColors[h];
 };
 
-export const ColoredAvatar = ({ name, surname, className, category }) => {
+export const ColoredAvatar = ({
+  name,
+  surname,
+  className,
+  category,
+  certificateExpiration,
+}) => {
   const classes = useStyles();
+  var wrapAvatar = (el) => el;
+  try {
+    const daysToExpiration = DateTime.fromISO(certificateExpiration).diffNow(
+      "days"
+    ).days;
+    if (daysToExpiration < 0) {
+      // Certificate is expired
+      wrapAvatar = (el) => (
+        <Badge color="error" badgeContent="!">
+          {el}
+        </Badge>
+      );
+    } else if (daysToExpiration < 20) {
+      // Certificate is about to expire
+      wrapAvatar = (el) => <Badge color="primary">{el}</Badge>;
+    }
+  } catch (e) {}
 
   var variant;
   var additionalClass = classes[getColor({ name, surname })];
@@ -68,7 +91,7 @@ export const ColoredAvatar = ({ name, surname, className, category }) => {
       variant = "circular";
       break;
   }
-  return (
+  return wrapAvatar(
     <Avatar className={`${className} ${additionalClass}`} variant={variant}>
       {getInitials(name, surname)}
     </Avatar>
