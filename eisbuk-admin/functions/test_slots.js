@@ -1,9 +1,12 @@
 const functions = require("firebase-functions");
 const { checkUser } = require("./utils");
-const firebase = require("firebase");
 const admin = require("firebase-admin");
-const timestamp = require("unix-timestamp");
 const { roundTo } = require("./utils");
+const _ = require("lodash");
+
+const NOTES = ["", "Pista 1", "Pista 2"];
+const TYPES = ["off-ice-danza", "ice", "off-ice-gym"];
+const CATEGORIES = ["agonismo", "preagonismo", "corso"];
 
 async function fillDay(day, organization) {
   const start = new admin.firestore.Timestamp(day, 0),
@@ -24,27 +27,31 @@ async function fillDay(day, organization) {
   const toCreate = [
     slotsColl.add({
       date: new TS(day + 9 * 3600, 0),
-      type: "off-ice-danza",
+      type: _.sample(TYPES),
       durations: [60],
-      categories: ["preagonismo"],
+      categories: _.sampleSize(CATEGORIES, _.random(CATEGORIES.length - 1) + 1),
+      notes: _.sample(NOTES),
     }),
     slotsColl.add({
       date: new TS(day + 10 * 3600, 0),
-      type: "off-ice-gym",
+      type: _.sample(TYPES),
       durations: [60],
-      categories: ["corso"],
+      categories: _.sampleSize(CATEGORIES, _.random(CATEGORIES.length - 1) + 1),
+      notes: _.sample(NOTES),
     }),
     slotsColl.add({
       date: new TS(day + 15 * 3600, 0),
-      type: "ice",
+      type: _.sample(TYPES),
       durations: [60, 90, 120],
-      categories: ["preagonismo"],
+      categories: _.sampleSize(CATEGORIES, _.random(CATEGORIES.length - 1) + 1),
+      notes: _.sample(NOTES),
     }),
     slotsColl.add({
       date: new TS(day + 17.5 * 3600, 0),
-      type: "ice",
+      type: _.sample(TYPES),
       durations: [60, 90, 120],
-      categories: ["agonismo"],
+      categories: _.sampleSize(CATEGORIES, _.random(CATEGORIES.length - 1) + 1),
+      notes: _.sample(NOTES),
     }),
   ];
   await Promise.all(toCreate);

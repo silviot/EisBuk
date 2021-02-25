@@ -21,7 +21,11 @@ Object.keys(colors).map((color) => {
 
 // Make styles using the contrast text as text color
 const useStyles = makeStyles((theme) => {
-  const res = {};
+  const res = {
+    rounded: {
+      borderRadius: "10px",
+    },
+  };
   Object.keys(colorsDef).map(
     (color) =>
       (res[color] = {
@@ -35,7 +39,7 @@ const useStyles = makeStyles((theme) => {
 const avatarColors = Object.keys(colorsDef);
 // Get the available classes we can use to get different colors
 
-export const ColoredAvatar = ({ name, surname, className }) => {
+export const ColoredAvatar = ({ name, surname, className, category }) => {
   let classes = useStyles();
   let str = name + surname;
   let h = 0;
@@ -44,8 +48,26 @@ export const ColoredAvatar = ({ name, surname, className }) => {
   }
   h = h & h;
   h = Math.abs(h) % avatarColors.length;
+
+  var variant;
+  var additionalClass = "";
+  switch (category) {
+    case "agonismo":
+      variant = "square";
+      break;
+    case "preagonismo":
+      variant = "rounded";
+      additionalClass = classes.rounded;
+      break;
+    default:
+      variant = "circular";
+      break;
+  }
   return (
-    <Avatar className={className + " " + classes[avatarColors[h]]}>
+    <Avatar
+      className={`${className} ${additionalClass} ${classes[avatarColors[h]]}`}
+      variant={variant}
+    >
       {getInitials(name, surname)}
     </Avatar>
   );

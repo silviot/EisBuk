@@ -5,6 +5,14 @@ import React, { useState } from "react";
 import SlotsPageContainer from "./SlotsPageContainer";
 import { DateTime } from "luxon";
 import seedrandom from "seedrandom";
+import _ from "lodash";
+
+const PRNG = seedrandom("foobar");
+
+/* Alter Math.random to refer to seedrandom's PRNG. */
+Math.random = PRNG;
+/* Assign a new Lodash context to a separate variable AFTER altering Math.random. */
+var lodash = _.runInContext();
 
 const Timestamp = firebase.firestore.Timestamp;
 export default {
@@ -57,10 +65,13 @@ OneSlot.args = {
         type: "ice",
         date: { seconds: 1609513200 },
         durations: [60],
+        notes: "Pista 1",
       },
     },
   },
 };
+
+const NOTES = ["", "Pista 1", "Pista 2", "Prima riga\nSeconda riga"];
 
 function createSlots(date, seed) {
   const random = seedrandom(seed);
@@ -81,6 +92,7 @@ function createSlots(date, seed) {
         categories: ["agonismo"],
         type: "ice",
         durations: [60],
+        notes: lodash.sample(NOTES),
       };
     }
   });

@@ -4,10 +4,9 @@ import { isLoaded, isEmpty } from "react-redux-firebase";
 
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
 import CustomerList from "../../components/customers/CustomerList";
-import Copyright from "../../components/layout/Copyright";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Box, Container, Fab, Grid, LinearProgress } from "@material-ui/core";
+import { Container, Fab, Grid, LinearProgress } from "@material-ui/core";
 
 import { Add as AddIcon } from "@material-ui/icons";
 
@@ -32,45 +31,38 @@ const CustomersPage = () => {
       <AppbarAdmin />
       {!isLoaded(customers) && <LinearProgress />}
       <Container maxWidth="lg" className={classes.customersContainer}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            {
-              (isLoaded(customers),
-              !isEmpty(customers) && (
-                <Box p={3}>
-                  <CustomerList
-                    onDeleteCustomer={(customer) =>
-                      dispatch(deleteCustomer(customer))
-                    }
-                    updateCustomer={(customer) =>
-                      dispatch(updateCustomer(customer))
-                    }
-                    customers={customers.map((o) => ({
-                      ...o,
-                      tableData: {},
-                    }))}
-                  />
-                </Box>
-              ))
-            }
-            <Fab
-              color="primary"
-              aria-label="Aggiungi atleta"
-              className={classes.fab}
-              onClick={toggleAddAthleteDialog}
-            >
-              <AddIcon />
-            </Fab>
-            <CustomerForm
-              open={addAthleteDialog}
-              handleClose={toggleAddAthleteDialog}
-              updateCustomer={(customer) => dispatch(updateCustomer(customer))}
-            />
-          </Grid>
+        <Grid item xs={12}>
+          {
+            (isLoaded(customers),
+            !isEmpty(customers) && (
+              <CustomerList
+                onDeleteCustomer={(customer) =>
+                  dispatch(deleteCustomer(customer))
+                }
+                updateCustomer={(customer) =>
+                  dispatch(updateCustomer(customer))
+                }
+                customers={customers.map((o) => ({
+                  ...o,
+                  tableData: {},
+                }))}
+              />
+            ))
+          }
+          <Fab
+            color="primary"
+            aria-label="Aggiungi atleta"
+            className={classes.fab}
+            onClick={toggleAddAthleteDialog}
+          >
+            <AddIcon />
+          </Fab>
+          <CustomerForm
+            open={addAthleteDialog}
+            handleClose={toggleAddAthleteDialog}
+            updateCustomer={(customer) => dispatch(updateCustomer(customer))}
+          />
         </Grid>
-        <Box pt={4}>
-          <Copyright />
-        </Box>
       </Container>
     </>
   );

@@ -61,7 +61,6 @@ export const CustomerList = ({
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
-              <TableCell></TableCell>
               <TableCell>Nome</TableCell>
               <TableCell>Cognome</TableCell>
               <TableCell>Categoria</TableCell>
@@ -106,10 +105,8 @@ export const CustomerList = ({
                       {deleteButton}
                       {editButton}
                       {bookingsButton}
+                      <ColoredAvatar {...customer} />
                     </Box>
-                  </TableCell>
-                  <TableCell>
-                    <ColoredAvatar {...customer} />
                   </TableCell>
                   <TableCell>{customer.name}</TableCell>
                   <TableCell>{customer.surname}</TableCell>
