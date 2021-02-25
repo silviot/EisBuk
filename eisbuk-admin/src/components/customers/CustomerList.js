@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import _ from "lodash";
 import CustomerForm from "../../components/customers/CustomerForm";
 
@@ -52,6 +53,7 @@ export const CustomerList = ({
     rowsPerPage * (page + 1)
   ).filter((el) => searchRe.test(el.name) || searchRe.test(el.surname));
   const rowsPerPageOptions = [10, 15, 50, 100];
+  const history = useHistory();
 
   return (
     <>
@@ -94,6 +96,10 @@ export const CustomerList = ({
                 <IconButton
                   color="primary"
                   href={`/clienti/${customer.secret_key}`}
+                  onClick={(e) =>
+                    e.preventDefault() ||
+                    history.push(`/clienti/${customer.secret_key}`)
+                  }
                 >
                   <DateRangeIcon />
                 </IconButton>

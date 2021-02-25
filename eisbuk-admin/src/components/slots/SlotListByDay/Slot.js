@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import {
+  Button,
   Chip,
   IconButton,
   Card,
@@ -105,22 +106,36 @@ export default ({
           </CardContent>
           <Box pl={1.5} pb={1.5} pr={1.5} display="flex">
             <Box>
-              {data.durations.map((duration) => (
-                <Chip
-                  clickable={showSubscribe}
-                  className={classes.duration}
-                  label={slotsLabels.durations[duration].label}
-                  key={duration}
-                  color={
-                    subscribedDuration === duration
-                      ? "primary"
-                      : showSubscribe
-                      ? "secondary"
-                      : undefined
-                  }
-                  onClick={showSubscribe ? handleSubscription(duration) : null}
-                />
-              ))}
+              {data.durations.map((duration) => {
+                const color =
+                  subscribedDuration === duration
+                    ? "primary"
+                    : showSubscribe
+                    ? "secondary"
+                    : undefined;
+
+                if (showSubscribe) {
+                  return (
+                    <Button
+                      variant="contained"
+                      key={duration}
+                      color={color}
+                      onClick={handleSubscription(duration)}
+                    >
+                      {slotsLabels.durations[duration].label}
+                    </Button>
+                  );
+                }
+                return (
+                  <Chip
+                    clickable={showSubscribe}
+                    className={classes.duration}
+                    label={slotsLabels.durations[duration].label}
+                    key={duration}
+                    color={color}
+                  />
+                );
+              })}
             </Box>
             <Box>{data.notes}</Box>
           </Box>

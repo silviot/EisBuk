@@ -53,7 +53,7 @@ const create_users = async function (howMany, organization) {
       phone: "12345",
       category: _.sample(CATEGORIES),
       certificateExpiration: DateTime.local()
-        .plus({ days: _.random(10, 200) })
+        .plus({ days: _.random(-40, 200) })
         .toISODate(),
     };
     await org.collection("customers").doc(customer.id).set(customer);

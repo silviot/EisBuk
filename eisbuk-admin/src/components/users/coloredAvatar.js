@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Avatar } from "@material-ui/core";
+import { Avatar, Badge } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import * as colors from "@material-ui/core/colors";
-
+import { DateTime } from "luxon";
 import { getInitials } from "../../utils/helpers";
 
 // For all available colors make a CSS class
@@ -39,35 +39,60 @@ const useStyles = makeStyles((theme) => {
 const avatarColors = Object.keys(colorsDef);
 // Get the available classes we can use to get different colors
 
-export const ColoredAvatar = ({ name, surname, className, category }) => {
-  let classes = useStyles();
-  let str = name + surname;
-  let h = 0;
+const getColor = ({ name, surname }) => {
+  const str = name + surname;
+  var h = 0;
   for (var i = 0; i < str.length; i++) {
     h = str.charCodeAt(i) + ((h << 5) - h);
   }
   h = h & h;
   h = Math.abs(h) % avatarColors.length;
 
+  return avatarColors[h];
+};
+
+export const ColoredAvatar = ({
+  name,
+  surname,
+  className,
+  category,
+  certificateExpiration,
+}) => {
+  const classes = useStyles();
+  var wrapAvatar = (el) => el;
+  try {
+    const daysToExpiration = DateTime.fromISO(certificateExpiration).diffNow(
+      "days"
+    ).days;
+    if (daysToExpiration < 0) {
+      // Certificate is expired
+      wrapAvatar = (el) => (
+        <Badge color="error" badgeContent="!">
+          {el}
+        </Badge>
+      );
+    } else if (daysToExpiration < 20) {
+      // Certificate is about to expire
+      wrapAvatar = (el) => <Badge color="primary">{el}</Badge>;
+    }
+  } catch (e) {}
+
   var variant;
-  var additionalClass = "";
+  var additionalClass = classes[getColor({ name, surname })];
   switch (category) {
     case "agonismo":
       variant = "square";
       break;
     case "preagonismo":
       variant = "rounded";
-      additionalClass = classes.rounded;
+      additionalClass += " " + classes.rounded;
       break;
     default:
       variant = "circular";
       break;
   }
-  return (
-    <Avatar
-      className={`${className} ${additionalClass} ${classes[avatarColors[h]]}`}
-      variant={variant}
-    >
+  return wrapAvatar(
+    <Avatar className={`${className} ${additionalClass}`} variant={variant}>
       {getInitials(name, surname)}
     </Avatar>
   );
