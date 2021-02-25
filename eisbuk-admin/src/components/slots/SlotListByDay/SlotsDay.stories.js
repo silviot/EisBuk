@@ -18,18 +18,21 @@ ManySlots.args = {
       type: "ice",
       date: { seconds: 1609513200 },
       durations: [60],
+      notes: "Pista 1",
     },
     bar: {
       date: { seconds: 1609495200 },
       categories: ["preagonismo", "agonismo", "corso"],
       type: "off-ice-danza",
       durations: [90, 120],
+      notes: "Pista 2",
     },
     baz: {
       date: { seconds: 1609516800 },
       categories: ["corse"],
       type: "off-ice-gym",
       durations: [60, 90, 120],
+      notes: "Pista 2\nPotrebbe non svolgersi",
     },
   },
 };
