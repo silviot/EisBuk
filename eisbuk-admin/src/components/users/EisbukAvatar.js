@@ -51,7 +51,7 @@ const getColor = ({ name, surname }) => {
   return avatarColors[h];
 };
 
-export const ColoredAvatar = ({
+export const EisbukAvatar = ({
   name,
   surname,
   className,
@@ -98,4 +98,4 @@ export const ColoredAvatar = ({
   );
 };
 
-export default ColoredAvatar;
+export default EisbukAvatar;

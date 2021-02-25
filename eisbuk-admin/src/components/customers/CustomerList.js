@@ -21,7 +21,7 @@ import {
   TextField,
 } from "@material-ui/core";
 
-import ColoredAvatar from "../../components/users/coloredAvatar";
+import EisbukAvatar from "../../components/users/EisbukAvatar";
 import ConfirmDialog from "../global/ConfirmDialog";
 
 export const CustomerList = ({
@@ -111,7 +111,7 @@ export const CustomerList = ({
                       {deleteButton}
                       {editButton}
                       {bookingsButton}
-                      <ColoredAvatar {...customer} />
+                      <EisbukAvatar {...customer} />
                     </Box>
                   </TableCell>
                   <TableCell>{customer.name}</TableCell>
