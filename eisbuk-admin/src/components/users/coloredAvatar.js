@@ -39,35 +39,37 @@ const useStyles = makeStyles((theme) => {
 const avatarColors = Object.keys(colorsDef);
 // Get the available classes we can use to get different colors
 
-export const ColoredAvatar = ({ name, surname, className, category }) => {
-  let classes = useStyles();
-  let str = name + surname;
-  let h = 0;
+const getColor = ({ name, surname }) => {
+  const str = name + surname;
+  var h = 0;
   for (var i = 0; i < str.length; i++) {
     h = str.charCodeAt(i) + ((h << 5) - h);
   }
   h = h & h;
   h = Math.abs(h) % avatarColors.length;
 
+  return avatarColors[h];
+};
+
+export const ColoredAvatar = ({ name, surname, className, category }) => {
+  const classes = useStyles();
+
   var variant;
-  var additionalClass = "";
+  var additionalClass = classes[getColor({ name, surname })];
   switch (category) {
     case "agonismo":
       variant = "square";
       break;
     case "preagonismo":
       variant = "rounded";
-      additionalClass = classes.rounded;
+      additionalClass += " " + classes.rounded;
       break;
     default:
       variant = "circular";
       break;
   }
   return (
-    <Avatar
-      className={`${className} ${additionalClass} ${classes[avatarColors[h]]}`}
-      variant={variant}
-    >
+    <Avatar className={`${className} ${additionalClass}`} variant={variant}>
       {getInitials(name, surname)}
     </Avatar>
   );
