@@ -34,6 +34,8 @@ export default ({
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const auth = useSelector((state) => state.firebase.auth);
 
+  const slotLabel = slotsLabels.types[data.type];
+
   const handleSubscription = (duration) => (evt) => {
     if (isSubscribed) {
       if (subscribedDuration === duration) {
@@ -57,8 +59,9 @@ export default ({
                 display="inline"
                 variant="h5"
                 component="h2"
+                color={isSubscribed ? "primary" : "initial"}
               >
-                {date.toISOTime().substring(0, 5)}
+                <strong>{date.toISOTime().substring(0, 5)}</strong>
               </Typography>
               {isSubscribed && (
                 <Typography
@@ -88,7 +91,7 @@ export default ({
                 auth &&
                 !auth.isEmpty &&
                 auth.isLoaded && (
-                  <Box display="flex" display="flex">
+                  <Box display="flex">
                     {data.categories.map((category) => (
                       <Typography
                         className={classes.category}
@@ -147,18 +150,19 @@ export default ({
                   </ButtonGroup>
                 )}
               </Box>
+              <Box display="flex" alignItems="center" pl={1} pr={1}>
+                <Typography
+                  className={classes.type}
+                  key="type"
+                  color={slotLabel.color}
+                >
+                  {slotLabel.label}
+                </Typography>
+              </Box>
               {doDelete
                 ? doDelete &&
                   !deleted && (
-                    <Box display="flex" alignItems="center">
-                      <IconButton
-                        edge="end"
-                        aria-label="delete"
-                        onClick={() => setConfirmDeleteDialog(true)}
-                        size="small"
-                      >
-                        <DeleteIcon />
-                      </IconButton>
+                    <Box display="flex" alignItems="center" mr={1}>
                       <IconButton
                         edge="end"
                         aria-label="delete"
@@ -166,6 +170,14 @@ export default ({
                         size="small"
                       >
                         <CreateIcon />
+                      </IconButton>
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => setConfirmDeleteDialog(true)}
+                        size="small"
+                      >
+                        <DeleteIcon />
                       </IconButton>
                     </Box>
                   )
@@ -224,6 +236,8 @@ const useStyles = makeStyles((theme) => ({
   notes: { fontWeight: theme.typography.fontWeightLight },
   type: {
     textTransform: "uppercase",
+    fontWeight: theme.typography.fontWeightBold,
+    fontSize: theme.typography.pxToRem(10),
   },
   duration: {
     "&.MuiButton-root.Mui-disabled.MuiButton-textPrimary": {
@@ -237,7 +251,9 @@ const useStyles = makeStyles((theme) => ({
     borderTopColor: theme.palette.divider,
     padding: 0,
   },
-  endTime: {},
+  endTime: {
+    color: theme.palette.grey[700],
+  },
   "&.MuiPaper-elevation8": {
     border: "2px solid red",
   },

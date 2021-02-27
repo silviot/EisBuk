@@ -38,6 +38,7 @@ const SlotsDay = ({
   onCreateSlot,
   enableEdit,
   view = "slots",
+  isCustomer,
 }) => {
   subscribedSlots = subscribedSlots || {};
   const [deletedSlots, setDeletedSlots] = useState({});
@@ -123,7 +124,14 @@ const SlotsDay = ({
           </ListSubheader>
           <Grid className={classes.slotListContainer} container spacing={1}>
             {slotsList.map((slot) => (
-              <Grid key={slot.id} item xs={12}>
+              <Grid
+                key={slot.id}
+                item
+                xs={12}
+                md={6}
+                lg={!isCustomer ? 3 : 4}
+                xl={!isCustomer ? 2 : 3}
+              >
                 <Slot
                   data={slot}
                   key={slot.id}

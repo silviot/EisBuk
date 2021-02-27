@@ -1,4 +1,4 @@
-import { Box, IconButton, Switch } from "@material-ui/core";
+import { Container, IconButton, Switch } from "@material-ui/core";
 import {
   FileCopy as FileCopyIcon,
   Assignment as AssignmentIcon,
@@ -18,10 +18,7 @@ import { copySlotWeek, createSlots } from "../store/actions/actions";
 import _ from "lodash";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: "600px",
-    margin: "0 auto",
-  },
+  root: {},
   slotlist: {
     "& > li.MuiListSubheader-sticky": {
       top: theme.mixins.toolbar.minHeight,
@@ -39,6 +36,7 @@ export default ({
   onCreateSlot,
   subscribedSlots,
   view,
+  isCustomer,
 }) => {
   const classes = useStyles();
   const [enableEdit, setEnableEdit] = useState(false);
@@ -122,10 +120,10 @@ export default ({
   );
 
   return (
-    <Box className={classes.root}>
+    <>
       <DateNavigationAppBar extraButtons={extraButtons} />
 
-      <Box>
+      <Container maxWidth="xl">
         <SlotListByDay
           className={classes.slotlist}
           slots={slotsToDisplay}
@@ -137,10 +135,11 @@ export default ({
             onCreateSlot,
             enableEdit,
             view,
+            isCustomer,
           }}
         />
-      </Box>
-    </Box>
+      </Container>
+    </>
   );
 };
 
