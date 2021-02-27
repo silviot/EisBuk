@@ -5,7 +5,7 @@ import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Container, Typography, AppBar, Tabs, Tab } from "@material-ui/core";
+import { Container, AppBar, Tabs, Tab } from "@material-ui/core";
 
 import {
   PersonPin as PersonPinIcon,
@@ -57,7 +57,7 @@ export const CustomerAreaPage = () => {
       doc: secret_key,
     }),
   ]);
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(0);
   const customerData = useSelector(selectBookings);
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -72,42 +72,35 @@ export const CustomerAreaPage = () => {
     <>
       {isLoaded(auth) && !isEmpty(auth) && <AppbarAdmin />}
       <AppbarCustomer headingText={title} />
-      <Container maxWidth="sm">
-        <main className={classes.content}>
-          {isLoaded(customerData) && !isEmpty(customerData) && (
-            <>
-              <AppBar position="static" className={classes.customerNav}>
-                <Container maxWidth="xl">
-                  <Tabs
-                    value={activeTab}
-                    onChange={handleTabChange}
-                    indicatorColor="primary"
-                    centered
-                  >
-                    <LinkTab label="Bacheca" icon={<PersonPinIcon />} />
-                    <LinkTab label="Calendario" icon={<EventNoteIcon />} />
-                    <LinkTab label="Prenotazioni" icon={<PersonPinIcon />} />
-                  </Tabs>
-                </Container>
-              </AppBar>
-              <TabPanel value={activeTab} index={0}>
-                <Typography variant="h6">
-                  Benvenuto {customerData[0].name} {customerData[0].surname}
-                </Typography>
-              </TabPanel>
-              <TabPanel value={activeTab} index={1}>
-                <CustomerAreaCalendar category={customerData[0].category} />
-              </TabPanel>
-              <TabPanel value={activeTab} index={2}>
-                <CustomerAreaCalendar
-                  view="bookings"
-                  category={customerData[0].category}
-                />
-              </TabPanel>
-            </>
-          )}
-        </main>
-      </Container>
+
+      <main className={classes.content}>
+        {isLoaded(customerData) && !isEmpty(customerData) && (
+          <>
+            <AppBar position="static" className={classes.customerNav}>
+              <Container maxWidth="xl">
+                <Tabs
+                  value={activeTab}
+                  onChange={handleTabChange}
+                  indicatorColor="primary"
+                  centered
+                >
+                  <LinkTab label="Prenota" icon={<EventNoteIcon />} />
+                  <LinkTab label="Calendario" icon={<PersonPinIcon />} />
+                </Tabs>
+              </Container>
+            </AppBar>
+            <TabPanel value={activeTab} index={0}>
+              <CustomerAreaCalendar category={customerData[0].category} />
+            </TabPanel>
+            <TabPanel value={activeTab} index={1}>
+              <CustomerAreaCalendar
+                view="bookings"
+                category={customerData[0].category}
+              />
+            </TabPanel>
+          </>
+        )}
+      </main>
     </>
   );
 };

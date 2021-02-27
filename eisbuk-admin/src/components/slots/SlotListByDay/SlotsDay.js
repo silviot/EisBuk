@@ -38,6 +38,7 @@ const SlotsDay = ({
   onCreateSlot,
   enableEdit,
   view = "slots",
+  isCustomer,
 }) => {
   subscribedSlots = subscribedSlots || {};
   const [deletedSlots, setDeletedSlots] = useState({});
@@ -121,9 +122,16 @@ const SlotsDay = ({
               )}
             </Box>
           </ListSubheader>
-          <Grid className={classes.slotListContainer} container spacing={3}>
+          <Grid className={classes.slotListContainer} container spacing={1}>
             {slotsList.map((slot) => (
-              <Grid key={slot.id} item xs={12}>
+              <Grid
+                key={slot.id}
+                item
+                xs={12}
+                md={6}
+                lg={!isCustomer ? 3 : 4}
+                xl={!isCustomer ? 2 : 3}
+              >
                 <Slot
                   data={slot}
                   key={slot.id}
@@ -143,11 +151,10 @@ const SlotsDay = ({
           {slotsList.map(
             (slot) =>
               Boolean(subscribedSlots[slot.id]) && (
-                <Grid key={slot.id} item xs={12}>
+                <Grid key={slot.id} item xs={12} sm={6} md={4} lg={3}>
                   <CustomerAreaBookingCard
                     data={subscribedSlots[slot.id]}
                     key={slot.id}
-                    {...{ onUnsubscribe }}
                   />
                 </Grid>
               )
@@ -176,6 +183,7 @@ const useStyles = makeStyles((theme) => ({
   },
   bookingsListContainer: {
     marginTop: theme.spacing(0.5),
+    justifyContent: "center",
   },
   date: {
     "flex-grow": 1,

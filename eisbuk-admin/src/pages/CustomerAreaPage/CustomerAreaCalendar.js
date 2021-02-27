@@ -86,6 +86,7 @@ export const CustomerAreaCalendar = ({ category, view = "slots" }) => {
           onUnsubscribe,
           subscribedSlots,
           view,
+          isCustomer: true,
         }}
       />
     </>
