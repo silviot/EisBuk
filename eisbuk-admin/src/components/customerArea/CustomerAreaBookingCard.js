@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardContent, Typography, Button, Box } from "@material-ui/core";
+import ProjectIcon from "../global/ProjectIcons";
 import { slotsLabels } from "../../config/appConfig";
 import { FBToLuxon } from "../../data/dtutils";
 import { makeStyles } from "@material-ui/styles";
@@ -88,6 +89,11 @@ const CustomerAreaBookingCard = ({ data }) => {
               pl={1}
               pr={1}
             >
+              <ProjectIcon
+                className={classes.typeIcon}
+                icon={slotLabel.icon}
+                fontSize="small"
+              />
               <Typography
                 className={classes.type}
                 key="type"
@@ -139,6 +145,9 @@ const useStyles = makeStyles((theme) => ({
   },
   endTime: {
     color: theme.palette.grey[700],
+  },
+  typeIcon: {
+    opacity: 0.5,
   },
   type: {
     textTransform: "uppercase",

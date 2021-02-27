@@ -10,6 +10,7 @@ import {
   CardActions,
   Box,
 } from "@material-ui/core";
+import ProjectIcon from "../../global/ProjectIcons";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Delete as DeleteIcon,
@@ -172,6 +173,11 @@ export default ({
                 )}
               </Box>
               <Box display="flex" alignItems="center" pl={1} pr={1}>
+                <ProjectIcon
+                  className={classes.typeIcon}
+                  icon={slotLabel.icon}
+                  fontSize="small"
+                />
                 <Typography
                   className={classes.type}
                   key="type"
@@ -255,6 +261,9 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(1),
   },
   notes: { fontWeight: theme.typography.fontWeightLight },
+  typeIcon: {
+    opacity: 0.5,
+  },
   type: {
     textTransform: "uppercase",
     fontWeight: theme.typography.fontWeightBold,
