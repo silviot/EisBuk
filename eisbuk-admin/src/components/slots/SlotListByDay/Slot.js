@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Button,
-  Chip,
+  ButtonGroup,
   IconButton,
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   Box,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Delete as DeleteIcon } from "@material-ui/icons";
+import { Delete as DeleteIcon, Create as CreateIcon } from "@material-ui/icons";
 import { FBToLuxon } from "../../../data/dtutils";
 import ConfirmDialog from "../../global/ConfirmDialog";
 import { slotsLabels } from "../../../config/appConfig";
@@ -34,8 +34,6 @@ export default ({
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const auth = useSelector((state) => state.firebase.auth);
 
-  const slotLabel = slotsLabels.types[data.type];
-
   const handleSubscription = (duration) => (evt) => {
     if (isSubscribed) {
       if (subscribedDuration === duration) {
@@ -51,9 +49,9 @@ export default ({
   return (
     <>
       {!deleted && (
-        <Card className={classes.root} raised={isSubscribed}>
+        <Card className={classes.root} raised={isSubscribed} variant="outlined">
           <CardContent className={classes.wrapper}>
-            <Box p={1.5}>
+            <Box p={1} flexShrink={0} className={classes.slotTime}>
               <Typography
                 key="start"
                 display="inline"
@@ -79,79 +77,101 @@ export default ({
                     .substring(0, 5)}
                 </Typography>
               )}
+            </Box>
+            <Box
+              display="flex"
+              flexGrow={1}
+              justifyContent="space-between"
+              flexDirection="column"
+            >
               {data.categories && // Safety check. Can be removed when migrateSlotsToPluralCategories has been applied
                 auth &&
                 !auth.isEmpty &&
-                auth.isLoaded &&
-                data.categories.map((category) => (
-                  <Typography
-                    className={classes.category}
-                    color="textSecondary"
-                    key={category}
-                  >
-                    {category}
-                  </Typography>
-                ))}
-            </Box>
-            <Box>
-              <Chip
-                className={classes.type}
-                key="type"
-                size="small"
-                label={slotLabel.label}
-                color={slotLabel.color}
-                variant="outlined"
-              />
+                auth.isLoaded && (
+                  <Box display="flex" display="flex">
+                    {data.categories.map((category) => (
+                      <Typography
+                        className={classes.category}
+                        color="textSecondary"
+                        key={category}
+                      >
+                        {category}
+                      </Typography>
+                    ))}
+                  </Box>
+                )}
+              <Box pl={1} pb={1} className={classes.notes}>
+                {data.notes}
+              </Box>
             </Box>
           </CardContent>
-          <Box pl={1.5} pb={1.5} pr={1.5} display="flex">
-            <Box>
-              {data.durations.map((duration) => {
-                const color =
-                  subscribedDuration === duration
-                    ? "primary"
-                    : showSubscribe
-                    ? "secondary"
-                    : undefined;
+          <CardActions
+            className={classes.actionsContainer}
+            disableSpacing={true}
+          >
+            <Box display="flex" flexGrow={1}>
+              <Box flexGrow={1}>
+                {data.durations && (
+                  <ButtonGroup variant="text">
+                    {data.durations.map((duration) => {
+                      const color =
+                        subscribedDuration === duration
+                          ? "primary"
+                          : showSubscribe
+                          ? "secondary"
+                          : undefined;
 
-                if (showSubscribe) {
-                  return (
-                    <Button
-                      variant="contained"
-                      key={duration}
-                      color={color}
-                      onClick={handleSubscription(duration)}
-                    >
-                      {slotsLabels.durations[duration].label}
-                    </Button>
-                  );
-                }
-                return (
-                  <Chip
-                    clickable={showSubscribe}
-                    className={classes.duration}
-                    label={slotsLabels.durations[duration].label}
-                    key={duration}
-                    color={color}
-                  />
-                );
-              })}
+                      if (showSubscribe) {
+                        return (
+                          <Button
+                            key={duration}
+                            color={color}
+                            onClick={handleSubscription(duration)}
+                            className={classes.duration}
+                          >
+                            {slotsLabels.durations[duration].label}
+                          </Button>
+                        );
+                      }
+                      return (
+                        <Button
+                          className={classes.duration}
+                          key={duration}
+                          color={color}
+                          disabled
+                        >
+                          {slotsLabels.durations[duration].label}
+                        </Button>
+                      );
+                    })}
+                  </ButtonGroup>
+                )}
+              </Box>
+              {doDelete
+                ? doDelete &&
+                  !deleted && (
+                    <Box display="flex" alignItems="center">
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => setConfirmDeleteDialog(true)}
+                        size="small"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => alert("Edit UI TBD")}
+                        size="small"
+                      >
+                        <CreateIcon />
+                      </IconButton>
+                    </Box>
+                  )
+                : null}
             </Box>
-            <Box>{data.notes}</Box>
-          </Box>
-          {doDelete ? (
-            <CardActions className={classes.actionsContainer}>
-              {doDelete && !deleted && (
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => setConfirmDeleteDialog(true)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              )}
-            </CardActions>
-          ) : null}
+          </CardActions>
         </Card>
       )}
       {confirmDeleteDialog ? (
@@ -173,10 +193,11 @@ export default ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    border: "2px solid transparent",
+    border: "1px solid",
+    borderColor: theme.palette.divider,
     position: "relative",
     "&.MuiPaper-elevation8": {
-      borderWidth: 2,
+      borderWidth: 1,
       borderStyle: "solid",
       borderColor: theme.palette.primary.main,
     },
@@ -188,22 +209,33 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: 0,
     },
   },
-  category: {
-    textTransform: "capitalize",
+  slotTime: {
+    borderRightWidth: 1,
+    borderRightColor: theme.palette.divider,
+    borderRightStyle: "solid",
   },
+  category: {
+    textTransform: "uppercase",
+    fontWeight: theme.typography.fontWeightBold,
+    fontSize: theme.typography.pxToRem(10),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+  },
+  notes: { fontWeight: theme.typography.fontWeightLight },
   type: {
-    position: "absolute",
-    top: theme.spacing(1),
-    right: theme.spacing(1),
     textTransform: "uppercase",
   },
   duration: {
-    marginRight: theme.spacing(1),
+    "&.MuiButton-root.Mui-disabled.MuiButton-textPrimary": {
+      color: theme.palette.primary.main,
+    },
+    borderColor: theme.palette.divider,
   },
   actionsContainer: {
     borderTopWidth: 1,
     borderTopStyle: "solid",
     borderTopColor: theme.palette.divider,
+    padding: 0,
   },
   endTime: {},
   "&.MuiPaper-elevation8": {

@@ -121,7 +121,7 @@ const SlotsDay = ({
               )}
             </Box>
           </ListSubheader>
-          <Grid className={classes.slotListContainer} container spacing={3}>
+          <Grid className={classes.slotListContainer} container spacing={1}>
             {slotsList.map((slot) => (
               <Grid key={slot.id} item xs={12}>
                 <Slot
