@@ -11,7 +11,12 @@ import {
   Box,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Delete as DeleteIcon, Create as CreateIcon } from "@material-ui/icons";
+import {
+  Delete as DeleteIcon,
+  Create as CreateIcon,
+  ArrowBack as ArrowBackIcon,
+  CheckCircle as CheckCircleIcon,
+} from "@material-ui/icons";
 import { FBToLuxon } from "../../../data/dtutils";
 import ConfirmDialog from "../../global/ConfirmDialog";
 import { slotsLabels } from "../../../config/appConfig";
@@ -113,7 +118,7 @@ export default ({
             disableSpacing={true}
           >
             <Box display="flex" flexGrow={1}>
-              <Box flexGrow={1}>
+              <Box flexGrow={1} display="flex" alignItems="center">
                 {data.durations && (
                   <ButtonGroup variant="text">
                     {data.durations.map((duration) => {
@@ -148,6 +153,22 @@ export default ({
                       );
                     })}
                   </ButtonGroup>
+                )}
+                {showSubscribe && !isSubscribed && (
+                  <>
+                    <ArrowBackIcon fontSize="small" />
+                    <Typography className={classes.helpText}>
+                      Prenota
+                    </Typography>
+                  </>
+                )}
+                {isSubscribed && (
+                  <>
+                    <CheckCircleIcon color="primary" fontSize="small" />
+                    <Typography className={classes.helpText}>
+                      Prenotato
+                    </Typography>
+                  </>
                 )}
               </Box>
               <Box display="flex" alignItems="center" pl={1} pr={1}>
@@ -244,6 +265,11 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.primary.main,
     },
     borderColor: theme.palette.divider,
+  },
+  helpText: {
+    textTransform: "uppercase",
+    fontWeight: theme.typography.fontWeightBold,
+    fontSize: theme.typography.pxToRem(10),
   },
   actionsContainer: {
     borderTopWidth: 1,
