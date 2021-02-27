@@ -28,24 +28,40 @@ const CustomerAreaBookingCard = ({ data }) => {
           flexGrow={1}
           flexDirection="column"
         >
-          <Box className={classes.time} flexGrow={1}>
-            <Typography display="inline" variant="h5" component="h2">
-              <strong>{date.toISOTime().substring(0, 5)}</strong>
-            </Typography>
-            <Typography
-              className={classes.endTime}
-              display="inline"
-              variant="h6"
-              component="h3"
-            >
-              {" "}
-              -{" "}
-              {date
-                .plus({ minutes: data.duration })
-                .minus({ minutes: 10 })
-                .toISOTime()
-                .substring(0, 5)}
-            </Typography>
+          <Box display="flex" flexGrow={1} className={classes.topWrapper}>
+            <Box className={classes.time}>
+              <Typography
+                color="primary"
+                display="inline"
+                variant="h5"
+                component="h2"
+              >
+                <strong>{date.toISOTime().substring(0, 5)}</strong>
+              </Typography>
+              <Typography
+                className={classes.endTime}
+                display="inline"
+                variant="h6"
+                component="h3"
+              >
+                {" "}
+                -{" "}
+                {date
+                  .plus({ minutes: data.duration })
+                  .minus({ minutes: 10 })
+                  .toISOTime()
+                  .substring(0, 5)}
+              </Typography>
+            </Box>
+            {data.notes && (
+              <Box
+                display="flex"
+                className={classes.notesWrapper}
+                alignItems="center"
+              >
+                <Typography className={classes.notes}>{data.notes}</Typography>
+              </Box>
+            )}
           </Box>
           <Box display="flex">
             <Box
@@ -90,8 +106,8 @@ const CustomerAreaBookingCard = ({ data }) => {
 const useStyles = makeStyles((theme) => ({
   root: {
     position: "relative",
-    marginTop: theme.spacing(1.5),
-    marginBottom: theme.spacing(1.5),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
   content: {
     display: "flex",
@@ -105,14 +121,21 @@ const useStyles = makeStyles((theme) => ({
   date: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.getContrastText(theme.palette.primary.main),
-    padding: theme.spacing(1.5),
+    padding: theme.spacing(1),
     "& .MuiTypography-root:not(.makeStyles-weekday-20)": {
       lineHeight: 1,
     },
   },
+  topWrapper: { borderBottom: `1px solid ${theme.palette.divider}` },
   time: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
     padding: theme.spacing(1.5),
+  },
+  notesWrapper: {
+    borderLeft: `1px solid ${theme.palette.divider}`,
+    paddingLeft: theme.spacing(1),
+  },
+  notes: {
+    fontWeight: theme.typography.fontWeightLight,
   },
   endTime: {
     color: theme.palette.grey[700],
