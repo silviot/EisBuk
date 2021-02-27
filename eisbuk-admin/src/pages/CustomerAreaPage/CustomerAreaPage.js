@@ -5,7 +5,7 @@ import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Container, Typography, AppBar, Tabs, Tab } from "@material-ui/core";
+import { Container, AppBar, Tabs, Tab } from "@material-ui/core";
 
 import {
   PersonPin as PersonPinIcon,
@@ -84,21 +84,15 @@ export const CustomerAreaPage = () => {
                   indicatorColor="primary"
                   centered
                 >
-                  <LinkTab label="Bacheca" icon={<PersonPinIcon />} />
-                  <LinkTab label="Calendario" icon={<EventNoteIcon />} />
-                  <LinkTab label="Prenotazioni" icon={<PersonPinIcon />} />
+                  <LinkTab label="Prenota" icon={<EventNoteIcon />} />
+                  <LinkTab label="Calendario" icon={<PersonPinIcon />} />
                 </Tabs>
               </Container>
             </AppBar>
             <TabPanel value={activeTab} index={0}>
-              <Typography variant="h6">
-                Benvenuto {customerData[0].name} {customerData[0].surname}
-              </Typography>
-            </TabPanel>
-            <TabPanel value={activeTab} index={1}>
               <CustomerAreaCalendar category={customerData[0].category} />
             </TabPanel>
-            <TabPanel value={activeTab} index={2}>
+            <TabPanel value={activeTab} index={1}>
               <CustomerAreaCalendar
                 view="bookings"
                 category={customerData[0].category}

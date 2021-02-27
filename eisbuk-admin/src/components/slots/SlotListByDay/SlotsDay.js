@@ -151,11 +151,10 @@ const SlotsDay = ({
           {slotsList.map(
             (slot) =>
               Boolean(subscribedSlots[slot.id]) && (
-                <Grid key={slot.id} item xs={12}>
+                <Grid key={slot.id} item xs={12} sm={6} md={4} lg={3}>
                   <CustomerAreaBookingCard
                     data={subscribedSlots[slot.id]}
                     key={slot.id}
-                    {...{ onUnsubscribe }}
                   />
                 </Grid>
               )
@@ -184,6 +183,7 @@ const useStyles = makeStyles((theme) => ({
   },
   bookingsListContainer: {
     marginTop: theme.spacing(0.5),
+    justifyContent: "center",
   },
   date: {
     "flex-grow": 1,

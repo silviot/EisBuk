@@ -1,17 +1,91 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Chip,
-  Box,
-  Fab,
-  Tooltip,
-} from "@material-ui/core";
-import StarsIcon from "@material-ui/icons/Stars";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import { Card, CardContent, Typography, Button, Box } from "@material-ui/core";
+import { slotsLabels } from "../../config/appConfig";
 import { FBToLuxon } from "../../data/dtutils";
 import { makeStyles } from "@material-ui/styles";
+
+const CustomerAreaBookingCard = ({ data }) => {
+  const classes = useStyles();
+  const slotLabel = slotsLabels.types[data.type];
+  const date = FBToLuxon(data.date);
+  return (
+    <Card variant="outlined" className={classes.root}>
+      <CardContent className={classes.content}>
+        <Box className={classes.date} textAlign="center">
+          <Typography variant="h5" className={classes.weekday}>
+            {date.toFormat("EEE", { locale: "it-IT" })}
+          </Typography>
+          <Typography className={classes.day}>
+            {date.toFormat("d", { locale: "it-IT" })}
+          </Typography>
+          <Typography className={classes.month}>
+            {date.toFormat("MMMM", { locale: "it-IT" })}
+          </Typography>
+        </Box>
+        <Box
+          className={classes.body}
+          display="flex"
+          flexGrow={1}
+          flexDirection="column"
+        >
+          <Box className={classes.time} flexGrow={1}>
+            <Typography display="inline" variant="h5" component="h2">
+              <strong>{date.toISOTime().substring(0, 5)}</strong>
+            </Typography>
+            <Typography
+              className={classes.endTime}
+              display="inline"
+              variant="h6"
+              component="h3"
+            >
+              {" "}
+              -{" "}
+              {date
+                .plus({ minutes: data.duration })
+                .minus({ minutes: 10 })
+                .toISOTime()
+                .substring(0, 5)}
+            </Typography>
+          </Box>
+          <Box display="flex">
+            <Box
+              display="flex"
+              justifyContent="center"
+              flexGrow={1}
+              className={classes.durationWrapper}
+            >
+              <Button
+                key={data.duration}
+                color="primary"
+                variant="text"
+                className={classes.duration}
+                disabled
+              >
+                {slotsLabels.durations[data.duration].label}
+              </Button>
+            </Box>
+            <Box
+              flexGrow={1}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              pl={1}
+              pr={1}
+            >
+              <Typography
+                className={classes.type}
+                key="type"
+                color={slotLabel.color}
+              >
+                {slotLabel.label}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,90 +110,37 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: 1,
     },
   },
-  body: {
+  time: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
     padding: theme.spacing(1.5),
+  },
+  endTime: {
+    color: theme.palette.grey[700],
   },
   type: {
     textTransform: "uppercase",
+    fontWeight: theme.typography.fontWeightBold,
+    fontSize: theme.typography.pxToRem(10),
   },
-  duration: {
-    marginLeft: theme.spacing(1.5),
+  durationWrapper: {
+    borderRight: `1px solid ${theme.palette.divider}`,
   },
+  duration: {},
   weekday: {
     textTransform: "uppercase",
-    fontSize: theme.typography.h4.fontSize,
+    fontSize: theme.typography.pxToRem(20),
+    fontWeight: theme.typography.fontWeightBold,
   },
   day: {
     fontSize: theme.typography.h2.fontSize,
     fontWeight: theme.typography.fontWeightLight,
   },
   month: {
-    textTransform: "capitalize",
+    textTransform: "uppercase",
+    fontSize: theme.typography.pxToRem(13),
+    fontWeight: theme.typography.fontWeightBold,
   },
   deleteButton: {},
 }));
-
-const CustomerAreaBookingCard = ({ data, onUnsubscribe }) => {
-  const classes = useStyles();
-
-  const date = FBToLuxon(data.date);
-  return (
-    <Card className={classes.root}>
-      <CardContent className={classes.content}>
-        <Box className={classes.date} textAlign="center">
-          <Typography variant="h5" className={classes.weekday}>
-            {date.toFormat("EEE", { locale: "it-IT" })}
-          </Typography>
-          <Typography className={classes.day}>
-            {date.toFormat("d", { locale: "it-IT" })}
-          </Typography>
-          <Typography className={classes.month}>
-            {date.toFormat("MMMM", { locale: "it-IT" })}
-          </Typography>
-        </Box>
-        <Box className={classes.body} flexGrow={1} flexDirection="column">
-          <Box>
-            <Typography display="inline" variant="h5" component="h2">
-              {date.toISOTime().substring(0, 5)}
-            </Typography>
-            <Typography display="inline" variant="h6" component="h3">
-              {" "}
-              -{" "}
-              {date
-                .plus({ minutes: data.duration })
-                .minus({ minutes: 10 })
-                .toISOTime()
-                .substring(0, 5)}
-            </Typography>
-            <Chip
-              className={classes.duration}
-              variant="outlined"
-              label={data.duration + "min"}
-            />
-          </Box>
-          <Chip
-            className={classes.type}
-            key="type"
-            size="small"
-            icon={<StarsIcon />}
-            label={data.type}
-          />
-        </Box>
-        <Box display="flex" alignItems="center" pr={1.5}>
-          <Tooltip title="Cancella Prenotazione" placement="left">
-            <Fab
-              color="primary"
-              aria-label="add"
-              className={classes.deleteButton}
-              onClick={() => onUnsubscribe(data)}
-            >
-              <HighlightOffIcon />
-            </Fab>
-          </Tooltip>
-        </Box>
-      </CardContent>
-    </Card>
-  );
-};
 
 export default CustomerAreaBookingCard;
