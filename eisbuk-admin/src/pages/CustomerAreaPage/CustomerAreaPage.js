@@ -57,7 +57,7 @@ export const CustomerAreaPage = () => {
       doc: secret_key,
     }),
   ]);
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(0);
   const customerData = useSelector(selectBookings);
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
