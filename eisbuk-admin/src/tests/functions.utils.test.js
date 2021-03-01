@@ -6,6 +6,7 @@ import "./settings";
 
 beforeAll(async () => {
   await deleteAllCollections(adminDb, ["organizations"]);
+  await firebase.auth().signOut();
 });
 
 // THESE TESTS ARE DISABLED: I could not make them work
@@ -18,13 +19,31 @@ it("Can ping the functions", async (done) => {
   done();
 });
 
+it("responds whether the user is an admin or not in the given organization", async (done) => {
+  await adminDb
+    .collection("organizations")
+    .doc("default")
+    .set({
+      admins: ["isanadmin@example.com"],
+    });
+  const res = await firebase.app().functions().httpsCallable("amIAdmin")({
+    organization: "default",
+  });
+  expect(res.data).toEqual({ amIAdmin: false });
+  await loginWithUser("isanadmin@example.com");
+  const res2 = await firebase.app().functions().httpsCallable("amIAdmin")({
+    organization: "default",
+  });
+  await expect(res2.data).toEqual({ amIAdmin: true });
+  done();
+});
+
 it("Denies access to users not belonging to the organization", async (done) => {
   await adminDb
     .collection("organizations")
     .doc("default")
     .set({
       admins: ["test@example.com"],
-      foo: "bar",
     });
   // We're not logged in yet, so this should throw
   await expect(

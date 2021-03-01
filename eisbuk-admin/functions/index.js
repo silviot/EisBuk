@@ -11,3 +11,4 @@ importAll("./test_data.js");
 importAll("./data_triggers.js");
 importAll("./test_slots.js");
 importAll("./migrations.js");
+importAll("./security.js");
