@@ -30,7 +30,7 @@ exports.checkUser = async (organization, auth) => {
 
 function doThrow() {
   throw new functions.https.HttpsError(
-    500,
+    "permission-denied",
     "unauthorized",
     "The function must be called while authenticated with a user that is an admin of the given organization."
   );
