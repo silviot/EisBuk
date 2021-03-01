@@ -27,6 +27,7 @@ it("Selects the bookings", () => {
         {
           name: "Rocco",
           surname: "Nocera",
+          certificateExpiration: "2021-12-11",
           secret_key: "e4779485-33b4-4f8d-8f03-7761e78b4b67",
           id: "ffd4ca76-1659-4eef-a52f-c40cabb81187",
           duration: 60,
@@ -46,6 +47,7 @@ it("Selects the bookings", () => {
         {
           name: "Porfirio",
           surname: "Manzi",
+          certificateExpiration: "2022-01-01",
           secret_key: "2b54debf-6023-45ec-94c5-147084e6d1de",
           id: "fec4d032-8d5c-4604-9a32-e9e5058cc081",
           duration: 60,
@@ -53,6 +55,7 @@ it("Selects the bookings", () => {
         {
           name: "Rocco",
           surname: "Nocera",
+          certificateExpiration: "2021-12-11",
           secret_key: "e4779485-33b4-4f8d-8f03-7761e78b4b67",
           id: "ffd4ca76-1659-4eef-a52f-c40cabb81187",
           duration: 120,
@@ -165,6 +168,7 @@ const COMPLEX_STATE = {
           categories: ["ice"],
           email: "porfirio.manzi@example.com",
           secret_key: "2b54debf-6023-45ec-94c5-147084e6d1de",
+          certificateExpiration: "2022-01-01",
         },
         "ffd4ca76-1659-4eef-a52f-c40cabb81187": {
           birthday: "2000-01-01",
@@ -175,6 +179,7 @@ const COMPLEX_STATE = {
           categories: ["ice"],
           email: "rocco.nocera@example.com",
           secret_key: "e4779485-33b4-4f8d-8f03-7761e78b4b67",
+          certificateExpiration: "2021-12-11",
         },
       },
       slotsByDay: {
@@ -239,6 +244,7 @@ const COMPLEX_STATE = {
           categories: ["ice"],
           email: "porfirio.manzi@example.com",
           secret_key: "2b54debf-6023-45ec-94c5-147084e6d1de",
+          certificateExpiration: "2022-01-01",
         },
         {
           id: "ffd4ca76-1659-4eef-a52f-c40cabb81187",
@@ -249,6 +255,7 @@ const COMPLEX_STATE = {
           categories: ["ice"],
           email: "rocco.nocera@example.com",
           secret_key: "e4779485-33b4-4f8d-8f03-7761e78b4b67",
+          certificateExpiration: "2021-12-11",
         },
       ],
       slotsByDay: [

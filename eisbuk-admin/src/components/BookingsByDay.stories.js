@@ -35,7 +35,16 @@ ManySlots.args = {
       type: "ice",
       id: "foo",
       durations: [90, 120],
-      users: [{ name: "Saul", surname: "Goodman", id: "saul", duration: 90 }],
+      users: [
+        {
+          name: "Saul",
+          surname: "Goodman",
+          id: "saul",
+          category: "agonismo",
+          certificateExpiration: "2001-01-01",
+          duration: 90,
+        },
+      ],
     },
     {
       time: "12:00",
@@ -44,9 +53,22 @@ ManySlots.args = {
       durations: [60, 120],
       id: "bar",
       users: [
-        { name: "Walter", surname: "White", id: "walt", duration: 60 },
+        {
+          name: "Walter",
+          surname: "White",
+          id: "heisenberg",
+          category: "preagonismo",
+          duration: 60,
+        },
         { name: "Gus", surname: "Fring", id: "gus", duration: 60 },
-        { name: "Saul", surname: "Goodman", id: "saul", duration: 120 },
+        {
+          name: "Saul",
+          surname: "Goodman",
+          id: "saul",
+          category: "agonismo",
+          certificateExpiration: "2001-01-01",
+          duration: 120,
+        },
       ],
       absentees: {
         gus: true,
@@ -67,7 +89,13 @@ ManySlots.args = {
       id: "bat",
       durations: [60, 90],
       users: [
-        { name: "Walter", surname: "White", id: "walter", duration: 60 },
+        {
+          name: "Walter",
+          surname: "White",
+          id: "heisenberg",
+          category: "preagonismo",
+          duration: 60,
+        },
         { name: "Jesse", surname: "Pinkman", id: "jesse", duration: 90 },
       ],
     },
