@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase/app";
 import _ from "lodash";
@@ -8,7 +7,6 @@ import figureSkatingSilhouetteSkirt from "../../assets/images/login/figure-skati
 import figureSkatingSilhouette from "../../assets/images/login/figure-skating-silhouette.svg";
 import girlIceSkating from "../../assets/images/login/girl-ice-skating-silhouette.svg";
 import iceSkatingSilhouette from "../../assets/images/login/ice-skating-silhouette.svg";
-import { queryUserAdminStatus } from "../../store/actions/actions";
 
 import {
   Avatar,
@@ -64,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SignInSide = ({ signIn }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const loginImageStyle = {
     backgroundImage: `url(${_.sample(loginBackgrounds)})`,
@@ -75,11 +72,6 @@ const SignInSide = ({ signIn }) => {
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
     ],
-    callbacks: {
-      signInSuccessWithAuthResult: (authResult, redirectUrl) => {
-        dispatch(queryUserAdminStatus());
-      },
-    },
   };
   return (
     <Grid container component="main" className={classes.root}>
