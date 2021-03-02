@@ -68,7 +68,11 @@ const SignInSide = ({ signIn }) => {
   };
   const uiConfig = {
     signInOptions: [
-      firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+      {
+        provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+        // The default selected country.
+        defaultCountry: "IT",
+      },
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
     ],
