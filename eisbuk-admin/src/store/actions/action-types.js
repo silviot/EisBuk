@@ -1,21 +1,12 @@
-export const LOGIN_ERROR = "LOGIN_ERROR";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const ENQUEUE_SNACKBAR = "@@Eisbuk/ENQUEUE_SNACKBAR";
+export const CLOSE_SNACKBAR = "@@Eisbuk/CLOSE_SNACKBAR";
+export const REMOVE_SNACKBAR = "@@Eisbuk/REMOVE_SNACKBAR";
 
-export const GOOGLE_LOGIN_ERROR = "GOOGLE_LOGIN_ERROR";
-export const GOOGLE_LOGIN_SUCCESS = "GOOGLE_LOGIN_SUCCESS";
+export const CHANGE_DAY = "@@Eisbuk/CHANGE_DAY";
 
-export const LOGOUT_ERROR = "LOGOUT ERROR";
-export const LOGOUT_SUCCESS = "LOGOUT SUCCESS";
+export const COPY_SLOT_DAY = "@@Eisbuk/COPY_SLOT_DAY";
+export const COPY_SLOT_WEEK = "@@Eisbuk/COPY_SLOT_WEEK";
 
-export const ENQUEUE_SNACKBAR = "ENQUEUE_SNACKBAR";
-export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";
-export const REMOVE_SNACKBAR = "REMOVE_SNACKBAR";
+export const SET_SLOT_TIME = "@@Eisbuk/SET_SLOT_TIME";
 
-export const CHANGE_DAY = "CHANGE_DAY";
-
-export const COPY_SLOT_DAY = "COPY_SLOT_DAY";
-export const COPY_SLOT_WEEK = "COPY_SLOT_WEEK";
-
-export const SET_SLOT_TIME = "SET_SLOT_TIME";
-
-export const IS_ADMIN_RECEIVED = "IS_ADMIN_RECEIVED";
+export const IS_ADMIN_RECEIVED = "@@Eisbuk/IS_ADMIN_RECEIVED";
