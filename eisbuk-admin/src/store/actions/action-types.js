@@ -17,3 +17,5 @@ export const COPY_SLOT_DAY = "COPY_SLOT_DAY";
 export const COPY_SLOT_WEEK = "COPY_SLOT_WEEK";
 
 export const SET_SLOT_TIME = "SET_SLOT_TIME";
+
+export const IS_ADMIN_RECEIVED = "IS_ADMIN_RECEIVED";

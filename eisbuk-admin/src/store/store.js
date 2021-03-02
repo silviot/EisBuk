@@ -42,6 +42,7 @@ const rrfConfig = {
 
 // Initialize Firebase, Firestore and Functions instances
 firebase.initializeApp(fbConfig);
+firebase.auth().useDeviceLanguage();
 const db = firebase.firestore();
 
 const functions = firebase.functions();

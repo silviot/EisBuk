@@ -66,7 +66,9 @@ function AppComponents() {
 
 function AppContent() {
   const auth = useSelector((state) => state.firebase.auth);
-  if (isLoaded(auth) && !isEmpty(auth)) {
+  const amIAdmin = useSelector((state) => state.authInfoEisbuk.amIAdmin);
+
+  if (isLoaded(auth) && !isEmpty(auth) && amIAdmin) {
     // The user is authenticated: it makes sense to query protected collections
     // that are used all over the application
     return <AppContentAuthenticated />;

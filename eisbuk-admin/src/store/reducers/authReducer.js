@@ -1,22 +1,14 @@
-import {
-  LOGIN_ERROR,
-  LOGIN_SUCCESS,
-  LOGOUT_SUCCESS,
-} from "../actions/action-types";
+import { IS_ADMIN_RECEIVED } from "../actions/action-types";
 
-const initState = {};
+const initState = {
+  amIAdmin: false,
+};
 
 export const authReducer = (state = initState, action) => {
   switch (action.type) {
-    case LOGIN_ERROR:
-      console.log("Login Error");
-      return state;
-    case LOGIN_SUCCESS:
-      console.log("Login Success");
-      return state;
-    case LOGOUT_SUCCESS:
-      console.log("Logout Success");
-      return state;
+    case IS_ADMIN_RECEIVED:
+      console.log(`Is admin: ${action.payload.amIAdmin}`);
+      return { ...state, amIAdmin: action.payload.amIAdmin };
     default:
       return state;
   }

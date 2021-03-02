@@ -1,11 +1,10 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import {
-  GOOGLE_LOGIN_ERROR,
-  GOOGLE_LOGIN_SUCCESS,
   ENQUEUE_SNACKBAR,
   CLOSE_SNACKBAR,
   REMOVE_SNACKBAR,
+  IS_ADMIN_RECEIVED,
   CHANGE_DAY,
   COPY_SLOT_DAY,
   COPY_SLOT_WEEK,
@@ -35,37 +34,6 @@ export const removeSnackbar = (key) => ({
   type: REMOVE_SNACKBAR,
   key,
 });
-
-export const signIn = (credentials) => {
-  return (dispatch, getState, { getFirebase }) => {
-    const firebase = getFirebase();
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(credentials.email, credentials.password)
-      .then(() => {
-        dispatch(
-          enqueueSnackbar({
-            key: new Date().getTime() + Math.random(),
-            message: "Hai effettuato il login",
-            options: {
-              variant: "success",
-            },
-          })
-        );
-      })
-      .catch((err) => {
-        dispatch(
-          enqueueSnackbar({
-            key: new Date().getTime() + Math.random(),
-            message: "Autenticazione negata",
-            options: {
-              variant: "error",
-            },
-          })
-        );
-      });
-  };
-};
 
 export const signOut = () => {
   return (dispatch, getState, { getFirebase }) => {
@@ -98,19 +66,15 @@ export const signOut = () => {
   };
 };
 
-export const signInWithGoogle = () => {
-  return (dispatch, getState, { getFirebase }) => {
+export const queryUserAdminStatus = () => {
+  return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
-    firebase
-      .login({ provider: "google", type: "redirect" })
-      .then(() => {
-        console.log("Google login success");
-        dispatch({ type: GOOGLE_LOGIN_SUCCESS });
-      })
-      .catch((err) => {
-        console.log("Google login error");
-        dispatch({ type: GOOGLE_LOGIN_ERROR, err });
-      });
+    console.log("Starting is admin query");
+    const res = await firebase.app().functions().httpsCallable("amIAdmin")({
+      organization: ORGANIZATION,
+    });
+    console.log("Is admin query received");
+    dispatch({ type: IS_ADMIN_RECEIVED, payload: res.data });
   };
 };
 

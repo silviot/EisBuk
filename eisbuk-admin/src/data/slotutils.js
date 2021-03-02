@@ -24,7 +24,6 @@ export const shiftSlotsWeek = (slots, oldWeekStart, newWeekStart) => {
       `oldWeekStart and newWeekStart are not a multiple of 7 days apart: ${oldWeekStart.toISO()} → ${newWeekStart.toISO()}`
     );
   }
-  console.log(difference);
   const adjust = (el) => {
     const dt = FBToLuxon(el.date);
     return { ...el, date: luxonToFB(dt.plus({ days: difference })) };
