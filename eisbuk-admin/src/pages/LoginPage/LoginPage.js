@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import _ from "lodash";
 import figureSkatingSilhouetteCouple from "../../assets/images/login/figure-skating-silhouette-couple.svg";
 import figureSkatingSilhouetteSkirt from "../../assets/images/login/figure-skating-silhouette-skirt.svg";
