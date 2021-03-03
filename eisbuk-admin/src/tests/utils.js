@@ -1,4 +1,5 @@
 import firebase from "firebase/app";
+import axios from "axios";
 import { adminDb } from "./settings";
 import "firebase/auth";
 
@@ -65,4 +66,30 @@ export const deleteAllCollections = async (db, collections) => {
     });
   }
   return Promise.all(toDelete);
+};
+
+export const loginWithPhone = async (phoneNumber) => {
+  // Turn off phone auth app verification.
+  firebase.auth().settings.appVerificationDisabledForTesting = true;
+
+  const verifier = new firebase.auth.RecaptchaVerifier(
+    document.createElement("div")
+  );
+  jest
+    .spyOn(verifier, "verify")
+    .mockImplementation(() => Promise.resolve("foo"));
+  const confirmationResult = await firebase
+    .auth()
+    .signInWithPhoneNumber(phoneNumber, verifier);
+  const response = await axios.get(
+    "http://localhost:9098/emulator/v1/projects/eisbuk/verificationCodes"
+  );
+  var verificationCode = "foo";
+  for (let i = 0; i < response.data.verificationCodes.length; i++) {
+    const element = response.data.verificationCodes[i];
+    if (element.phoneNumber === phoneNumber) {
+      verificationCode = element.code;
+    }
+  }
+  return confirmationResult.confirm(verificationCode);
 };

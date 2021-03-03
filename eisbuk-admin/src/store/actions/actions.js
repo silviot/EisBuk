@@ -69,11 +69,9 @@ export const signOut = () => {
 export const queryUserAdminStatus = () => {
   return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
-    console.log("Starting is admin query");
     const res = await firebase.app().functions().httpsCallable("amIAdmin")({
       organization: ORGANIZATION,
     });
-    console.log("Is admin query received");
     dispatch({ type: IS_ADMIN_RECEIVED, payload: res.data });
   };
 };
@@ -252,7 +250,6 @@ export const deleteSlot = (id) => {
 export const markAbsentee = ({ slot, user, isAbsent }) => {
   return (dispatch, getState, { getFirebase }) => {
     const db = getFirebase().firestore();
-    console.log(slot, user);
     db.collection("organizations")
       .doc(ORGANIZATION)
       .collection("slots")

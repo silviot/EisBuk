@@ -1,4 +1,4 @@
-import { deleteAllCollections } from "./utils";
+import { deleteAllCollections, loginWithPhone } from "./utils";
 import { adminDb } from "./settings";
 import firebase from "firebase/app";
 import "firebase/functions";
@@ -8,8 +8,6 @@ beforeAll(async () => {
   await deleteAllCollections(adminDb, ["organizations"]);
   await firebase.auth().signOut();
 });
-
-// THESE TESTS ARE DISABLED: I could not make them work
 
 it("Can ping the functions", async (done) => {
   const result = await firebase.app().functions().httpsCallable("ping")({
@@ -43,7 +41,7 @@ it("Denies access to users not belonging to the organization", async (done) => {
     .collection("organizations")
     .doc("default")
     .set({
-      admins: ["test@example.com"],
+      admins: ["test@example.com", "+1234567890"],
     });
   // We're not logged in yet, so this should throw
   await expect(
@@ -61,11 +59,18 @@ it("Denies access to users not belonging to the organization", async (done) => {
   ).rejects.toThrow();
 
   //...and with the right one
+  await firebase.auth().signOut();
   await loginWithUser("test@example.com");
   await firebase.app().functions().httpsCallable("createTestData")({
     organization: "default",
   });
 
+  // or using the phone number
+  await firebase.auth().signOut();
+  await loginWithPhone("+1234567890");
+  await firebase.app().functions().httpsCallable("createTestData")({
+    organization: "default",
+  });
   done();
 });
 

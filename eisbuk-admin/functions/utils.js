@@ -1,4 +1,3 @@
-const firebase = require("firebase/app");
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const { DateTime } = require("luxon");
@@ -14,19 +13,29 @@ exports.checkUser = async (organization, auth) => {
   // Receives an organization name and an auth info object as
   // provided by the Firebase SDK. Raises an unauthorized exception
   // if the user is not authorized to manage the given organization
-  if (auth && auth.token && auth.token.email) {
+  if (auth && auth.token && (auth.token.email || auth.token.phone_number)) {
     const org = await admin
       .firestore()
       .collection("organizations")
       .doc(organization)
       .get();
-    if (!org.data().admins.includes(auth.token.email)) {
+    if (!hasAdmin(org.data().admins, auth)) {
       doThrow();
     }
   } else {
     doThrow();
   }
 };
+
+function hasAdmin(admins, auth) {
+  if (!Array.isArray(admins)) {
+    return false;
+  }
+  return (
+    admins.includes(auth.token.email) ||
+    admins.includes(auth.token.phone_number)
+  );
+}
 
 function doThrow() {
   throw new functions.https.HttpsError(
