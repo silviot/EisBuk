@@ -1,5 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import { functionsZone } from "../../config/envInfo";
+
 import {
   ENQUEUE_SNACKBAR,
   CLOSE_SNACKBAR,
@@ -69,7 +71,10 @@ export const signOut = () => {
 export const queryUserAdminStatus = () => {
   return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
-    const res = await firebase.app().functions().httpsCallable("amIAdmin")({
+    const res = await firebase
+      .app()
+      .functions(functionsZone)
+      .httpsCallable("amIAdmin")({
       organization: ORGANIZATION,
     });
     dispatch({ type: IS_ADMIN_RECEIVED, payload: res.data });
