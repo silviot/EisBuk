@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   isLoaded,
   isEmpty,
@@ -20,10 +20,12 @@ import { wrapOrganization } from "./utils/firestore";
 import { getMonthStr } from "./utils/helpers";
 import { ORGANIZATION } from "./config/envInfo";
 import { calendarDaySelector } from "./store/selectors";
+import { queryUserAdminStatus } from "./store/actions/actions";
 
 function AppContentAuthenticated() {
   const currentDate = useSelector(calendarDaySelector);
   const firestore = useFirestore();
+
   const monthsToQuery = [
     getMonthStr(currentDate, -1),
     getMonthStr(currentDate, 0),
@@ -66,9 +68,18 @@ function AppComponents() {
 
 function AppContent() {
   const auth = useSelector((state) => state.firebase.auth);
-  if (isLoaded(auth) && !isEmpty(auth)) {
-    // The user is authenticated: it makes sense to query protected collections
-    // that are used all over the application
+  const amIAdmin = useSelector((state) => state.authInfoEisbuk.amIAdmin);
+  const dispatch = useDispatch();
+  // When auth changes this component fires a query to determine
+  // wether the current user is an administrator.
+  useEffect(() => dispatch(queryUserAdminStatus()) && undefined, [
+    auth,
+    dispatch,
+  ]);
+
+  if (isLoaded(auth) && !isEmpty(auth) && amIAdmin) {
+    // The user is authenticated and is an admin: it makes sense to query
+    // protected collections that are used all over the application
     return <AppContentAuthenticated />;
   } else {
     // Anonymous user: do not attempt to query collections that would fail with

@@ -13,7 +13,7 @@ import _ from "lodash";
 import { grey } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
 import { slotsLabels } from "../config/appConfig";
-import ColoredAvatar from "./users/coloredAvatar";
+import EisbukAvatar from "./users/EisbukAvatar";
 
 const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
   const classes = useStyles();
@@ -77,7 +77,7 @@ const BookingsByDay = ({ bookingDayInfo, markAbsentee }) => {
                     className={listItemClass}
                   >
                     <ListItemAvatar>
-                      <ColoredAvatar {...user} />
+                      <EisbukAvatar {...user} />
                     </ListItemAvatar>
                     <ListItemText primary={userName} />
                     <ListItemSecondaryAction>

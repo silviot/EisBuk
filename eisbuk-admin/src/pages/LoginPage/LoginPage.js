@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import firebase from "firebase/app";
 import _ from "lodash";
-import { connect } from "react-redux";
-import { signIn, signInWithGoogle } from "../../store/actions/actions";
 import figureSkatingSilhouetteCouple from "../../assets/images/login/figure-skating-silhouette-couple.svg";
 import figureSkatingSilhouetteSkirt from "../../assets/images/login/figure-skating-silhouette-skirt.svg";
 import figureSkatingSilhouette from "../../assets/images/login/figure-skating-silhouette.svg";
@@ -11,21 +10,14 @@ import iceSkatingSilhouette from "../../assets/images/login/ice-skating-silhouet
 
 import {
   Avatar,
-  Button,
   CssBaseline,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Link,
   Paper,
-  Box,
   Grid,
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
 
-import Copyright from "../../components/layout/Copyright";
 import { organizationInfo } from "../../themes";
 
 const loginBackgrounds = [
@@ -70,29 +62,20 @@ const useStyles = makeStyles((theme) => ({
 
 const SignInSide = ({ signIn }) => {
   const classes = useStyles();
-  const [credentials, setCredentials] = useState({
-    email: "test@eisbuk.it",
-    password: "test00",
-  });
-  const dispatch = useDispatch();
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCredentials({ ...credentials, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    signIn(credentials);
-  };
-
-  const loginWithGoogle = (e) => {
-    e.preventDefault();
-    dispatch(signInWithGoogle());
-  };
 
   const loginImageStyle = {
     backgroundImage: `url(${_.sample(loginBackgrounds)})`,
+  };
+  const uiConfig = {
+    signInOptions: [
+      {
+        provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+        // The default selected country.
+        defaultCountry: "IT",
+      },
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    ],
   };
   return (
     <Grid container component="main" className={classes.root}>
@@ -113,68 +96,14 @@ const SignInSide = ({ signIn }) => {
           <Typography component="h1" variant="h5">
             {organizationInfo.name}
           </Typography>
-          <form className={classes.form} noValidate onSubmit={handleSubmit}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              name="email"
-              autoComplete="email"
-              value={credentials.email}
-              onChange={handleInputChange}
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              value={credentials.password}
-              onChange={handleInputChange}
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Resta connesso"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Login
-            </Button>
-            <Button onClick={loginWithGoogle}>Login With Google</Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Password dimenticata?
-                </Link>
-              </Grid>
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
+          <StyledFirebaseAuth
+            uiConfig={uiConfig}
+            firebaseAuth={firebase.auth()}
+          />
         </div>
       </Grid>
     </Grid>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    signIn: (creds) => dispatch(signIn(creds)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(SignInSide);
+export default SignInSide;
