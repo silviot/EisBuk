@@ -18,7 +18,12 @@ exports.amIAdmin = functions
         .doc(organization)
         .get()
     ).data();
-    if (org.admins && org.admins.includes(context.auth.token.email)) {
+    if (
+      org &&
+      org.admins &&
+      (org.admins.includes(context.auth.token.email) ||
+        org.admins.includes(context.auth.token.phone_number))
+    ) {
       return { amIAdmin: true };
     }
     return { amIAdmin: false };

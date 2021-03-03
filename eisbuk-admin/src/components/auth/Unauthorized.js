@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Paper, Typography } from "@material-ui/core";
 import _ from "lodash";
 import { signOut } from "../../store/actions/actions";
@@ -18,6 +18,8 @@ const backgrounds = [
 ];
 
 const Unauthorized = ({ backgroundIndex }) => {
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.firebase.auth);
   var background;
   if (!_.isNil(backgroundIndex)) {
     background = backgrounds[backgroundIndex % backgrounds.length];
@@ -32,7 +34,6 @@ const Unauthorized = ({ backgroundIndex }) => {
     backgroundPosition: "center",
     height: "100vh",
   };
-  const dispatch = useDispatch();
   const logOut = () => dispatch(signOut());
   return (
     <Paper style={style}>
@@ -42,6 +43,11 @@ const Unauthorized = ({ backgroundIndex }) => {
       <Typography component="h2" variant="h4">
         Questo spazio è riservato agli amministratori
       </Typography>
+      <Typography component="h2" variant="h5">
+        Hai effettuato l'accesso con:
+        <b>{auth.email}</b>
+      </Typography>
+
       <Button variant="contained" onClick={logOut}>
         Esci e riprova con un altro utente
       </Button>

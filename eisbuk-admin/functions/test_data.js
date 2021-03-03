@@ -34,7 +34,7 @@ exports.createOrganization = functions
       .collection("organizations")
       .doc(organization)
       .set({
-        admins: ["test@eisbuk.it"],
+        admins: ["test@eisbuk.it", "+39123"],
       });
   });
 

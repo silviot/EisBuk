@@ -33,6 +33,7 @@ const AppbarAdmin = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.firebase.auth);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -48,8 +49,7 @@ const AppbarAdmin = (props) => {
     }
     setAnchorEl(null);
   };
-
-  const currentUserEmail = useSelector((state) => state.firebase.auth.email);
+  const currentUser = auth.email || auth.phoneNumber;
   return (
     <>
       <AppBar position="static" className={classes.appBar}>
@@ -68,7 +68,7 @@ const AppbarAdmin = (props) => {
             open={Boolean(anchorEl)}
             onClose={handleClose()}
           >
-            <MenuItem onClick={handleClose("")}>{currentUserEmail}</MenuItem>
+            <MenuItem onClick={handleClose("")}>{currentUser}</MenuItem>
             <MenuItem onClick={handleClose("logout")}>Logout</MenuItem>
           </Menu>
           <Hidden xsDown>
