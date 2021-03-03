@@ -44,8 +44,7 @@ const Unauthorized = ({ backgroundIndex }) => {
         Questo spazio è riservato agli amministratori
       </Typography>
       <Typography component="h2" variant="h5">
-        Hai effettuato l'accesso con:
-        <b>{auth.email}</b>
+        Hai effettuato l'accesso con: <b>{auth.email || auth.phoneNumber}</b>
       </Typography>
 
       <Button variant="contained" onClick={logOut}>
