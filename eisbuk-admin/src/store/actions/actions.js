@@ -165,6 +165,42 @@ export const createSlots = (slots) => {
   };
 };
 
+export const editSlot = (slot) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const db = getFirebase().firestore();
+    db.collection("organizations")
+      .doc(ORGANIZATION)
+      .collection("slots")
+      .doc(slot.id)
+      .update({
+        categories: slot.categories,
+        durations: slot.duration,
+        notes: slot.notes,
+        type: slot.type,
+      })
+      .then(() => {
+        dispatch(
+          enqueueSnackbar({
+            key: new Date().getTime() + Math.random(),
+            message: "Slot Aggiornato",
+            options: {
+              variant: "success",
+              action: (key) => (
+                <Button
+                  variant="outlined"
+                  onClick={() => dispatch(closeSnackbar(key))}
+                >
+                  OK
+                </Button>
+              ),
+            },
+          })
+        );
+      })
+      .catch(showErrSnackbar(dispatch));
+  };
+};
+
 export const subscribeToSlot = (bookingId, slot) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();

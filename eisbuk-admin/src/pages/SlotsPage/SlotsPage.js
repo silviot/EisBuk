@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteSlot, createSlots } from "../../store/actions/actions";
+import { deleteSlot, createSlots, editSlot } from "../../store/actions/actions";
 import { flatten } from "../../utils/helpers";
 import SlotsPageContainer from "../../containers/SlotsPageContainer";
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
@@ -21,6 +21,11 @@ const SlotsPage = () => {
   const onCreateSlot = (slot) => {
     dispatch(createSlots([slot]));
   };
+
+  const onEditSlot = (slot) => {
+    dispatch(editSlot([slot]));
+  };
+
   return (
     <div>
       <AppbarAdmin />
@@ -28,6 +33,7 @@ const SlotsPage = () => {
         slots={slots}
         onDelete={onDelete}
         onCreateSlot={onCreateSlot}
+        onEditSlot={onEditSlot}
       />
     </div>
   );

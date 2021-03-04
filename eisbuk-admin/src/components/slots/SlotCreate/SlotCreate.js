@@ -13,7 +13,6 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
-  FormGroup,
   IconButton,
   Radio,
   TextField,
@@ -70,11 +69,11 @@ const TimePickerField = ({ ...props }) => {
   const classes = useStyles();
   return (
     <Box className={classes.root}>
-      <IconButton color="primary" disableElevation onClick={decrease}>
+      <IconButton color="primary" onClick={decrease}>
         -
       </IconButton>
       <TextField {...props} />
-      <IconButton color="primary" disableElevation onClick={increase}>
+      <IconButton color="primary" onClick={increase}>
         +
       </IconButton>
     </Box>
@@ -83,10 +82,12 @@ const TimePickerField = ({ ...props }) => {
 
 const SlotCreate = ({
   createSlot,
+  editSlot,
   isoDate,
   open,
   onClose,
   onOpen,
+  slotToEdit,
   ...props
 }) => {
   const classes = useStyles();
@@ -95,20 +96,33 @@ const SlotCreate = ({
   if (lastTime != null) {
     defaultValues["time"] = fs2luxon(lastTime).toFormat("HH:mm");
   }
+  if (slotToEdit) {
+    console.log(slotToEdit);
+  }
   return (
     <Dialog open={open} onClose={onClose}>
       <Formik
-        initialValues={{ ...defaultValues, ...props.initialValues }}
+        initialValues={{ ...defaultValues, ...slotToEdit }}
         validationSchema={SlotValidation}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const parsed = DateTime.fromISO(isoDate + "T" + values.time);
-          await createSlot({
-            type: values.type,
-            categories: values.categories,
-            durations: values.durations,
-            date: Timestamp.fromDate(parsed.toJSDate()),
-            notes: values.notes,
-          });
+          if (slotToEdit) {
+            await editSlot({
+              id: slotToEdit.id,
+              type: values.type,
+              categories: values.categories,
+              durations: values.durations,
+              notes: values.notes,
+            });
+          } else {
+            await createSlot({
+              type: values.type,
+              categories: values.categories,
+              durations: values.durations,
+              date: Timestamp.fromDate(parsed.toJSDate()),
+              notes: values.notes,
+            });
+          }
           setSubmitting(false);
           resetForm();
           onClose();
@@ -118,25 +132,32 @@ const SlotCreate = ({
         {({ errors, values, isSubmitting, isValidating }) => (
           <>
             <Form>
-              <DialogTitle>
-                {parsedDate.toFormat("EEEE d MMMM", { locale: "it-IT" })}
-              </DialogTitle>
+              {slotToEdit ? (
+                <p>test</p>
+              ) : (
+                <DialogTitle>
+                  {parsedDate.toFormat("EEEE d MMMM", { locale: "it-IT" })}
+                </DialogTitle>
+              )}
               <DialogContent>
                 <FormControl component="fieldset">
-                  <Field
-                    name="time"
-                    as={TimePickerField}
-                    label="Ora di inizio"
-                    className={classes.field}
-                  />
-                  <ErrorMessage name="time" />
-                  <FormGroup>
+                  {!slotToEdit && (
+                    <>
+                      <Field
+                        name="time"
+                        as={TimePickerField}
+                        label="Ora di inizio"
+                        className={classes.field}
+                      />
+                      <ErrorMessage name="time" />
+                    </>
+                  )}
+                  <Box display="flex" flexWrap="wrap">
                     {getCheckBoxes("categories", slotsLabelsLists.categories)}
-                  </FormGroup>
+                  </Box>
                   <div className={classes.error}>
                     <ErrorMessage name="categories" />
                   </div>
-
                   <Field
                     component={RadioGroup}
                     name="type"
