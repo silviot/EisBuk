@@ -1,4 +1,4 @@
-import { Container, IconButton, Switch } from "@material-ui/core";
+import { Badge, Container, IconButton, Switch } from "@material-ui/core";
 import {
   FileCopy as FileCopyIcon,
   Assignment as AssignmentIcon,
@@ -97,7 +97,13 @@ export default ({
             )
           }
         >
-          <FileCopyIcon />
+          <Badge
+            color="secondary"
+            variant="dot"
+            invisible={!Boolean(weekToPaste && weekToPaste.slots)}
+          >
+            <FileCopyIcon />
+          </Badge>
         </IconButton>
       )}
       {enableEdit && (

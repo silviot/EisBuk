@@ -71,13 +71,17 @@ export const signOut = () => {
 export const queryUserAdminStatus = () => {
   return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
-    const res = await firebase
+    const resp = await firebase
       .app()
       .functions(functionsZone)
       .httpsCallable("amIAdmin")({
       organization: ORGANIZATION,
     });
-    dispatch({ type: IS_ADMIN_RECEIVED, payload: res.data });
+    const auth = getState().firebase.auth;
+    dispatch({
+      type: IS_ADMIN_RECEIVED,
+      payload: { uid: auth.uid, amIAdmin: resp.data.amIAdmin },
+    });
   };
 };
 
