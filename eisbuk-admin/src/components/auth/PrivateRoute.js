@@ -7,9 +7,11 @@ import Loading from "./Loading";
 
 const PrivateRoute = (props) => {
   const auth = useSelector((state) => state.firebase.auth);
-  const amIAdmin = useSelector((state) => state.authInfoEisbuk.amIAdmin);
+  const authInfoEisbuk = useSelector((state) => state.authInfoEisbuk);
+  const amIAdmin =
+    authInfoEisbuk.amIAdmin && authInfoEisbuk.myUserId === auth.uid;
 
-  if (!isLoaded(auth)) {
+  if (!isLoaded(auth) || authInfoEisbuk.myUserId === null) {
     return <Loading />;
   } else if (amIAdmin && !isEmpty(auth)) {
     return <Route {...props} />;
