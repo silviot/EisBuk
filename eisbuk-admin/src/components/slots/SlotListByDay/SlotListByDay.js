@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { List } from "@material-ui/core";
 import SlotsDay from "./SlotsDay";
+import SlotForm from "../SlotForm";
 
 const SlotListByDay = ({
   slots,
@@ -10,11 +11,18 @@ const SlotListByDay = ({
   onUnsubscribe,
   subscribedSlots,
   onCreateSlot,
+  onEditSlot,
   className,
   enableEdit,
   view,
   isCustomer,
 }) => {
+  const [createEditDialog, setCreateEditDialog] = useState({
+    isOpen: false,
+    day: null,
+    slotToEdit: null,
+  });
+
   const classes = useStyles();
   if (typeof slots === "undefined") {
     return <div>Loading...</div>;
@@ -22,26 +30,44 @@ const SlotListByDay = ({
   const days = Object.keys(slots)
     .filter((el) => el !== "id")
     .sort();
+  const onCloseCreateEditDialog = () => {
+    setCreateEditDialog({
+      isOpen: false,
+      day: null,
+      slotToEdit: null,
+    });
+  };
+
   return (
-    <List dense={true} className={className + " " + classes.root}>
-      {days.map((el) => (
-        <SlotsDay
-          key={el}
-          day={el}
-          slots={slots[el]}
-          {...{
-            onSubscribe,
-            onUnsubscribe,
-            onDelete,
-            subscribedSlots,
-            onCreateSlot,
-            enableEdit,
-            view,
-            isCustomer,
-          }}
-        ></SlotsDay>
-      ))}
-    </List>
+    <>
+      <List dense={true} className={className + " " + classes.root}>
+        {days.map((el) => (
+          <SlotsDay
+            key={el}
+            day={el}
+            slots={slots[el]}
+            {...{
+              onSubscribe,
+              onUnsubscribe,
+              onDelete,
+              subscribedSlots,
+              setCreateEditDialog,
+              enableEdit,
+              view,
+              isCustomer,
+            }}
+          ></SlotsDay>
+        ))}
+      </List>
+      <SlotForm
+        isoDate={createEditDialog.day}
+        slotToEdit={createEditDialog.slotToEdit}
+        createSlot={onCreateSlot}
+        editSlot={onEditSlot}
+        open={createEditDialog.isOpen}
+        onClose={onCloseCreateEditDialog}
+      ></SlotForm>
+    </>
   );
 };
 

@@ -29,6 +29,7 @@ export default ({
   onSubscribe,
   onUnsubscribe,
   subscribedSlots,
+  setCreateEditDialog,
 }) => {
   const classes = useStyles();
   const date = FBToLuxon(data.date);
@@ -193,7 +194,12 @@ export default ({
                       <IconButton
                         edge="end"
                         aria-label="delete"
-                        onClick={() => alert("Edit UI TBD")}
+                        onClick={() =>
+                          setCreateEditDialog({
+                            isOpen: true,
+                            slotToEdit: data,
+                          })
+                        }
                         size="small"
                       >
                         <CreateIcon />

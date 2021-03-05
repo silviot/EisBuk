@@ -16,7 +16,6 @@ import {
   Assignment as AssignmentIcon,
 } from "@material-ui/icons";
 import Slot from "./Slot";
-import SlotCreate from "../SlotCreate";
 import { copySlotDay, createSlots } from "../../../store/actions/actions";
 import { shiftSlotsDay } from "../../../data/slotutils";
 import LuxonUtils from "@date-io/luxon";
@@ -35,14 +34,13 @@ const SlotsDay = ({
   onUnsubscribe,
   subscribedSlots,
   onDelete,
-  onCreateSlot,
   enableEdit,
   view = "slots",
   isCustomer,
+  setCreateEditDialog,
 }) => {
   subscribedSlots = subscribedSlots || {};
   const [deletedSlots, setDeletedSlots] = useState({});
-  const [formIsOpen, setFormIsOpen] = useState(false);
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.firebase.auth);
 
@@ -66,11 +64,13 @@ const SlotsDay = ({
   const classes = useStyles();
   const dayInClipboard = useSelector(dayCopyPasteSelector);
   const showCreateForm = () => {
-    setFormIsOpen(true);
+    setCreateEditDialog({
+      isOpen: true,
+      day: day,
+      slotToEdit: null,
+    });
   };
-  const onClose = () => {
-    setFormIsOpen(false);
-  };
+
   const doPaste = () =>
     dispatch(createSlots(shiftSlotsDay(Object.values(dayInClipboard), day)));
 
@@ -79,12 +79,6 @@ const SlotsDay = ({
       <IconButton variant="outlined" size="small" onClick={showCreateForm}>
         <AddCircleOutlineIcon />
       </IconButton>
-      <SlotCreate
-        isoDate={day}
-        createSlot={onCreateSlot}
-        open={formIsOpen}
-        onClose={onClose}
-      ></SlotCreate>
     </>
   );
 
@@ -138,6 +132,7 @@ const SlotsDay = ({
                   deleted={!!deletedSlots[slot.id]}
                   onDelete={extendedOnDelete}
                   {...{
+                    ...(enableEdit && { setCreateEditDialog }),
                     ...(canChange && { onSubscribe, onUnsubscribe }),
                     subscribedSlots,
                   }}

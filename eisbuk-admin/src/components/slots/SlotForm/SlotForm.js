@@ -13,7 +13,6 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
-  FormGroup,
   IconButton,
   Radio,
   TextField,
@@ -70,45 +69,61 @@ const TimePickerField = ({ ...props }) => {
   const classes = useStyles();
   return (
     <Box className={classes.root}>
-      <IconButton color="primary" disableElevation onClick={decrease}>
+      <IconButton color="primary" onClick={decrease}>
         -
       </IconButton>
       <TextField {...props} />
-      <IconButton color="primary" disableElevation onClick={increase}>
+      <IconButton color="primary" onClick={increase}>
         +
       </IconButton>
     </Box>
   );
 };
 
-const SlotCreate = ({
+const SlotForm = ({
   createSlot,
+  editSlot,
   isoDate,
   open,
   onClose,
   onOpen,
+  slotToEdit,
   ...props
 }) => {
   const classes = useStyles();
   const lastTime = useSelector((state) => state.app.newSlotTime);
   const parsedDate = DateTime.fromISO(isoDate);
+  let parsedSlotEditDate;
   if (lastTime != null) {
     defaultValues["time"] = fs2luxon(lastTime).toFormat("HH:mm");
+  }
+  if (slotToEdit) {
+    parsedSlotEditDate = fs2luxon(slotToEdit.date);
   }
   return (
     <Dialog open={open} onClose={onClose}>
       <Formik
-        initialValues={{ ...defaultValues, ...props.initialValues }}
+        initialValues={{ ...defaultValues, ...slotToEdit }}
         validationSchema={SlotValidation}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const parsed = DateTime.fromISO(isoDate + "T" + values.time);
-          await createSlot({
-            type: values.type,
-            categories: values.categories,
-            durations: values.durations,
-            date: Timestamp.fromDate(parsed.toJSDate()),
-            notes: values.notes,
-          });
+          if (slotToEdit) {
+            await editSlot({
+              id: slotToEdit.id,
+              type: values.type,
+              categories: values.categories,
+              durations: values.durations,
+              notes: values.notes,
+            });
+          } else {
+            await createSlot({
+              type: values.type,
+              categories: values.categories,
+              durations: values.durations,
+              date: Timestamp.fromDate(parsed.toJSDate()),
+              notes: values.notes,
+            });
+          }
           setSubmitting(false);
           resetForm();
           onClose();
@@ -119,24 +134,31 @@ const SlotCreate = ({
           <>
             <Form>
               <DialogTitle>
-                {parsedDate.toFormat("EEEE d MMMM", { locale: "it-IT" })}
+                {slotToEdit
+                  ? parsedSlotEditDate.toFormat("EEEE d MMMM - HH:mm", {
+                      locale: "it-IT",
+                    })
+                  : parsedDate.toFormat("EEEE d MMMM", { locale: "it-IT" })}
               </DialogTitle>
               <DialogContent>
                 <FormControl component="fieldset">
-                  <Field
-                    name="time"
-                    as={TimePickerField}
-                    label="Ora di inizio"
-                    className={classes.field}
-                  />
-                  <ErrorMessage name="time" />
-                  <FormGroup>
+                  {!slotToEdit && (
+                    <>
+                      <Field
+                        name="time"
+                        as={TimePickerField}
+                        label="Ora di inizio"
+                        className={classes.field}
+                      />
+                      <ErrorMessage name="time" />
+                    </>
+                  )}
+                  <Box display="flex" flexWrap="wrap">
                     {getCheckBoxes("categories", slotsLabelsLists.categories)}
-                  </FormGroup>
+                  </Box>
                   <div className={classes.error}>
                     <ErrorMessage name="categories" />
                   </div>
-
                   <Field
                     component={RadioGroup}
                     name="type"
@@ -175,7 +197,7 @@ const SlotCreate = ({
                   }
                   color="primary"
                 >
-                  Crea slot
+                  {slotToEdit ? "Modifica Slot" : "Crea Slot"}
                 </Button>
               </DialogActions>
             </Form>
@@ -199,9 +221,9 @@ const getEnumItems = (values) =>
 const getCheckBoxes = (name, values) =>
   values.map((el) => (
     <MyCheckbox
-      key={el.id}
+      key={el.id.toString()}
       name={name}
-      value={el.id.toString()}
+      value={name === "durations" ? el.id : el.id.toString()}
       label={el.label}
     />
   ));
@@ -231,4 +253,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default SlotCreate;
+export default SlotForm;

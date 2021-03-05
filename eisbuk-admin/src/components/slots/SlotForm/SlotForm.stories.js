@@ -1,12 +1,12 @@
 import React from "react";
-import SlotCreate from "./SlotCreate";
+import SlotForm from "./SlotForm";
 
 export default {
-  title: "SlotCreate",
-  component: SlotCreate,
+  title: "SlotForm",
+  component: SlotForm,
 };
 
-export const EmptyForm = (args) => <SlotCreate {...args} />;
+export const EmptyForm = (args) => <SlotForm {...args} />;
 EmptyForm.args = {
   open: true,
   isoDate: "2021-01-15",
@@ -16,7 +16,7 @@ EmptyForm.argTypes = {
   onClose: { action: "closed" },
 };
 
-export const FormWithValues = (args) => <SlotCreate {...args} />;
+export const FormWithValues = (args) => <SlotForm {...args} />;
 FormWithValues.args = {
   open: true,
   isoDate: "2021-01-15",
