@@ -80,7 +80,7 @@ const TimePickerField = ({ ...props }) => {
   );
 };
 
-const SlotCreate = ({
+const SlotForm = ({
   createSlot,
   editSlot,
   isoDate,
@@ -253,4 +253,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default SlotCreate;
+export default SlotForm;

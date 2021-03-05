@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { List } from "@material-ui/core";
 import SlotsDay from "./SlotsDay";
-import SlotCreate from "../SlotCreate";
+import SlotForm from "../SlotForm";
 
 const SlotListByDay = ({
   slots,
@@ -59,14 +59,14 @@ const SlotListByDay = ({
           ></SlotsDay>
         ))}
       </List>
-      <SlotCreate
+      <SlotForm
         isoDate={createEditDialog.day}
         slotToEdit={createEditDialog.slotToEdit}
         createSlot={onCreateSlot}
         editSlot={onEditSlot}
         open={createEditDialog.isOpen}
         onClose={onCloseCreateEditDialog}
-      ></SlotCreate>
+      ></SlotForm>
     </>
   );
 };
