@@ -5,11 +5,12 @@ import { flatten } from "../../utils/helpers";
 import SlotsPageContainer from "../../containers/SlotsPageContainer";
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
 import { useTitle } from "../../utils/helpers";
+import _ from "lodash";
 
 const selectSlots = (state) => flatten(state.firestore.ordered.slotsByDay);
 
 const SlotsPage = () => {
-  const slots = useSelector(selectSlots);
+  const slots = _.omit(useSelector(selectSlots), "id");
   useTitle("Slots");
 
   const dispatch = useDispatch();

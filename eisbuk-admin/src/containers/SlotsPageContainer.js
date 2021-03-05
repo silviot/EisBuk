@@ -1,5 +1,6 @@
 import { Badge, Container, IconButton, Switch } from "@material-ui/core";
 import {
+  Delete as DeleteIcon,
   FileCopy as FileCopyIcon,
   Assignment as AssignmentIcon,
 } from "@material-ui/icons";
@@ -9,7 +10,6 @@ import { useSelector, useDispatch } from "react-redux";
 import SlotListByDay from "../components/slots/SlotListByDay";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { DateTime } from "luxon";
 
 import DateNavigationAppBar from "./DateNavigationAppBar";
 import { calendarDaySelector } from "../store/selectors";
@@ -48,28 +48,13 @@ export default ({
   const datesToDisplay = [...Array(7).keys()].map((i) =>
     currentDate.plus({ days: i }).toISODate()
   );
-  const slotsToDisplay = datesToDisplay.reduce(function (obj, x) {
-    return { ...obj, [x]: {} };
-  }, {});
-  var slotsToCopy = [];
-  var numSlots = 0;
-  for (const key in slots) {
-    if (Object.hasOwnProperty.call(slots, key)) {
-      const slot = slots[key];
-      let dayDateTime;
-      try {
-        dayDateTime = DateTime.fromFormat(key, "yyyy-LL-dd");
-      } catch (e) {
-        continue;
-      }
-      const diff = (dayDateTime - currentDate) / 1000;
-      if (diff >= 0 && diff < ONE_WEEK) {
-        slotsToDisplay[key] = slot;
-        numSlots += _.size(_.omit(slot, "id"));
-        slotsToCopy = slotsToCopy.concat(_.values(_.omit(slot, "id")));
-      }
-    }
-  }
+  const slotsToDisplay = {
+    ..._.zipObject(datesToDisplay, [[], [], [], [], [], [], []]),
+    ..._.pick(slots, datesToDisplay),
+  };
+  const slotsArray = _.values(
+    _.values(slotsToDisplay).reduce((acc, el) => ({ ...acc, ...el }), {})
+  );
   const doPaste = () =>
     dispatch(
       createSlots(
@@ -88,39 +73,52 @@ export default ({
   const extraButtons = (
     <>
       {enableEdit && (
-        <IconButton
-          variant="outlined"
-          size="small"
-          disabled={numSlots === 0}
-          onClick={() =>
-            dispatch(
-              copySlotWeek({ weekStart: currentDate, slots: slotsToCopy })
-            )
-          }
-        >
-          <Badge
-            color="secondary"
-            variant="dot"
-            invisible={!Boolean(weekToPaste && weekToPaste.slots)}
+        <>
+          <IconButton
+            variant="outlined"
+            size="small"
+            disabled={slotsArray.length === 0}
+            onClick={
+              () => null
+              //   dispatch(
+              //     deleteSlots({ slots: slotsArray() })
+              //   )
+            }
           >
-            <FileCopyIcon />
-          </Badge>
-        </IconButton>
-      )}
-      {enableEdit && (
-        <IconButton
-          variant="outlined"
-          size="small"
-          onClick={doPaste}
-          tooltip="Incolla settimana"
-          disabled={
-            !weekToPaste.weekStart ||
-            +weekToPaste.weekStart === +currentDate ||
-            numSlots !== 0
-          }
-        >
-          <AssignmentIcon />
-        </IconButton>
+            <DeleteIcon />
+          </IconButton>
+          <IconButton
+            variant="outlined"
+            size="small"
+            disabled={slotsArray.length === 0}
+            onClick={() =>
+              dispatch(
+                copySlotWeek({ weekStart: currentDate, slots: slotsArray })
+              )
+            }
+          >
+            <Badge
+              color="secondary"
+              variant="dot"
+              invisible={!Boolean(weekToPaste && weekToPaste.slots)}
+            >
+              <FileCopyIcon />
+            </Badge>
+          </IconButton>
+          <IconButton
+            variant="outlined"
+            size="small"
+            onClick={doPaste}
+            tooltip="Incolla settimana"
+            disabled={
+              !weekToPaste.weekStart || // there's nothing to paste
+              +weekToPaste.weekStart === +currentDate || // don't paste over the same week we copied
+              slotsArray.length !== 0 // Only let users paste onto an empty week
+            }
+          >
+            <AssignmentIcon />
+          </IconButton>
+        </>
       )}
       {switchButton}
     </>
@@ -150,5 +148,3 @@ export default ({
     </>
   );
 };
-
-const ONE_WEEK = 7 * 24 * 60 * 60;
