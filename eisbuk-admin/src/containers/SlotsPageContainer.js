@@ -12,6 +12,7 @@ import SlotListByDay from "../components/slots/SlotListByDay";
 import { makeStyles } from "@material-ui/core/styles";
 
 import DateNavigationAppBar from "./DateNavigationAppBar";
+import ConfirmDialog from "../components/global/ConfirmDialog";
 import { calendarDaySelector } from "../store/selectors";
 import { shiftSlotsWeek } from "../data/slotutils.js";
 import { copySlotWeek, createSlots } from "../store/actions/actions";
@@ -41,6 +42,7 @@ export default ({
 }) => {
   const classes = useStyles();
   const [enableEdit, setEnableEdit] = useState(false);
+  const [showWeekDeleteConfirm, setShowWeekDeleteConfirm] = useState(false);
   const currentDate = useSelector(calendarDaySelector).startOf("week");
   const weekToPaste = useSelector(weekCopyPasteSelector);
   const dispatch = useDispatch();
@@ -70,20 +72,34 @@ export default ({
       checked={enableEdit}
     />
   ) : null;
+  const doDelete = () => {
+    dispatch();
+    //deleteSlots({ slots: slotsArray })
+  };
   const extraButtons = (
     <>
       {enableEdit && (
         <>
+          {showWeekDeleteConfirm ? (
+            <ConfirmDialog
+              title={`Sei sicuro di voler rimuovere tutti gli slot (${
+                slotsArray.length
+              }) della settimana del ${currentDate.toFormat("d MMMM", {
+                locale: "it-IT",
+              })}?`}
+              open={showWeekDeleteConfirm}
+              setOpen={setShowWeekDeleteConfirm}
+              onConfirm={doDelete}
+            >
+              Questa azione non è reversibile
+            </ConfirmDialog>
+          ) : null}
+
           <IconButton
             variant="outlined"
             size="small"
             disabled={slotsArray.length === 0}
-            onClick={
-              () => null
-              //   dispatch(
-              //     deleteSlots({ slots: slotsArray() })
-              //   )
-            }
+            onClick={() => setShowWeekDeleteConfirm(true)}
           >
             <DeleteIcon />
           </IconButton>
