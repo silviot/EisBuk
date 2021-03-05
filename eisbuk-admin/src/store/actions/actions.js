@@ -261,36 +261,37 @@ export const unsubscribeFromSlot = (bookingId, slot) => {
   };
 };
 
-export const deleteSlot = (id) => {
-  return (dispatch, getState, { getFirebase }) => {
-    const firebase = getFirebase();
-    firebase
-      .firestore()
-      .collection("organizations")
-      .doc(ORGANIZATION)
-      .collection("slots")
-      .doc(id)
-      .delete()
-      .then(() => {
-        dispatch(
-          enqueueSnackbar({
-            key: new Date().getTime() + Math.random(),
-            message: "Slot Eliminato",
-            options: {
-              variant: "success",
-              action: (key) => (
-                <Button
-                  variant="outlined"
-                  onClick={() => dispatch(closeSnackbar(key))}
-                >
-                  OK
-                </Button>
-              ),
-            },
-          })
-        );
+export const deleteSlots = (slots) => {
+  return async (dispatch, getState, { getFirebase }) => {
+    const db = getFirebase().firestore();
+    const writeBatch = db.batch();
+
+    for (var i = 0; i < slots.length; i++) {
+      const slotReference = db
+        .collection("organizations")
+        .doc(ORGANIZATION)
+        .collection("slots")
+        .doc(slots[i].id);
+      writeBatch.delete(slotReference);
+    }
+    await writeBatch.commit();
+    dispatch(
+      enqueueSnackbar({
+        key: new Date().getTime() + Math.random(),
+        message: "Slot Eliminato",
+        options: {
+          variant: "success",
+          action: (key) => (
+            <Button
+              variant="outlined"
+              onClick={() => dispatch(closeSnackbar(key))}
+            >
+              OK
+            </Button>
+          ),
+        },
       })
-      .catch(showErrSnackbar(dispatch));
+    );
   };
 };
 

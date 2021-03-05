@@ -1,6 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteSlot, createSlots, editSlot } from "../../store/actions/actions";
+import {
+  deleteSlots,
+  createSlots,
+  editSlot,
+} from "../../store/actions/actions";
 import { flatten } from "../../utils/helpers";
 import SlotsPageContainer from "../../containers/SlotsPageContainer";
 import AppbarAdmin from "../../components/layout/AppbarAdmin";
@@ -15,8 +19,8 @@ const SlotsPage = () => {
 
   const dispatch = useDispatch();
 
-  const onDelete = (id) => {
-    dispatch(deleteSlot(id));
+  const onDelete = (slot) => {
+    dispatch(deleteSlots([slot]));
   };
 
   const onCreateSlot = (slot) => {

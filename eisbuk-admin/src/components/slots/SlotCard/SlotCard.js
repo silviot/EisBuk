@@ -44,21 +44,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SlotCard = ({
-  deleteSlot,
-  id,
-  date,
-  durations,
-  categories,
-  type,
-  notes,
-}) => {
+export const SlotCard = ({ deleteSlot, slot }) => {
   const classes = useStyles();
   const slotDateTime = DateTime.fromSeconds(date.seconds);
 
+  const { date, durations, categories, type, notes } = slot;
+
   const handleDelete = (e) => {
     e.preventDefault();
-    deleteSlot(id.toString());
+    deleteSlot(slot);
   };
 
   return (

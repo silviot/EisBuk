@@ -15,7 +15,11 @@ import DateNavigationAppBar from "./DateNavigationAppBar";
 import ConfirmDialog from "../components/global/ConfirmDialog";
 import { calendarDaySelector } from "../store/selectors";
 import { shiftSlotsWeek } from "../data/slotutils.js";
-import { copySlotWeek, createSlots } from "../store/actions/actions";
+import {
+  copySlotWeek,
+  createSlots,
+  deleteSlots,
+} from "../store/actions/actions";
 import _ from "lodash";
 
 const useStyles = makeStyles((theme) => ({
@@ -73,8 +77,7 @@ export default ({
     />
   ) : null;
   const doDelete = () => {
-    dispatch();
-    //deleteSlots({ slots: slotsArray })
+    dispatch(deleteSlots(slotsArray));
   };
   const extraButtons = (
     <>
