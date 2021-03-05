@@ -48,7 +48,6 @@ export default ({
       if (subscribedDuration === duration) {
         onUnsubscribe(data);
       } else {
-        onUnsubscribe(data);
         onSubscribe({ ...data, duration });
       }
     } else {
