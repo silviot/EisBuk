@@ -72,10 +72,11 @@ function AppContent() {
   const dispatch = useDispatch();
   // When auth changes this component fires a query to determine
   // wether the current user is an administrator.
-  useEffect(() => dispatch(queryUserAdminStatus()) && undefined, [
-    auth,
-    dispatch,
-  ]);
+  useEffect(() => {
+    if (isLoaded(auth) && !isEmpty(auth)) {
+      dispatch(queryUserAdminStatus());
+    }
+  }, [auth, dispatch]);
 
   if (isLoaded(auth) && !isEmpty(auth) && amIAdmin) {
     // The user is authenticated and is an admin: it makes sense to query
