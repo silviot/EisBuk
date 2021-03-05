@@ -11,14 +11,14 @@ const PrivateRoute = (props) => {
   const amIAdmin =
     authInfoEisbuk.amIAdmin && authInfoEisbuk.myUserId === auth.uid;
 
-  if (!isLoaded(auth) || authInfoEisbuk.myUserId === null) {
+  if (isLoaded(auth) && isEmpty(auth)) {
+    return <Redirect to="/login" />;
+  } else if (!isLoaded(auth) || authInfoEisbuk.myUserId === null) {
     return <Loading />;
   } else if (amIAdmin && !isEmpty(auth)) {
     return <Route {...props} />;
   } else if (!amIAdmin && !isEmpty(auth)) {
     return <Unauthorized />;
-  } else {
-    return <Redirect to="/login" />;
   }
 };
 
