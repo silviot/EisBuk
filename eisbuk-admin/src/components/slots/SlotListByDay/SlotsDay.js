@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  Badge,
   IconButton,
   ListSubheader,
   Grid,
@@ -106,12 +105,7 @@ const SlotsDay = ({
               )}
               {enableEdit && Object.keys(dayInClipboard).length > 0 && (
                 <IconButton variant="outlined" size="small" onClick={doPaste}>
-                  <Badge
-                    badgeContent={Object.keys(dayInClipboard).length}
-                    color="secondary"
-                  >
-                    <AssignmentIcon />
-                  </Badge>
+                  <AssignmentIcon />
                 </IconButton>
               )}
             </Box>
