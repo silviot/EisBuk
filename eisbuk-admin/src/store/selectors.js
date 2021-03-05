@@ -48,6 +48,7 @@ export const bookingDayInfoSelector = (dayStr) =>
           return {
             name: user.name,
             surname: user.surname,
+            certificateExpiration: user.certificateExpiration,
             secret_key: user.secret_key,
             id: user.id,
             duration: bookingsInfo[slot.id][key],

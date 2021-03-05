@@ -4,37 +4,20 @@ import { useSelector } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import Unauthorized from "./Unauthorized";
 import Loading from "./Loading";
-import { ORGANIZATION } from "../../config/envInfo";
 
 const PrivateRoute = (props) => {
   const auth = useSelector((state) => state.firebase.auth);
-  const organizationRecord = useSelector(
-    (state) => state.firestore.data.organizations
-  );
-  const isAuthenticated = isLoaded(auth) && !isEmpty(auth);
-  const isAuthorized =
-    isLoaded(organizationRecord) &&
-    !isEmpty(organizationRecord) &&
-    isAuthenticated &&
-    organizationRecord[ORGANIZATION] &&
-    organizationRecord[ORGANIZATION].admins &&
-    organizationRecord[ORGANIZATION].admins.includes(auth.email);
+  const authInfoEisbuk = useSelector((state) => state.authInfoEisbuk);
+  const amIAdmin =
+    authInfoEisbuk.amIAdmin && authInfoEisbuk.myUserId === auth.uid;
 
-  if (!isLoaded(auth)) {
+  if (!isLoaded(auth) || authInfoEisbuk.myUserId === null) {
     return <Loading />;
-  } else if (
-    isAuthenticated &&
-    (isAuthorized || typeof organizationRecord === "undefined")
-  ) {
+  } else if (amIAdmin && !isEmpty(auth)) {
     return <Route {...props} />;
-  } else if (
-    isAuthenticated &&
-    !isAuthorized &&
-    typeof organizationRecord !== "undefined"
-  ) {
-    console.log("Was unauthorized");
+  } else if (!amIAdmin && !isEmpty(auth)) {
     return <Unauthorized />;
-  } else if (!isAuthenticated && isLoaded(auth)) {
+  } else {
     return <Redirect to="/login" />;
   }
 };
