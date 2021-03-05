@@ -8,7 +8,6 @@ const initState = {
 };
 
 export const authReducer = (state = initState, action) => {
-  console.log(state, action);
   switch (action.type) {
     case IS_ADMIN_RECEIVED:
       return {

@@ -78,10 +78,12 @@ export const queryUserAdminStatus = () => {
       organization: ORGANIZATION,
     });
     const auth = getState().firebase.auth;
-    dispatch({
-      type: IS_ADMIN_RECEIVED,
-      payload: { uid: auth.uid, amIAdmin: resp.data.amIAdmin },
-    });
+    if (auth.uid) {
+      dispatch({
+        type: IS_ADMIN_RECEIVED,
+        payload: { uid: auth.uid, amIAdmin: resp.data.amIAdmin },
+      });
+    }
   };
 };
 
