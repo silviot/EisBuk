@@ -93,11 +93,12 @@ const SlotCreate = ({
   const classes = useStyles();
   const lastTime = useSelector((state) => state.app.newSlotTime);
   const parsedDate = DateTime.fromISO(isoDate);
+  let parsedSlotEditDate;
   if (lastTime != null) {
     defaultValues["time"] = fs2luxon(lastTime).toFormat("HH:mm");
   }
   if (slotToEdit) {
-    console.log(slotToEdit);
+    parsedSlotEditDate = fs2luxon(slotToEdit.date);
   }
   return (
     <Dialog open={open} onClose={onClose}>
@@ -132,13 +133,13 @@ const SlotCreate = ({
         {({ errors, values, isSubmitting, isValidating }) => (
           <>
             <Form>
-              {slotToEdit ? (
-                <p>test</p>
-              ) : (
-                <DialogTitle>
-                  {parsedDate.toFormat("EEEE d MMMM", { locale: "it-IT" })}
-                </DialogTitle>
-              )}
+              <DialogTitle>
+                {slotToEdit
+                  ? parsedSlotEditDate.toFormat("EEEE d MMMM - HH:mm", {
+                      locale: "it-IT",
+                    })
+                  : parsedDate.toFormat("EEEE d MMMM", { locale: "it-IT" })}
+              </DialogTitle>
               <DialogContent>
                 <FormControl component="fieldset">
                   {!slotToEdit && (
@@ -196,7 +197,7 @@ const SlotCreate = ({
                   }
                   color="primary"
                 >
-                  Crea slot
+                  {slotToEdit ? "Modifica Slot" : "Crea Slot"}
                 </Button>
               </DialogActions>
             </Form>
@@ -220,9 +221,9 @@ const getEnumItems = (values) =>
 const getCheckBoxes = (name, values) =>
   values.map((el) => (
     <MyCheckbox
-      key={el.id}
+      key={el.id.toString()}
       name={name}
-      value={el.id.toString()}
+      value={name === "durations" ? el.id : el.id.toString()}
       label={el.label}
     />
   ));

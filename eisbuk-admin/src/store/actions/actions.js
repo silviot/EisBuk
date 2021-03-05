@@ -174,9 +174,9 @@ export const editSlot = (slot) => {
       .doc(slot.id)
       .update({
         categories: slot.categories,
-        durations: slot.duration,
-        notes: slot.notes,
         type: slot.type,
+        durations: slot.durations,
+        notes: slot.notes,
       })
       .then(() => {
         dispatch(

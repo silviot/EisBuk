@@ -23,7 +23,7 @@ const SlotsPage = () => {
   };
 
   const onEditSlot = (slot) => {
-    dispatch(editSlot([slot]));
+    dispatch(editSlot(slot));
   };
 
   return (
