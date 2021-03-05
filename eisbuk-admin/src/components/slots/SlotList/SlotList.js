@@ -13,7 +13,7 @@ const SlotList = ({ slots, deleteSlot }) => {
     <Box className={classes.root}>
       {slots &&
         slots.map((slot) => (
-          <SlotCard key={slot.id} deleteSlot={deleteSlot} {...slot} />
+          <SlotCard key={slot.id} deleteSlot={deleteSlot} slot={slot} />
         ))}
     </Box>
   );
