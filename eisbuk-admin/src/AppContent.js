@@ -11,7 +11,7 @@ import PrivateRoute from "./components/auth/PrivateRoute";
 import Unauthorized from "./components/auth/Unauthorized";
 import LoginRoute from "./components/auth/LoginRoute";
 import DebugPage from "./components/debugPage";
-import DashboardPage from "./pages/DashboardPage";
+import AttendancePage from "./pages/AttendancePage";
 import CustomersPage from "./pages/CustomersPage";
 import SlotsPage from "./pages/SlotsPage";
 import LoginPage from "./pages/LoginPage";
@@ -56,7 +56,7 @@ function AppComponents() {
   return (
     <Switch>
       <LoginRoute path="/login" component={LoginPage} />
-      <PrivateRoute path="/" component={DashboardPage} exact />
+      <PrivateRoute path="/" component={AttendancePage} exact />
       <PrivateRoute path="/atleti" component={CustomersPage} exact />
       <PrivateRoute path="/prenotazioni" component={SlotsPage} exact />
       <Route path="/unauthorized" component={Unauthorized} exact />

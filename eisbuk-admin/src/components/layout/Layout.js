@@ -1,14 +1,14 @@
 import React from "react";
 import AppbarDrawer from "./AppbarDrawer";
 import { makeStyles } from "@material-ui/core/styles";
-import DashboardPage from "../pages/Dashboard";
+import AttendancePage from "../pages/AttendancePage";
 
 const Layout = ({ children }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <AppbarDrawer />
-      <DashboardPage />
+      <AttendancePage />
       {{ children }}
     </div>
   );
