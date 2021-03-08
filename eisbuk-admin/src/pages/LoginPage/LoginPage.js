@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignInSide = ({ signIn }) => {
+const SignInSide = () => {
   const classes = useStyles();
 
   const loginImageStyle = {
