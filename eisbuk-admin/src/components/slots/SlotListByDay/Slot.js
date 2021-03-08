@@ -34,7 +34,7 @@ export default ({
   const classes = useStyles();
   const date = FBToLuxon(data.date);
   subscribedSlots = subscribedSlots || {};
-  const doDelete = onDelete ? () => onDelete(data.id) : onDelete;
+  const doDelete = onDelete ? () => onDelete(data) : onDelete;
   const showSubscribe = Boolean(onUnsubscribe && onSubscribe);
   const isSubscribed = Boolean(subscribedSlots[data.id]);
   const subscribedDuration = isSubscribed && subscribedSlots[data.id].duration;

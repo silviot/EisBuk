@@ -48,14 +48,14 @@ const SlotsDay = ({
 
   const extendedOnDelete =
     onDelete && enableEdit
-      ? (id) => {
+      ? (slot) => {
           // In order to get a more responsive UI we remember here the IDs of slots
           // that should be deleted. Firestore already short-circuits updates sent
           // to the server before receiving a reply, but here we'll be relying on
           // secondary data i.e. to see the update we'd need to wait for a server
           // side trigger function to update the aggregated collection
-          setDeletedSlots({ ...deletedSlots, [id]: true });
-          onDelete(id);
+          setDeletedSlots({ ...deletedSlots, [slot.id]: true });
+          onDelete(slot);
         }
       : undefined;
 
