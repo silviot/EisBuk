@@ -72,6 +72,11 @@ const SignInSide = ({ signIn }) => {
         provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
         // The default selected country.
         defaultCountry: "IT",
+        recaptchaParameters: {
+          type: "image", // 'audio'
+          size: "invisible", // 'invisible' or 'compact'
+          badge: "bottomleft", //' bottomright' or 'inline' applies to invisible.
+        },
       },
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
