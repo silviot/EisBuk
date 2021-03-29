@@ -12,6 +12,7 @@ export const slotsLabelsLists = {
     { id: "corso", label: "Corso" },
     { id: "preagonismo", label: "Preagonismo" },
     { id: "agonismo", label: "Agonismo" },
+    { id: "adulti", label: "Adulti" },
   ],
   types: [
     { id: "ice", label: "Ice", color: "primary", icon: "AcUnit" },
@@ -35,3 +36,8 @@ export const slotsLabels = {};
 Object.keys(slotsLabelsLists).forEach((el) => {
   slotsLabels[el] = _.keyBy(slotsLabelsLists[el], "id");
 });
+
+if (Object.freeze) {
+  Object.freeze(slotsLabels);
+  Object.freeze(slotsLabelsLists);
+}
