@@ -1,4 +1,4 @@
-import functions from "firebase-functions";
+import * as functions from "firebase-functions";
 import { CallableContext } from "firebase-functions/lib/providers/https";
 import admin from "firebase-admin";
 import { DateTime } from "luxon";

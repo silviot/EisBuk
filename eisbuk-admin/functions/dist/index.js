@@ -29,5 +29,10 @@ const migrations = __importStar(require("./migrations"));
 const security = __importStar(require("./security"));
 const testData = __importStar(require("./testData"));
 const testSlots = __importStar(require("./testSlots"));
-exports.default = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, dataTriggers), migrations), security), testData), testSlots);
+const allFunctions = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, dataTriggers), migrations), security), testData), testSlots);
+for (const key in allFunctions) {
+    if (Object.prototype.hasOwnProperty.call(allFunctions, key)) {
+        exports[key] = allFunctions[key];
+    }
+}
 //# sourceMappingURL=index.js.map

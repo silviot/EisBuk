@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -13,7 +32,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fs2luxon = exports.checkUser = exports.roundTo2 = exports.roundTo = void 0;
-const firebase_functions_1 = __importDefault(require("firebase-functions"));
+const functions = __importStar(require("firebase-functions"));
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
 const luxon_1 = require("luxon");
 const roundTo = (val, modbase) => Math.floor(val / modbase) * modbase;
@@ -47,7 +66,7 @@ const hasAdmin = (admins, auth) => {
         : false;
 };
 const throwUnauth = () => {
-    throw new firebase_functions_1.default.https.HttpsError("permission-denied", "unauthorized", "The function must be called while authenticated with a user that is an admin of the given organization.");
+    throw new functions.https.HttpsError("permission-denied", "unauthorized", "The function must be called while authenticated with a user that is an admin of the given organization.");
 };
 const fs2luxon = (fsdate) => {
     return luxon_1.DateTime.fromMillis(fsdate.seconds * 1000);

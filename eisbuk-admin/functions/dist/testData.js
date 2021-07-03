@@ -32,7 +32,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createOrganization = exports.ping = exports.createTestData = void 0;
-const firebase_functions_1 = __importDefault(require("firebase-functions"));
+const functions = __importStar(require("firebase-functions"));
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
 const luxon_1 = require("luxon");
 const lodash_1 = __importDefault(require("lodash"));
@@ -42,20 +42,20 @@ const utils_1 = require("./utils");
 const FIRST_NAMES = __importStar(require("./assets/italian-names.json"));
 const LAST_NAMES = __importStar(require("./assets/italian-surnames.json"));
 const uuidv4 = uuid_1.v4;
-exports.createTestData = firebase_functions_1.default
+exports.createTestData = functions
     .region("europe-west6")
     .https.onCall(({ numUsers = 1, organization }, context) => __awaiter(void 0, void 0, void 0, function* () {
     yield utils_1.checkUser(organization, context.auth);
-    firebase_functions_1.default.logger.info(`Creating ${numUsers} test users`);
-    firebase_functions_1.default.logger.error(`Creating ${numUsers} test users`);
+    functions.logger.info(`Creating ${numUsers} test users`);
+    functions.logger.error(`Creating ${numUsers} test users`);
     yield createUsers(numUsers, organization);
     return { success: true };
 }));
-exports.ping = firebase_functions_1.default.region("europe-west6").https.onCall((data) => {
+exports.ping = functions.region("europe-west6").https.onCall((data) => {
     console.log("ping invoked");
     return { pong: true, data: Object.assign({}, data) };
 });
-exports.createOrganization = firebase_functions_1.default
+exports.createOrganization = functions
     .region("europe-west6")
     .https.onCall(({ organization }) => {
     const db = firebase_admin_1.default.firestore();
