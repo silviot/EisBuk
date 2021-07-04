@@ -17,10 +17,7 @@ type Auth = CallableContext["auth"];
  * @param modbase
  * @returns
  */
-export const roundTo = (val: number, modbase: number) =>
-  Math.floor(val / modbase) * modbase;
-
-export const roundTo2 = (val: number, modbase: number) =>
+export const roundTo = (val: number, modbase: number): number =>
   Math.floor(val / modbase) * modbase;
 
 /**
@@ -30,14 +27,17 @@ export const roundTo2 = (val: number, modbase: number) =>
  * @param organization
  * @param auth
  */
-export const checkUser = async (organization: string, auth: Auth) => {
+export const checkUser = async (
+  organization: string,
+  auth: Auth
+): Promise<void | never> => {
   if (auth && auth.token && (auth.token.email || auth.token.phone_number)) {
     const org = await admin
       .firestore()
       .collection("organizations")
       .doc(organization)
       .get();
-    if (!hasAdmin(org.data()?.admins, auth)) {
+    if (!isOrgAdmin(org.data()?.admins, auth)) {
       throwUnauth();
     }
   } else {
@@ -52,7 +52,7 @@ export const checkUser = async (organization: string, auth: Auth) => {
  * @param auth auth object of user we're checking out
  * @returns
  */
-const hasAdmin = (admins: string[] | undefined, auth: Auth) => {
+const isOrgAdmin = (admins: string[] | undefined, auth: Auth): boolean => {
   // fail early
   // if no admins are registered for the organization
   // or no auth is present
@@ -69,7 +69,7 @@ const hasAdmin = (admins: string[] | undefined, auth: Auth) => {
 /**
  * Throws unauthorized https error
  */
-const throwUnauth = () => {
+const throwUnauth = (): never => {
   throw new functions.https.HttpsError(
     "permission-denied",
     "unauthorized",
@@ -82,7 +82,7 @@ const throwUnauth = () => {
  * more than enough for our use case
  * @param fsdate date object in firebase form
  */
-export const fs2luxon = (fsdate: any) => {
-  /**@TODO check fs date interface */
+export const fs2luxon = (fsdate: any): DateTime => {
+  /** @TODO check fs date interface */
   return DateTime.fromMillis(fsdate.seconds * 1000);
 };

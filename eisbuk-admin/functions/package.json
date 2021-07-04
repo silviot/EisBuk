@@ -9,7 +9,7 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "build": "tsc"
+    "build": "npm run lint && tsc"
   },
   "engines": {
     "node": "14.x"
@@ -29,6 +29,7 @@
     "@types/luxon": "^1.27.0",
     "@types/uuid": "^8.3.0",
     "eslint": "^7.18.0",
+    "eslint-config-google": "^0.14.0",
     "eslint-plugin-promise": "^4.2.1",
     "firebase-functions-test": "^0.2.3",
     "mocha": "^8.2.1",

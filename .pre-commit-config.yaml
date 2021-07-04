@@ -11,6 +11,7 @@ repos:
     rev: v2.2.1
     hooks:
       - id: prettier
+        types: [javasccript, typescript]
 
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: v7.23.0
@@ -20,7 +21,6 @@ repos:
           - babel-eslint
           - eslint-config-react-app
           - eslint-loader
-          - eslint-plugin-flowtype
           - eslint-plugin-import
           - eslint-plugin-jsx-a11y
           - eslint-plugin-promise

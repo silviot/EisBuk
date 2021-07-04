@@ -19,7 +19,7 @@ const uuidv4 = v4;
 export const createTestData = functions
   .region("europe-west6")
   .https.onCall(async ({ numUsers = 1, organization }, context) => {
-    /**@TODO maybe create new organization if one doesn't exist */
+    /** @TODO maybe create new organization if one doesn't exist */
     await checkUser(organization, context.auth);
 
     functions.logger.info(`Creating ${numUsers} test users`);
@@ -59,7 +59,10 @@ export const createOrganization = functions
  * @param numUsers
  * @param organization
  */
-const createUsers = async (numUsers: number, organization: string) => {
+const createUsers = async (
+  numUsers: number,
+  organization: string
+): Promise<void> => {
   const db = admin.firestore();
   const org = db.collection("organizations").doc(organization);
 
@@ -88,4 +91,4 @@ const createUsers = async (numUsers: number, organization: string) => {
  * @param str string to convert to email
  * @returns email friendly string
  */
-const toEmail = (str: string) => _.deburr(str.replace(/ /i, "."));
+const toEmail = (str: string): string => _.deburr(str.replace(/ /i, "."));

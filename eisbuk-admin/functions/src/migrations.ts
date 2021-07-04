@@ -15,7 +15,7 @@ export const migrateSlotsToPluralCategories = functions
     const org = admin.firestore().collection("organizations").doc(organization);
     const existing = await org.collection("slots").get();
 
-    let operations: Promise<any>[] = [];
+    const operations: Promise<any>[] = [];
 
     existing.forEach((el) => {
       const slotData = el.data();

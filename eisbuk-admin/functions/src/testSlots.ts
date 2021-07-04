@@ -16,7 +16,7 @@ const TYPES = Object.values(Types);
  * @param organization
  * @returns
  */
-const fillDay = async (day: number, organization: string) => {
+const fillDay = async (day: number, organization: string): Promise<void> => {
   const start = new admin.firestore.Timestamp(day, 0);
   const end = new admin.firestore.Timestamp(day + 86400, 0);
   const org = admin.firestore().collection("organizations").doc(organization);
@@ -28,7 +28,7 @@ const fillDay = async (day: number, organization: string) => {
     .get();
 
   // delete existing data
-  let toDelete: Promise<FirebaseFirestore.WriteResult>[] = [];
+  const toDelete: Promise<FirebaseFirestore.WriteResult>[] = [];
 
   existing.forEach((el) => {
     toDelete.push(el.ref.delete());
@@ -87,7 +87,7 @@ export const createTestSlots = functions
     console.log("Creating test slots...");
 
     const today = roundTo(admin.firestore.Timestamp.now().seconds, 86400);
-    let daysToFill: Promise<void>[] = [];
+    const daysToFill: Promise<void>[] = [];
 
     for (let i = -14; i < 15; i++) {
       const day = today + i * 86400;

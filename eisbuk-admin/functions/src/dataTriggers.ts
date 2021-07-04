@@ -18,7 +18,6 @@ export const addMissingSecretKey = functions
   .firestore.document("organizations/{organization}/customers/{customerId}")
   .onWrite(async (change, context) => {
     const db = admin.firestore();
-    const before = change.before.data();
 
     if (change.after.exists) {
       const after = change.after.data()!;
@@ -26,8 +25,8 @@ export const addMissingSecretKey = functions
 
       // Create a record in /bookings with this secret key as id
       // and the customer name
-      /**@Ivan : I'm not sure spreading false would work, should see the document interface and maybe add a mapping function */
       const bookingsRoot = {
+        // eslint-disable-next-line @typescript-eslint/camelcase
         customer_id: context.params.customerId,
         ...(after.name && { name: after.name }),
         ...(after.surname && { surname: after.surname }),
@@ -43,14 +42,8 @@ export const addMissingSecretKey = functions
 
       return after.secret_key
         ? null
-        : change.after.ref.update({ secret_key: secretKey });
-    } else if (before && !change.before) {
-      /**
-       * @Ivan : This doesn't make much sense to me. At face value it seems like a contradiction.
-       * It is also obsolete, as the return value up to this point is the same (change.after) regardless of condition
-       */
-      // The key was removed. This should not happend
-      return change.after;
+        : // eslint-disable-next-line @typescript-eslint/camelcase
+          change.after.ref.update({ secret_key: secretKey });
     }
     return change.after;
   });
@@ -68,14 +61,15 @@ export const aggregateSlots = functions
   .onWrite(async (change, context) => {
     const db = admin.firestore();
 
-    let luxonDay: DateTime, newSlot: FirebaseFirestore.DocumentData;
+    let luxonDay: DateTime;
+    let newSlot: FirebaseFirestore.DocumentData;
     // Ids in firestore can never be mutated: either one will do
     const { id } = change.before || change.after;
 
     if (change.after.exists) {
       newSlot = change.after.data()!;
       newSlot.id =
-        change.after.id; /**@Ivan : This seems somewhat unnecessary */
+        change.after.id; /** @Ivan : This seems somewhat unnecessary */
       luxonDay = DateTime.fromJSDate(new Date(newSlot.date.seconds * 1000));
     } else {
       luxonDay = DateTime.fromJSDate(
@@ -90,9 +84,8 @@ export const aggregateSlots = functions
     await db
       .collection("organizations")
       .doc(context.params.organization)
-      .collection(
-        "slotsByDay"
-      ) /**@Ivan : Yeah, maybe name these slotsByMonth to avoid confusion */
+      .collection("slotsByDay")
+      /** @Ivan : Yeah, maybe name these slotsByMonth to avoid confusion */
       .doc(monthStr)
       .set({ [dayStr]: { [id]: newSlot } }, { merge: true });
 
