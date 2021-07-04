@@ -46,6 +46,10 @@ const SlotsDay = ({
   const luxonDay = luxon.parse(day, "yyyy-LL-dd");
   const dateStr = luxonDay.toFormat("EEEE d MMMM", { locale: "it-IT" });
 
+  const copiedWeek = useSelector((state) => state.copyPaste.week) || {};
+  const copiedWeekSlots = copiedWeek.slots
+    ? copiedWeek.slots.map((slot) => slot.id)
+    : [];
   const extendedOnDelete =
     onDelete && enableEdit
       ? (slot) => {
@@ -114,6 +118,11 @@ const SlotsDay = ({
             {slotsList.map((slot) => (
               <Grid
                 key={slot.id}
+                className={
+                  copiedWeekSlots.includes(slot.id) && enableEdit
+                    ? classes.selected
+                    : classes.unselected
+                }
                 item
                 xs={12}
                 md={6}
@@ -180,5 +189,11 @@ const useStyles = makeStyles((theme) => ({
   },
   dateButtons: {
     "flex-grow": 0,
+  },
+  selected: {
+    backgroundColor: theme.palette.warning.main,
+  },
+  unselected: {
+    backgroundColor: theme.palette.grey[100],
   },
 }));
