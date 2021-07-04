@@ -20,9 +20,9 @@ jobs:
             $HOME/.cache/firebase/emulators
           key: ${{ runner.os }}-modules-v12-${{ hashFiles('**/yarn.lock') }}
       - name: Install modules
-        run: cd eisbuk-admin && yarn
+        run: yarn --cwd eisbuk-admin
       - name: Build app
-        run: cd eisbuk-admin && yarn build
+        run: yarn --cwd eisbuk-admin build
 
   test_v12:
     runs-on: ubuntu-latest
@@ -40,9 +40,9 @@ jobs:
             $HOME/.cache/firebase/emulators
           key: ${{ runner.os }}-modules-emulators-v12-${{ hashFiles('**/yarn.lock') }}
       - name: Install modules
-        run: cd eisbuk-admin && yarn
+        run: yarn --cwd eisbuk-admin && npm --prefix eisbuk-admin/functions install
       - name: Run tests
-        run: cd eisbuk-admin && yarn test:ci
+        run: yarn --cwd eisbuk-admin test:ci
 
   pre-commit:
     runs-on: ubuntu-latest
