@@ -1,14 +1,18 @@
-import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/functions";
+
+import firebase from "firebase";
 import { createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
-import rootReducer from "./reducers/rootReducer";
 import { getFirebase } from "react-redux-firebase";
 import { createFirestoreInstance } from "redux-firestore";
-import { isDev } from "../config/envInfo";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
+
+import rootReducer from "./reducers/rootReducer";
+
+import { isDev } from "@/config/envInfo";
+
 let fbConfig;
 
 if (isDev) {
@@ -55,7 +59,7 @@ if (isDev) {
   firebase.auth().useEmulator("http://localhost:9099/");
   functions.useEmulator("localhost", 5001);
   console.warn("Using emulator for functions and authentication");
-  window.firebase = firebase;
+  window.firebase = firebase as any; /** @TEMP any */
 } else {
   db.enablePersistence().catch((err) => {
     if (err.code === "failed-precondition") {
@@ -68,6 +72,13 @@ if (isDev) {
       );
     }
   });
+}
+
+/** @TEMP below */
+declare global {
+  interface Window {
+    __INITIAL_STATE__: any;
+  }
 }
 
 // Create Redux Store with Reducers and Initial state

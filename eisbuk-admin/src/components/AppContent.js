@@ -7,20 +7,20 @@ import {
   useFirestore,
 } from "react-redux-firebase";
 import { Route, Switch } from "react-router-dom";
-import PrivateRoute from "./components/auth/PrivateRoute";
-import Unauthorized from "./components/auth/Unauthorized";
-import LoginRoute from "./components/auth/LoginRoute";
-import DebugPage from "./components/debugPage";
-import DashboardPage from "./pages/DashboardPage";
-import CustomersPage from "./pages/CustomersPage";
-import SlotsPage from "./pages/SlotsPage";
-import LoginPage from "./pages/LoginPage";
-import CustomerAreaPage from "./pages/CustomerAreaPage";
-import { wrapOrganization } from "./utils/firestore";
-import { getMonthStr } from "./utils/helpers";
-import { ORGANIZATION } from "./config/envInfo";
-import { calendarDaySelector } from "./store/selectors";
-import { queryUserAdminStatus } from "./store/actions/actions";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import Unauthorized from "@/components/auth/Unauthorized";
+import LoginRoute from "@/components/auth/LoginRoute";
+import DebugPage from "@/components/debugPage";
+import DashboardPage from "@/pages/DashboardPage";
+import CustomersPage from "@/pages/CustomersPage";
+import SlotsPage from "@/pages/SlotsPage";
+import LoginPage from "@/pages/LoginPage";
+import CustomerAreaPage from "@/pages/CustomerAreaPage";
+import { wrapOrganization } from "@/utils/firestore";
+import { getMonthStr } from "@/utils/helpers";
+import { ORGANIZATION } from "@/config/envInfo";
+import { calendarDaySelector } from "@/store/selectors";
+import { queryUserAdminStatus } from "@/store/actions/actions";
 
 function AppContentAuthenticated() {
   const currentDate = useSelector(calendarDaySelector);

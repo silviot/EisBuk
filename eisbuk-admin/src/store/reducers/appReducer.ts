@@ -1,11 +1,11 @@
 import {
-  ENQUEUE_SNACKBAR,
   CLOSE_SNACKBAR,
   REMOVE_SNACKBAR,
   CHANGE_DAY,
   SET_SLOT_TIME,
 } from "../actions/action-types";
 import { DateTime } from "luxon";
+import { Action } from "@/enums/Redux";
 
 const defaultState = {
   notifications: [],
@@ -13,9 +13,29 @@ const defaultState = {
   newSlotTime: null,
 };
 
-export const appReducer = (state = defaultState, action) => {
+type Notification = any;
+
+export interface AppState {
+  calendarDay: DateTime;
+  newSlotTime: null;
+  notifications: Notification[];
+}
+
+export interface AppActionInterface {
+  type: Action;
+  notification: Notification;
+  key: string;
+  /** @TEMP below */
+  dismissAll: any;
+  payload: any;
+}
+
+export const appReducer = (
+  state: AppState = defaultState,
+  action: AppActionInterface
+) => {
   switch (action.type) {
-    case ENQUEUE_SNACKBAR:
+    case Action.EnqueueSnackbar:
       return {
         ...state,
         notifications: [

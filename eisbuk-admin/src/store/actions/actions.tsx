@@ -1,24 +1,32 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import { functionsZone } from "../../config/envInfo";
+import { Button } from "@material-ui/core";
+import firebase from "firebase";
+
+import { Action, NotifVariant } from "@/enums/Redux";
 
 import {
-  ENQUEUE_SNACKBAR,
-  CLOSE_SNACKBAR,
-  REMOVE_SNACKBAR,
-  IS_ADMIN_RECEIVED,
-  CHANGE_DAY,
-  COPY_SLOT_DAY,
-  COPY_SLOT_WEEK,
-  SET_SLOT_TIME,
-} from "./action-types";
-import { ORGANIZATION } from "../../config/envInfo";
+  Customer,
+  Dispatch,
+  GetState,
+  Notification,
+  Slot,
+  User,
+} from "@/types/store";
 
-export const enqueueSnackbar = (notification) => {
-  const key = notification.options && notification.options.key;
+import { functionsZone, ORGANIZATION } from "@/config/envInfo";
+
+/** @TEMP */
+interface GetFirebase {
+  getFirebase: () => typeof firebase;
+}
+
+export const enqueueSnackbar = (notification: Notification) => {
+  const key =
+    notification.options &&
+    notification.options.key; /** @TODO see if this is a mistake */
 
   return {
-    type: ENQUEUE_SNACKBAR,
+    type: Action.EnqueueSnackbar,
     notification: {
       ...notification,
       key: key || new Date().getTime() + Math.random(),
@@ -26,19 +34,23 @@ export const enqueueSnackbar = (notification) => {
   };
 };
 
-export const closeSnackbar = (key) => ({
-  type: CLOSE_SNACKBAR,
+export const closeSnackbar = (key: number) => ({
+  type: Action.CloseSnackbar,
   dismissAll: !key, // dismiss all if no key has been defined
   key,
 });
 
-export const removeSnackbar = (key) => ({
-  type: REMOVE_SNACKBAR,
+export const removeSnackbar = (key: number) => ({
+  type: Action.RemoveSnackbar,
   key,
 });
 
 export const signOut = () => {
-  return (dispatch, getState, { getFirebase }) => {
+  return (
+    dispatch: Dispatch,
+    getState: GetState,
+    { getFirebase }: GetFirebase
+  ) => {
     const firebase = getFirebase();
     firebase
       .auth()
@@ -49,18 +61,18 @@ export const signOut = () => {
             key: new Date().getTime() + Math.random(),
             message: "Hai effettuato il logout",
             options: {
-              variant: "success",
+              variant: NotifVariant.Success,
             },
           })
         );
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         dispatch(
           enqueueSnackbar({
             key: new Date().getTime() + Math.random(),
             message: "Si è verificato un errore",
             options: {
-              variant: "error",
+              variant: NotifVariant.Error,
             },
           })
         );
@@ -69,7 +81,11 @@ export const signOut = () => {
 };
 
 export const queryUserAdminStatus = () => {
-  return async (dispatch, getState, { getFirebase }) => {
+  return async (
+    dispatch: Dispatch,
+    getState: GetState,
+    { getFirebase }: GetFirebase
+  ) => {
     const firebase = getFirebase();
     const resp = await firebase
       .app()
@@ -80,25 +96,29 @@ export const queryUserAdminStatus = () => {
     const auth = getState().firebase.auth;
     if (auth.uid) {
       dispatch({
-        type: IS_ADMIN_RECEIVED,
+        type: Action.IsAdminReceived,
         payload: { uid: auth.uid, amIAdmin: resp.data.amIAdmin },
       });
     }
   };
 };
 
-export const changeCalendarDate = (date) => ({
-  type: CHANGE_DAY,
+export const changeCalendarDate = (date: unknown) => ({
+  type: Action.ChangeDay,
   payload: date,
 });
 
-export const setNewSlotTime = (time) => ({
-  type: SET_SLOT_TIME,
+export const setNewSlotTime = (time: unknown) => ({
+  type: Action.SetSlotTime,
   payload: time,
 });
 
-export const createSlots = (slots) => {
-  return (dispatch, getState, { getFirebase }) => {
+export const createSlots = (slots: Slot[]) => {
+  return (
+    dispatch: Dispatch,
+    getState: GetState,
+    { getFirebase }: GetFirebase
+  ) => {
     const db = getFirebase().firestore();
     const batch = db.batch();
     let newSlotTime = slots[slots.length - 1];
@@ -120,7 +140,7 @@ export const createSlots = (slots) => {
             key: new Date().getTime() + Math.random(),
             message: "Slot Aggiunto",
             options: {
-              variant: "success",
+              variant: NotifVariant.Success,
               action: (key) => (
                 <Button
                   variant="outlined"
@@ -138,8 +158,12 @@ export const createSlots = (slots) => {
   };
 };
 
-export const editSlot = (slot) => {
-  return (dispatch, getState, { getFirebase }) => {
+export const editSlot = (slot: Slot) => {
+  return (
+    dispatch: Dispatch,
+    getState: GetState,
+    { getFirebase }: GetFirebase
+  ) => {
     const db = getFirebase().firestore();
     db.collection("organizations")
       .doc(ORGANIZATION)
@@ -157,7 +181,7 @@ export const editSlot = (slot) => {
             key: new Date().getTime() + Math.random(),
             message: "Slot Aggiornato",
             options: {
-              variant: "success",
+              variant: NotifVariant.Success,
               action: (key) => (
                 <Button
                   variant="outlined"
@@ -174,8 +198,12 @@ export const editSlot = (slot) => {
   };
 };
 
-export const subscribeToSlot = (bookingId, slot) => {
-  return (dispatch, getState, { getFirebase }) => {
+export const subscribeToSlot = (bookingId: string, slot: Slot) => {
+  return (
+    dispatch: Dispatch,
+    getState: GetState,
+    { getFirebase }: GetFirebase
+  ) => {
     const firebase = getFirebase();
     firebase
       .firestore()
@@ -192,7 +220,7 @@ export const subscribeToSlot = (bookingId, slot) => {
             key: new Date().getTime() + Math.random(),
             message: "Prenotazione effettuata",
             options: {
-              variant: "success",
+              variant: NotifVariant.Success,
               action: (key) => (
                 <Button
                   variant="outlined"
@@ -209,8 +237,13 @@ export const subscribeToSlot = (bookingId, slot) => {
   };
 };
 
-export const unsubscribeFromSlot = (bookingId, slot) => {
-  return (dispatch, getState, { getFirebase }) => {
+export const unsubscribeFromSlot = (bookingId: string, slot: Slot) => {
+  /** @TEMP */
+  return (
+    dispatch: Dispatch,
+    getState: GetState,
+    { getFirebase }: GetFirebase
+  ) => {
     const firebase = getFirebase();
     firebase
       .firestore()
@@ -226,7 +259,7 @@ export const unsubscribeFromSlot = (bookingId, slot) => {
           enqueueSnackbar({
             message: "Prenotazione rimossa",
             options: {
-              variant: "success",
+              variant: NotifVariant.Success,
               action: (key) => (
                 <Button
                   variant="outlined"
@@ -239,13 +272,13 @@ export const unsubscribeFromSlot = (bookingId, slot) => {
           })
         );
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         dispatch(
           enqueueSnackbar({
             key: new Date().getTime() + Math.random(),
             message: "Errore nel rimuovere la prenotazione",
             options: {
-              variant: "error",
+              variant: NotifVariant.Error,
               action: (key) => (
                 <Button
                   variant="outlined"
@@ -261,8 +294,12 @@ export const unsubscribeFromSlot = (bookingId, slot) => {
   };
 };
 
-export const deleteSlots = (slots) => {
-  return async (dispatch, getState, { getFirebase }) => {
+export const deleteSlots = (slots: Slot[]) => {
+  return async (
+    dispatch: Dispatch,
+    getState: GetState,
+    { getFirebase }: GetFirebase
+  ) => {
     const db = getFirebase().firestore();
     const writeBatch = db.batch();
 
@@ -280,7 +317,7 @@ export const deleteSlots = (slots) => {
         key: new Date().getTime() + Math.random(),
         message: "Slot Eliminato",
         options: {
-          variant: "success",
+          variant: NotifVariant.Success,
           action: (key) => (
             <Button
               variant="outlined"
@@ -295,8 +332,18 @@ export const deleteSlots = (slots) => {
   };
 };
 
-export const markAbsentee = ({ slot, user, isAbsent }) => {
-  return (dispatch, getState, { getFirebase }) => {
+interface MarkAbsenteePayload {
+  slot: Slot;
+  user: User;
+  isAbsent: boolean;
+}
+
+export const markAbsentee = ({ slot, user, isAbsent }: MarkAbsenteePayload) => {
+  return (
+    dispatch: Dispatch,
+    getState: GetState,
+    { getFirebase }: GetFirebase
+  ) => {
     const db = getFirebase().firestore();
     db.collection("organizations")
       .doc(ORGANIZATION)
@@ -306,8 +353,12 @@ export const markAbsentee = ({ slot, user, isAbsent }) => {
   };
 };
 
-export const deleteCustomer = (customer) => {
-  return (dispatch, getState, { getFirebase }) => {
+export const deleteCustomer = (customer: Customer) => {
+  return (
+    dispatch: Dispatch,
+    getState: GetState,
+    { getFirebase }: GetFirebase
+  ) => {
     const firebase = getFirebase();
     firebase
       .firestore()
@@ -322,7 +373,7 @@ export const deleteCustomer = (customer) => {
             key: new Date().getTime() + Math.random(),
             message: `${customer.name} ${customer.surname} rimosso`,
             options: {
-              variant: "success",
+              variant: NotifVariant.Success,
               action: (key) => (
                 <Button
                   variant="outlined"
@@ -339,21 +390,25 @@ export const deleteCustomer = (customer) => {
   };
 };
 
-const showErrSnackbar = (dispatch) => (err) => {
+const showErrSnackbar = (dispatch: Dispatch) => (err: Error) => {
   dispatch(
     enqueueSnackbar({
       message: "Errore",
       options: {
-        variant: "error",
+        variant: NotifVariant.Error,
       },
     })
   );
 };
 
-export const updateCustomer = (customer) => {
-  return (dispatch, getState, { getFirebase }) => {
-    const updatedData = Object.assign({}, customer);
-    delete updatedData.id;
+export const updateCustomer = (customer: Customer) => {
+  return (
+    dispatch: Dispatch,
+    getState: GetState,
+    { getFirebase }: GetFirebase
+  ) => {
+    const { id, ...updatedData } = { ...customer };
+
     const firebase = getFirebase();
     firebase
       .firestore()
@@ -384,12 +439,12 @@ export const updateCustomer = (customer) => {
   };
 };
 
-export const copySlotDay = (slotDay) => ({
-  type: COPY_SLOT_DAY,
+export const copySlotDay = (slotDay: unknown) => ({
+  type: Action.CopySlotDay,
   payload: slotDay,
 });
 
-export const copySlotWeek = (slotWeek) => ({
-  type: COPY_SLOT_WEEK,
+export const copySlotWeek = (slotWeek: unknown) => ({
+  type: Action.CopySlotWeek,
   payload: slotWeek,
 });

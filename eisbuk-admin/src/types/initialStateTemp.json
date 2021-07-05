@@ -1,0 +1,59 @@
+{
+  "firebase": {
+    "requesting": {},
+    "requested": {},
+    "timestamps": {},
+    "data": {},
+    "ordered": {},
+    "auth": {
+      "isLoaded": true,
+      "isEmpty": true
+    },
+    "authError": null,
+    "profile": {
+      "isLoaded": true,
+      "isEmpty": true
+    },
+    "listeners": {
+      "byId": {},
+      "allIds": []
+    },
+    "isInitializing": false,
+    "errors": []
+  },
+
+  "firestore": {
+    "status": {
+      "requesting": {},
+      "requested": {},
+      "timestamps": {}
+    },
+    "data": {},
+    "ordered": {},
+    "listeners": {
+      "byId": {},
+      "allIds": []
+    },
+    "errors": {
+      "byQuery": {},
+      "allIds": []
+    },
+    "queries": {}
+  },
+
+  "app": {
+    "notifications": [],
+    "calendarDay": "2021-07-05T14:06:26.542+02:00",
+    "newSlotTime": null
+  },
+
+  "copyPaste": {
+    "day": null,
+    "week": null
+  },
+
+  "authInfoEisbuk": {
+    "amIAdmin": false,
+    "myUserId": null
+  }
+}

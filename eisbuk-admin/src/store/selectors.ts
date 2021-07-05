@@ -1,12 +1,16 @@
+import _ from "lodash";
 import { createSelector } from "reselect";
-import { fs2luxon } from "../utils/helpers";
-import * as _ from "lodash";
 
-export const calendarDaySelector = (state) => state.app.calendarDay;
-export const extractSlotDate = (slot) => slot.date.seconds;
-export const extractSlotId = (slot) => slot.id;
+import { LocalStore } from "@/types/store";
 
-function getSafe(fn, defaultVal) {
+import { fs2luxon } from "@/utils/helpers";
+
+export const calendarDaySelector = (state: LocalStore & any) =>
+  state.app.calendarDay;
+export const extractSlotDate = (slot: any) => slot.date.seconds;
+export const extractSlotId = (slot: any) => slot.id;
+
+function getSafe(fn: any, defaultVal?: any) {
   // Try to execute the passed function. If it fails or it returns undefined or null,
   // return the default value
   const def = defaultVal || {};
@@ -17,16 +21,16 @@ function getSafe(fn, defaultVal) {
   }
 }
 
-export const makeSlotsInfoDaySelector = (dayStr) => (state) => {
+export const makeSlotsInfoDaySelector = (dayStr: any) => (state: any) => {
   const monthStr = dayStr.substr(0, 7);
   return getSafe(() => state.firestore.data.slotsByDay[monthStr][dayStr]);
 };
-export const makeBookingsInfoSelector = (dayStr) => (state) =>
+export const makeBookingsInfoSelector = (dayStr: any) => (state: any) =>
   getSafe(() => state.firestore.data.bookingsByDay[dayStr.substr(0, 7)]);
 
-const allUsersSelector = (state) => state.firestore.data.customers;
+const allUsersSelector = (state: any) => state.firestore.data.customers;
 
-export const bookingDayInfoSelector = (dayStr) =>
+export const bookingDayInfoSelector = (dayStr: any) =>
   createSelector(
     makeSlotsInfoDaySelector(dayStr),
     makeBookingsInfoSelector(dayStr),
@@ -61,6 +65,7 @@ export const bookingDayInfoSelector = (dayStr) =>
           id: slot.id,
           users: users,
           durations: slot.durations,
+          absentees: undefined /** @TEMP */,
         };
         if (slot.absentees) {
           res.absentees = slot.absentees;
