@@ -11,7 +11,6 @@ const uuidv4 = v4;
  * Adds the secret_key to a user if it's missing.
  * Updates a copy of a subset of user data in user's bookings doc, accessible by
  * anonymous users who have access to `secret_key`.
- * @Ivan : I don't understand this fully, I'm guessing it's like a migration/event listener
  */
 export const addMissingSecretKey = functions
   .region("europe-west6")
@@ -19,15 +18,21 @@ export const addMissingSecretKey = functions
   .onWrite(async (change, context) => {
     const db = admin.firestore();
 
-    if (change.after.exists) {
-      const after = change.after.data()!;
-      const secretKey = after?.secret_key || uuidv4();
+    const { organization, customerId } = context.params as Record<
+      string,
+      string
+    >;
+
+    const after = change.after.data()!;
+
+    if (after) {
+      const secretKey: string = after.secret_key || uuidv4();
 
       // Create a record in /bookings with this secret key as id
       // and the customer name
       const bookingsRoot = {
         // eslint-disable-next-line @typescript-eslint/camelcase
-        customer_id: context.params.customerId,
+        customer_id: customerId,
         ...(after.name && { name: after.name }),
         ...(after.surname && { surname: after.surname }),
         ...(after.category && { category: after.category }),
@@ -35,7 +40,7 @@ export const addMissingSecretKey = functions
 
       await db
         .collection("organizations")
-        .doc(context.params.organization)
+        .doc(organization)
         .collection("bookings")
         .doc(secretKey)
         .set(bookingsRoot);
@@ -53,7 +58,6 @@ export const addMissingSecretKey = functions
  * This allows to update small documents while still being able to get data for
  * a whole month in a single read.
  * The cost is one extra write per each update to the slots.
- * @Ivan : At first look, it seems to me that this could easily be solved with GraphQL (without any extra writes)
  */
 export const aggregateSlots = functions
   .region("europe-west6")
@@ -61,15 +65,18 @@ export const aggregateSlots = functions
   .onWrite(async (change, context) => {
     const db = admin.firestore();
 
+    const { organization, slotId: id } = context.params as Record<
+      string,
+      string
+    >;
+
     let luxonDay: DateTime;
     let newSlot: FirebaseFirestore.DocumentData;
-    // Ids in firestore can never be mutated: either one will do
-    const { id } = change.before || change.after;
 
-    if (change.after.exists) {
-      newSlot = change.after.data()!;
-      newSlot.id =
-        change.after.id; /** @Ivan : This seems somewhat unnecessary */
+    const afterData = change.after.data();
+
+    if (afterData) {
+      newSlot = { ...afterData, id };
       luxonDay = DateTime.fromJSDate(new Date(newSlot.date.seconds * 1000));
     } else {
       luxonDay = DateTime.fromJSDate(
@@ -83,9 +90,9 @@ export const aggregateSlots = functions
 
     await db
       .collection("organizations")
-      .doc(context.params.organization)
+      .doc(organization)
       .collection("slotsByDay")
-      /** @Ivan : Yeah, maybe name these slotsByMonth to avoid confusion */
+      /** @TODO : Maybe name these slotsByMonth to avoid confusion */
       .doc(monthStr)
       .set({ [dayStr]: { [id]: newSlot } }, { merge: true });
 
@@ -97,7 +104,6 @@ export const aggregateSlots = functions
  * This allows to update small documents while still being able to get data for
  * a whole month in a single read.
  * The cost is one extra write per each update to the slots.
- * @Ivan : At first look, it seems to me that this could easily be solved with GraphQL (without any extra writes)
  */
 export const aggregateBookings = functions
   .region("europe-west6")
@@ -106,12 +112,18 @@ export const aggregateBookings = functions
   )
   .onWrite(async (change, context) => {
     const db = admin.firestore();
+
+    const { organization, secretKey } = context.params as Record<
+      string,
+      string
+    >;
+
     const userData = (
       await db
         .collection("organizations")
-        .doc(context.params.organization)
+        .doc(organization)
         .collection("bookings")
-        .doc(context.params.secretKey)
+        .doc(secretKey)
         .get()
     ).data();
 
@@ -135,7 +147,7 @@ export const aggregateBookings = functions
 
     return db
       .collection("organizations")
-      .doc(context.params.organization)
+      .doc(organization)
       .collection("bookingsByDay")
       .doc(monthStr)
       .set({ [bookingData.id]: { [customerId]: fieldValue } }, { merge: true });

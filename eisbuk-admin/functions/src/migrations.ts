@@ -9,7 +9,7 @@ import { checkUser } from "./utils";
  */
 export const migrateSlotsToPluralCategories = functions
   .region("europe-west6")
-  .https.onCall(async ({ organization }, context) => {
+  .https.onCall(async ({ organization }: { organization: string }, context) => {
     await checkUser(organization, context.auth);
 
     const org = admin.firestore().collection("organizations").doc(organization);
@@ -19,19 +19,20 @@ export const migrateSlotsToPluralCategories = functions
 
     existing.forEach((el) => {
       const slotData = el.data();
+      const { category } = slotData as { category: string };
 
-      if (slotData.category) {
+      if (category) {
         const newData = {
           // Remove the old `category` field and add the new `categories` one
           ..._.omit(slotData, "category"),
-          categories: [slotData.category],
+          categories: [category],
         };
         operations.push(org.collection("slots").doc(el.id).set(newData));
       }
     });
 
-    console.log(`Updating ${operations.length} records`);
+    functions.logger.info(`Updating ${operations.length} records`);
 
     await Promise.all(operations);
-    console.log(`Finished: ${operations.length} records updated`);
+    functions.logger.info(`Finished: ${operations.length} records updated`);
   });

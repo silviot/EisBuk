@@ -13,12 +13,17 @@ import * as LAST_NAMES from "./assets/italian-surnames.json";
 
 const uuidv4 = v4;
 
+interface Payload {
+  numUsers: number;
+  organization: string;
+}
+
 /**
  * Creates users for provided organization
  */
 export const createTestData = functions
   .region("europe-west6")
-  .https.onCall(async ({ numUsers = 1, organization }, context) => {
+  .https.onCall(async ({ numUsers = 1, organization }: Payload, context) => {
     /** @TODO maybe create new organization if one doesn't exist */
     await checkUser(organization, context.auth);
 
@@ -34,7 +39,7 @@ export const createTestData = functions
  * Ping endpoint function
  */
 export const ping = functions.region("europe-west6").https.onCall((data) => {
-  console.log("ping invoked");
+  functions.logger.info("ping invoked");
   return { pong: true, data: { ...data } };
 });
 
@@ -43,7 +48,7 @@ export const ping = functions.region("europe-west6").https.onCall((data) => {
  */
 export const createOrganization = functions
   .region("europe-west6")
-  .https.onCall(({ organization }) => {
+  .https.onCall(({ organization }: Pick<Payload, "organization">) => {
     const db = admin.firestore();
 
     return db

@@ -55,8 +55,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "chromatic": "npx chromatic --project-token dcmb4kmorxe",
-    "hello": "echo \"hello from top level\""
+    "chromatic": "npx chromatic --project-token dcmb4kmorxe"
   },
   "eslintConfig": {
     "extends": "react-app",

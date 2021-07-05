@@ -81,10 +81,10 @@ const fillDay = async (day: number, organization: string): Promise<void> => {
  */
 export const createTestSlots = functions
   .region("europe-west6")
-  .https.onCall(async ({ organization }, context) => {
+  .https.onCall(async ({ organization }: { organization: string }, context) => {
     await checkUser(organization, context.auth);
 
-    console.log("Creating test slots...");
+    functions.logger.info("Creating test slots...");
 
     const today = roundTo(admin.firestore.Timestamp.now().seconds, 86400);
     const daysToFill: Promise<void>[] = [];
