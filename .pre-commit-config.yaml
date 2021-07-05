@@ -11,6 +11,7 @@ repos:
     rev: v2.2.1
     hooks:
       - id: prettier
+        types_or: [javascript, ts, tsx]
 
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: v7.23.0
