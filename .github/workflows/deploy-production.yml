@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: yarn --cwd eisbuk-admin
       - name: Install functions dependencies
-        run: yarn --cwd eisbuk-admin/functions
+        run: npm --prefix eisbuk-admin/functions install
       - name: Build app
         run: yarn --cwd eisbuk-admin build
       - name: Deploy to firebase
