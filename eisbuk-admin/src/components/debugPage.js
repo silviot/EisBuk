@@ -58,22 +58,13 @@ const DebugPage = () => {
       </Box>
       <Box my={4} color="secondary.main">
         <Button
-          onClick={invokeFunction("testFunction")}
-          color="primary"
-          variant="contained"
-        >
-          Test TS
-        </Button>
-      </Box>
-      {/* <Box my={4} color="secondary.main">
-        <Button
           onClick={invokeFunction("migrateSlotsToPluralCategories")}
           color="primary"
           variant="contained"
         >
           Migrate slots to plural categories
         </Button>
-      </Box> */}
+      </Box>
     </Container>
   );
 };

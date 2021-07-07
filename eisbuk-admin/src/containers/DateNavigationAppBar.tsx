@@ -1,4 +1,5 @@
 import React from "react";
+import { DateTime, DurationObjectUnits } from "luxon";
 import { Toolbar, AppBar, IconButton, Typography } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
@@ -6,12 +7,12 @@ import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
 } from "@material-ui/icons";
-import { changeCalendarDate } from "../store/actions/actions";
-import { calendarDaySelector } from "../store/selectors";
+import { changeCalendarDate } from "@/store/actions/actions";
+import { calendarDaySelector } from "@/store/selectors";
 
 const JUMPS = {
   week: {
-    display: (currentDate) =>
+    display: (currentDate: DateTime) =>
       currentDate.toFormat("d MMMM", { locale: "it-IT" }) +
       " — " +
       currentDate.plus({ days: 6 }).toFormat("d MMMM", { locale: "it-IT" }),
@@ -20,7 +21,7 @@ const JUMPS = {
     },
   },
   day: {
-    display: (currentDate) =>
+    display: (currentDate: DateTime) =>
       currentDate.toFormat("EEEE d MMMM", { locale: "it-IT" }),
     delta: {
       days: 1,
@@ -28,18 +29,29 @@ const JUMPS = {
   },
 };
 
-const multiply = (factor, delta) => {
-  return Object.keys(delta).reduce(function (obj, key) {
-    obj[key] = delta[key] * factor;
-    return obj;
+/**
+ * Returns a new copy (pure) of the passed object with each value multiplied by the passed factor
+ * @param factor multiplication factor
+ * @param delta object to multiply
+ * @returns
+ */
+const multiply = (factor: number, delta: Record<string, number>) =>
+  Object.keys(delta).reduce((acc, key) => {
+    acc[key] = delta[key] * factor;
+    return acc;
   }, {});
-};
 
-const DateNavigationAppBar = ({ extraButtons, jump = "week" }) => {
+const DateNavigationAppBar = ({
+  extraButtons,
+  jump = "week",
+}: {
+  extraButtons: JSX.Element;
+  jump: keyof DurationObjectUnits;
+}) => {
   const classes = useStyles();
   const currentDate = useSelector(calendarDaySelector).startOf(jump);
   const dispatch = useDispatch();
-  const adjustCalendarDate = (factor) => {
+  const adjustCalendarDate = (factor: number) => {
     dispatch(
       changeCalendarDate(currentDate.plus(multiply(factor, JUMPS[jump].delta)))
     );
@@ -93,7 +105,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   "& .MuiAppBar-positionSticky": {
-    top: theme.mixins.toolbar,
+    top: (theme.mixins
+      .toolbar as unknown) as string /** <- @TEMP : check this */,
   },
 }));
 

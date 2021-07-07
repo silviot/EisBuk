@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 const weekCopyPasteSelector = (state) => state.copyPaste.week ?? {};
 
-export default ({
+const SlotsPageContainer = ({
   slots,
   onDelete,
   onSubscribe,
@@ -167,3 +167,5 @@ export default ({
     </>
   );
 };
+
+export default SlotsPageContainer;

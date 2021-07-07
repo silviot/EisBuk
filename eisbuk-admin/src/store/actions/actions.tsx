@@ -1,21 +1,22 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 import firebase from "firebase";
+import { DateTime } from "luxon";
 
 import { Action, NotifVariant } from "@/enums/Redux";
 
 import {
-  Customer,
+  CustomerInStore,
   Dispatch,
   GetState,
   Notification,
-  Slot,
   User,
 } from "@/types/store";
+import { Slot } from "@/types/mFirestore";
+import { Timestamp } from "@google-cloud/firestore";
 
 import { functionsZone, ORGANIZATION } from "@/config/envInfo";
 
-/** @TEMP */
 interface GetFirebase {
   getFirebase: () => typeof firebase;
 }
@@ -103,59 +104,57 @@ export const queryUserAdminStatus = () => {
   };
 };
 
-export const changeCalendarDate = (date: unknown) => ({
+export const changeCalendarDate = (date: DateTime) => ({
   type: Action.ChangeDay,
   payload: date,
 });
 
-export const setNewSlotTime = (time: unknown) => ({
+export const setNewSlotTime = (time: Timestamp) => ({
   type: Action.SetSlotTime,
   payload: time,
 });
 
-export const createSlots = (slots: Slot[]) => {
-  return (
-    dispatch: Dispatch,
-    getState: GetState,
-    { getFirebase }: GetFirebase
-  ) => {
-    const db = getFirebase().firestore();
-    const batch = db.batch();
-    let newSlotTime = slots[slots.length - 1];
-    for (const slot of slots) {
-      batch.set(
-        db
-          .collection("organizations")
-          .doc(ORGANIZATION)
-          .collection("slots")
-          .doc(),
-        slot
+export const createSlots = (slots: Slot[]) => (
+  dispatch: Dispatch,
+  getState: GetState,
+  { getFirebase }: GetFirebase
+) => {
+  const db = getFirebase().firestore();
+  const batch = db.batch();
+  let newSlotTime = slots[slots.length - 1];
+  for (const slot of slots) {
+    batch.set(
+      db
+        .collection("organizations")
+        .doc(ORGANIZATION)
+        .collection("slots")
+        .doc(),
+      slot
+    );
+  }
+  batch
+    .commit()
+    .then(() => {
+      dispatch(
+        enqueueSnackbar({
+          key: new Date().getTime() + Math.random(),
+          message: "Slot Aggiunto",
+          options: {
+            variant: NotifVariant.Success,
+            action: (key) => (
+              <Button
+                variant="outlined"
+                onClick={() => dispatch(closeSnackbar(key))}
+              >
+                OK
+              </Button>
+            ),
+          },
+        })
       );
-    }
-    batch
-      .commit()
-      .then(() => {
-        dispatch(
-          enqueueSnackbar({
-            key: new Date().getTime() + Math.random(),
-            message: "Slot Aggiunto",
-            options: {
-              variant: NotifVariant.Success,
-              action: (key) => (
-                <Button
-                  variant="outlined"
-                  onClick={() => dispatch(closeSnackbar(key))}
-                >
-                  OK
-                </Button>
-              ),
-            },
-          })
-        );
-        dispatch(setNewSlotTime(newSlotTime.date));
-      })
-      .catch(showErrSnackbar(dispatch));
-  };
+      dispatch(setNewSlotTime(newSlotTime.date));
+    })
+    .catch(showErrSnackbar(dispatch));
 };
 
 export const editSlot = (slot: Slot) => {
@@ -198,7 +197,7 @@ export const editSlot = (slot: Slot) => {
   };
 };
 
-export const subscribeToSlot = (bookingId: string, slot: Slot) => {
+export const subscribeToSlot = (bookingId: string, slot: Slot<"id">) => {
   return (
     dispatch: Dispatch,
     getState: GetState,
@@ -238,7 +237,6 @@ export const subscribeToSlot = (bookingId: string, slot: Slot) => {
 };
 
 export const unsubscribeFromSlot = (bookingId: string, slot: Slot) => {
-  /** @TEMP */
   return (
     dispatch: Dispatch,
     getState: GetState,
@@ -353,7 +351,7 @@ export const markAbsentee = ({ slot, user, isAbsent }: MarkAbsenteePayload) => {
   };
 };
 
-export const deleteCustomer = (customer: Customer) => {
+export const deleteCustomer = (customer: CustomerInStore) => {
   return (
     dispatch: Dispatch,
     getState: GetState,
@@ -401,7 +399,7 @@ const showErrSnackbar = (dispatch: Dispatch) => (err: Error) => {
   );
 };
 
-export const updateCustomer = (customer: Customer) => {
+export const updateCustomer = (customer: CustomerInStore) => {
   return (
     dispatch: Dispatch,
     getState: GetState,
@@ -440,11 +438,11 @@ export const updateCustomer = (customer: Customer) => {
 };
 
 export const copySlotDay = (slotDay: unknown) => ({
-  type: Action.CopySlotDay,
+  /** @TODO this should be inferred from usage */ type: Action.CopySlotDay,
   payload: slotDay,
 });
 
 export const copySlotWeek = (slotWeek: unknown) => ({
-  type: Action.CopySlotWeek,
+  /** @TODO this should be inferred from usage */ type: Action.CopySlotWeek,
   payload: slotWeek,
 });

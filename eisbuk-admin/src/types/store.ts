@@ -1,9 +1,16 @@
-import { DateTime } from "luxon";
 import { FirebaseReducer } from "react-redux-firebase";
+// import { Timestamp } from "@google-cloud/firestore";
 
 import { NotifVariant } from "@/enums/Redux";
 
 import { store } from "@/store";
+import { DateTime } from "luxon";
+import {
+  FirestoreStatusEntry,
+  FirestoreData,
+  FirestoreOrdered,
+  Customer,
+} from "./mFirestore";
 
 export interface Notification {
   key?: number;
@@ -11,7 +18,7 @@ export interface Notification {
   options: {
     variant?: NotifVariant;
     action?: (key: number) => JSX.Element;
-    key?: number /** @TEMP */;
+    key?: number /** @TEMP this might not be here */;
   };
 }
 
@@ -21,24 +28,27 @@ interface Schema {}
 export type Dispatch = typeof store.dispatch;
 export type GetState = typeof store.getState;
 
-// const firestore = {
-//   status: {
-//     requesting: {},
-//     requested: {},
-//     timestamps: {},
-//   },
-//   data: {},
-//   ordered: {},
-//   listeners: {
-//     byId: {},
-//     allIds: [],
-//   },
-//   errors: {
-//     byQuery: {},
-//     allIds: [],
-//   },
-//   queries: {},
-// };
+/**
+ * "firestore" entry in local store
+ */
+interface FirestoreRedux {
+  status: {
+    requesting: FirestoreStatusEntry<boolean>;
+    requested: FirestoreStatusEntry<boolean>;
+    timestamps: FirestoreStatusEntry<number>;
+  };
+  data: FirestoreData;
+  ordered: FirestoreOrdered;
+  listeners: {
+    byId: {};
+    allIds: [];
+  };
+  errors: {
+    byQuery: {};
+    allIds: [];
+  };
+  queries: {};
+}
 
 interface App {
   notifications: Notification[];
@@ -58,27 +68,16 @@ interface AuthInofEisbuk {
 
 export interface LocalStore {
   firebase: FirebaseReducer.Reducer<ProfileType, Schema>;
-  firestore: unknown;
+  firestore: FirestoreRedux;
   app: App;
   copyPaste: CopyPaste;
   authInfoEisbuk: AuthInofEisbuk;
-}
-
-export interface Slot {
-  id: string;
-  categories: unknown[] /** @TEMP */;
-  type: unknown /** @TEMP */;
-  durations: unknown /** @TEMP */;
-  notes: unknown /** @TEMP */;
-  date: unknown /** @TEMP */;
 }
 
 export interface User {
   id: string;
 }
 
-export interface Customer {
-  id: string;
-  name: string;
-  surname: string;
-}
+export type CustomerInStore = Pick<Customer, "id"> &
+  Pick<Customer, "name"> &
+  Pick<Customer, "surname">;

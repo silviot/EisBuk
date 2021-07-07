@@ -2,41 +2,60 @@ import _ from "lodash";
 import { createSelector } from "reselect";
 
 import { LocalStore } from "@/types/store";
+import { ExtendedSlot, Slot } from "@/types/mFirestore";
 
 import { fs2luxon } from "@/utils/helpers";
 
-export const calendarDaySelector = (state: LocalStore & any) =>
-  state.app.calendarDay;
-export const extractSlotDate = (slot: any) => slot.date.seconds;
-export const extractSlotId = (slot: any) => slot.id;
+export const calendarDaySelector = (state: LocalStore) => state.app.calendarDay;
+export const extractSlotDate = (slot: Slot) => slot.date.seconds;
+export const extractSlotId = (slot: Slot) => slot.id;
 
-function getSafe(fn: any, defaultVal?: any) {
-  // Try to execute the passed function. If it fails or it returns undefined or null,
-  // return the default value
+/**
+ *
+ * Try to execute the passed function.
+ * If it fails or it returns default value or empty object,
+ * @param fn function to execute
+ * @param defaultVal default value (optional)
+ * @returns first one sucessful out of: fn(), defaultVal, {}
+ */
+const getSafe = <F extends () => any>(fn: F, defaultVal?: ReturnType<F>) => {
+  // if no default val provided, fall back to empty object
   const def = defaultVal || {};
+
+  // try and execute the function
   try {
-    return fn() ?? defaultVal;
-  } catch (e) {
+    const result = fn();
+    // if result undefined or null, return default value (or fallback)
+    return [null, undefined].includes(result) ? def : result;
+  } catch {
+    // if error, return default value or fallback
     return def;
   }
-}
+};
 
-export const makeSlotsInfoDaySelector = (dayStr: any) => (state: any) => {
+export const makeSlotsInfoDaySelector = (dayStr: string) => (
+  state: LocalStore
+) => {
   const monthStr = dayStr.substr(0, 7);
   return getSafe(() => state.firestore.data.slotsByDay[monthStr][dayStr]);
 };
-export const makeBookingsInfoSelector = (dayStr: any) => (state: any) =>
-  getSafe(() => state.firestore.data.bookingsByDay[dayStr.substr(0, 7)]);
+export const makeBookingsInfoSelector = (dayStr: string) => (
+  state: LocalStore
+) => getSafe(() => state.firestore.data.bookingsByDay[dayStr.substr(0, 7)]);
 
-const allUsersSelector = (state: any) => state.firestore.data.customers;
+const allUsersSelector = (state: LocalStore) => state.firestore.data.customers;
 
-export const bookingDayInfoSelector = (dayStr: any) =>
+export const bookingDayInfoSelector = (dayStr: string) =>
   createSelector(
     makeSlotsInfoDaySelector(dayStr),
     makeBookingsInfoSelector(dayStr),
     allUsersSelector,
-    (slotsInfo, bookingsInfo, allUsers) => {
-      const slots = _.sortBy(_.values(slotsInfo), [
+    (
+      slotsInfo: Record<string, ExtendedSlot<{ absentees?: unknown }>>,
+      bookingsInfo,
+      allUsers
+    ) => {
+      const slots = _.sortBy(Object.values(slotsInfo), [
         extractSlotDate,
         extractSlotId,
       ]);
@@ -58,19 +77,19 @@ export const bookingDayInfoSelector = (dayStr: any) =>
             duration: bookingsInfo[slot.id][key],
           };
         });
-        const res = {
-          time: fs2luxon(slot.date).toFormat("HH:mm"),
-          categories: slot.categories,
-          type: slot.type,
-          id: slot.id,
+
+        // process slot data for return type
+        // this seems a little weird and should be reviewed within code rewrite
+        /** @TODO */
+        const { notes, date, ...slotBase } = slot;
+
+        return {
+          ...slotBase,
+          time: fs2luxon(slot.date).toFormat(
+            "HH:mm"
+          ) /** @TODO check this out, might be better to do this kind of transformation at component level */,
           users: users,
-          durations: slot.durations,
-          absentees: undefined /** @TEMP */,
         };
-        if (slot.absentees) {
-          res.absentees = slot.absentees;
-        }
-        return res;
       });
     }
   );
