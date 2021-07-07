@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@material-ui/core";
 import firebase from "firebase";
 import { DateTime } from "luxon";
+import { Timestamp } from "@google-cloud/firestore";
 
 import { Action, NotifVariant } from "@/enums/Redux";
 
@@ -10,10 +11,10 @@ import {
   Dispatch,
   GetState,
   Notification,
-  User,
+  SlotDay,
+  SlotWeek,
 } from "@/types/store";
-import { Slot } from "@/types/mFirestore";
-import { Timestamp } from "@google-cloud/firestore";
+import { Slot, Customer } from "@/types/mFirestore";
 
 import { functionsZone, ORGANIZATION } from "@/config/envInfo";
 
@@ -21,21 +22,19 @@ interface GetFirebase {
   getFirebase: () => typeof firebase;
 }
 
-export const enqueueSnackbar = (notification: Notification) => {
-  const key =
-    notification.options &&
-    notification.options.key; /** @TODO see if this is a mistake */
+const enqueueSnackbar = (notification: Notification) => {
+  const key = notification.key || new Date().getTime() + Math.random();
 
   return {
     type: Action.EnqueueSnackbar,
     notification: {
       ...notification,
-      key: key || new Date().getTime() + Math.random(),
+      key,
     },
   };
 };
 
-export const closeSnackbar = (key: number) => ({
+const closeSnackbar = (key: number) => ({
   type: Action.CloseSnackbar,
   dismissAll: !key, // dismiss all if no key has been defined
   key,
@@ -332,7 +331,7 @@ export const deleteSlots = (slots: Slot[]) => {
 
 interface MarkAbsenteePayload {
   slot: Slot;
-  user: User;
+  user: Customer;
   isAbsent: boolean;
 }
 
@@ -437,12 +436,12 @@ export const updateCustomer = (customer: CustomerInStore) => {
   };
 };
 
-export const copySlotDay = (slotDay: unknown) => ({
-  /** @TODO this should be inferred from usage */ type: Action.CopySlotDay,
+export const copySlotDay = (slotDay: SlotDay) => ({
+  type: Action.CopySlotDay,
   payload: slotDay,
 });
 
-export const copySlotWeek = (slotWeek: unknown) => ({
-  /** @TODO this should be inferred from usage */ type: Action.CopySlotWeek,
+export const copySlotWeek = (slotWeek: SlotWeek) => ({
+  type: Action.CopySlotWeek,
   payload: slotWeek,
 });

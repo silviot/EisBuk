@@ -82,7 +82,9 @@ declare global {
 }
 
 // Create Redux Store with Reducers and Initial state
-const initialState = window && window.__INITIAL_STATE__;
+const initialState =
+  window &&
+  window.__INITIAL_STATE__; /** @TODO (code rewrite): this doesn't exist within the window */
 const middlewares = [thunk.withExtraArgument({ getFirebase })];
 export const store = createStore(
   rootReducer,

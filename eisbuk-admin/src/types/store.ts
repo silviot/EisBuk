@@ -1,36 +1,65 @@
 import { FirebaseReducer } from "react-redux-firebase";
 // import { Timestamp } from "@google-cloud/firestore";
+import { DateTime } from "luxon";
+
+import { store } from "@/store";
 
 import { NotifVariant } from "@/enums/Redux";
 
-import { store } from "@/store";
-import { DateTime } from "luxon";
 import {
   FirestoreStatusEntry,
   FirestoreData,
   FirestoreOrdered,
   Customer,
-} from "./mFirestore";
+  Slot,
+} from "@/types/mFirestore";
 
+/**** Region Store Types *****/
+export type Dispatch = typeof store.dispatch;
+export type GetState = typeof store.getState;
+/**** End Region Store Types *****/
+
+/**** Region App *****/
+interface App {
+  notifications: Notification[];
+  calendarDay: DateTime;
+  newSlotTime: DateTime;
+}
+/**** End Region App *****/
+
+/**** Region Copy Paste *****/
+export interface SlotDay {
+  [slotId: string]: Slot<"id">;
+}
+
+export interface SlotWeek {
+  weekStart: DateTime;
+  slots: Slot<"id">[];
+}
+
+interface CopyPaste {
+  day: SlotDay;
+  week: SlotWeek;
+}
+/**** End Region Copy Paste *****/
+
+/**** Region Notification *****/
 export interface Notification {
   key?: number;
   message: string;
   options: {
     variant?: NotifVariant;
     action?: (key: number) => JSX.Element;
-    key?: number /** @TEMP this might not be here */;
   };
 }
+/**** End Region Notifiaction *****/
 
+/**** Region Firebase Reducer *****/
 interface ProfileType {}
 interface Schema {}
+/**** End Region Firebase Reducer *****/
 
-export type Dispatch = typeof store.dispatch;
-export type GetState = typeof store.getState;
-
-/**
- * "firestore" entry in local store
- */
+/***** Region Firestore *****/
 interface FirestoreRedux {
   status: {
     requesting: FirestoreStatusEntry<boolean>;
@@ -49,35 +78,27 @@ interface FirestoreRedux {
   };
   queries: {};
 }
+/***** Region Firestore *****/
 
-interface App {
-  notifications: Notification[];
-  calendarDay: DateTime;
-  newSlotTime: unknown;
-}
-
-interface CopyPaste {
-  day: unknown;
-  week: unknown;
-}
-
-interface AuthInofEisbuk {
+/***** Region Auth Info *****/
+interface AuthInfoEisbuk {
   amIAdmin: boolean;
   myUserId: string;
 }
+/***** End Region Auth Info *****/
 
+/***** Region Full Store *****/
 export interface LocalStore {
   firebase: FirebaseReducer.Reducer<ProfileType, Schema>;
   firestore: FirestoreRedux;
   app: App;
   copyPaste: CopyPaste;
-  authInfoEisbuk: AuthInofEisbuk;
+  authInfoEisbuk: AuthInfoEisbuk;
 }
+/***** End Region Full Store *****/
 
-export interface User {
-  id: string;
-}
-
+/***** Region Other *****/
 export type CustomerInStore = Pick<Customer, "id"> &
   Pick<Customer, "name"> &
   Pick<Customer, "surname">;
+/***** End Region Other *****/

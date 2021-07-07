@@ -2,7 +2,7 @@ import _ from "lodash";
 import { createSelector } from "reselect";
 
 import { LocalStore } from "@/types/store";
-import { ExtendedSlot, Slot } from "@/types/mFirestore";
+import { Slot } from "@/types/mFirestore";
 
 import { fs2luxon } from "@/utils/helpers";
 
@@ -18,7 +18,10 @@ export const extractSlotId = (slot: Slot) => slot.id;
  * @param defaultVal default value (optional)
  * @returns first one sucessful out of: fn(), defaultVal, {}
  */
-const getSafe = <F extends () => any>(fn: F, defaultVal?: ReturnType<F>) => {
+const getSafe = <F extends () => any>(
+  fn: F,
+  defaultVal?: ReturnType<F>
+): ReturnType<F> | {} => {
   // if no default val provided, fall back to empty object
   const def = defaultVal || {};
 
@@ -33,28 +36,45 @@ const getSafe = <F extends () => any>(fn: F, defaultVal?: ReturnType<F>) => {
   }
 };
 
+/**
+ * Get slots for day from firestore part of local store
+ * @param dayStr date string for particular day ("yyyy-mm-dd")
+ * @returns currried selector for record of slots for given day (keyed by slot id)
+ */
 export const makeSlotsInfoDaySelector = (dayStr: string) => (
   state: LocalStore
 ) => {
   const monthStr = dayStr.substr(0, 7);
   return getSafe(() => state.firestore.data.slotsByDay[monthStr][dayStr]);
 };
+
+/**
+ * Get bookings for day from firestore part of local store
+ * @param dayStr date string for particular day ("yyyy-mm-dd")
+ * @returns currried selector for record of bookings for given day (keyed by slot id)
+ */
 export const makeBookingsInfoSelector = (dayStr: string) => (
   state: LocalStore
 ) => getSafe(() => state.firestore.data.bookingsByDay[dayStr.substr(0, 7)]);
 
+/**
+ * Get all users (customers) from store
+ * @param state local store state
+ * @returns all customers from store
+ */
 const allUsersSelector = (state: LocalStore) => state.firestore.data.customers;
 
+/**
+ * Get slots for day, mapped with time info, and customers who booked that slot
+ * @param dayStr date string for particular day ("yyyy-mm-dd")
+ * @returns
+ */
 export const bookingDayInfoSelector = (dayStr: string) =>
   createSelector(
     makeSlotsInfoDaySelector(dayStr),
     makeBookingsInfoSelector(dayStr),
     allUsersSelector,
-    (
-      slotsInfo: Record<string, ExtendedSlot<{ absentees?: unknown }>>,
-      bookingsInfo,
-      allUsers
-    ) => {
+    (slotsInfo, bookingsInfo, allUsers) => {
       const slots = _.sortBy(Object.values(slotsInfo), [
         extractSlotDate,
         extractSlotId,

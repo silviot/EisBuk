@@ -52,8 +52,8 @@ export type ExtendedSlot<E extends Record<string, any>> = Slot<"id"> & E;
  * but in fact, agragated by month for easier access (containing full data about the slot)
  */
 interface SlotsByDay {
-  [month: string]: {
-    [day: string]: {
+  [monthStr: string]: {
+    [dayStr: string]: {
       [slotId: string]: Slot<"id">;
     };
   };
@@ -99,7 +99,7 @@ export type BookingInfo = ExtendedSlot<{ duration: Duration }>;
  * and providing duration of the booked slot as value
  */
 interface BookingsByDay {
-  [month: string]: {
+  [monthStr: string]: {
     [slotId: string]: {
       [customer_id: string]: Duration;
     };
