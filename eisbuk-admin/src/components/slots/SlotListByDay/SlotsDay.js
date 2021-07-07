@@ -15,7 +15,12 @@ import {
   Assignment as AssignmentIcon,
 } from "@material-ui/icons";
 import Slot from "./Slot";
-import { copySlotDay, createSlots } from "../../../store/actions/actions";
+import {
+  copySlotDay,
+  createSlots,
+  deleteSlotFromClipboard,
+  addSlotToClipboard,
+} from "../../../store/actions/actions";
 import { shiftSlotsDay } from "../../../data/slotutils";
 import LuxonUtils from "@date-io/luxon";
 import { DateTime } from "luxon";
@@ -50,6 +55,9 @@ const SlotsDay = ({
   const copiedWeekSlots = copiedWeek.slots
     ? copiedWeek.slots.map((slot) => slot.id)
     : [];
+
+  const checkSelected = (id) => copiedWeekSlots.includes(id);
+  const canClickSlots = enableEdit && copiedWeekSlots.length > 0;
   const extendedOnDelete =
     onDelete && enableEdit
       ? (slot) => {
@@ -119,9 +127,13 @@ const SlotsDay = ({
               <Grid
                 key={slot.id}
                 className={
-                  copiedWeekSlots.includes(slot.id) && enableEdit
-                    ? classes.selected
-                    : classes.unselected
+                  canClickSlots ? classes.clickable : classes.unclickable
+                }
+                onClick={() =>
+                  canClickSlots &&
+                  (checkSelected(slot.id)
+                    ? dispatch(deleteSlotFromClipboard(slot.id))
+                    : dispatch(addSlotToClipboard(slot)))
                 }
                 item
                 xs={12}
@@ -130,6 +142,7 @@ const SlotsDay = ({
                 xl={!isCustomer ? 2 : 3}
               >
                 <Slot
+                  selected={checkSelected(slot.id)}
                   data={slot}
                   key={slot.id}
                   deleted={!!deletedSlots[slot.id]}
@@ -190,10 +203,10 @@ const useStyles = makeStyles((theme) => ({
   dateButtons: {
     "flex-grow": 0,
   },
-  selected: {
-    backgroundColor: theme.palette.warning.main,
+  clickable: {
+    cursor: "pointer",
   },
-  unselected: {
-    backgroundColor: theme.palette.grey[100],
+  unclickable: {
+    cursor: "auto",
   },
 }));
